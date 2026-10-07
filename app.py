@@ -1939,9 +1939,31 @@ if st.session_state.get("admin_authenticated"):
         st.caption("Technical checks are not user validation. County adoption, clinical benefit and savings remain unestablished.")
 
 st.title("PathwayAI")
-st.markdown("### Making the Invisible Patient Journey Visible")
-st.caption("From individual prevention and timely care support to measurable community burden reduction.")
-st.markdown("**🛡️ PREVENT → 🧭 NAVIGATE & SUPPORT → 📊 MEASURE & REDUCE COMMUNITY BURDEN**")
+st.markdown("### Know about ticks. Find your next step.")
+st.write("A tick bite can leave you wondering what to do. Symptoms can bring more uncertainty. PathwayAI helps you find guidance for your situation—from preparing for outdoor activities to navigating care and support.")
+with st.expander("Why does this matter?"):
+    st.write("CDC estimates approximately 476,000 people were diagnosed and treated for Lyme disease annually in the United States, based on insurance-claims research from 2010–2018. Most people recover with appropriate treatment, especially when treated early.¹")
+    st.caption("This is an estimate of diagnoses and treatment, not a count of confirmed infections or a new 2026 case count.")
+st.subheader("What brings you here today?")
+def select_public_pathway(target, intent):
+    st.session_state["pathway_view"] = target
+    st.session_state["public_pathway_intent"] = intent
+paths = [
+    ("I’m going outdoors", "Prepare for ticks at your destination or close to home.", "🛡️ Prevention", "outdoors"),
+    ("I found a tick", "Find removal guidance and information about contacting a clinician.", "🛡️ Prevention", "bite"),
+    ("I feel unwell after possible exposure", "Organize symptoms and prepare for a medical visit.", "🧭 Timely Care & Support", "symptoms"),
+    ("I have ongoing symptoms", "Organize your journey and find care and daily-life support.", "🧭 Timely Care & Support", "ongoing"),
+    ("I work in public health or community planning", "Review county evidence, hidden burden and suggested actions.", "📊 Community Burden & Action", "county"),
+]
+for start in (0, 3):
+    cols = st.columns(min(3, len(paths)-start))
+    for col, (label, detail, target, intent) in zip(cols, paths[start:start+3]):
+        with col:
+            st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
+            st.caption(detail)
+st.caption("Existing health conditions: the prevention page offers optional health-context choices. Share only what you are comfortable entering.")
+st.caption("Education and navigation only. PathwayAI does not diagnose illness or calculate your personal chance of infection.")
+st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
 
 if "pathway_view" not in st.session_state:
     st.session_state["pathway_view"] = "📊 Community Burden & Action"
@@ -1965,7 +1987,10 @@ if view == "🧠 Research & Strategy Agent":
 if view == "🛡️ Prevention":
     st.header("🛡️ PREVENTION")
     show_section_hero("travel", "Know Your Exposure. Reduce Avoidable Risk.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
-    st.subheader("Plan Your Trip")
+    if st.session_state.get("public_pathway_intent") == "bite":
+        st.info("Found an attached tick? Remove it promptly with fine-tipped tweezers, grasping close to the skin and pulling steadily upward. Clean the area and your hands. Do not wait for this card; contact a clinician for advice about your bite, particularly if you develop symptoms.")
+        st.markdown("[CDC tick-removal guidance](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
+    st.subheader("Plan Your Outdoor Activities")
 
     travel_zip = st.text_input(
         "Where are you going? Enter any U.S. ZIP code",
@@ -1991,6 +2016,8 @@ if view == "🛡️ Prevention":
         index=5
     )
 
+    outdoor_activity = st.selectbox("What will you be doing?", ["Choose an activity", "Hiking or camping", "Gardening or yard work", "Parks or outdoor events", "Mostly indoor activities"])
+
     health_context = st.multiselect(
         "Do any of these apply to you?",
         [
@@ -1998,12 +2025,16 @@ if view == "🛡️ Prevention":
             "Weakened immune system or immunosuppressive treatment",
             "No spleen or reduced spleen function",
             "Cancer or cancer treatment",
+            "Kidney disease",
+            "Liver disease",
             "Other relevant health condition"
         ]
     )
-    if st.button("Generate Travel Exposure Card", type="primary"):
+    if st.button("Generate My Outdoor Tick-Prevention Plan", type="primary"):
         st.divider()
-        st.header("My Travel Exposure Card")
+        st.header("My Outdoor Tick-Prevention Plan")
+        st.info("This plan summarizes available destination information and prevention steps. It does not establish that you were bitten or estimate your personal chance of infection.")
+        st.markdown("**Your next steps**\n- Before: prepare EPA-registered repellent and protective clothing; follow product instructions.\n- After outdoor activities: check your body, clothing, gear and pets; shower within two hours.\n- If you found a tick or feel unwell: use the bite guidance below or choose Timely Care & Support.")
 
         st.write(f"**Destination:** {travel_destination}")
         if normalize_zip(travel_zip):
@@ -2015,6 +2046,14 @@ if view == "🛡️ Prevention":
                 else:
                     st.info(f"**{travel_geo.get('state','This state')} is not currently in CDC's higher-incidence Lyme disease group.** This does not mean zero risk. Tick exposure and Lyme disease can still occur, so PathwayAI shows national tick/pathogen surveillance and local public-health sources rather than labeling the ZIP 'low risk.'")
         st.write(f"**Travel month:** {travel_month}")
+        st.write(f"**Planned activity:** {outdoor_activity}")
+        if outdoor_activity == "Mostly indoor activities":
+            st.caption("Consider tick precautions for any outdoor portions of your visit; an indoor visit alone does not establish tick exposure.")
+        if "Kidney disease" in health_context or "Liver disease" in health_context:
+            st.info("Serious kidney or liver disease can increase the risk of severe babesiosis, another infection spread by blacklegged ticks. This is not an estimate of your Lyme risk. Bring your medication list and contact a clinician promptly if you become unwell after possible tick exposure.")
+            if "Kidney disease" in health_context:
+                st.write("Follow your prescribed fluid guidance. Ask a clinician or pharmacist before using ibuprofen or naproxen; do not change prescribed medicines on your own.")
+            st.caption("Sources: [CDC babesiosis](https://www.cdc.gov/babesiosis/hcp/clinical-overview/index.html) · [NIDDK medicine safety](https://www.niddk.nih.gov/health-information/kidney-disease/keeping-kidneys-safe)")
 
         if health_context:
             st.write("**Health context:** " + ", ".join(health_context))

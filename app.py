@@ -342,7 +342,7 @@ def show_nys_tick_density_map():
             return
         width, height = 760, 420
         bounds = (-79.9, 40.35, -71.7, 45.15)
-        parts = [f'<svg viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">',
+        parts = [f'<svg role="img" aria-label="New York observed tick surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Observed tick density by New York county; missing observations are gray</title>',
                  '<rect width="100%" height="100%" fill="#ffffff"/>']
         for feature in geojson.get("features", []):
             props = feature.get("properties", {})
@@ -793,7 +793,7 @@ def _cdc_lyme_cases_by_fips():
             return {}
         case_col = next((c for c in lyme.columns if ("case" in c or "count" in c) and pd.api.types.is_numeric_dtype(pd.to_numeric(lyme[c], errors="coerce"))), None)
         if case_col:
-            lyme["_cases"] = pd.to_numeric(lyme[case_col], errors="coerce").fillna(0)
+            lyme["_cases"] = pd.to_numeric(lyme[case_col], errors="coerce")
         else:
             # Some public-use files contain one record/point per reported case.
             lyme["_cases"] = 1
@@ -803,7 +803,7 @@ def _cdc_lyme_cases_by_fips():
         if not lyme_col:
             return {}
         lyme = df.copy()
-        lyme["_cases"] = pd.to_numeric(lyme[lyme_col], errors="coerce").fillna(0)
+        lyme["_cases"] = pd.to_numeric(lyme[lyme_col], errors="coerce")
 
     def clean_fips(v):
         raw = re.sub(r"\.0$", "", str(v).strip())
@@ -813,7 +813,8 @@ def _cdc_lyme_cases_by_fips():
     lyme = lyme[lyme["_fips"].str.len() == 5]
     if lyme.empty:
         return {}
-    return lyme.groupby("_fips")["_cases"].sum().round().astype(int).to_dict()
+    totals = lyme.groupby("_fips")["_cases"].agg(lambda x: x.sum() if x.notna().all() else float("nan"))
+    return totals.dropna().round().astype(int).to_dict()
 
 
 def _destination_county_context(destination_geo, geo, tick_status, lyme_cases=None, max_nearby=8):
@@ -873,7 +874,7 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
         else:
             bounds = (-84.0, 34.5, -69.0, 45.5)
 
-        parts = [f'<svg viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">',
+        parts = [f'<svg role="img" aria-label="New York observed tick surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Observed tick density by New York county; missing observations are gray</title>',
                  '<rect width="100%" height="100%" fill="#ffffff"/>']
         tick_markers = []
         visible_tick_count = 0
@@ -2391,7 +2392,17 @@ if view == "📊 Community Burden & Action":
             exposure_pathogen = str(raw)
         except Exception: pass
 
-    st.markdown("## County at a glance")
+    st.markdown("## Figure 1 · Where is tick exposure observed?")
+    show_nys_tick_density_map()
+    with st.expander("Map data in text"):
+        tick_text = load_ny_tick_data()
+        if not tick_text.empty and "Year" in tick_text.columns:
+            latest = pd.to_numeric(tick_text["Year"], errors="coerce").max()
+            available = [c for c in ["County", "Year", "Tick Population Density", "B. burgdorferi (%)"] if c in tick_text.columns]
+            show_readable_table(tick_text.loc[pd.to_numeric(tick_text["Year"], errors="coerce").eq(latest), available], hide_index=True, width="stretch")
+        else:
+            st.write("Surveillance data unavailable.")
+    st.markdown("**Dutchess at a glance**")
     cards=[]
     if exposure_density is not None: cards.append(("Tick density", f"{exposure_density:.1f} / 1,000 m²"))
     if exposure_pathogen is not None: cards.append(("B. burgdorferi positive", exposure_pathogen))
@@ -2409,26 +2420,49 @@ if view == "📊 Community Burden & Action":
     if source_bits:
         for source_line in source_bits: st.caption(source_line)
 
-    st.markdown("## 1. Where are resources most limited?")
+    st.markdown("**Takeaway:** surveillance identifies observed exposure, not each resident's infection risk. **Action:** review prevention outreach in observed areas; do not infer neighborhood hotspots from county data.")
+    st.markdown("## Figure 2 · Who may need help reaching care?")
     st.write("Dutchess community partners report difficulty getting appointments, reaching services and knowing what help exists. Start by checking where referrals fail and why.³")
     st.markdown("**Who may need more support?** Residents with disability or ongoing health needs, limited income, no insurance, transport barriers or difficulty navigating services.")
     c1,c2,c3 = st.columns(3)
     c1.metric("Living in poverty¹", "8.4%")
     c2.metric("Uninsured, under 65¹", "4.9%")
     c3.metric("Disability, under 65¹", "9.2%")
+    access_profile = pd.DataFrame({"Community measure": ["Poverty · source-defined population", "Uninsured · under 65", "Disability · under 65"], "Percent": [8.4, 4.9, 9.2]})
+    st.bar_chart(access_profile, x="Community measure", y="Percent", horizontal=True, color="#28785c")
+    if ahrf and pop and pd.notna(ahrf.get("pcp")):
+        st.caption(f"HRSA context²: {int(float(ahrf['pcp'])):,} primary-care physicians in 2023 ({float(ahrf['pcp'])/pop*10000:.1f} per 10,000 residents). This is not a shortage designation or appointment-wait measure.")
+    with st.expander("Disability detail and data still needed"):
+        if places is not None and not places.empty:
+            profile = places[places["MeasureId"].isin(["DISABILITY", "MOBILITY", "COGNITION", "LACKTRPT"])].copy()
+            if not profile.empty:
+                cols = [c for c in ["Measure", "Data_Value", "Year", "Data_Value_Type"] if c in profile.columns]
+                show_readable_table(profile[cols], hide_index=True, width="stretch")
+                st.caption("CDC PLACES: model-based adult crude prevalence estimates, not the Census under-65 disability measure. All-cause support context, not Lyme-attributable.")
+        st.write("Not yet verified: current HRSA shortage boundaries, appointment waits, healthcare travel time, Census vehicle access, Medicaid coverage and Lyme-specific Medicaid payments.")
+        st.markdown("[Check official HRSA shortage areas](https://data.hrsa.gov/topics/health-workforce/shortage-areas)")
+    st.markdown("**Takeaway:** support needs and provider counts coexist in this county; they do not prove a local access problem for each resident. **Action:** check referral failures and transport or insurance barriers with partners.")
     st.caption("Community context, not Lyme patient counts or a ranking. Groups overlap. Existing conditions can add care needs; these figures do not establish higher Lyme risk.")
     st.markdown("**First step:** ask clinical and community partners to record appointment waits, unsuccessful referrals and the barriers patients identify. Physician counts alone do not show available appointments.")
 
-    st.markdown("## 2. How can we reduce burden?")
+    st.markdown("## Figure 3 · Where can the invisible journey become easier?")
+    journey_steps = st.columns(3)
+    for col, title, burden in zip(journey_steps, ["1 · Reach care", "2 · Navigate care", "3 · Continue daily life"], ["Waits, travel and uncertainty", "Repeated histories, visits and spending", "Work, caregiving and function"]):
+        with col:
+            st.markdown("**" + title + "**")
+            st.write(burden)
+    st.caption("Measurement framework informed by patient-reported pilot themes and published evidence. These stages do not show measured Dutchess patient outcomes or a fixed sequence for every person.")
+    st.markdown("### How can we reduce burden?")
     st.write("Make the next step easier: a patient-reviewed journey summary, a confirmed route to care or a second opinion when appropriate, and help with transport, insurance and benefits.")
     st.markdown("**What to track:** completed referrals, patient-paid spending, travel costs, caregiver time and days of work or daily activity affected. Use the same reporting period at each check-in.")
     st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/) · [Dutchess transit routes](https://www.dutchessny.gov/Routes-Schedules.htm) · [Disability benefits information](https://www.ssa.gov/disability)")
     st.caption("Proposed navigation pilot. Directories do not confirm appointment availability. Medical spending, household expenses and time are separate measures; do not add overlapping costs or benefit payments to one total.")
 
-    st.markdown("## 3. How can we reduce the risk of disability?")
+    st.markdown("### How can we reduce the risk of disability?")
     st.write("Support timely clinical assessment and appropriate treatment, then follow up when symptoms affect daily life. CDC says early appropriate treatment can help prevent more severe Lyme disease.⁴")
     st.markdown("**For ongoing difficulties:** clinical partners evaluate persistent symptoms and other possible causes, assess function, and arrange appropriate rehabilitation, workplace or disability support.")
     st.markdown("**What to track:** time to assessment, follow-up completion, patient-reported function and unmet support needs. A second opinion is an option when questions remain, not a recommendation for everyone to repeat testing.")
+    st.markdown("**Takeaway:** navigation and follow-up are actions to test. **Action:** collect comparable baseline and follow-up measures of access, spending and function.")
     st.caption("Preventing severe illness and supporting function are goals. PathwayAI has not measured disability prevented, treatment effects or county savings.")
 
     # Local baseline is shown only when the privacy threshold is met; otherwise it stays out of the main decision flow.
@@ -2703,27 +2737,6 @@ if view == "📊 Community Burden & Action":
 st.header("🧭 TIMELY CARE & SUPPORT")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
 
-st.subheader("Questions after a tick bite or testing?")
-st.write("Find a healthcare provider for follow-up or a second opinion. Use where you are now, which may be different from where the bite happened.")
-second_opinion_zip = st.text_input("Your current ZIP code for provider searches (optional)", max_chars=5, placeholder="e.g., 10940", key="second_opinion_zip")
-care_zip = second_opinion_zip.strip()
-valid_care_zip = bool(re.fullmatch(r"[0-9]{5}", care_zip))
-if care_zip and not valid_care_zip:
-    st.caption("Please enter five digits, or leave this blank to open the directories and enter your location there.")
-health_center_url = "https://findahealthcenter.hrsa.gov/" + ("?" + urlencode({"zip": care_zip, "radius": 25}) if valid_care_zip else "")
-st.markdown(f"[**Find a community health center — HRSA**]({health_center_url})")
-st.markdown("[**Find doctors and clinicians — Medicare Care Compare**](https://www.medicare.gov/care-compare/)")
-if valid_care_zip:
-    st.markdown(f"[**Search nearby primary care or infectious-disease providers**]({google_maps_search_url('primary care or infectious disease doctor near ' + care_zip)})")
-    st.caption("Use ZIP " + care_zip + " in Care Compare. The Maps link is a location search, not a checked list of specialists.")
-st.caption("Directory listings are not endorsements. Confirm appointments, insurance, referral requirements and experience evaluating tick-borne illness. Ask your insurer about in-network options; HRSA centers can help with access to primary care.")
-with st.expander("What to bring and ask at your visit"):
-    st.write("Bring your test report and test date, symptom timeline, bite/exposure dates if known, current medicines, and your reviewed PathwayAI journey card.")
-    st.write("Ask: How does the timing and type of my test affect interpretation? What else could explain my symptoms? What follow-up or specialist referral is appropriate?")
-    st.write("CDC explains that Lyme antibody tests can be negative early because antibodies take time to develop. Test results need clinical interpretation; this does not mean everyone bitten needs testing or a repeat test.")
-    st.markdown("[CDC: Testing and diagnosis](https://www.cdc.gov/lyme/diagnosis-testing/)")
-st.caption("If you feel acutely unwell, seek timely care rather than waiting for a second-opinion appointment.")
-
 with st.expander("About Patient Voice findings"):
     st.caption("Patient-reported pilot experiences; not representative of the county population. Aggregates show usable response counts; missing answers are not zero. Local summaries require consent and at least five usable responses per field.")
 st.write('Organize your story for care. Sharing structured Patient Voice information is optional.')
@@ -2829,8 +2842,20 @@ current_location_start = st.text_input(
     placeholder="e.g., 21044 or Howard County, MD",
     help="Optional. Used only to tailor local navigation and resources; not to determine a diagnosis."
 )
-if current_location_start.strip():
-    st.success("✓ Local-support area added. You can change or remove it at any time.")
+care_location = current_location_start.strip()
+care_zip = care_location if re.fullmatch(r"[0-9]{5}", care_location) else ""
+valid_care_zip = bool(care_zip)
+st.markdown("#### Find nearby care")
+health_center_url = "https://findahealthcenter.hrsa.gov/" + ("?" + urlencode({"zip": care_zip, "radius": 25}) if care_zip else "")
+st.markdown(f"[Find a community health center — HRSA]({health_center_url}) · [Find clinicians — Medicare Care Compare](https://www.medicare.gov/care-compare/)")
+if care_location and not (care_location.isdigit() and not care_zip):
+    st.markdown(f"[Search primary care or infectious-disease providers near {html.escape(care_location)}]({google_maps_search_url('primary care or infectious disease doctor near ' + care_location)})")
+else:
+    st.caption("Enter a five-digit ZIP or a county and state to see a nearby provider search.")
+st.caption("Search links, not a verified list of Lyme specialists. Confirm tick-borne illness experience, appointments, insurance and referral requirements. Use your current care location in Care Compare.")
+with st.expander("What to bring and ask"):
+    st.write("Bring exposure and symptom dates, test reports, medicines and your reviewed journey summary. Ask how test timing affects interpretation and what follow-up is appropriate.")
+    st.markdown("[CDC testing information](https://www.cdc.gov/lyme/diagnosis-testing/)")
 
 # PATIENT VOICE — explicit review/permission; MVP demonstrates the consent loop without publishing raw narrative.
 if quick_story.strip() and st.session_state.get("story_organized", False):
@@ -2872,14 +2897,7 @@ st.subheader("1. Location & Exposure Context *(Optional)*")
 st.write('Check your location for nearby care and support. This is optional.')
 
 top_zip = normalize_zip(current_location_start)
-zip_default = care_zip if valid_care_zip else (quick["zip"] if quick.get("zip") else (top_zip if len(top_zip) == 5 else ""))
-zip_code = st.text_input(
-    "Current ZIP code (optional — only for more precise nearby results)",
-    value=zip_default,
-    max_chars=5,
-    placeholder="e.g., 10940",
-    help="Only add or correct this if you want ZIP-level nearby navigation. You do not need to repeat your county."
-)
+zip_code = care_zip  # One editable current-care location, shared by all navigation.
 
 location = destination_label(zip_code)
 resolved_support_zip = resolve_us_zip(zip_code) if len(normalize_zip(zip_code)) == 5 else None
@@ -3289,7 +3307,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.write("No major navigation need is identifiable from the information entered so far.")
     st.caption("Navigation support only — not a diagnosis, treatment recommendation, or validated risk score.")
 
-    st.subheader("Documentation Signals")
+    st.subheader("Details for your clinician")
 
     signals = []
 
@@ -3311,41 +3329,8 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     if immune == "Yes":
         signals.append("relevant immune condition")
 
-    if len(signals) >= 3:
-        priority = "More documentation signals present"
-        explanation = (
-            "Multiple exposure and symptom signals are present. "
-            "These signals support timely clinical evaluation and careful documentation."
-        )
-
-    elif len(signals) >= 1:
-        priority = "Some documentation signals present"
-        explanation = (
-            "One or more exposure or symptom signals are present. "
-            "Continue monitoring and document changes."
-        )
-
-    else:
-        priority = "No documentation signal identified from these entries"
-        explanation = (
-            "No major exposure or symptom signals were reported in this prototype."
-        )
-
-    st.warning(priority)
-    st.write(explanation)
-
-    st.subheader("Why PathwayAI Flagged This")
-
-    if signals:
-        for signal in signals:
-            st.write(f"• {signal.capitalize()}")
-    else:
-        st.write("• No major signals reported")
-
-    st.caption(
-        "This is a documentation signal for the beta prototype, not a risk score and "
-        "not a validated Lyme disease prediction model."
-    )
+    st.write("**You reported:** " + (", ".join(signals) if signals else "No exposure or symptom details entered in these fields."))
+    st.caption("Review these entries with your clinician. Missing or unchecked details do not establish that symptoms or exposure are absent.")
 
     # Testing / interpretation context
 
@@ -3502,24 +3487,17 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.info("You have not identified any costs or missed-day value as potentially addressable. That is okay. PathwayAI does not assume that more care means waste.")
     st.caption("Modeled scenario only—not a prediction or proven savings estimate. Useful second opinions, clinically indicated testing, and appropriate follow-up are not automatically counted as savings.")
 
-    st.markdown("#### PathwayAI Burden Outlook")
+    st.markdown("#### Burden you reported")
     burden_drivers = []
-    if providers_seen is not None and providers_seen >= 5: burden_drivers.append("multiple healthcare encounters")
+    if providers_seen is not None and providers_seen > 0: burden_drivers.append("multiple healthcare encounters")
     if test_status == "Yes — more than once": burden_drivers.append("repeat testing / reassessment")
     if second_opinion == "Yes": burden_drivers.append("second opinion / specialist access (may be beneficial care)")
-    if days_missed is not None and days_missed >= 10: burden_drivers.append("work/school loss")
+    if days_missed is not None and days_missed > 0: burden_drivers.append("work/school loss")
     if daily_function in ["Major limitation", "Unable to perform usual activities"]: burden_drivers.append("functional limitation")
     if insurance_context not in ["Not reported", "Unsure / prefer not to answer", "No access or coverage barrier reported"]: burden_drivers.append("access / coverage barriers")
     if _num0(transport_cost) > 0: burden_drivers.append("transportation / lodging")
-    if len(burden_drivers) >= 4:
-        outlook_level = "Elevated accumulation signal"
-    elif len(burden_drivers) >= 2:
-        outlook_level = "Moderate accumulation signal"
-    else:
-        outlook_level = "Limited accumulation signal from entered factors"
-    st.metric("Current burden accumulation", outlook_level)
-    st.write("**Main drivers identified:** " + (", ".join(burden_drivers) if burden_drivers else "No major drivers identified from the fields entered."))
-    st.caption("Prototype navigation signal — not a validated clinical, disability, or financial prediction. It summarizes entered burden drivers and does not predict diagnosis or future disability.")
+    st.write(", ".join(burden_drivers).capitalize() if burden_drivers else "No burden details entered in these fields.")
+    st.caption("A summary of your entries, without a severity score or prediction.")
 
     st.markdown("#### My PathwayAI Burden & Preparedness Card")
     st.write(f"**Where is burden accumulating?** " + (", ".join(burden_drivers) if burden_drivers else "No major burden driver is identifiable from the information entered so far."))

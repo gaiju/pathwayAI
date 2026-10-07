@@ -2365,6 +2365,7 @@ if view == "📊 Community Burden & Action":
         "poverty_percent_2020_2024": 8.4,
         "uninsured_under65_percent_2020_2024": 4.9,
         "civilian_labor_force_percent_2020_2024": 62.8,
+        "disability_under65_percent_2020_2024": 9.2,
         "source": "U.S. Census Bureau QuickFacts",
         "source_url": "https://www.census.gov/quickfacts/fact/table/dutchesscountynewyork/POP010210",
     }
@@ -2408,50 +2409,27 @@ if view == "📊 Community Burden & Action":
     if source_bits:
         for source_line in source_bits: st.caption(source_line)
 
-    st.markdown("## 1. Who may need more support?")
-    st.write('Poverty, insurance, disability and transport barriers can affect access to care and support.')
-    c1,c2,c3,c4 = st.columns(4)
-    c1.metric("Population", f"{census_context['population_2025_estimate']:,}")
-    c2.metric("Living in poverty", f"{census_context['poverty_percent_2020_2024']:.1f}%")
-    c3.metric("Uninsured, under 65", f"{census_context['uninsured_under65_percent_2020_2024']:.1f}%")
-    c4.metric("Labor force, age 16+", f"{census_context['civilian_labor_force_percent_2020_2024']:.1f}%")
+    st.markdown("## 1. Where are resources most limited?")
+    st.write("Dutchess community partners report difficulty getting appointments, reaching services and knowing what help exists. Start by checking where referrals fail and why.³")
+    st.markdown("**Who may need more support?** Residents with disability or ongoing health needs, limited income, no insurance, transport barriers or difficulty navigating services.")
+    c1,c2,c3 = st.columns(3)
+    c1.metric("Living in poverty¹", "8.4%")
+    c2.metric("Uninsured, under 65¹", "4.9%")
+    c3.metric("Disability, under 65¹", "9.2%")
+    st.caption("Community context, not Lyme patient counts or a ranking. Groups overlap. Existing conditions can add care needs; these figures do not establish higher Lyme risk.")
+    st.markdown("**First step:** ask clinical and community partners to record appointment waits, unsuccessful referrals and the barriers patients identify. Physician counts alone do not show available appointments.")
 
-    context_rows = []
-    if ahrf and pop and pd.notna(ahrf.get("pcp")):
-        context_rows.append(["Primary-care capacity", f"{float(ahrf['pcp'])/pop*10000:.1f} physicians / 10,000 residents", "HRSA AHRF"])
-    if ahrf and pd.notna(ahrf.get("hosp")):
-        context_rows.append(["Hospitals", f"{int(float(ahrf['hosp'])):,}", "HRSA AHRF"])
-    if ahrf and pd.notna(ahrf.get("beds")):
-        context_rows.append(["Hospital beds", f"{int(float(ahrf['beds'])):,}", "HRSA AHRF"])
-    if places is not None and not places.empty:
-        lookup = {str(r.MeasureId): r for _, r in places.iterrows()}
-        for mid,label in [("DISABILITY","Any disability"),("COGNITION","Cognitive disability"),("MOBILITY","Mobility disability"),("LACKTRPT","Transportation barrier")]:
-            if mid in lookup and pd.notna(lookup[mid].Data_Value):
-                context_rows.append([label, f"{float(lookup[mid].Data_Value):.1f}%", "CDC PLACES"])
-    if context_rows:
-        show_readable_table(pd.DataFrame(context_rows, columns=["County signal", "Dutchess County", "Source"]), hide_index=True, width="stretch")
-    st.caption("Census QuickFacts: population estimate July 1, 2025; poverty, insurance and labor-force measures 2020–2024. HRSA and CDC PLACES measures are shown only when loaded. These describe community context; they are not attributed to Lyme disease.")
+    st.markdown("## 2. How can we reduce burden?")
+    st.write("Make the next step easier: a patient-reviewed journey summary, a confirmed route to care or a second opinion when appropriate, and help with transport, insurance and benefits.")
+    st.markdown("**What to track:** completed referrals, patient-paid spending, travel costs, caregiver time and days of work or daily activity affected. Use the same reporting period at each check-in.")
+    st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/) · [Dutchess transit routes](https://www.dutchessny.gov/Routes-Schedules.htm) · [Disability benefits information](https://www.ssa.gov/disability)")
+    st.caption("Proposed navigation pilot. Directories do not confirm appointment availability. Medical spending, household expenses and time are separate measures; do not add overlapping costs or benefit payments to one total.")
 
-    st.markdown("## 2. Where can earlier care and support help?")
-    st.write('Case counts miss repeated visits, delayed answers, lost work and support needs.')
-    journey_plan = pd.DataFrame([
-        ["Exposure / symptoms", "Difficulty recognizing when to seek assessment", "Prevention information and a clear route to clinical assessment", "Time from symptoms to first assessment"],
-        ["Assessment / repeated visits", "Repeated history, uncertain next steps and referral barriers", "Patient-reviewed journey summary; clinical review or second opinion when appropriate", "Appointment wait and completed referrals"],
-        ["Treatment / follow-up", "Persistent symptoms and functional limitations may go unrecorded", "Clinical partners agree on follow-up; patients report function", "Follow-up completion and function over time"],
-        ["Work / household support", "Lost work, travel costs, caregiver time and benefit barriers", "Navigation to transport, workplace and financial/disability resources", "Support accessed and patient-reported unmet needs"],
-    ], columns=["Journey stage", "Burden to investigate", "Proposed response", "Measure in the pilot"])
-    show_readable_table(journey_plan, hide_index=True, width="stretch")
-    st.caption("Proposed service pathway • not measured Dutchess journey results. Early diagnosis and appropriate antibiotic treatment can help prevent more severe Lyme disease; this app does not estimate disability prevented or prescribe treatment.")
-
-    st.markdown("## 3. Which burdens can the county address?")
-    burden_priorities = pd.DataFrame([
-        ["Repeated visits / delayed answers", "Patient Voice: long diagnostic journeys and repeated healthcare professionals", "Journey summary and verified referral navigation", "Completed connection to care"],
-        ["Medical and out-of-pocket spending", "Published cost evidence + Patient Voice spending signals", "Insurance and financial-support navigation", "Spending over the same stated period"],
-        ["Travel / caregiver effort", "County access context + patient-journey framework", "Assess transport and caregiver-support needs", "Travel time, cost and caregiver hours"],
-        ["Lost work / disability-related needs", "Patient Voice work-loss signals + county disability context", "Benefits and workplace-support navigation", "Days affected, function and unmet support needs"],
-    ], columns=["Burden", "Evidence signal", "Action to consider", "What to track"])
-    show_readable_table(burden_priorities, hide_index=True, width="stretch")
-    st.caption('Candidate priorities, not a local ranking. Evidence sources remain separate; savings are unmeasured.')
+    st.markdown("## 3. How can we reduce the risk of disability?")
+    st.write("Support timely clinical assessment and appropriate treatment, then follow up when symptoms affect daily life. CDC says early appropriate treatment can help prevent more severe Lyme disease.⁴")
+    st.markdown("**For ongoing difficulties:** clinical partners evaluate persistent symptoms and other possible causes, assess function, and arrange appropriate rehabilitation, workplace or disability support.")
+    st.markdown("**What to track:** time to assessment, follow-up completion, patient-reported function and unmet support needs. A second opinion is an option when questions remain, not a recommendation for everyone to repeat testing.")
+    st.caption("Preventing severe illness and supporting function are goals. PathwayAI has not measured disability prevented, treatment effects or county savings.")
 
     # Local baseline is shown only when the privacy threshold is met; otherwise it stays out of the main decision flow.
     def med_num(col):
@@ -2483,7 +2461,7 @@ if view == "📊 Community Burden & Action":
             show_readable_table(pd.DataFrame(baseline_rows, columns=["Measure","Current baseline","n"]), hide_index=True, width="stretch")
             st.caption("Consented, de-identified Dutchess Patient Voice. Measures are displayed only when at least 5 usable responses are available for that field.")
 
-    st.markdown("## Suggested actions — a 90-day county pilot")
+    # Detailed implementation stays out of the opening decision flow.
     actions = pd.DataFrame([
         ["1. Target prevention outreach", "Page 1 exposure context", "County outreach / parks partners", "Choose outreach locations using loaded surveillance; record missing locations", "Reach, materials delivered and knowledge feedback"],
         ["2. Offer journey navigation", "Survey: delay and repeated professionals", "Public health / primary-care partners", "Offer Page 2 summary, a verified referral route and a second clinical opinion when appropriate", "Summary completion, referral connection and time to appointment"],
@@ -2498,8 +2476,21 @@ if view == "📊 Community Burden & Action":
         "Published Biobank follow-up evidence; local effect untested",
         "Proposed measurement protocol; no intervention effect claimed",
     ]
-    show_readable_table(actions,hide_index=True,width="stretch")
-    st.caption('Proposed actions; confirm feasibility with county and clinical partners. Effects are unmeasured.')
+    with st.expander("90-day pilot: owners, actions and measures", expanded=False):
+        st.caption("Proposed plan; confirm feasibility with county and clinical partners. Effects are unmeasured.")
+        # Show one action at a time rather than a six-column wall of text.
+        for _, action in actions.iterrows():
+            st.markdown("**" + action["Proposed action"] + "**")
+            st.write(action["First step"])
+            st.caption("Owner: " + action["Suggested owner"] + " • Track: " + action["What to measure"])
+        st.markdown("**Local follow-up results**")
+        show_readable_table(pd.DataFrame([
+            ["Referral completion", "Not yet collected", "Not yet collected"],
+            ["Patient-paid spending / stated period", "Not yet collected", "Not yet collected"],
+            ["Daily function", "Not yet collected", "Not yet collected"],
+            ["Unmet support needs", "Not yet collected", "Not yet collected"],
+        ], columns=["Measure", "Baseline", "90-day follow-up"]), hide_index=True, width="stretch")
+        st.caption("Collect consented, comparable measures. Before/after change alone does not establish that the pilot caused an improvement.")
     st.markdown("## Published societal burden — reported Lyme cases")
     hook = pd.DataFrame([
         ["All reported cases", "$690", "$2,032"],
@@ -2662,6 +2653,11 @@ if view == "📊 Community Burden & Action":
             st.write("PathwayAI's pilot brings county surveillance, healthcare capacity, patient-reported burden, and support navigation into one workflow. These external resources are complementary; their data are not linked at the patient level here.")
             st.caption("Resource descriptions reviewed October 6, 2026. Comparison is limited to public website descriptions; no claim of superior clinical performance.")
     with st.expander("ⓘ Sources, assumptions & transparency", expanded=False):
+        st.markdown("**1. Census** — [Dutchess QuickFacts](https://www.census.gov/quickfacts/fact/table/dutchesscountynewyork/DIS010224): poverty 8.4%, uninsured under 65 4.9%, disability under 65 9.2%. Disability uses the 2020–2024 ACS period; uninsured and poverty follow QuickFacts' own source definitions. Separate populations; no combined count.")
+        st.markdown("**2. HRSA** — the supplied AHRF county file provides 2023 physician, hospital and population context. It does not measure appointment availability. Live HPSA designations were not retrieved reliably and are not displayed.")
+        st.markdown("**3. County assessment** — [2025 Mid-Hudson Regional Community Health Assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf), printed pages 94–96: Dutchess partner survey reports resource awareness, health literacy, rural location, appointment, transport and insurance barriers. These are partner findings about general community health, not Lyme-specific patient prevalence.")
+        st.markdown("**4. CDC** — [Clinical care](https://www.cdc.gov/lyme/hcp/clinical-care/index.html) and [treatment](https://www.cdc.gov/lyme/treatment/index.html): early appropriate treatment helps prevent more severe disease. Persistent symptoms need clinical evaluation; no disability reduction is quantified here.")
+        st.caption("References checked October 7, 2026. Vehicle-access counts were not retrieved because the Census API required a key; no transport estimate is invented. SPARCS hospital charges have not been loaded and would not equal costs or the full household burden.")
         st.markdown("[Hook societal costs](https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t5) · [Yu medical costs](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) · [CDC early treatment](https://www.cdc.gov/lyme/treatment/index.html)")
         st.markdown("[HRSA shortage definitions](https://bhw.hrsa.gov/workforce-shortage-areas/shortage-designation) · [County Health Rankings strategies](https://www.countyhealthrankings.org/strategies-and-solutions/what-works-for-health) · [CDC/ATSDR community profiles](https://www.atsdr.cdc.gov/place-health/php/communication-resources/index.html) · [MyLymeData](https://www.lymedisease.org/mylymedata/)")
         st.caption("Public website review: October 6, 2026. These references inform design; no external registry or shortage data are linked into this pilot.")
@@ -2689,6 +2685,7 @@ if view == "📊 Community Burden & Action":
     add_brief("census_poverty_percent", census_context["poverty_percent_2020_2024"], "U.S. Census Bureau QuickFacts", "2020-2024")
     add_brief("census_uninsured_under65_percent", census_context["uninsured_under65_percent_2020_2024"], "U.S. Census Bureau QuickFacts", "2020-2024")
     add_brief("census_civilian_labor_force_percent_16plus", census_context["civilian_labor_force_percent_2020_2024"], "U.S. Census Bureau QuickFacts", "2020-2024")
+    add_brief("census_disability_under65_percent", census_context["disability_under65_percent_2020_2024"], "Census QuickFacts; not Lyme-attributable", "2020-2024")
     add_brief("ahrf_population", pop, "HRSA AHRF", "2023")
     pcp_rate=(float(ahrf['pcp'])/pop*10000) if ahrf and pop and pd.notna(ahrf.get('pcp')) else None
     add_brief("primary_care_physicians_per_10000", round(pcp_rate,2) if pcp_rate is not None else None, "HRSA AHRF", "2023")

@@ -1,4 +1,4 @@
-# v51 — private email feedback without SMTP setup
+# v52 — why it matters and exploration before feedback
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -1967,8 +1967,10 @@ if st.session_state.get("admin_authenticated"):
         st.caption("Technical checks are not user validation. County adoption, clinical benefit and savings remain unestablished.")
 
 st.title("PathwayAI")
-st.markdown("### Know about ticks. Find your next step.")
-st.write("A tick bite can leave you wondering what to do. Symptoms can bring more uncertainty. PathwayAI helps you find guidance for your situation—from preparing for outdoor activities to navigating care and support.")
+st.markdown("### A tiny tick bite can have a big impact.")
+st.write("Tick-borne illnesses can affect health, work, and daily life. Knowing how to prevent bites and when to seek care matters—at home and when traveling.")
+st.markdown("**Find your next step with PathwayAI.**")
+st.write("Prepare for outdoor activities, organize your health journey, or explore the burden on your community.")
 with st.expander("Why does this matter?"):
     st.write("CDC estimates approximately 476,000 people were diagnosed and treated for Lyme disease annually in the United States, based on insurance-claims research from 2010–2018. Most people recover with appropriate treatment, especially when treated early.¹")
     st.caption("This is an estimate of diagnoses and treatment, not a count of confirmed infections or a new 2026 case count.")
@@ -2012,18 +2014,28 @@ view = st.radio(
 
 
 def show_brief_feedback():
-    st.subheader("Help us improve PathwayAI")
+    st.subheader("Help shape PathwayAI")
+    st.write("Explore the tool, then tell us what could make it more useful—or how you’d like to help.")
+    choices = [
+        ("Explore prevention and travel", "🛡️ Prevention", "outdoors"),
+        ("Explore patient journey and support", "🧭 Timely Care & Support", "ongoing"),
+        ("Explore community burden", "📊 Community Burden & Action", "county"),
+    ]
+    for label, target, intent in choices:
+        st.button(label, key="contributor_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
+    st.markdown("#### Ready to share an idea?")
     st.write("What helped, what was confusing, or what would you like us to add? A sentence or two is enough. You can also tell us how you would like to help.")
     st.caption("Please leave out personal medical details. Your message will go privately to the project inbox, not appear on this website.")
     address = "pathwayai.feedback@gmail.com"
-    st.markdown("[**Email feedback**](mailto:" + address + "?" + urlencode({"subject": "PathwayAI Feedback"}, quote_via=quote_plus) + ")")
+    st.markdown("[**Email feedback or offer to help**](mailto:" + address + "?" + urlencode({"subject": "PathwayAI Feedback"}, quote_via=quote_plus) + ")")
     st.write("**" + address + "**")
     st.caption("The button opens your email app. Write your note there and press Send. If it does not open, copy the address into Gmail or another email service. PathwayAI does not send or store the message for you.")
     st.write("Thank you so much for your contribution!")
 
 if view == "📚 Learn":
-    st.header("Learn about Lyme and tick-borne illness")
-    st.write("Start here if you are curious, helping someone, or planning a visit. You do not need to enter a ZIP code, describe symptoms, or use AI.")
+    st.header("Why pay attention to ticks?")
+    st.write("A tiny tick bite can have a big impact. Ticks can spread Lyme disease and other illnesses, making prevention and timely care important—whether you’re traveling, visiting a park, or spending time in your backyard.")
+    st.markdown("**Learn about tick-borne illness, protect yourself, and know what to do after a bite.**")
     st.markdown("**Explore the basics**\n\n[CDC: About Lyme disease](https://www.cdc.gov/lyme/about/index.html) · [CDC: Tick-bite prevention](https://www.cdc.gov/ticks/prevention/index.html) · [CDC: After a tick bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
     st.markdown("**Choose your next step**\n\n- Planning a visit? Open Prevention for destination surveillance and an outdoor plan.\n- Preparing for care? Open Timely Care & Support to organize your story.\n- Exploring local needs? Open Community Burden & Action for the Dutchess pilot.\n- Have an idea? Open Contribute and leave a short note.")
     st.caption("County surveillance describes population context, not your individual chance of infection. Reported case counts and tick-presence categories are different measures.")

@@ -1,4 +1,4 @@
-# v53 — selected pathway replaces the landing menu
+# v54 — visible follow-up and second-opinion directories
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -2714,6 +2714,28 @@ if view == "📊 Community Burden & Action":
 
 st.header("🧭 TIMELY CARE & SUPPORT")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", "Organize symptoms, testing, healthcare visits, costs, work/function, and support needs so important details are easier to carry into the next conversation.")
+
+st.subheader("Questions after a tick bite or testing?")
+st.write("Find a healthcare provider for follow-up or a second opinion. Use where you are now, which may be different from where the bite happened.")
+second_opinion_zip = st.text_input("Your current ZIP code for provider searches (optional)", max_chars=5, placeholder="e.g., 10940", key="second_opinion_zip")
+care_zip = second_opinion_zip.strip()
+valid_care_zip = bool(re.fullmatch(r"[0-9]{5}", care_zip))
+if care_zip and not valid_care_zip:
+    st.caption("Please enter five digits, or leave this blank to open the directories and enter your location there.")
+health_center_url = "https://findahealthcenter.hrsa.gov/" + ("?" + urlencode({"zip": care_zip, "radius": 25}) if valid_care_zip else "")
+st.markdown(f"[**Find a community health center — HRSA**]({health_center_url})")
+st.markdown("[**Find doctors and clinicians — Medicare Care Compare**](https://www.medicare.gov/care-compare/)")
+if valid_care_zip:
+    st.markdown(f"[**Search nearby primary care or infectious-disease providers**]({google_maps_search_url('primary care or infectious disease doctor near ' + care_zip)})")
+    st.caption("Use ZIP " + care_zip + " in Care Compare. The Maps link is a location search, not a checked list of specialists.")
+st.caption("Directory listings are not endorsements. Confirm appointments, insurance, referral requirements and experience evaluating tick-borne illness. Ask your insurer about in-network options; HRSA centers can help with access to primary care.")
+with st.expander("What to bring and ask at your visit"):
+    st.write("Bring your test report and test date, symptom timeline, bite/exposure dates if known, current medicines, and your reviewed PathwayAI journey card.")
+    st.write("Ask: How does the timing and type of my test affect interpretation? What else could explain my symptoms? What follow-up or specialist referral is appropriate?")
+    st.write("CDC explains that Lyme antibody tests can be negative early because antibodies take time to develop. Test results need clinical interpretation; this does not mean everyone bitten needs testing or a repeat test.")
+    st.markdown("[CDC: Testing and diagnosis](https://www.cdc.gov/lyme/diagnosis-testing/)")
+st.caption("If you feel acutely unwell, seek timely care rather than waiting for a second-opinion appointment.")
+
 st.caption("🔒 **MVP data guardrail:** Patient Voice is currently a small national pilot used to develop the measurement framework. It is not local prevalence. Any aggregated result must show its denominator (n) and track missing responses separately from zero. The local CSV is an MVP collection path; production deployment requires persistent storage.")
 st.write("Tell your story once. PathwayAI organizes the journey, helps you prepare for care, and—only with your permission—can turn de-identified parts of your experience into Patient Voice for policy insight.")
 # QUICK START — STORY FIRST
@@ -2861,7 +2883,7 @@ st.subheader("1. Location & Exposure Context *(Optional)*")
 st.write("If you added a ZIP code/county above—or mentioned a location in your story—PathwayAI can use it for care and support navigation. You can leave this section blank.")
 
 top_zip = normalize_zip(current_location_start)
-zip_default = quick["zip"] if quick.get("zip") else (top_zip if len(top_zip) == 5 else "")
+zip_default = care_zip if valid_care_zip else (quick["zip"] if quick.get("zip") else (top_zip if len(top_zip) == 5 else ""))
 zip_code = st.text_input(
     "Current ZIP code (optional — only for more precise nearby results)",
     value=zip_default,

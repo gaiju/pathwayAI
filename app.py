@@ -1,4 +1,4 @@
-# v47 — wide layout and wrapping evidence tables
+# v51 — private email feedback without SMTP setup
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -7,12 +7,17 @@ import math
 import json
 import os
 import html
+import sqlite3
+import time
+import hashlib
+import hmac
+import ipaddress
 import zipfile
 import urllib.request
 import urllib.error
 from io import BytesIO
 from pathlib import Path
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlencode
 
 
 def show_tick_identification_guide():
@@ -70,8 +75,8 @@ def show_section_hero(kind, title, subtitle):
     bg, fg, icons, strap = palettes[kind]
     html = f"""<div style='background:{bg};border:1px solid {fg}22;border-radius:18px;padding:22px 24px;margin:4px 0 18px 0;'>
     <div style='font-size:29px;letter-spacing:6px;float:right;opacity:.88'>{icons}</div>
-    <div style='font-size:26px;font-weight:750;color:{fg};max-width:72%'>{title}</div>
-    <div style='font-size:16px;margin-top:6px;color:#263238;max-width:76%'>{subtitle}</div>
+    <div style='font-size:24px;font-weight:750;color:{fg};overflow-wrap:break-word'>{title}</div>
+    <div style='font-size:16px;margin-top:6px;color:#263238;max-width:100%'>{subtitle}</div>
     <div style='font-size:12px;margin-top:13px;color:{fg};font-weight:650;letter-spacing:.25px'>{strap}</div>
     <div style='clear:both'></div></div>"""
     st.markdown(html, unsafe_allow_html=True)
@@ -93,6 +98,7 @@ st.markdown("""<style>
 .pathway-readable-table {width:100%; border-collapse:collapse; table-layout:auto; font-size:0.95rem;}
 .pathway-readable-table th, .pathway-readable-table td {white-space:normal !important; overflow-wrap:anywhere; text-overflow:clip; padding:0.7rem 0.8rem; border-bottom:1px solid #d4dbe3; text-align:left; vertical-align:top; min-width:110px; max-width:420px; line-height:1.5;}
 .pathway-readable-table th {background:rgba(125,145,165,0.12); font-weight:650;}
+[data-testid="stMetricValue"] {white-space:normal !important; overflow:visible !important; text-overflow:clip !important; font-size:1.7rem !important;}
 [data-testid="stMetricLabel"] p {white-space:normal !important; overflow:visible !important; text-overflow:clip !important;}
 [data-testid="stHeading"] h1, [data-testid="stHeading"] h2, [data-testid="stHeading"] h3 {overflow-wrap:break-word;}
 </style>""", unsafe_allow_html=True)
@@ -122,15 +128,57 @@ MAX_AI_CALLS_PER_SESSION = positive_config_integer("PATHWAYAI_MAX_AI_CALLS_PER_S
 OPENAI_API_KEY = _secret("OPENAI_API_KEY")
 PATHWAYAI_LLM_MODEL = _secret("PATHWAYAI_LLM_MODEL")
 
+AI_WINDOW_SECONDS = 30 * 60
+AI_WINDOW_MAX_REQUESTS = 3
+
+class AIRateLimitError(RuntimeError):
+    pass
+
+def _ai_bucket():
+    # Use the framework connection address; do not trust arbitrary forwarded headers.
+    try:
+        raw = st.context.ip_address
+        address = str(ipaddress.ip_address(raw)) if raw else "unidentified-connection"
+    except (AttributeError, ValueError, TypeError):
+        address = "unidentified-connection"
+    # Store a keyed digest, never the raw IP. Unknown connections share one bucket.
+    return hmac.new(OPENAI_API_KEY.encode(), address.encode(), hashlib.sha256).hexdigest()
+
+def _ai_quota(db_path, bucket, consume=False, now=None):
+    """Atomic sliding-window reservation across sessions/processes on this server."""
+    now = time.time() if now is None else now
+    with sqlite3.connect(str(db_path), timeout=10) as db:
+        db.execute("CREATE TABLE IF NOT EXISTS ai_requests (bucket TEXT, requested REAL)")
+        db.execute("CREATE INDEX IF NOT EXISTS ai_bucket_time ON ai_requests(bucket, requested)")
+        db.execute("BEGIN IMMEDIATE")
+        db.execute("DELETE FROM ai_requests WHERE requested <= ?", (now - AI_WINDOW_SECONDS,))
+        count, oldest = db.execute("SELECT COUNT(*), MIN(requested) FROM ai_requests WHERE bucket=?", (bucket,)).fetchone()
+        if count >= AI_WINDOW_MAX_REQUESTS:
+            wait_minutes = max(1, math.ceil((oldest + AI_WINDOW_SECONDS - now) / 60))
+            return False, f"You’ve reached the AI request limit (3 requests in 30 minutes). Please try again in about {wait_minutes} minute(s). Other PathwayAI features remain available."
+        if consume:
+            db.execute("INSERT INTO ai_requests VALUES (?, ?)", (bucket, now))
+        return True, ""
+
 def ai_call_allowed(kind="AI"):
-    """Check the session limit without consuming a call."""
-    used = int(st.session_state.get("pilot_ai_calls", 0))
-    if used >= MAX_AI_CALLS_PER_SESSION:
-        return False, f"Pilot {kind} limit reached for this browser session ({MAX_AI_CALLS_PER_SESSION})."
-    return True, ""
+    try:
+        return _ai_quota(Path(__file__).resolve().parent / ".pathwayai_ai_limits.sqlite3", _ai_bucket())
+    except (sqlite3.Error, OSError):
+        return False, "AI usage tracking is temporarily unavailable. Please try again later; other features remain available."
+
+def _limited_ai_urlopen(request, timeout=60):
+    try:
+        allowed, message = _ai_quota(Path(__file__).resolve().parent / ".pathwayai_ai_limits.sqlite3", _ai_bucket(), consume=True)
+    except (sqlite3.Error, OSError):
+        raise AIRateLimitError("AI usage tracking is unavailable. No API request was sent.")
+    if not allowed:
+        raise AIRateLimitError(message)
+    # Reserve before sending: failed requests also consume quota. No automatic retries.
+    return urllib.request.urlopen(request, timeout=timeout)
 
 def record_completed_ai_call():
-    st.session_state["pilot_ai_calls"] = int(st.session_state.get("pilot_ai_calls", 0)) + 1
+    # Compatibility with existing UI: quota is reserved per HTTP request above.
+    pass
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -897,10 +945,11 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
             dest_cases = dest_county["lyme_cases"]
             st.markdown("### Destination Comparison")
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Destination county", dest_county["county"])
+            c1.metric("Approximate county", dest_county["county"])
             c2.metric("Blacklegged tick", dest_county["tick"])
-            c3.metric("Nearby tick status", f"{nearby_est} established / {nearby_rep} reported")
-            c4.metric("Reported Lyme cases", f"{dest_cases:,}" if dest_cases is not None else "Data not loaded")
+            c3.markdown(f"**Nearby tick surveillance**\n\n{nearby_est} counties: established population\n\n{nearby_rep} counties: reported-only presence")
+            c4.metric("Reported cases, 2019–2022", f"{dest_cases:,}" if dest_cases is not None else "Data not loaded")
+            st.caption("County assignment uses the closest county center and is approximate. Nearby counties are the nearest county centers, not necessarily bordering counties. Case totals cover 2019–2022 and describe residents; they do not predict your travel infection risk.")
             if dest_cases is not None and nearby_values:
                 med = sorted(nearby_values)[len(nearby_values)//2]
                 if dest_cases > med:
@@ -1207,7 +1256,7 @@ Do not convert a symptom duration into workdays. Only return days_missed if the 
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=45) as resp:
+        with _limited_ai_urlopen(req, timeout=45) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         output_text = ""
         for item in data.get("output", []):
@@ -1734,7 +1783,7 @@ and an important limitation. Clearly separate evidence from interpretation."""
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=90) as resp:
+        with _limited_ai_urlopen(req, timeout=90) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         out = ""
         citations = []
@@ -1786,7 +1835,7 @@ def _openai_text_request(system_text, user_text, timeout=60):
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
+        with _limited_ai_urlopen(req, timeout=timeout) as resp:
             data = json.loads(resp.read().decode("utf-8"))
         out = ""
         for item in data.get("output", []):
@@ -1908,27 +1957,6 @@ with st.sidebar.expander("Admin access"):
                 st.error("Admin password not recognized.")
 
 
-with st.sidebar.expander("Pilot feedback"):
-    st.caption("Please do not include medical details or identifying information in feedback.")
-    fb_accuracy = st.select_slider("Did PathwayAI reflect your journey accurately?", options=["Not sure", "No", "Mostly", "Yes"], key="fb_accuracy")
-    fb_useful = st.select_slider("Was the experience useful?", options=["Not sure", "No", "Somewhat", "Yes"], key="fb_useful")
-    fb_trust = st.select_slider("Would you use it to prepare for a healthcare visit?", options=["Not sure", "No", "Maybe", "Yes"], key="fb_trust")
-    fb_change = st.text_area("One thing you would change (optional)", max_chars=500, key="fb_change")
-    if st.button("Submit feedback", key="submit_pilot_feedback"):
-        row = {
-            "time": pd.Timestamp.utcnow().isoformat(),
-            "accuracy": fb_accuracy,
-            "usefulness": fb_useful,
-            "visit_preparation": fb_trust,
-            "change": fb_change.strip(),
-        }
-        try:
-            f = BASE_DIR / "pathwayai_pilot_feedback.csv"
-            if not append_csv_row_locked(f, row):
-                raise OSError("feedback write failed")
-            st.success("Thank you — feedback recorded for this pilot.")
-        except Exception:
-            st.error("Feedback could not be saved on this host. Please send feedback to the pilot organizer.")
 
 if st.session_state.get("admin_authenticated"):
     with st.sidebar.expander("MVP showcase checklist"):
@@ -1949,15 +1977,18 @@ def select_public_pathway(target, intent):
     st.session_state["pathway_view"] = target
     st.session_state["public_pathway_intent"] = intent
 paths = [
-    ("I’m going outdoors", "Prepare for ticks at your destination or close to home.", "🛡️ Prevention", "outdoors"),
+    ("I want to learn", "Explore Lyme, tick-borne illness and prevention—no personal information needed.", "📚 Learn", "learn"),
+    ("I’m planning a visit or outdoor activity", "Explore destination tick information and prepare a prevention plan.", "🛡️ Prevention", "outdoors"),
     ("I found a tick", "Find removal guidance and information about contacting a clinician.", "🛡️ Prevention", "bite"),
     ("I feel unwell after possible exposure", "Organize symptoms and prepare for a medical visit.", "🧭 Timely Care & Support", "symptoms"),
     ("I have ongoing symptoms", "Organize your journey and find care and daily-life support.", "🧭 Timely Care & Support", "ongoing"),
-    ("I work in public health or community planning", "Review county evidence, hidden burden and suggested actions.", "📊 Community Burden & Action", "county"),
+    ("I’m helping someone else", "Help someone prepare their story and find support, with their permission.", "🧭 Timely Care & Support", "caregiver"),
+    ("I work in public health", "Review county evidence, hidden burden and suggested actions.", "📊 Community Burden & Action", "county"),
+    ("I want to contribute", "Leave a brief suggestion or tell us how you would like to help.", "💬 Contribute", "contribute"),
 ]
-for start in (0, 3):
-    cols = st.columns(min(3, len(paths)-start))
-    for col, (label, detail, target, intent) in zip(cols, paths[start:start+3]):
+for start in range(0, len(paths), 2):
+    cols = st.columns(2)
+    for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
         with col:
             st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
             st.caption(detail)
@@ -1967,7 +1998,7 @@ st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/
 
 if "pathway_view" not in st.session_state:
     st.session_state["pathway_view"] = "📊 Community Burden & Action"
-available_views = ["🛡️ Prevention", "🧭 Timely Care & Support", "📊 Community Burden & Action"]
+available_views = ["📚 Learn", "🛡️ Prevention", "🧭 Timely Care & Support", "📊 Community Burden & Action", "💬 Contribute"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if st.session_state.get("pathway_view") not in available_views:
@@ -1978,6 +2009,30 @@ view = st.radio(
     horizontal=True,
     key="pathway_view"
 )
+
+
+def show_brief_feedback():
+    st.subheader("Help us improve PathwayAI")
+    st.write("What helped, what was confusing, or what would you like us to add? A sentence or two is enough. You can also tell us how you would like to help.")
+    st.caption("Please leave out personal medical details. Your message will go privately to the project inbox, not appear on this website.")
+    address = "pathwayai.feedback@gmail.com"
+    st.markdown("[**Email feedback**](mailto:" + address + "?" + urlencode({"subject": "PathwayAI Feedback"}, quote_via=quote_plus) + ")")
+    st.write("**" + address + "**")
+    st.caption("The button opens your email app. Write your note there and press Send. If it does not open, copy the address into Gmail or another email service. PathwayAI does not send or store the message for you.")
+    st.write("Thank you so much for your contribution!")
+
+if view == "📚 Learn":
+    st.header("Learn about Lyme and tick-borne illness")
+    st.write("Start here if you are curious, helping someone, or planning a visit. You do not need to enter a ZIP code, describe symptoms, or use AI.")
+    st.markdown("**Explore the basics**\n\n[CDC: About Lyme disease](https://www.cdc.gov/lyme/about/index.html) · [CDC: Tick-bite prevention](https://www.cdc.gov/ticks/prevention/index.html) · [CDC: After a tick bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
+    st.markdown("**Choose your next step**\n\n- Planning a visit? Open Prevention for destination surveillance and an outdoor plan.\n- Preparing for care? Open Timely Care & Support to organize your story.\n- Exploring local needs? Open Community Burden & Action for the Dutchess pilot.\n- Have an idea? Open Contribute and leave a short note.")
+    st.caption("County surveillance describes population context, not your individual chance of infection. Reported case counts and tick-presence categories are different measures.")
+    st.stop()
+
+if view == "💬 Contribute":
+    show_brief_feedback()
+    st.caption("To optionally contribute structured Patient Voice information, use Timely Care & Support, review the fields and consent there. Website feedback is kept separate from Patient Voice.")
+    st.stop()
 
 if view == "🧠 Research & Strategy Agent":
     show_research_strategy_agent()
@@ -2640,7 +2695,7 @@ if view == "📊 Community Burden & Action":
     st.stop()
 
 st.header("🧭 TIMELY CARE & SUPPORT")
-show_section_hero("journey", "Understand Your Journey. Prepare for the Next Step.", "Organize symptoms, testing, healthcare visits, costs, work/function, and support needs so important details are easier to carry into the next conversation.")
+show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", "Organize symptoms, testing, healthcare visits, costs, work/function, and support needs so important details are easier to carry into the next conversation.")
 st.caption("🔒 **MVP data guardrail:** Patient Voice is currently a small national pilot used to develop the measurement framework. It is not local prevalence. Any aggregated result must show its denominator (n) and track missing responses separately from zero. The local CSV is an MVP collection path; production deployment requires persistent storage.")
 st.write("Tell your story once. PathwayAI organizes the journey, helps you prepare for care, and—only with your permission—can turn de-identified parts of your experience into Patient Voice for policy insight.")
 # QUICK START — STORY FIRST

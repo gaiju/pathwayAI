@@ -1,4 +1,4 @@
-# v52 — why it matters and exploration before feedback
+# v53 — selected pathway replaces the landing menu
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -1966,18 +1966,18 @@ if st.session_state.get("admin_authenticated"):
         st.write("Deployment Strategy: launch plan, sustainability, post-sprint roadmap, and ways to support the tool.")
         st.caption("Technical checks are not user validation. County adoption, clinical benefit and savings remain unestablished.")
 
-st.title("PathwayAI")
-st.markdown("### A tiny tick bite can have a big impact.")
-st.write("Tick-borne illnesses can affect health, work, and daily life. Knowing how to prevent bites and when to seek care matters—at home and when traveling.")
-st.markdown("**Find your next step with PathwayAI.**")
-st.write("Prepare for outdoor activities, organize your health journey, or explore the burden on your community.")
-with st.expander("Why does this matter?"):
-    st.write("CDC estimates approximately 476,000 people were diagnosed and treated for Lyme disease annually in the United States, based on insurance-claims research from 2010–2018. Most people recover with appropriate treatment, especially when treated early.¹")
-    st.caption("This is an estimate of diagnoses and treatment, not a count of confirmed infections or a new 2026 case count.")
-st.subheader("What brings you here today?")
 def select_public_pathway(target, intent):
     st.session_state["pathway_view"] = target
     st.session_state["public_pathway_intent"] = intent
+    st.session_state["pathway_open"] = True
+
+def return_to_path_choices():
+    st.session_state["pathway_open"] = False
+
+def open_sidebar_view():
+    st.session_state["pathway_open"] = True
+    st.session_state["public_pathway_intent"] = "browse"
+
 paths = [
     ("I want to learn", "Explore Lyme, tick-borne illness and prevention—no personal information needed.", "📚 Learn", "learn"),
     ("I’m planning a visit or outdoor activity", "Explore destination tick information and prepare a prevention plan.", "🛡️ Prevention", "outdoors"),
@@ -1988,29 +1988,35 @@ paths = [
     ("I work in public health", "Review county evidence, hidden burden and suggested actions.", "📊 Community Burden & Action", "county"),
     ("I want to contribute", "Leave a brief suggestion or tell us how you would like to help.", "💬 Contribute", "contribute"),
 ]
-for start in range(0, len(paths), 2):
-    cols = st.columns(2)
-    for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
-        with col:
-            st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
-            st.caption(detail)
-st.caption("Existing health conditions: the prevention page offers optional health-context choices. Share only what you are comfortable entering.")
-st.caption("Education and navigation only. PathwayAI does not diagnose illness or calculate your personal chance of infection.")
-st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
-
-if "pathway_view" not in st.session_state:
-    st.session_state["pathway_view"] = "📊 Community Burden & Action"
 available_views = ["📚 Learn", "🛡️ Prevention", "🧭 Timely Care & Support", "📊 Community Burden & Action", "💬 Contribute"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if st.session_state.get("pathway_view") not in available_views:
     st.session_state["pathway_view"] = "📊 Community Burden & Action"
-view = st.radio(
-    "Choose view",
-    available_views,
-    horizontal=True,
-    key="pathway_view"
-)
+view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view", on_change=open_sidebar_view)
+
+if not st.session_state.get("pathway_open", False):
+    st.title("PathwayAI")
+    st.markdown("### A tiny tick bite can have a big impact.")
+    st.write("Tick-borne illnesses can affect health, work, and daily life. Knowing how to prevent bites and when to seek care matters—at home and when traveling.")
+    st.markdown("**Find your next step with PathwayAI.**")
+    st.write("Prepare for outdoor activities, organize your health journey, or explore the burden on your community.")
+    with st.expander("Why does this matter?"):
+        st.write("CDC estimates approximately 476,000 people were diagnosed and treated for Lyme disease annually in the United States, based on insurance-claims research from 2010–2018. Most people recover with appropriate treatment, especially when treated early.¹")
+        st.caption("This is an estimate of diagnoses and treatment, not a count of confirmed infections or a new 2026 case count.")
+    st.subheader("What brings you here today?")
+    for start in range(0, len(paths), 2):
+        cols = st.columns(2)
+        for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
+            with col:
+                st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
+                st.caption(detail)
+    st.caption("Education and navigation only. PathwayAI does not diagnose illness or calculate your personal chance of infection.")
+    st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
+    st.stop()
+
+st.button("← Change my path", key="change_path", on_click=return_to_path_choices)
+st.caption("PathwayAI · " + view)
 
 
 def show_brief_feedback():

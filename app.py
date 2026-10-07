@@ -1,4 +1,4 @@
-# v54 — visible follow-up and second-opinion directories
+# v55 — concise public-page copy and expandable methods
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -24,8 +24,7 @@ def show_tick_identification_guide():
     """Low-burden educational visual to help users distinguish a possible tick from common look-alikes."""
     st.markdown("### 🕷️ Found a possible tick?")
     st.write(
-        "A quick visual check can help you decide whether what you found is consistent with a tick. "
-        "Image identification is educational only and cannot tell whether a tick carries a pathogen."
+        'Compare its appearance with the guide. Appearance alone cannot show whether it carries an infection.'
     )
     c1, c2 = st.columns([1.15, 1])
     with c1:
@@ -38,8 +37,7 @@ def show_tick_identification_guide():
             """
         )
         st.caption(
-            "CDC notes that blacklegged ticks occur in several life stages and can be extremely small. "
-            "Nymphs and adult females are among the stages more often reported on people."
+            'Young ticks can be very small and easy to miss.'
         )
     with c2:
         st.markdown("**Common look-alikes**")
@@ -51,8 +49,7 @@ def show_tick_identification_guide():
             """
         )
     st.info(
-        "If you are unsure, save a clear photo (top and underside if possible). "
-        "PathwayAI can later support photo-assisted identification, but a photo alone should not be used to determine infection."
+        'Unsure? Save clear photos of the top and underside and ask TickSpotters for identification.'
     )
     st.markdown("[Ask URI TickSpotters to help identify a tick](https://web.uri.edu/tickencounter/tickspotters/)")
     st.caption("External tick identification service; no photo is uploaded by PathwayAI. Identification does not establish whether you have an infection.")
@@ -935,7 +932,7 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
         st.markdown("**Legend:** 🟢 Your destination &nbsp;&nbsp; 🔵 **Established** tick population &nbsp;&nbsp; 🟡 **Reported** tick presence &nbsp;&nbsp; Human Lyme cases: ⬜ no value → 🟧 fewer → 🟥 more reported cases")
         if lyme_cases:
             st.caption("Human Lyme shading = CDC cumulative reported Lyme disease cases by county of residence, 2019–2022: 0, 1–24, 25–99, 100–249, 250–499, 500+. Darker red means more reported cases, not an individual's infection probability.")
-            st.info("**Read the two layers separately:** county shading shows reported human Lyme burden; blue/yellow markers show blacklegged-tick surveillance. Geography can vary substantially within a state, so PathwayAI keeps the county view visible rather than assigning one statewide risk label.")
+            st.info('**Read separately:** shading shows human case counts; markers show tick surveillance.')
 
         dest_county, nearby = _destination_county_context(destination_geo, geo, tick_status, lyme_cases)
         if dest_county:
@@ -968,7 +965,7 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
                 g3.metric("Nearby comparison", f"{comp.capitalize()} median", help=f"Nearby-county median shown: {med:,} cumulative reported cases.")
                 st.caption(f"The destination county's 2019–2022 reported case count is {comp} the median of nearby counties shown ({med:,}). Counts are useful for burden context but are **not incidence rates** because county population sizes differ. PathwayAI therefore does not label this as personal risk.")
             else:
-                st.info("County-level human Lyme data are not loaded yet. PathwayAI will not substitute state shading or invent a county value.")
+                st.info('County Lyme case data are unavailable.')
 
         if not tick_status:
             st.warning("CDC tick surveillance file is missing or unreadable. Put cdc_ixodes_county_2025.xlsx in the same folder as this app.")
@@ -1338,7 +1335,7 @@ def show_immediate_support_from_story(quick):
         return
 
     st.markdown("## 🧭 Your Journey in Context")
-    st.write("PathwayAI uses what you shared to organize your journey, connect it with relevant published evidence, and help you and a caregiver prepare for the next conversation with a healthcare professional. It does **not** predict your individual outcome.")
+    st.write('Use your journey summary and relevant research to prepare for care. Research findings do not predict your outcome.')
 
     # A compact patient-specific journey line.
     stages = ["Exposure / concern"]
@@ -1383,8 +1380,8 @@ def show_immediate_support_from_story(quick):
     st.caption("These are preparation prompts, not treatment recommendations. A useful second opinion or clinically indicated follow-up is treated as potentially beneficial care—not automatically as waste or avoidable cost.")
 
     st.markdown("### What Might I Expect?")
-    st.write("PathwayAI uses your reported timing and symptoms to surface relevant evidence—not to predict your individual outcome. Patient experiences vary, and new or worsening symptoms should be evaluated in clinical context.")
-    st.caption("Evidence context is shown only when relevant to what you reported. It is not a prognosis.")
+    st.write('Experiences vary. Discuss new or worsening symptoms with a healthcare professional.')
+    st.caption('Research context, not a prognosis.')
 
     st.markdown("### 📚 Knowledge Corner")
     with st.expander("🕷️ Know the Tick — what does it look like?"):
@@ -1439,9 +1436,7 @@ def show_care_support(zip_code, fallback_location=None):
         ]
 
     st.write(
-        "PathwayAI does not rank or endorse clinicians. Use the links below to "
-        "compare nearby options, current Google information/reviews, credentials, "
-        "insurance participation, availability, and services."
+        'Compare nearby care options. Confirm credentials, insurance, appointments and services; listings are not endorsements.'
     )
 
     for i, search_term in enumerate(searches[:2], start=1):
@@ -1456,9 +1451,7 @@ def show_care_support(zip_code, fallback_location=None):
         )
 
     st.caption(
-        "Google ratings and reviews are third-party consumer information and can change. "
-        "They do not establish clinical quality. PathwayAI does not copy, score, or rank "
-        "providers based on reviews."
+        'Google reviews do not establish clinical quality.'
     )
 
     st.markdown("#### Lyme patient organizations & provider directories")
@@ -1518,7 +1511,7 @@ def show_personalized_support(zip_code, work_impact, insurance_context, support_
     loc = (current_location_text or "").strip() or (f"ZIP {z}" if len(z) == 5 else "your current area")
 
     st.subheader("🧭 What May Help You Now")
-    st.caption("Start with the few actions most connected to your story. Your city/county is enough for navigation; a ZIP code only makes nearby results more precise.")
+    st.caption('Start with the actions relevant to your story. Add a location for nearby resources.')
 
     # Explain why the resources are appearing.
     if burden_drivers:
@@ -1960,6 +1953,7 @@ with st.sidebar.expander("Admin access"):
 
 if st.session_state.get("admin_authenticated"):
     with st.sidebar.expander("MVP showcase checklist"):
+        st.caption("Patient Voice uses local-file pilot storage. Production collection needs durable private storage and retention controls.")
         st.write("Organizer template: MVP Demo Milestone, reviewed October 7, 2026.")
         st.write("Walkthrough: complete user journey, core features, communities involved, and what testing taught us.")
         st.write("Impact & Evidence: intended users, federal datasets actually incorporated, and documented user validation.")
@@ -2035,7 +2029,7 @@ def show_brief_feedback():
     address = "pathwayai.feedback@gmail.com"
     st.markdown("[**Email feedback or offer to help**](mailto:" + address + "?" + urlencode({"subject": "PathwayAI Feedback"}, quote_via=quote_plus) + ")")
     st.write("**" + address + "**")
-    st.caption("The button opens your email app. Write your note there and press Send. If it does not open, copy the address into Gmail or another email service. PathwayAI does not send or store the message for you.")
+    st.caption('Opens your email app; press Send there. If it does not open, copy the address into your email service.')
     st.write("Thank you so much for your contribution!")
 
 if view == "📚 Learn":
@@ -2049,7 +2043,7 @@ if view == "📚 Learn":
 
 if view == "💬 Contribute":
     show_brief_feedback()
-    st.caption("To optionally contribute structured Patient Voice information, use Timely Care & Support, review the fields and consent there. Website feedback is kept separate from Patient Voice.")
+    st.caption('Patient Voice is separate: review and consent to sharing structured fields in Timely Care & Support.')
     st.stop()
 
 if view == "🧠 Research & Strategy Agent":
@@ -2077,7 +2071,7 @@ if view == "🛡️ Prevention":
         st.caption("ZIP accepted. The city could not be resolved from the geographic lookup service; PathwayAI will not guess a city or county.")
     if len(normalize_zip(travel_zip)) == 5:
         st.write(f"**Destination identified:** {travel_destination}")
-        st.caption("ZIP selects the destination. The combined surveillance map below compares tick surveillance and Lyme disease surveillance without converting either into an individual risk score.")
+        st.caption('Your ZIP selects destination surveillance; it does not determine personal infection risk.')
 
     travel_month = st.selectbox(
         "When are you traveling?",
@@ -2106,7 +2100,7 @@ if view == "🛡️ Prevention":
     if st.button("Generate My Outdoor Tick-Prevention Plan", type="primary"):
         st.divider()
         st.header("My Outdoor Tick-Prevention Plan")
-        st.info("This plan summarizes available destination information and prevention steps. It does not establish that you were bitten or estimate your personal chance of infection.")
+        st.info('Use this plan for prevention, not diagnosis or personal risk prediction.')
         st.markdown("**Your next steps**\n- Before: prepare EPA-registered repellent and protective clothing; follow product instructions.\n- After outdoor activities: check your body, clothing, gear and pets; shower within two hours.\n- If you found a tick or feel unwell: use the bite guidance below or choose Timely Care & Support.")
 
         st.write(f"**Destination:** {travel_destination}")
@@ -2179,8 +2173,7 @@ if view == "🛡️ Prevention":
 
             st.markdown("#### Tick Exposure at Your Destination")
             st.write(
-                "PathwayAI combines regional tick-risk context with local surveillance "
-                "data to help travelers understand environmental exposure before a trip."
+                'Review regional and local tick surveillance before your trip.'
             )
 
             # 2025 NYSDOH regional context reported for the Hudson Valley.
@@ -2240,8 +2233,7 @@ if view == "🛡️ Prevention":
             state_code = travel_geo.get("state_code", "") if travel_geo else ""
             st.markdown("#### Tick & Lyme Disease Surveillance Near Your Destination")
             st.write(
-                "This combined view keeps two different surveillance signals separate: blacklegged-tick surveillance and reported human Lyme disease surveillance. "
-                "It does not predict whether you personally will be bitten by a tick or develop Lyme disease."
+                'Compare tick surveillance and reported Lyme cases separately. Neither predicts your personal risk.'
             )
             show_combined_tick_lyme_context(state_code, travel_geo)
             st.markdown("**Open the underlying county-level layers**")
@@ -2255,8 +2247,7 @@ if view == "🛡️ Prevention":
             state_code = travel_geo.get("state_code", "") if travel_geo else ""
             st.markdown("#### Tick & Lyme Disease Surveillance Near Your Destination")
             st.write(
-                "This combined view keeps two different surveillance signals separate: blacklegged-tick surveillance and reported human Lyme disease surveillance. "
-                "It does not predict whether you personally will be bitten by a tick or develop Lyme disease."
+                'Compare tick surveillance and reported Lyme cases separately. Neither predicts your personal risk.'
             )
             show_combined_tick_lyme_context(state_code, travel_geo)
             st.markdown("**Open the underlying county-level layers**")
@@ -2358,7 +2349,7 @@ if view == "📊 Community Burden & Action":
     # Oct 22 MVP: one complete demonstration county. The County Pack is the scalable product.
     policy_place = "Dutchess County, New York"
     st.markdown("### Dutchess County, New York — Demonstration County")
-    st.caption("Dutchess is the demonstration. The County Pack architecture is designed to be populated with corresponding state and local data for additional counties.")
+    st.caption('Dutchess is the current county pilot.')
     county_ids = {
         "Dutchess County, New York": {"fips": "36027", "short": "Dutchess, NY"},
     }
@@ -2418,7 +2409,7 @@ if view == "📊 Community Burden & Action":
         for source_line in source_bits: st.caption(source_line)
 
     st.markdown("## 1. Who may need more support?")
-    st.write("Start with measurable county context that can shape how illness affects residents and how easily people can stay connected to care, work and daily life.")
+    st.write('Poverty, insurance, disability and transport barriers can affect access to care and support.')
     c1,c2,c3,c4 = st.columns(4)
     c1.metric("Population", f"{census_context['population_2025_estimate']:,}")
     c2.metric("Living in poverty", f"{census_context['poverty_percent_2020_2024']:.1f}%")
@@ -2442,7 +2433,7 @@ if view == "📊 Community Burden & Action":
     st.caption("Census QuickFacts: population estimate July 1, 2025; poverty, insurance and labor-force measures 2020–2024. HRSA and CDC PLACES measures are shown only when loaded. These describe community context; they are not attributed to Lyme disease.")
 
     st.markdown("## 2. Where can earlier care and support help?")
-    st.write("The invisible journey extends beyond a reported case: symptoms, repeated visits, delayed answers, disrupted work and the effort of finding support.")
+    st.write('Case counts miss repeated visits, delayed answers, lost work and support needs.')
     journey_plan = pd.DataFrame([
         ["Exposure / symptoms", "Difficulty recognizing when to seek assessment", "Prevention information and a clear route to clinical assessment", "Time from symptoms to first assessment"],
         ["Assessment / repeated visits", "Repeated history, uncertain next steps and referral barriers", "Patient-reviewed journey summary; clinical review or second opinion when appropriate", "Appointment wait and completed referrals"],
@@ -2460,7 +2451,7 @@ if view == "📊 Community Burden & Action":
         ["Lost work / disability-related needs", "Patient Voice work-loss signals + county disability context", "Benefits and workplace-support navigation", "Days affected, function and unmet support needs"],
     ], columns=["Burden", "Evidence signal", "Action to consider", "What to track"])
     show_readable_table(burden_priorities, hide_index=True, width="stretch")
-    st.caption("These are candidate priorities, not a local burden ranking. Published costs, patient reports and county context stay separate; no total or savings is inferred.")
+    st.caption('Candidate priorities, not a local ranking. Evidence sources remain separate; savings are unmeasured.')
 
     # Local baseline is shown only when the privacy threshold is met; otherwise it stays out of the main decision flow.
     def med_num(col):
@@ -2508,7 +2499,7 @@ if view == "📊 Community Burden & Action":
         "Proposed measurement protocol; no intervention effect claimed",
     ]
     show_readable_table(actions,hide_index=True,width="stretch")
-    st.caption("Planning suggestions, not adopted county programs or demonstrated intervention effects. Validate local feasibility with county and clinical partners.")
+    st.caption('Proposed actions; confirm feasibility with county and clinical partners. Effects are unmeasured.')
     st.markdown("## Published societal burden — reported Lyme cases")
     hook = pd.DataFrame([
         ["All reported cases", "$690", "$2,032"],
@@ -2682,7 +2673,7 @@ if view == "📊 Community Burden & Action":
         st.write("**Savings:** not estimated without observed baseline and follow-up measurements.")
         if ahrf: st.caption("HRSA fields: " + ahrf["fields"])
 
-    st.caption("Pilot development note: PathwayAI is expanding local healthcare-access, patient-journey and follow-up measurement layers. The main county view displays available evidence; unsupported values are not substituted or treated as zero.")
+
 
     # Real county evidence brief: one row per actual field/source, with explicit missingness.
     brief_rows=[]
@@ -2713,7 +2704,7 @@ if view == "📊 Community Burden & Action":
     st.stop()
 
 st.header("🧭 TIMELY CARE & SUPPORT")
-show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", "Organize symptoms, testing, healthcare visits, costs, work/function, and support needs so important details are easier to carry into the next conversation.")
+show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
 
 st.subheader("Questions after a tick bite or testing?")
 st.write("Find a healthcare provider for follow-up or a second opinion. Use where you are now, which may be different from where the bite happened.")
@@ -2736,8 +2727,9 @@ with st.expander("What to bring and ask at your visit"):
     st.markdown("[CDC: Testing and diagnosis](https://www.cdc.gov/lyme/diagnosis-testing/)")
 st.caption("If you feel acutely unwell, seek timely care rather than waiting for a second-opinion appointment.")
 
-st.caption("🔒 **MVP data guardrail:** Patient Voice is currently a small national pilot used to develop the measurement framework. It is not local prevalence. Any aggregated result must show its denominator (n) and track missing responses separately from zero. The local CSV is an MVP collection path; production deployment requires persistent storage.")
-st.write("Tell your story once. PathwayAI organizes the journey, helps you prepare for care, and—only with your permission—can turn de-identified parts of your experience into Patient Voice for policy insight.")
+with st.expander("About Patient Voice findings"):
+    st.caption("Patient-reported pilot experiences; not representative of the county population. Aggregates show usable response counts; missing answers are not zero. Local summaries require consent and at least five usable responses per field.")
+st.write('Organize your story for care. Sharing structured Patient Voice information is optional.')
 # QUICK START — STORY FIRST
 
 # Location is intentionally optional and comes after the patient receives immediate value.
@@ -2746,12 +2738,12 @@ current_location_start = st.session_state.get("current_location_start", "")
 
 st.markdown("## 💬 TELL US YOUR STORY")
 st.markdown("**Low on energy? Start here. One or two sentences are enough.**")
-st.write("Tell us what happened in your own words. PathwayAI can organize what you share into a simple Journey Record for you to review — you do not need to complete the long form first.")
+st.write('Write a sentence or two, then review your Journey Record. The detailed questions are optional.')
 st.warning("🔒 **Protect your privacy:** Please do not enter your name, date of birth, street address, phone number, email, medical record number, or other identifying information.")
 
 STORY_SAMPLE = 'I visited Maryland in June and had a tick bite. A few days later I developed a rash and became extremely tired and dizzy. I have felt this way for about two weeks. I had a Lyme blood test last week and was told it was negative. I have seen two doctors, missed five days of work, and spent about $600. I am now back home in Boston.'
 st.markdown("#### Not sure what to write? Follow this example")
-st.caption("The example stays visible while you type. You do not need to include every item.")
+st.caption('Use only the details relevant to you.')
 st.markdown(f"> {STORY_SAMPLE}")
 
 if "quick_story_value" not in st.session_state:
@@ -2768,7 +2760,7 @@ quick_story = st.text_area(
     height=180,
     max_chars=MAX_STORY_CHARS,
 )
-st.caption("You can edit the sample, write your own story, or keep it short. PathwayAI will not treat details you leave out as No or zero.")
+st.caption('Omitted details remain Not reported.')
 organize_story = st.button("✨ Organize My Story", type="primary", use_container_width=True, disabled=not bool(quick_story.strip()))
 if organize_story:
     st.session_state["story_organized"] = True
@@ -2800,7 +2792,7 @@ if st.session_state.get("story_organized", False):
     if method == "LLM structured extraction":
         st.caption("Extraction method: AI structured extraction with validation.")
     else:
-        st.caption("Extraction method: backup rule-based extraction used. The AI service was unavailable, not configured, limited, or did not return a valid structured result.")
+        st.caption('Organized with local rules. Review for errors.')
 
 st.caption("Details you leave out remain **Not reported**.")
 
@@ -2826,13 +2818,13 @@ if quick_story.strip() and st.session_state.get("story_organized", False):
     st.caption("Review the record and correct anything PathwayAI misunderstood. Missing information stays missing.")
     show_immediate_support_from_story(quick)
 elif quick_story.strip():
-    st.info("Click **✨ Organize My Story** above to see your Journey Record here immediately — no need to scroll to the bottom and come back.")
+    st.info('Click **Organize My Story** to view your record.')
 else:
     st.caption("Prefer structured questions? You can skip the story box and use the optional details below.")
 
 # OPTIONAL LOCAL SUPPORT — ask only after the story/AI value exchange.
 st.markdown("### 📍 Find Support Near You *(Optional)*")
-st.write("Your location is needed **only if you want local resources**. Add a ZIP code or county to tailor healthcare, public-health, work/disability, and practical-support navigation.")
+st.write('Add a ZIP or county for local care and support resources.')
 st.caption("🔒 **We don't need your street address.** You can leave this blank and continue.")
 current_location_start = st.text_input(
     "ZIP code or county (optional)",
@@ -2846,7 +2838,7 @@ if current_location_start.strip():
 # PATIENT VOICE — explicit review/permission; MVP demonstrates the consent loop without publishing raw narrative.
 if quick_story.strip() and st.session_state.get("story_organized", False):
     st.markdown("### 🗣️ Make Your Experience Count *(Optional)*")
-    st.write("Your story may reveal burdens that healthcare data alone cannot see. With your permission, PathwayAI can use **de-identified structured themes** from your experience to strengthen Patient Voice insights for policymakers.")
+    st.write('With your consent, reviewed structured fields can contribute to aggregated Patient Voice findings.')
     heard=[]
     if quick.get("providers_seen"): heard.append("Care access / navigation")
     if quick.get("cost_amount"): heard.append("Out-of-pocket / financial burden")
@@ -2875,12 +2867,12 @@ if current_location_start.strip():
         quick["current_location"] = loc_start
 
 st.markdown("### Want to tell us more? *(Optional)*")
-st.caption("Additional details can help PathwayAI build a more complete picture of your journey and connect you with more relevant support. You may stop after organizing your story; the questions below are optional.")
+st.caption('Add details if useful. You can stop after organizing your story.')
 
 # 1. LOCATION & EXPOSURE CONTEXT
 
 st.subheader("1. Location & Exposure Context *(Optional)*")
-st.write("If you added a ZIP code/county above—or mentioned a location in your story—PathwayAI can use it for care and support navigation. You can leave this section blank.")
+st.write('Check your location for nearby care and support. This is optional.')
 
 top_zip = normalize_zip(current_location_start)
 zip_default = care_zip if valid_care_zip else (quick["zip"] if quick.get("zip") else (top_zip if len(top_zip) == 5 else ""))
@@ -2910,7 +2902,7 @@ exposure_place = st.text_input(
     placeholder="e.g., Dutchess County, NY",
     help="Used for tick/environmental surveillance context. This can be somewhere you visited and does not have to be where you live."
 )
-st.caption("PathwayAI keeps **exposure location** separate from **current location**: exposure location supports surveillance context; current location helps find care and support.")
+st.caption('Exposure location informs surveillance; current location informs care searches.')
 
 month_options = [
     "Not reported", "January", "February", "March", "April", "May", "June",
@@ -3129,7 +3121,7 @@ support_needs = st.multiselect(
 if quick["cost_amount"] is not None:
     st.info(f"From your story: approximately ${quick['cost_amount']:,.0f} in patient-reported illness-related cost. This is kept separate unless you choose to break it into categories below.")
 st.markdown("#### Optional transparent cost inputs")
-st.caption("Enter amounts only if known. PathwayAI keeps each component visible instead of hiding it inside one total.")
+st.caption('Enter known amounts; leave unknown costs blank.')
 medical_cost = st.number_input("Medical / healthcare spending ($)", min_value=0.0, value=None, step=100.0)
 second_opinion_cost = st.number_input("Second opinion / specialist evaluation spending ($)", min_value=0.0, value=None, step=100.0, help="This may represent appropriate or beneficial care. PathwayAI does not automatically treat it as avoidable.")
 repeat_testing_cost = st.number_input("Repeat / duplicative testing or fragmented-care spending ($)", min_value=0.0, value=None, step=100.0, help="Enter only costs you can reasonably distinguish from necessary follow-up or clinically indicated testing.")
@@ -3442,7 +3434,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     )
 
     st.markdown("#### Transparent Running Burden")
-    st.caption("**Provenance key:** 👤 Patient-entered | 🧮 Modeled from entered values | 📚 Published/public evidence. PathwayAI does not mix these into an unexplained total.")
+    st.caption('**Sources:** 👤 Patient-entered · 🧮 Modeled · 📚 Published/public evidence')
     productivity_loss = float(days_missed or 0) * _num0(daily_productivity_value) if daily_productivity_value is not None else 0.0
     entered_costs = [v for v in [medical_cost, second_opinion_cost, repeat_testing_cost, transport_cost, self_care_cost] if v is not None]
     productivity_entered = days_missed is not None and daily_productivity_value is not None
@@ -3486,7 +3478,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.success(f"**Documented/modelled burden so far:** ${known_total:,.0f}. The section below keeps future scenarios separate from what has already happened.")
 
     st.markdown("#### 📚 Published Cost Context — Not a Personal Forecast")
-    st.caption("PathwayAI does not predict your future medical bill. Published estimates are shown only as population-level reference points, separate from what you reported above.")
+    st.caption('Published averages are reference points, not your future bill.')
     published_costs = pd.DataFrame({
         "Published measure": ["Mean Lyme-specific medical cost per episode", "Localized disease — mean episode cost", "Disseminated disease — mean episode cost", "Adjusted 6-month excess direct healthcare cost vs controls", "Lyme-attributable patient OOP cost"],
         "Estimate": ["$2,227", "$695", "$6,833", "$5,571", "$188–$399"],
@@ -3494,7 +3486,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         "How PathwayAI uses it": ["Population benchmark", "Population benchmark", "Population benchmark", "Population benchmark", "Population benchmark — not your expected OOP"],
     })
     show_readable_table(published_costs, hide_index=True, width="stretch")
-    st.write("**Your burden is different from a published average.** Insurance, disease presentation, services used, geography, work situation, caregiving, and access can all change what a person experiences.")
+    st.write('Costs vary with insurance, illness, care, work and support needs.')
     st.caption("Recent cost study values are standardized to 2022 USD. CDC/TickNET separately captures direct medical, direct nonmedical, and productivity costs, which is why PathwayAI also asks about travel, work, caregiving, and navigation.")
 
     st.markdown("#### Could Better Support Reduce Some of This Burden?")
@@ -3542,7 +3534,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.write("**Prepare by tracking:** medical/testing expenses, transportation, out-of-pocket payments, missed work/reduced hours, and functional changes.")
     if daily_function in ["Major limitation", "Unable to perform usual activities"] or work_impact in ["Stopped working or school", "On disability"]:
         st.warning("Because substantial functional impact was reported, consider documenting when limitations began, how they affect daily activities/work, and what assistance you need. This record can support conversations with clinicians, employers, insurers, and benefit programs.")
-    st.caption("The more relevant detail you provide, the more personalized this burden and preparedness summary can become. PathwayAI does not predict your actual future expenses or determine disability-benefit eligibility.")
+    st.caption('Review this summary before sharing. It does not predict expenses or determine benefit eligibility.')
 
     # Personalized support: show only the most relevant actions first.
     show_personalized_support(
@@ -3579,7 +3571,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         ],
     })
     show_readable_table(journey_df, hide_index=True, width="stretch")
-    st.caption("This timeline is a documentation view of the information you entered. It does not establish that every later event was caused by Lyme disease.")
+    st.caption('Your reported timeline; it does not establish Lyme causation.')
 
     # Next steps
 
@@ -3678,8 +3670,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     )
 
     st.info(
-        "PathwayAI separates patient-reported information, public/observed data, Biobank evidence, "
-        "published evidence, and modeled outputs so users can see where each piece of information comes from."
+        'Patient reports, public data, published findings and modeled scenarios are labeled separately.'
     )
 
     st.error(

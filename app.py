@@ -1,4 +1,4 @@
-# v55 — concise public-page copy and expandable methods
+# v60 — immediate patient support; concise copy; Biobank provenance
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -87,7 +87,7 @@ st.set_page_config(
 # Readable presentation tables: escape all cell text and wrap complete sentences.
 def show_readable_table(data, **kwargs):
     frame = data if isinstance(data, pd.DataFrame) else pd.DataFrame(data)
-    table = frame.to_html(index=False, escape=True, border=0, classes="pathway-readable-table")
+    table = frame.to_html(index=not kwargs.get("hide_index", True), escape=True, border=0, classes="pathway-readable-table")
     st.markdown('<div class="pathway-table-wrap">' + table + '</div>', unsafe_allow_html=True)
 
 st.markdown("""<style>
@@ -2167,37 +2167,7 @@ if view == "🛡️ Prevention":
                 'Review regional and local tick surveillance before your trip.'
             )
 
-            # 2025 NYSDOH regional context reported for the Hudson Valley.
-            hudson_valley_score = 2.1
-            score_pct = min(max(hudson_valley_score / 5.0, 0.0), 1.0) * 100
-
-            st.markdown(
-                f"""
-                <div style="padding:18px;border:1px solid rgba(128,128,128,.35);
-                            border-radius:12px;margin:8px 0 10px 0;">
-                  <div style="font-size:0.95rem;opacity:.8;">NYSDOH regional encounter-risk context</div>
-                  <div style="font-size:2rem;font-weight:700;margin:2px 0;">
-                    Hudson Valley: {hudson_valley_score:.1f} / 5
-                  </div>
-                  <div style="height:16px;background:rgba(128,128,128,.25);
-                              border-radius:10px;overflow:hidden;margin:10px 0;">
-                    <div style="width:{score_pct:.0f}%;height:100%;
-                                background:linear-gradient(90deg,#f2c94c,#f2994a,#eb5757);"></div>
-                  </div>
-                  <div style="font-size:0.9rem;opacity:.8;">
-                    Regional environmental context — not an individual's probability of infection.
-                  </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-            st.caption(
-                "Fixed sourced snapshot: NYSDOH Tick Risk Score by Region (2025); not a live API result. NYSDOH notes "
-                "that its regional score uses tick population density and pathogen prevalence "
-                "measured at multiple locations and averaged by region, so it may not reflect "
-                "every location within the region."
-            )
+            st.caption("Use the observed county surveillance above. Regional measures are not a personal infection probability.")
 
             st.markdown(
                 "[View the official NYSDOH Tick Risk Score by Region map]"
@@ -2487,11 +2457,11 @@ if view == "📊 Community Burden & Action":
 
     # Detailed implementation stays out of the opening decision flow.
     actions = pd.DataFrame([
-        ["1. Target prevention outreach", "Page 1 exposure context", "County outreach / parks partners", "Choose outreach locations using loaded surveillance; record missing locations", "Reach, materials delivered and knowledge feedback"],
-        ["2. Offer journey navigation", "Survey: delay and repeated professionals", "Public health / primary-care partners", "Offer Page 2 summary, a verified referral route and a second clinical opinion when appropriate", "Summary completion, referral connection and time to appointment"],
-        ["3. Address household barriers", "Survey: spending and work loss", "Social services / navigation partners", "Screen voluntarily for transport, insurance and financial support needs", "Support referrals offered and successfully accessed"],
+        ["1. Target prevention outreach", "Observed tick surveillance", "County outreach / parks partners", "Choose outreach locations using loaded surveillance; record missing locations", "Reach, materials delivered and knowledge feedback"],
+        ["2. Offer journey navigation", "National pilot themes: delay and repeated professionals", "Public health / primary-care partners", "Offer a reviewed care summary and referral navigation; a second opinion when appropriate", "Summary completion, referral connection and time to appointment"],
+        ["3. Address household barriers", "National pilot themes: spending and work loss", "Social services / navigation partners", "Screen voluntarily for transport, insurance and financial support needs", "Support referrals offered and successfully accessed"],
         ["4. Explore clinical follow-up", "Biobank: persistent symptoms and follow-up gap", "Clinical partners", "Agree on a symptom/function check-in workflow; clinicians determine care", "Follow-up completion and patient-reported function"],
-        ["5. Build a local burden baseline", "Page 2 consented county fields", "County evaluation team", "Collect delay, encounters, OOP period, days lost and caregiver time; repeat measures consistently", "Completeness and paired change; no assumed savings"],
+        ["5. Build a local burden baseline", "Consented patient-reported county fields", "County evaluation team", "Collect delay, encounters, OOP period, days lost and caregiver time; repeat measures consistently", "Completeness and paired change; no assumed savings"],
     ], columns=["Proposed action","Why consider it","Suggested owner","First step","What to measure"])
     actions["Evidence status"] = [
         "Public exposure context; local intervention effect untested",
@@ -2515,25 +2485,26 @@ if view == "📊 Community Burden & Action":
             ["Unmet support needs", "Not yet collected", "Not yet collected"],
         ], columns=["Measure", "Baseline", "90-day follow-up"]), hide_index=True, width="stretch")
         st.caption("Collect consented, comparable measures. Before/after change alone does not establish that the pilot caused an improvement.")
-    st.markdown("## Published societal burden — reported Lyme cases")
-    hook = pd.DataFrame([
-        ["All reported cases", "$690", "$2,032"],
-        ["Confirmed localized", "$493", "$1,307"],
-        ["Confirmed disseminated", "$1,081", "$3,251"],
-    ], columns=["Disease category", "Median per participant", "Mean per participant"])
-    show_readable_table(hook, hide_index=True, width="stretch")
-    st.caption("Hook et al., CDC Emerging Infectious Diseases, 2022, Table 5 • reported cases in high-incidence areas, 2014–2016 • 2016 USD • not a Dutchess estimate. Includes medical, nonmedical and productivity costs; patient medical spending is not added again.")
+    with st.expander("Published cost evidence: societal and medical perspectives", expanded=False):
+        st.markdown("## Published societal burden — reported Lyme cases")
+        hook = pd.DataFrame([
+            ["All reported cases", "$690", "$2,032"],
+            ["Confirmed localized", "$493", "$1,307"],
+            ["Confirmed disseminated", "$1,081", "$3,251"],
+        ], columns=["Disease category", "Median per participant", "Mean per participant"])
+        show_readable_table(hook, hide_index=True, width="stretch")
+        st.caption("Hook et al., CDC Emerging Infectious Diseases, 2022, Table 5 • reported cases in high-incidence areas, 2014–2016 • 2016 USD • not a Dutchess estimate. Includes medical, nonmedical and productivity costs; patient medical spending is not added again.")
 
 
-    st.markdown("## Published medical costs — a separate comparison")
-    yu = pd.DataFrame([
-        ["Localized episode", "$695"],
-        ["Disseminated episode", "$6,833"],
-        ["Overall mean episode", "$2,227"],
-        ["Mean attributable patient OOP across methods (where recorded)", "$188–$399"],
-    ], columns=["Yu et al., 2026", "Published cost (2022 USD)"])
-    show_readable_table(yu, hide_index=True, width="stretch")
-    st.caption("Medical-cost evidence, not the cost of diagnostic delay, a personal forecast or predicted county savings. OOP is reported separately, not added to episode costs. Hook and Yu differ in population, perspective and dollar year: do not sum them or interpret the gap as intervention savings.")
+        st.markdown("## Published medical costs — a separate comparison")
+        yu = pd.DataFrame([
+            ["Localized episode", "$695"],
+            ["Disseminated episode", "$6,833"],
+            ["Overall mean episode", "$2,227"],
+            ["Mean attributable patient OOP across methods (where recorded)", "$188–$399"],
+        ], columns=["Yu et al., 2026", "Published cost (2022 USD)"])
+        show_readable_table(yu, hide_index=True, width="stretch")
+        st.caption("Medical-cost evidence, not the cost of diagnostic delay, a personal forecast or predicted county savings. OOP is reported separately, not added to episode costs. Hook and Yu differ in population, perspective and dollar year: do not sum them or interpret the gap as intervention savings.")
 
     with st.expander("Patient survey, invisible journey & Biobank methods", expanded=False):
         st.markdown("## Patient Voice — what respondents tell us")
@@ -2562,7 +2533,7 @@ if view == "📊 Community Burden & Action":
             st.caption("35 submitted responses; 33 reported a healthcare-professional Lyme diagnosis. All chart denominators are 33, including unknown/not-applicable answers. Retrieved October 6, 2026. No county assignment or population weighting.")
             show_readable_table(voice,hide_index=True,width="stretch")
         st.write("**Themes behind the numbers:** difficulty obtaining an explanation; repeated encounters; financial strain; disrupted work and daily life. These are summarized themes, not verbatim patient quotations.")
-        st.caption("County contributions from Page 2 remain a separate local layer; national survey findings are not assigned to Dutchess.")
+        st.caption("Contributions from the care-journey workflow remain a separate local layer; national survey findings are not assigned to Dutchess.")
 
         # Live pilot layer: consented structured submissions refresh on the next Streamlit rerun.
         # Keep this separate from the original national survey so provenance remains auditable.
@@ -2595,15 +2566,15 @@ if view == "📊 Community Burden & Action":
                 show_readable_table(pd.DataFrame(live_rows, columns=["Measure", "Current signal", "Usable responses"]), hide_index=True, width="stretch")
                 st.caption("Live pilot submissions are displayed only when at least 5 usable responses are available for a field. Missing responses remain missing, not zero.")
         if len(pv) == 0:
-            st.caption("To build the county layer: open Page 2, review the fields, choose Dutchess, consent, and press the contribution button. Local-file storage is a prototype; hosted use needs persistent storage.")
+            st.caption("County findings appear after reviewed, consented journey contributions meet the display threshold.")
         elif len(pv) < 5:
             st.caption("County field summaries are withheld while fewer than 5 records are loaded; national pilot evidence remains separate. Five is a display threshold, not a guarantee against re-identification.")
     
         with st.expander("How Biobank and survey evidence add value"):
             st.write("**Survey → burden and barriers:** diagnostic delay, healthcare encounters, pre-diagnosis spending, lost work/school and disability. These identify outcomes a county pilot can measure.")
-            st.write("**Biobank publication → clinical follow-up:** in a study of 253 participants with paired samples, 22% reported ongoing symptoms at the second draw; only 35% of those reporting ongoing symptoms had seen a provider about them. This supports examining follow-up gaps, not assigning a 22% risk to this county.")
+            st.write("**Biobank publication → clinical follow-up:** 55/253 (22%) reported ongoing symptoms at the second draw; 19/55 (35%) had seen a provider about those symptoms (Table 5). These published findings inform follow-up questions; they are not Dutchess estimates.")
             st.write("**Combined use:** clinical evidence suggests a follow-up question; the survey identifies financial and functional outcomes to collect alongside it. They are complementary evidence layers, not linked individuals or an AI training dataset.")
-            st.caption("Horn et al., 2025 • early-Lyme cohort, Long Island NY / central Wisconsin • DOI: 10.3389/fmed.2025.1577936. This view uses the published findings; individual-level Biobank data have not been loaded into this version.")
+            st.caption("Horn et al., 2025 • early-Lyme cohort, Long Island NY / central Wisconsin • DOI: 10.3389/fmed.2025.1577936. Published aggregate findings only. No participant-level Biobank analysis, linkage or AI training has been performed in this app.")
             st.markdown("[Read the Biobank study](https://doi.org/10.3389/fmed.2025.1577936)")
     with st.expander("Optional disability support & treatment-spending illustration", expanded=False):
         st.markdown("## Disability, household support & additional treatment costs")
@@ -2720,6 +2691,13 @@ if view == "📊 Community Burden & Action":
         add_brief("CDC_PLACES", None, "CDC PLACES")
     add_brief("patient_voice_n", int(len(pv)) if len(pv) >= 5 else "withheld / not yet available", "PathwayAI consented Patient Voice")
     brief=pd.DataFrame(brief_rows)
+    brief["evidence_type"] = brief["source"].map(lambda source: "Patient-reported pilot" if "Patient Voice" in source else "Public model-based estimate" if "PLACES" in source else "Derived public-data measure" if "+" in source or "divided" in source else "Public county context / surveillance")
+    brief["interpretation"] = brief["evidence_type"].map({
+        "Patient-reported pilot": "Consented pilot contributions; not population prevalence",
+        "Public model-based estimate": "All-cause adult context; not Lyme-attributable; not interchangeable with Census under-65 measures",
+        "Derived public-data measure": "Approximate derived measure; source periods differ; not personal risk or predicted savings",
+        "Public county context / surveillance": "County context; no inference of individual risk or Lyme-attributable cost",
+    })
     st.download_button("Download County Evidence Brief", brief.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_county_brief_{fips}.csv", mime="text/csv")
     st.download_button("Download County Action Plan", actions.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_action_plan_{fips}.csv", mime="text/csv")
     st.stop()
@@ -2825,7 +2803,7 @@ else:
 # OPTIONAL LOCAL SUPPORT — ask only after the story/AI value exchange.
 st.markdown("### 📍 Find Support Near You *(Optional)*")
 st.write('Add a ZIP or county for local care and support resources.')
-st.caption("🔒 **We don't need your street address.** You can leave this blank and continue.")
+st.caption("ZIP or county only; no street address needed.")
 current_location_start = st.text_input(
     "ZIP code or county (optional)",
     key="current_location_start",
@@ -2842,10 +2820,28 @@ if care_location and not (care_location.isdigit() and not care_zip):
     st.markdown(f"[Search primary care or infectious-disease providers near {html.escape(care_location)}]({google_maps_search_url('primary care or infectious disease doctor near ' + care_location)})")
 else:
     st.caption("Enter a five-digit ZIP or a county and state to see a nearby provider search.")
-st.caption("Search links, not a verified list of Lyme specialists. Confirm tick-borne illness experience, appointments, insurance and referral requirements. Use your current care location in Care Compare.")
+st.caption("Confirm tick-borne illness experience, availability and insurance with the provider.")
 with st.expander("What to bring and ask"):
     st.write("Bring exposure and symptom dates, test reports, medicines and your reviewed journey summary. Ask how test timing affects interpretation and what follow-up is appropriate.")
     st.markdown("[CDC testing information](https://www.cdc.gov/lyme/diagnosis-testing/)")
+
+st.markdown("#### Support for you")
+st.caption("Use these resources without completing the form or sharing your story.")
+support_left, support_right = st.columns(2)
+with support_left:
+    st.markdown("[Housing and shelter help — HUD](https://www.hud.gov/FindShelter)")
+    st.markdown("[Temporary financial assistance — find your state](https://www.usa.gov/welfare-benefits)")
+    st.markdown("[Disability benefits — SSA](https://www.ssa.gov/disability)")
+with support_right:
+    st.markdown("[Lyme peer support — Global Lyme Alliance](https://www.globallymealliance.org/lyme-patient-support/)")
+    st.markdown("[State and online Lyme groups](https://www.lymedisease.org/lyme-disease-support-groups/)")
+    st.markdown("[Local food, transport and other help — 211](https://www.211.org/)")
+if care_zip.startswith(("125", "126")) or "dutchess" in care_location.casefold():
+    with st.expander("Dutchess / New York assistance"):
+        st.markdown("[New York Temporary Assistance](https://otda.ny.gov/programs/temporary-assistance/)")
+        st.markdown("[Dutchess Community & Family Services](https://www.dutchessny.gov/Departments/Community-Family-Services/Community-and-Family-Services.htm) · Temporary assistance: 845-486-3190")
+        st.caption("Shown for an entered Dutchess location or a Hudson Valley ZIP prefix. Confirm your county; prefixes do not establish residence or eligibility.")
+st.caption("Eligibility and availability vary. Peer groups provide support, not medical care.")
 
 # PATIENT VOICE — explicit review/permission; MVP demonstrates the consent loop without publishing raw narrative.
 if quick_story.strip() and st.session_state.get("story_organized", False):
@@ -3158,7 +3154,7 @@ if st.session_state.get("pv_review") and st.session_state.get("pv_consent"):
         st.markdown("#### Review what will be saved to Patient Voice")
         preview_df = pd.DataFrame([{"Field": k, "Value": ("Not reported" if v is None else v)} for k,v in preview_row.items()])
         show_readable_table(preview_df, hide_index=True, width="stretch")
-        st.caption("Only these de-identified structured fields are written. Your raw story is not saved to the Patient Voice file.")
+        st.caption("Only the reviewed fields below are saved to the pilot file; your raw story is not included.")
         if not st.session_state.get("pv_saved", False):
             if st.button("Contribute these reviewed fields to Patient Voice", key="save_patient_voice"):
                 row = {
@@ -3174,7 +3170,7 @@ if st.session_state.get("pv_review") and st.session_state.get("pv_consent"):
                 }
                 if append_patient_voice(row):
                     st.session_state["pv_saved"] = True
-                    st.success("✓ De-identified structured Patient Voice fields saved. The county Patient Voice layer will refresh with the new contribution.")
+                    st.success("Thank you so much for helping make the invisible journey visible. Your contribution helps us understand the challenges people face and the support they need.")
                 else:
                     st.warning("The structured record could not be saved in this run. Your raw story was not written to the Patient Voice file.")
         else:
@@ -3501,15 +3497,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.warning("Because substantial functional impact was reported, consider documenting when limitations began, how they affect daily activities/work, and what assistance you need. This record can support conversations with clinicians, employers, insurers, and benefit programs.")
     st.caption('Review this summary before sharing. It does not predict expenses or determine benefit eligibility.')
 
-    # Personalized support: show only the most relevant actions first.
-    show_personalized_support(
-        zip_code,
-        work_impact,
-        insurance_context,
-        support_needs,
-        burden_drivers,
-        quick.get("current_location") or ""
-    )
+    # Support links appear beside the single current-care location, before optional contribution.
 
     # Journey summary
 

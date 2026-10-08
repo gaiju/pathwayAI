@@ -2024,10 +2024,10 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("Learn & Prevent", "Understand ticks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
-    ("Care & Support", "Found a tick, feel unwell, or need help? Start here.", "🧭 Care & Support", "ongoing"),
-    ("Community Burden & Action", "For policymakers and public health teams: compare counties and explore what can help residents.", "📊 Community Burden & Action", "county"),
-    ("Share Feedback", "Tell us what works, what needs improvement, or how you would like to help.", "💬 Share Feedback", "contribute"),
+    ("Prevent bites", "Learn about ticks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
+    ("Reach care", "Prepare for a medical visit and find care resources.", "🧭 Care & Support", "ongoing"),
+    ("Get support", "Find help with daily life, work, transport and benefits.", "🧭 Care & Support", "support"),
+    ("Plan local action", "Compare counties and explore how to help residents.", "📊 Community Burden & Action", "county"),
 ]
 available_views = ["🛡️ Learn & Prevent", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
 if st.session_state.get("admin_authenticated"):
@@ -2040,17 +2040,15 @@ if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
     st.markdown("### From prevention to care and support")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
-    st.markdown("**Prevent bites → Reach care → Get support → Plan local action**")
-    with st.expander("Why does this matter?"):
-        st.write("CDC estimates approximately 476,000 people were diagnosed and treated for Lyme disease annually in the United States, based on insurance-claims research from 2010–2018. Most people recover with appropriate treatment, especially when treated early.¹")
-        st.caption("This is an estimate of diagnoses and treatment, not a count of confirmed infections or a new 2026 case count.")
-    st.subheader("What brings you here today?")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
         for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
             with col:
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
+    st.button("Share Feedback", key="route_contribute", on_click=select_public_pathway, args=("💬 Share Feedback", "contribute"))
+    with st.expander("Why does this matter?"):
+        st.write("CDC estimates about 476,000 people were diagnosed and treated for Lyme disease each year, based on insurance claims from 2010–2018. This is not a count of confirmed infections.")
     st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
     st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
     st.stop()

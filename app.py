@@ -322,6 +322,8 @@ def _geom_paths(geometry, bounds, width, height):
     return paths
 
 
+NY_LYME_RATE_SNAPSHOT = {'36001': {'cases': 667, 'population': 316659, 'rate': 52.66}, '36003': {'cases': 168, 'population': 46651, 'rate': 90.03}, '36005': {'cases': 192, 'population': 1356476, 'rate': 3.54}, '36007': {'cases': 506, 'population': 196077, 'rate': 64.52}, '36009': {'cases': 209, 'population': 75600, 'rate': 69.11}, '36011': {'cases': 159, 'population': 74485, 'rate': 53.37}, '36013': {'cases': 136, 'population': 124891, 'rate': 27.22}, '36015': {'cases': 98, 'population': 81325, 'rate': 30.13}, '36017': {'cases': 259, 'population': 45920, 'rate': 141.01}, '36019': {'cases': 156, 'population': 78115, 'rate': 49.93}, '36021': {'cases': 554, 'population': 60470, 'rate': 229.04}, '36023': {'cases': 276, 'population': 45752, 'rate': 150.81}, '36025': {'cases': 328, 'population': 44410, 'rate': 184.64}, '36027': {'cases': 1586, 'population': 297150, 'rate': 133.43}, '36029': {'cases': 346, 'population': 946147, 'rate': 9.14}, '36031': {'cases': 144, 'population': 36775, 'rate': 97.89}, '36033': {'cases': 143, 'population': 46502, 'rate': 76.88}, '36035': {'cases': 211, 'population': 52234, 'rate': 100.99}, '36037': {'cases': 41, 'population': 57529, 'rate': 17.82}, '36039': {'cases': 379, 'population': 47062, 'rate': 201.33}, '36041': {'cases': 6, 'population': 5082, 'rate': 29.52}, '36043': {'cases': 209, 'population': 59484, 'rate': 87.84}, '36045': {'cases': 198, 'population': 114787, 'rate': 43.12}, '36047': {'cases': 1677, 'population': 2561225, 'rate': 16.37}, '36049': {'cases': 176, 'population': 26548, 'rate': 165.74}, '36051': {'cases': 148, 'population': 61158, 'rate': 60.5}, '36053': {'cases': 179, 'population': 66921, 'rate': 66.87}, '36055': {'cases': 395, 'population': 748482, 'rate': 13.19}, '36057': {'cases': 146, 'population': 49368, 'rate': 73.93}, '36059': {'cases': 597, 'population': 1381715, 'rate': 10.8}, '36061': {'cases': 1589, 'population': 1597451, 'rate': 24.87}, '36063': {'cases': 30, 'population': 209457, 'rate': 3.58}, '36065': {'cases': 383, 'population': 227555, 'rate': 42.08}, '36067': {'cases': 441, 'population': 467873, 'rate': 23.56}, '36069': {'cases': 225, 'population': 112494, 'rate': 50.0}, '36071': {'cases': 1199, 'population': 407470, 'rate': 73.56}, '36073': {'cases': 22, 'population': 39124, 'rate': 14.06}, '36075': {'cases': 290, 'population': 118162, 'rate': 61.36}, '36077': {'cases': 448, 'population': 60126, 'rate': 186.28}, '36079': {'cases': 522, 'population': 98060, 'rate': 133.08}, '36081': {'cases': 559, 'population': 2252196, 'rate': 6.21}, '36083': {'cases': 744, 'population': 159305, 'rate': 116.76}, '36085': {'cases': 283, 'population': 490687, 'rate': 14.42}, '36087': {'cases': 708, 'population': 340807, 'rate': 51.94}, '36089': {'cases': 375, 'population': 106940, 'rate': 87.67}, '36091': {'cases': 466, 'population': 238711, 'rate': 48.8}, '36093': {'cases': 140, 'population': 159902, 'rate': 21.89}, '36095': {'cases': 208, 'population': 30105, 'rate': 172.73}, '36097': {'cases': 131, 'population': 17507, 'rate': 187.07}, '36099': {'cases': 71, 'population': 32349, 'rate': 54.87}, '36101': {'cases': 205, 'population': 92162, 'rate': 55.61}, '36103': {'cases': 3068, 'population': 1523170, 'rate': 50.36}, '36105': {'cases': 299, 'population': 79920, 'rate': 93.53}, '36107': {'cases': 172, 'population': 47715, 'rate': 90.12}, '36109': {'cases': 402, 'population': 103558, 'rate': 97.05}, '36111': {'cases': 1004, 'population': 182333, 'rate': 137.66}, '36113': {'cases': 245, 'population': 65380, 'rate': 93.68}, '36115': {'cases': 334, 'population': 60047, 'rate': 139.06}, '36117': {'cases': 166, 'population': 90829, 'rate': 45.69}, '36119': {'cases': 1110, 'population': 990817, 'rate': 28.01}, '36121': {'cases': 52, 'population': 39532, 'rate': 32.88}, '36123': {'cases': 104, 'population': 24472, 'rate': 106.24}}
+
 def show_nys_tick_density_map():
     """Render NY surveillance on a guaranteed white SVG background (no map tiles)."""
     try:
@@ -329,6 +331,8 @@ def show_nys_tick_density_map():
         if not geojson:
             st.warning("The statewide surveillance map is temporarily unavailable.")
             return
+        st.markdown("#### Tick activity and reported Lyme rates across New York")
+        st.caption("Dutchess County is highlighted as our pilot.")
         width, height = 760, 420
         bounds = (-79.9, 40.35, -71.7, 45.15)
         parts = [f'<svg role="img" aria-label="New York observed tick surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Observed tick density by New York county; missing observations are gray</title>',
@@ -341,6 +345,27 @@ def show_nys_tick_density_map():
                      f"B. burgdorferi positive: {props.get('bb_label','N/A')}"), quote=True)
             for d in _geom_paths(feature.get("geometry"), bounds, width, height):
                 parts.append(f'<path d="{d}" fill="{fill}" stroke="#6b7280" stroke-width="0.8"><title>{title}</title></path>')
+        # Overlay reported-case rates; circle AREA is proportional to the rate.
+        for feature in geojson.get("features", []):
+            fid = str(feature.get("id", "")).zfill(5)
+            item = NY_LYME_RATE_SNAPSHOT.get(fid)
+            center = _geometry_centroid(feature.get("geometry"))
+            if not center:
+                continue
+            cx, cy = _project_svg(*center, bounds, width, height)
+            if item is not None and item["rate"] > 0:
+                radius = math.sqrt(item["rate"]) * 0.7
+                county = html.escape(feature["properties"].get("county_label", "County"))
+                parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{radius:.2f}" fill="#174b73" fill-opacity="0.25" stroke="#174b73" stroke-width="1.2"><title>{county}: approximate annualized reported Lyme rate {item["rate"]:.2f} per 100,000; {item["cases"]} cases, 2019–2022; 2023 population {item["population"]}</title></circle>')
+        # Draw pilot boundary LAST so neighboring symbols cannot hide it.
+        for feature in geojson.get("features", []):
+            if str(feature.get("id", "")).zfill(5) != "36027":
+                continue
+            for d in _geom_paths(feature.get("geometry"), bounds, width, height):
+                parts.append(f'<path d="{d}" fill="none" stroke="white" stroke-width="5"/><path d="{d}" fill="none" stroke="#12324a" stroke-width="2.5"><title>Dutchess County — pilot</title></path>')
+            cx, cy = _project_svg(-73.74, 41.76, bounds, width, height)
+            parts.append(f'<text x="{cx:.1f}" y="{cy:.1f}" text-anchor="middle" font-size="20" fill="#12324a" stroke="white" stroke-width="0.8">★<title>Dutchess County pilot</title></text>')
+            parts.append(f'<text x="{cx+17:.1f}" y="{cy-17:.1f}" font-size="13" font-weight="bold" fill="#12324a" stroke="white" stroke-width="3" paint-order="stroke">Dutchess — pilot</text>')
         parts.append('</svg>')
         components.html(
             '<div style="background:white;border:1px solid #d1d5db;border-radius:10px;padding:8px;height:440px;">'
@@ -361,6 +386,18 @@ def show_nys_tick_density_map():
             'background:#bebebe;border:1px solid #6b7280"></span>No observation available</div></div>',
             unsafe_allow_html=True,
         )
+        symbols = []
+        for rate in (50, 150, 300):
+            radius = math.sqrt(rate) * 0.7
+            symbols.append(f'<span style="display:inline-flex;align-items:center;gap:5px;margin-right:18px"><span aria-hidden="true" style="width:{radius*2:.2f}px;height:{radius*2:.2f}px;display:inline-block;border-radius:50%;background:rgba(23,75,115,0.25);border:1px solid #174b73;box-sizing:content-box"></span>{rate}</span>')
+        st.markdown('<strong>Approximate annualized reported Lyme rate</strong><br><span>Cases per 100,000 residents · circle area</span><br>' + ''.join(symbols), unsafe_allow_html=True)
+        st.caption("Circles: CDC reported cases, 2019–2022 total ÷ 4 ÷ HRSA 2023 population × 100,000. Approximate annualized rate, not year-specific incidence. Cases reflect residence, not necessarily exposure location; reporting changed in 2022.")
+        with st.expander("County Lyme rates in text"):
+            table = []
+            for feature in geojson["features"]:
+                item = NY_LYME_RATE_SNAPSHOT.get(str(feature.get("id", "")).zfill(5))
+                table.append({"County": feature["properties"].get("county_label"), "Tick density / 1,000 m²": feature["properties"].get("density_label"), "Reported Lyme cases · 2019–2022": item["cases"] if item else None, "Population · 2023": item["population"] if item else None, "Approx. annual rate / 100,000": item["rate"] if item else None})
+            st.dataframe(pd.DataFrame(table).sort_values("County"), hide_index=True, use_container_width=True)
         st.caption(f"NYSDOH • {latest_year} observations • Snapshot checked October 7, 2026. Hover for county values; a text table is available below.")
         st.caption("Darker colors mean more ticks observed at sampled sites, not a person's infection risk. Gray does not mean no ticks.")
     except Exception:
@@ -2440,7 +2477,7 @@ if view == "📊 Community Burden & Action":
     st.markdown("**For ongoing difficulties:** clinical partners evaluate persistent symptoms and other possible causes, assess function, and arrange appropriate rehabilitation, workplace or disability support.")
     st.markdown("**What to track:** time to assessment, follow-up completion, patient-reported function and unmet support needs. A second opinion is an option when questions remain, not a recommendation for everyone to repeat testing.")
     st.markdown("**Takeaway:** navigation and follow-up are actions to test. **Action:** collect comparable baseline and follow-up measures of access, spending and function.")
-    st.caption("Preventing severe illness and supporting function are goals. PathwayAI has not measured disability prevented, treatment effects or county savings.")
+    st.caption("Proposed actions for county and clinical partners to consider.")
 
     # Local baseline is shown only when the privacy threshold is met; otherwise it stays out of the main decision flow.
     def med_num(col):
@@ -2487,7 +2524,7 @@ if view == "📊 Community Burden & Action":
         "Published Biobank follow-up evidence; local effect untested",
         "Proposed measurement protocol; no intervention effect claimed",
     ]
-    with st.expander("90-day pilot: owners, actions and measures", expanded=False):
+    with st.expander("Actions to consider", expanded=False):
         st.caption("Proposed plan; confirm feasibility with county and clinical partners. Effects are unmeasured.")
         # Show one action at a time rather than a six-column wall of text.
         for _, action in actions.iterrows():
@@ -2502,7 +2539,7 @@ if view == "📊 Community Burden & Action":
             ["Unmet support needs", "Not yet collected", "Not yet collected"],
         ], columns=["Measure", "Baseline", "90-day follow-up"]), hide_index=True, width="stretch")
         st.caption("Collect consented, comparable measures. Before/after change alone does not establish that the pilot caused an improvement.")
-    with st.expander("Published cost evidence: societal and medical perspectives", expanded=False):
+    with st.expander("What published studies tell us about costs", expanded=False):
         st.markdown("## Published societal burden — reported Lyme cases")
         hook = pd.DataFrame([
             ["All reported cases", "$690", "$2,032"],
@@ -2523,102 +2560,7 @@ if view == "📊 Community Burden & Action":
         show_readable_table(yu, hide_index=True, width="stretch")
         st.caption("Medical-cost evidence, not the cost of diagnostic delay, a personal forecast or predicted county savings. OOP is reported separately, not added to episode costs. Hook and Yu differ in population, perspective and dollar year: do not sum them or interpret the gap as intervention savings.")
 
-    with st.expander("Patient survey, invisible journey & Biobank methods", expanded=False):
-        st.markdown("## Patient Voice — what respondents tell us")
-        st.write("Patient reports point to four burdens routine case counts miss: long diagnostic journeys, repeated encounters, substantial personal spending, and disrupted work or school.")
-        survey_rows = [
-            ["Selected more than 5 years to diagnosis",20,33,"3 additional free-text answers describe >5 years; not included in this exact-category count"],
-            ["Selected more than 10 healthcare professionals",16,33,"1 unsure response"],
-            ["Selected $10,000 or more before diagnosis",14,33,"5 unsure and 1 prefer not to answer"],
-            ["Selected more than 100 work/school days lost",18,33,"3 unsure and 3 not applicable"],
-            ["Reported disability benefits or unable to work",20,33,"1 unsure, 2 prefer not to answer, 1 not applicable"],
-        ]
-        voice = pd.DataFrame(survey_rows, columns=["Reported burden","Respondents","Eligible respondents","Interpretation / missingness"])
-        voice["Share of eligible respondents"] = voice["Respondents"].map(lambda n: f"{n/33:.0%}")
-        burden_chart = pd.DataFrame({
-            "Burden reported": [
-                "20/33 (61%)  •  >5 years to diagnosis",
-                "16/33 (48%)  •  >10 professionals",
-                "14/33 (42%)  •  ≥$10,000 out of pocket",
-                "18/33 (55%)  •  >100 days lost",
-            ],
-            "Share of survey respondents (%)": [round(20/33*100,1),round(16/33*100,1),round(14/33*100,1),round(18/33*100,1)],
-        })
-        st.bar_chart(burden_chart,x="Burden reported",y="Share of survey respondents (%)",horizontal=True,color="#28785c")
-        st.caption("Each bar shows n/N (%) • Patient-reported pilot findings • not county prevalence or predicted savings • methods below")
-        with st.expander("Sources & methods",expanded=False):
-            st.caption("35 submitted responses; 33 reported a healthcare-professional Lyme diagnosis. All chart denominators are 33, including unknown/not-applicable answers. Retrieved October 6, 2026. No county assignment or population weighting.")
-            show_readable_table(voice,hide_index=True,width="stretch")
-        st.write("**Themes behind the numbers:** difficulty obtaining an explanation; repeated encounters; financial strain; disrupted work and daily life. These are summarized themes, not verbatim patient quotations.")
-        st.caption("Contributions from the care-journey workflow remain a separate local layer; national survey findings are not assigned to Dutchess.")
-
-        # Live pilot layer: consented structured submissions refresh on the next Streamlit rerun.
-        # Keep this separate from the original national survey so provenance remains auditable.
-        if len(pv) >= 5:
-            st.markdown("### Live county Patient Voice")
-            st.caption(f"{len(pv)} consented structured pilot contributions currently loaded for Dutchess County. This layer updates as reviewed records are contributed; it is not a population estimate.")
-            live_rows = []
-            for label, col in [
-                ("Healthcare professionals reported", "providers_seen"),
-                ("Workdays affected", "workdays"),
-                ("Out-of-pocket burden", "oop_band"),
-                ("Functional impact", "function"),
-            ]:
-                if col not in pv.columns:
-                    continue
-                vals = pv[col].dropna()
-                vals = vals[vals.astype(str).str.strip().ne("") & vals.astype(str).str.lower().ne("not reported")]
-                n = int(len(vals))
-                if n < 5:
-                    continue
-                if col in ("providers_seen", "workdays"):
-                    nums = usable_burden_numbers(vals)
-                    if len(nums) >= 5:
-                        live_rows.append([label, f"Median {nums.median():g}", f"n={len(nums)}"])
-                else:
-                    mode = vals.astype(str).mode()
-                    if not mode.empty:
-                        live_rows.append([label, mode.iloc[0], f"n={n}"])
-            if live_rows:
-                show_readable_table(pd.DataFrame(live_rows, columns=["Measure", "Current signal", "Usable responses"]), hide_index=True, width="stretch")
-                st.caption("Live pilot submissions are displayed only when at least 5 usable responses are available for a field. Missing responses remain missing, not zero.")
-        if len(pv) == 0:
-            st.caption("County findings appear after reviewed, consented journey contributions meet the display threshold.")
-        elif len(pv) < 5:
-            st.caption("County field summaries are withheld while fewer than 5 records are loaded; national pilot evidence remains separate. Five is a display threshold, not a guarantee against re-identification.")
-    
-        with st.expander("How Biobank and survey evidence add value"):
-            st.write("**Survey → burden and barriers:** diagnostic delay, healthcare encounters, pre-diagnosis spending, lost work/school and disability. These identify outcomes a county pilot can measure.")
-            st.write("**Biobank publication → clinical follow-up:** 55/253 (22%) reported ongoing symptoms at the second draw; 19/55 (35%) had seen a provider about those symptoms (Table 5). These published findings inform follow-up questions; they are not Dutchess estimates.")
-            st.write("**Combined use:** clinical evidence suggests a follow-up question; the survey identifies financial and functional outcomes to collect alongside it. They are complementary evidence layers, not linked individuals or an AI training dataset.")
-            st.caption("Horn et al., 2025 • early-Lyme cohort, Long Island NY / central Wisconsin • DOI: 10.3389/fmed.2025.1577936. Published aggregate findings only. No participant-level Biobank analysis, linkage or AI training has been performed in this app.")
-            st.markdown("[Read the Biobank study](https://doi.org/10.3389/fmed.2025.1577936)")
-    with st.expander("Optional disability support & treatment-spending illustration", expanded=False):
-        st.markdown("## Disability, household support & additional treatment costs")
-        benefit_col, cost_col = st.columns(2)
-        with benefit_col:
-            st.markdown("**Unable to work is not the same as receiving benefits.**")
-            st.write("The survey includes people receiving disability benefits and people unable to work without those benefits. County navigators can help residents understand application routes, documentation and local support.")
-            st.markdown("[SSA disability information](https://www.ssa.gov/disability) · [New York disability benefits](https://www.wcb.ny.gov/content/main/DisabilityBenefits/what-are-disability-benefits.jsp) · [211 support](https://www.211.org/)")
-            st.caption("Eligibility and payments depend on the program and individual circumstances. PathwayAI does not determine entitlement. Benefit payments are household income support and should not be added to medical spending as a societal resource cost.")
-        with cost_col:
-            st.markdown("**Additional treatment burden — including IVIG when prescribed**")
-            st.write("Record drug, infusion/facility, travel, caregiving and time costs separately. IVIG use does not establish a Lyme diagnosis or imply that it is appropriate treatment for Lyme disease. Clinical decisions belong to the treating team.")
-            st.caption("No representative IVIG price or county IVIG total is loaded. Use an actual bill, insurer statement or documented estimate; do not apply an individual case cost to every patient.")
-        with st.expander("Illustrate additional household spending — optional inputs"):
-            st.caption("Illustrative monthly patient-spending scenario, not survey evidence or a treatment recommendation. Enter patient-paid amounts only, after reimbursement; leave unknown fields blank.")
-            sc1,sc2,sc3 = st.columns(3)
-            drug_oop = sc1.number_input("IVIG / other prescribed drug: patient-paid per month ($)",min_value=0.0,value=None,key="policy_drug_oop")
-            infusion_oop = sc2.number_input("Infusion/facility: patient-paid per month ($)",min_value=0.0,value=None,key="policy_infusion_oop")
-            transport_oop = sc3.number_input("Travel / paid caregiving per month ($)",min_value=0.0,value=None,key="policy_transport_oop")
-            values=[drug_oop,infusion_oop,transport_oop]
-            if any(v is not None for v in values):
-                subtotal=sum(v for v in values if v is not None)
-                st.metric("Entered monthly household spending subtotal",f"${subtotal:,.0f}")
-                st.caption(f"{sum(v is None for v in values)} category/categories not entered. Subtotal may be incomplete; do not count infusion fees again if already included in the drug bill. Billed charges and insurer payments are excluded.")
-                chart=pd.DataFrame({"Category":["Drug","Infusion/facility","Travel/caregiving"],"Entered patient spending ($/month)":values}).dropna()
-                st.bar_chart(chart,x="Category",y="Entered patient spending ($/month)",color="#bc7040")
-    with st.expander("Additional county context & complementary resources", expanded=False):
+    with st.expander("Community resources", expanded=False):
         if ahrf:
             st.markdown("## Capacity already on the ground")
             cap=[]
@@ -2664,7 +2606,7 @@ if view == "📊 Community Burden & Action":
             st.markdown("**CDC Lyme surveillance** provides reported-case data and dashboards. [View surveillance](https://www.cdc.gov/lyme/data-research/facts-stats/surveillance-data-1.html)")
             st.write("PathwayAI's pilot brings county surveillance, healthcare capacity, patient-reported burden, and support navigation into one workflow. These external resources are complementary; their data are not linked at the patient level here.")
             st.caption("Resource descriptions reviewed October 6, 2026. Comparison is limited to public website descriptions; no claim of superior clinical performance.")
-    with st.expander("ⓘ Sources, assumptions & transparency", expanded=False):
+    with st.expander("Sources and methods", expanded=False):
         st.markdown("**1. Census** — [Dutchess QuickFacts](https://www.census.gov/quickfacts/fact/table/dutchesscountynewyork/DIS010224): poverty 8.4%, uninsured under 65 4.9%, disability under 65 9.2%. Disability uses the 2020–2024 ACS period; uninsured and poverty follow QuickFacts' own source definitions. Separate populations; no combined count.")
         st.markdown("**2. HRSA** — the supplied AHRF county file provides 2023 physician, hospital and population context. It does not measure appointment availability. Live HPSA designations were not retrieved reliably and are not displayed.")
         st.markdown("**3. County assessment** — [2025 Mid-Hudson Regional Community Health Assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf), printed pages 94–96: Dutchess partner survey reports resource awareness, health literacy, rural location, appointment, transport and insurance barriers. These are partner findings about general community health, not Lyme-specific patient prevalence.")
@@ -2677,7 +2619,8 @@ if view == "📊 Community Burden & Action":
         st.write("**Reported disease:** CDC 2019–2022 cumulative county cases are shown as a count. The displayed crude rate is annualized by dividing the four-year case count by 4 before applying the population denominator; it is an approximate annualized rate, not a year-specific incidence rate.")
         st.write("**Census:** U.S. Census Bureau QuickFacts provides population and socioeconomic context. These measures are contextual and are not attributed to Lyme disease. The Lyme rate continues to use the separately labeled 2023 HRSA population denominator.")
         st.write("**Patient Voice:** only consented, de-identified structured fields are aggregated; missing remains missing, never zero.")
-        st.write("**Biobank:** the published clinical follow-up findings are shown above; individual-level data are not loaded. **Survey:** the national aggregate snapshot is separate from the local consented layer. Neither supplies county prevalence.")
+        st.markdown("[Biobank follow-up publication — Horn et al., 2025](https://doi.org/10.3389/fmed.2025.1577936)")
+        st.write("**Biobank:** published clinical follow-up findings inform proposed actions; individual-level data are not loaded. **Survey:** the national aggregate snapshot is separate from the local consented layer. Neither supplies county prevalence.")
         st.write("**Savings:** not estimated without observed baseline and follow-up measurements.")
         if ahrf: st.caption("HRSA fields: " + ahrf["fields"])
 

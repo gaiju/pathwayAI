@@ -1,4 +1,4 @@
-# v60 — immediate patient support; concise copy; Biobank provenance
+# v61 — readable research cards and compact study methods
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -346,12 +346,23 @@ def show_nys_tick_density_map():
             '<div style="background:white;border:1px solid #d1d5db;border-radius:10px;padding:8px;height:440px;">'
             + ''.join(parts) + '</div>', height=460, scrolling=False
         )
-        st.caption("Legend: pale yellow → dark orange = lower → higher observed density (nymphs / 1,000 m²); gray = no observation in this snapshot. Map colors do not measure individual risk.")
-        st.caption(
-            f"Observed NYSDOH nymph tick population density, latest available surveillance year: {latest_year}. "
-            "Hover over a county for details. Gray indicates no observation for that year. "
-            "Snapshot checked October 7, 2026. Environmental surveillance does not estimate an individual's probability of infection."
+        observed = [float(f["properties"]["density_label"]) for f in geojson["features"]
+                    if f["properties"]["density_label"] != "No observation in latest year"]
+        scale_max = max(observed, default=0.0)
+        st.markdown(
+            '<div style="max-width:560px;padding:8px 0" aria-label="Observed tick density legend">'
+            '<strong>Observed tick density</strong><br><span style="font-size:0.9rem">Nymphs per 1,000 m² sampled</span>'
+            '<div style="height:16px;margin-top:8px;border:1px solid #6b7280;border-radius:3px;'
+            'background:linear-gradient(to right,rgb(255,220,80),rgb(255,70,25))"></div>'
+            f'<div style="display:flex;justify-content:space-between;font-size:0.9rem"><span>0</span>'
+            f'<span>{scale_max / 2:g}</span><span>{scale_max:g}</span></div>'
+            '<div style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:0.9rem">'
+            '<span aria-hidden="true" style="display:inline-block;width:18px;height:14px;'
+            'background:#bebebe;border:1px solid #6b7280"></span>No observation available</div></div>',
+            unsafe_allow_html=True,
         )
+        st.caption(f"NYSDOH • {latest_year} observations • Snapshot checked October 7, 2026. Hover for county values; a text table is available below.")
+        st.caption("Darker colors mean more ticks observed at sampled sites, not a person's infection risk. Gray does not mean no ticks.")
     except Exception:
         st.warning("The statewide surveillance map could not load. Your Dutchess County summary below is still available.")
 
@@ -1337,21 +1348,27 @@ def show_immediate_support_from_story(quick):
     stages.append("You are here")
     st.markdown("**Your journey:**  " + " → ".join(stages))
 
-    st.markdown("### What larger studies can add to the picture")
+    st.markdown("### What research tells us")
     e1, e2, e3 = st.columns(3)
-    with e1:
-        st.metric("52,795", "treated Lyme patients")
-        st.caption("U.S. commercial claims study; compared with 263,975 matched controls. The Lyme group had higher 12-month healthcare costs and outpatient use. This is population evidence, not an individual forecast.")
-    with e2:
-        st.metric("2,424", "patient survey respondents")
-        st.caption("Published U.S. access-to-care study. 51% reported seeing 7+ physicians before diagnosis. This selected patient population should not be treated as prevalence for all Lyme disease.")
-    with e3:
-        st.metric("253", "longitudinal participants")
-        st.caption("Lyme Disease Biobank initial + ~3-month follow-up cohort: 78% reported no Lyme symptoms at follow-up and 22% reported ongoing symptoms. This does not predict your outcome.")
+    for column, icon, title, finding in [
+        (e1, "💳", "Care costs", "A claims study found higher healthcare spending and outpatient use among treated Lyme patients than matched controls."),
+        (e2, "🧭", "Repeated visits", "An access-to-care survey described many visits before diagnosis. A clear history can help you prepare for your next visit."),
+        (e3, "📅", "Follow-up", "The Biobank study found that some participants still had symptoms at follow-up. Record changes in daily life and discuss them with your clinician."),
+    ]:
+        with column:
+            with st.container(border=True):
+                st.markdown(icon + " **" + title + "**")
+                st.write(finding)
+    st.caption("Published study findings provide context; they do not predict your outcome.")
+    with st.expander("Study details and sources", expanded=False):
+        st.write("**Claims:** 52,795 treated Lyme patients and 263,975 matched controls; 12-month healthcare costs and outpatient use.")
+        st.write("**Access to care:** 2,424 survey respondents; about half reported seven or more physicians before diagnosis. Selected respondents, not population prevalence.")
+        st.write("**Biobank:** 55/253 (22%) reported ongoing symptoms at follow-up; 19/55 (35%) had seen a provider about them. Published aggregates, not a personal forecast.")
+        st.markdown("[Claims study](https://doi.org/10.1371/journal.pone.0116767) · [Access-to-care study](https://doi.org/10.1016/j.healthpol.2011.05.007) · [Biobank study](https://doi.org/10.3389/fmed.2025.1577936)")
 
     # Surface only context that is relevant to what this person reported.
     if providers is not None and providers >= 4:
-        st.info(f"**Your care journey:** You reported about {providers} healthcare professionals. A published 2,424-person access-to-care study found that 51% of its respondents reported seeing 7 or more physicians before diagnosis. Your experience overlaps with a burden pattern reported in that selected patient population; it does not mean your future journey will be the same.")
+        st.info(f"**Your care journey:** You reported about {providers} healthcare professionals. Bring a concise visit history to your next appointment.")
     if tested:
         st.info("**Your testing journey:** Testing is best interpreted together with timing, symptoms, exposure history, and clinical evaluation. PathwayAI can help you organize those details and prepare questions; it does not interpret a test as a diagnosis.")
     if function or work_impact:
@@ -2815,11 +2832,13 @@ care_zip = care_location if re.fullmatch(r"[0-9]{5}", care_location) else ""
 valid_care_zip = bool(care_zip)
 st.markdown("#### Find nearby care")
 health_center_url = "https://findahealthcenter.hrsa.gov/" + ("?" + urlencode({"zip": care_zip, "radius": 25}) if care_zip else "")
-st.markdown(f"[Find a community health center — HRSA]({health_center_url}) · [Find clinicians — Medicare Care Compare](https://www.medicare.gov/care-compare/)")
 if care_location and not (care_location.isdigit() and not care_zip):
-    st.markdown(f"[Search primary care or infectious-disease providers near {html.escape(care_location)}]({google_maps_search_url('primary care or infectious disease doctor near ' + care_location)})")
+    st.markdown(f"[Find primary care or infectious-disease clinicians near {html.escape(care_location)}]({google_maps_search_url('primary care or infectious disease doctor near ' + care_location)})")
+    st.caption("Local map search; results are not a verified Lyme specialist directory.")
 else:
     st.caption("Enter a five-digit ZIP or a county and state to see a nearby provider search.")
+st.markdown(f"[Find affordable community care — HRSA]({health_center_url})")
+st.markdown("[Compare clinicians who accept Medicare — Medicare Care Compare](https://www.medicare.gov/care-compare/)")
 st.caption("Confirm tick-borne illness experience, availability and insurance with the provider.")
 with st.expander("What to bring and ask"):
     st.write("Bring exposure and symptom dates, test reports, medicines and your reviewed journey summary. Ask how test timing affects interpretation and what follow-up is appropriate.")

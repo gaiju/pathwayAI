@@ -657,7 +657,7 @@ SUPPORT_RESOURCES = [
     },
     {
         "name": "ILADS — Provider Search",
-        "description": "Location-based directory of ILADS members. Inclusion is not an endorsement or guarantee of clinical quality.",
+        "description": "Independent advocacy directory of ILADS members; approaches may differ from CDC guidance. Verify credentials and services directly.",
         "url": "https://www.ilads.org/patient-care/provider-search/",
     },
     {
@@ -1623,7 +1623,7 @@ def show_personalized_support(zip_code, work_impact, insurance_context, support_
             st.markdown(f"[Search state/local disability and cash-assistance programs near ZIP {z}](https://www.google.com/search?q={quote_plus('state disability temporary cash assistance ZIP ' + z)})")
         for name, url, desc in BENEFIT_RESOURCES:
             st.markdown(f"**{name}** — {desc}  \n[Open resource]({url})")
-        st.markdown("**Patient organizations / provider directories**")
+        st.markdown("**Independent advocacy organizations / directories · not federal referrals**")
         for resource in SUPPORT_RESOURCES:
             st.markdown(f"**{resource['name']}** — {resource['description']}  \n[Open resource]({resource['url']})")
 
@@ -2406,6 +2406,42 @@ if view == "📊 Community Burden & Action":
             exposure_pathogen = str(raw)
         except Exception: pass
 
+    st.write("Where are residents encountering barriers, and what can partners measure and improve over 90 days?")
+    # Detailed implementation stays out of the opening decision flow.
+    actions = pd.DataFrame([
+        ["1. Target prevention outreach", "Observed tick surveillance", "County outreach / parks partners", "Choose outreach locations using loaded surveillance; record missing locations", "Reach, materials delivered and knowledge feedback"],
+        ["2. Offer journey navigation", "National pilot themes: delay and repeated professionals", "Public health / primary-care partners", "Offer a reviewed care summary and referral navigation; a second opinion when appropriate", "Summary completion, referral connection and time to appointment"],
+        ["3. Address household barriers", "National pilot themes: spending and work loss", "Social services / navigation partners", "Screen voluntarily for transport, insurance and financial support needs", "Support referrals offered and successfully accessed"],
+        ["4. Explore clinical follow-up", "Biobank: persistent symptoms and follow-up gap", "Clinical partners", "Agree on a symptom/function check-in workflow; clinicians determine care", "Follow-up completion and patient-reported function"],
+        ["5. Build a local burden baseline", "Consented patient-reported county fields", "County evaluation team", "Collect delay, encounters, OOP period, days lost and caregiver time; repeat measures consistently", "Completeness and paired change; no assumed savings"],
+    ], columns=["Proposed action","Why consider it","Suggested owner","First step","What to measure"])
+    actions["Evidence status"] = [
+        "Public exposure context; local intervention effect untested",
+        "Patient survey themes; local service effect untested",
+        "Patient survey themes; local support needs unmeasured",
+        "Published Biobank follow-up evidence; local effect untested",
+        "Proposed measurement protocol; no intervention effect claimed",
+    ]
+    with st.container():
+        st.subheader("Actions and 90-day measures")
+        st.caption("Proposed plan; confirm feasibility with county and clinical partners. Effects are unmeasured.")
+        # Show one action at a time rather than a six-column wall of text.
+        for _, action in actions.iterrows():
+            st.markdown("**" + action["Proposed action"] + "**")
+            st.write(action["First step"])
+            st.caption("Owner: " + action["Suggested owner"] + " • Track: " + action["What to measure"])
+        st.markdown("**Local follow-up results**")
+        show_readable_table(pd.DataFrame([
+            ["Days from referral to appointment", "Not yet collected", "Not yet collected"],
+            ["Unsuccessful referrals / reason", "Not yet collected", "Not yet collected"],
+            ["Referral completion", "Not yet collected", "Not yet collected"],
+            ["Patient-paid spending / stated period", "Not yet collected", "Not yet collected"],
+            ["Missed workdays / stated period", "Not yet collected", "Not yet collected"],
+            ["Caregiver hours / stated period", "Not yet collected", "Not yet collected"],
+            ["Daily function", "Not yet collected", "Not yet collected"],
+            ["Unmet support needs", "Not yet collected", "Not yet collected"],
+        ], columns=["Measure", "Baseline", "90-day follow-up"]), hide_index=True, width="stretch")
+        st.caption("Agree on an owner, definitions, reporting period and consent process before collection. These cells are uncollected, not zero. Before/after change alone does not establish a pilot effect.")
     st.markdown("## Figure 1 · Where is tick exposure observed?")
     show_nys_tick_density_map()
     with st.expander("Map data in text"):
@@ -2416,12 +2452,47 @@ if view == "📊 Community Burden & Action":
             st.caption("NYSDOH observed snapshot; unsampled counties are not listed as zero. Source: health.data.ny.gov, dataset kibp-u2ip.")
         else:
             st.write("Surveillance data unavailable.")
+    with st.expander("2024 county comparison · one tick sampling site per county", expanded=False):
+        st.subheader("Orange and Dutchess · a same-year comparison")
+        st.caption("2024 public surveillance · separate measures, not a performance ranking. The statewide map above uses different periods.")
+        comparison_2024 = pd.DataFrame([
+            {"County": "Orange", "Year": 2024, "Nymphs / 1,000 m²": 43.2, "Reported Lyme cases": 964, "Reported Lyme cases / 100,000": 237.0, "Tick sites visited": 1},
+            {"County": "Dutchess", "Year": 2024, "Nymphs / 1,000 m²": 28.8, "Reported Lyme cases": 1060, "Reported Lyme cases / 100,000": 355.5, "Tick sites visited": 1},
+        ])
+        chart_left, chart_right = st.columns(2)
+        with chart_left:
+            st.markdown("**Observed tick density · 2024**")
+            st.bar_chart(comparison_2024.set_index("County")[["Nymphs / 1,000 m²"]], color="#cf7724", height=240)
+            st.caption("Nymphs per 1,000 m² at sampled sites; one site visited in each county.")
+        with chart_right:
+            st.markdown("**Reported Lyme rate · 2024**")
+            st.bar_chart(comparison_2024.set_index("County")[["Reported Lyme cases / 100,000"]], color="#317399", height=240)
+            st.caption("Reported cases per 100,000 residents; official NYSDOH annual rates.")
+        st.write("Orange had higher sampled tick density; Dutchess had a higher reported Lyme rate. This contrast identifies a question to investigate, not evidence that either county's prevention works better.")
+        show_readable_table(comparison_2024, hide_index=True, width="stretch")
+        with st.expander("Questions and actions for county partners"):
+            comparison_actions = pd.DataFrame([
+                ["Are sampled sites comparable?", "Review site locations, collection dates and area sampled", "Comparable sampling coverage documented"],
+                ["Does the contrast persist over time?", "Compare annual tick observations and reported cases using consistent definitions", "Same-year series with changes in reporting annotated"],
+                ["Where could prevention reach more people?", "Review local outreach, outdoor activities and service access with both departments", "Outreach reach and referral connections measured"],
+            ], columns=["Question", "Action to consider", "Measure to track"])
+            show_readable_table(comparison_actions, hide_index=True, width="stretch")
+        with st.expander("Comparison sources and limits"):
+            st.markdown("[1 · NYSDOH tick sampling](https://health.data.ny.gov/d/kibp-u2ip) · [2 · 2024 county cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [3 · 2024 county rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
+            st.caption("Cases and rates verified against official tables, page 5. Tick records retrieved October 8, 2026. A site observation is not county-wide exposure. Reported cases reflect residence and surveillance practices. Measures are placed side by side by county and year; no patient records are linked, and no causal effect, savings or disability prevented is estimated.")
+        comparison_export = comparison_2024.copy()
+        comparison_export["tick_source"] = "NYSDOH kibp-u2ip; 2024 sampled-site observations"
+        comparison_export["case_source"] = "NYSDOH 2024 cases.pdf; page 5"
+        comparison_export["rate_source"] = "NYSDOH 2024 rates.pdf; page 5; official rate"
+        comparison_export["interpretation"] = "Descriptive same-year comparison; one tick site each; not causal or county-wide exposure"
+        st.download_button("Download 2024 county comparison", comparison_export.to_csv(index=False).encode("utf-8"), file_name="CountyCompare2024.csv", mime="text/csv", key="comparison_download64")
+
     st.subheader("Dutchess at a glance")
     cards=[]
     if exposure_density is not None: cards.append(("Tick density", f"{exposure_density:.1f} / 1,000 m²"))
     if exposure_pathogen is not None: cards.append(("B. burgdorferi positive", exposure_pathogen))
-    if lyme_cases is not None: cards.append(("Reported Lyme cases", f"{int(lyme_cases):,}"))
-    if crude_rate is not None: cards.append(("Approx. annualized crude rate", f"{crude_rate:.1f} / 100k"))
+    cards.append(("Reported Lyme cases · 2024", "1,060"))
+    cards.append(("NYSDOH Lyme rate · 2024", "355.5 / 100k"))
     if ahrf and pd.notna(ahrf.get("pcp")) and pop: cards.append(("Primary-care capacity", f"{float(ahrf['pcp'])/pop*10000:.1f} / 10k"))
     if ahrf and pd.notna(ahrf.get("beds")): cards.append(("Hospital beds", f"{int(float(ahrf['beds'])):,}"))
     if cards:
@@ -2429,7 +2500,7 @@ if view == "📊 Community Burden & Action":
         for i,(label,value) in enumerate(cards): cols[i % len(cols)].metric(label,value)
     source_bits=[]
     if exposure_density is not None: source_bits.append(f"Tick surveillance: NYSDOH, {exposure_year or 'year unavailable'}")
-    if lyme_cases is not None: source_bits.append("Reported Lyme cases: CDC, 2019–2022 total. Rate: approximate annual average over four years.")
+    source_bits.append("Lyme cases and official population-based rate: NYSDOH 2024 county tables, page 5. Tick observations: separate year and sampling coverage.")
     if ahrf: source_bits.append("HRSA AHRF 2024–2025")
     if source_bits:
         for source_line in source_bits: st.caption(source_line)
@@ -2509,36 +2580,6 @@ if view == "📊 Community Burden & Action":
             show_readable_table(pd.DataFrame(baseline_rows, columns=["Measure","Current baseline","n"]), hide_index=True, width="stretch")
             st.caption("Consented, de-identified Dutchess Patient Voice. Measures are displayed only when at least 5 usable responses are available for that field.")
 
-    # Detailed implementation stays out of the opening decision flow.
-    actions = pd.DataFrame([
-        ["1. Target prevention outreach", "Observed tick surveillance", "County outreach / parks partners", "Choose outreach locations using loaded surveillance; record missing locations", "Reach, materials delivered and knowledge feedback"],
-        ["2. Offer journey navigation", "National pilot themes: delay and repeated professionals", "Public health / primary-care partners", "Offer a reviewed care summary and referral navigation; a second opinion when appropriate", "Summary completion, referral connection and time to appointment"],
-        ["3. Address household barriers", "National pilot themes: spending and work loss", "Social services / navigation partners", "Screen voluntarily for transport, insurance and financial support needs", "Support referrals offered and successfully accessed"],
-        ["4. Explore clinical follow-up", "Biobank: persistent symptoms and follow-up gap", "Clinical partners", "Agree on a symptom/function check-in workflow; clinicians determine care", "Follow-up completion and patient-reported function"],
-        ["5. Build a local burden baseline", "Consented patient-reported county fields", "County evaluation team", "Collect delay, encounters, OOP period, days lost and caregiver time; repeat measures consistently", "Completeness and paired change; no assumed savings"],
-    ], columns=["Proposed action","Why consider it","Suggested owner","First step","What to measure"])
-    actions["Evidence status"] = [
-        "Public exposure context; local intervention effect untested",
-        "Patient survey themes; local service effect untested",
-        "Patient survey themes; local support needs unmeasured",
-        "Published Biobank follow-up evidence; local effect untested",
-        "Proposed measurement protocol; no intervention effect claimed",
-    ]
-    with st.expander("Actions to consider", expanded=False):
-        st.caption("Proposed plan; confirm feasibility with county and clinical partners. Effects are unmeasured.")
-        # Show one action at a time rather than a six-column wall of text.
-        for _, action in actions.iterrows():
-            st.markdown("**" + action["Proposed action"] + "**")
-            st.write(action["First step"])
-            st.caption("Owner: " + action["Suggested owner"] + " • Track: " + action["What to measure"])
-        st.markdown("**Local follow-up results**")
-        show_readable_table(pd.DataFrame([
-            ["Referral completion", "Not yet collected", "Not yet collected"],
-            ["Patient-paid spending / stated period", "Not yet collected", "Not yet collected"],
-            ["Daily function", "Not yet collected", "Not yet collected"],
-            ["Unmet support needs", "Not yet collected", "Not yet collected"],
-        ], columns=["Measure", "Baseline", "90-day follow-up"]), hide_index=True, width="stretch")
-        st.caption("Collect consented, comparable measures. Before/after change alone does not establish that the pilot caused an improvement.")
     with st.expander("What published studies tell us about costs", expanded=False):
         st.markdown("## Published societal burden — reported Lyme cases")
         hook = pd.DataFrame([
@@ -2616,8 +2657,8 @@ if view == "📊 Community Burden & Action":
         st.markdown("[HRSA shortage definitions](https://bhw.hrsa.gov/workforce-shortage-areas/shortage-designation) · [County Health Rankings strategies](https://www.countyhealthrankings.org/strategies-and-solutions/what-works-for-health) · [CDC/ATSDR community profiles](https://www.atsdr.cdc.gov/place-health/php/communication-resources/index.html) · [MyLymeData](https://www.lymedisease.org/mylymedata/)")
         st.caption("Public website review: October 6, 2026. These references inform design; no external registry or shortage data are linked into this pilot.")
         st.write("**Exposure:** county/state surveillance only when a compatible source is loaded.")
-        st.write("**Reported disease:** CDC 2019–2022 cumulative county cases are shown as a count. The displayed crude rate is annualized by dividing the four-year case count by 4 before applying the population denominator; it is an approximate annualized rate, not a year-specific incidence rate.")
-        st.write("**Census:** U.S. Census Bureau QuickFacts provides population and socioeconomic context. These measures are contextual and are not attributed to Lyme disease. The Lyme rate continues to use the separately labeled 2023 HRSA population denominator.")
+        st.write("**Reported disease:** Dutchess cards show NYSDOH official 2024 cases and rate. The statewide map and historical export retain CDC 2019–2022 cumulative cases and an approximate rate using 2023 HRSA population; those periods straddle a reporting change and are not a stable annual trend.")
+        st.write("**Census:** U.S. Census Bureau QuickFacts provides population and socioeconomic context. These measures are contextual and are not attributed to Lyme disease. The official 2024 county rate uses NYSDOH’s published denominator; the historical map measure uses separately labeled 2023 HRSA population.")
         st.write("**Patient Voice:** only consented, de-identified structured fields are aggregated; missing remains missing, never zero.")
         st.markdown("[Biobank follow-up publication — Horn et al., 2025](https://doi.org/10.3389/fmed.2025.1577936)")
         st.write("**Biobank:** published clinical follow-up findings inform proposed actions; individual-level data are not loaded. **Survey:** the national aggregate snapshot is separate from the local consented layer. Neither supplies county prevalence.")
@@ -2633,6 +2674,8 @@ if view == "📊 Community Burden & Action":
     add_brief("surveillance_year", exposure_year, "State surveillance", exposure_year or "")
     add_brief("nymph_density_per_1000_m2", exposure_density, "State surveillance", exposure_year or "")
     add_brief("pathogen_positive_percent", exposure_pathogen, "State surveillance", exposure_year or "")
+    add_brief("reported_lyme_cases_2024", 1060, "NYSDOH official county cases, page 5", "2024")
+    add_brief("official_lyme_rate_per_100000_2024", 355.5, "NYSDOH official county rates, page 5", "2024")
     add_brief("reported_lyme_cases_2019_2022", lyme_cases, "CDC county reported cases", "2019-2022")
     add_brief("average_annual_reported_cases_2019_2022", round(annual_avg_cases,2) if annual_avg_cases is not None else None, "CDC county reported cases; 4-year total divided by 4", "2019-2022")
     add_brief("approx_annualized_crude_rate_per_100000", round(crude_rate,2) if crude_rate is not None else None, "CDC cases + HRSA population; 4-year cases divided by 4", "2019-2022 cases / 2023 population")
@@ -2691,6 +2734,7 @@ if st.button("Try this example", help="Copies the example into the story box so 
     st.session_state.quick_story_value = STORY_SAMPLE
 
 st.caption("AI processing notice: if the optional AI extraction is enabled, your story may be sent to the configured AI service for processing. Do not include names or other direct identifiers. Raw story text is not written to the Patient Voice CSV by PathwayAI.")
+use_story_ai = st.checkbox("Use optional AI to organize my story", value=True, key="use_story_ai65", help="Turn off for local processing, including agency demonstrations. Daily-life answers are not sent to AI.")
 quick_story = st.text_area(
     "Tell us what happened in your own words",
     key="quick_story_value",
@@ -2706,7 +2750,7 @@ if organize_story:
     # A failed/unavailable LLM never blocks the local rule-based fallback.
     rule_now = extract_quick_story(quick_story)
     allowed, limit_message = ai_call_allowed("story-extraction")
-    if allowed and OPENAI_API_KEY and PATHWAYAI_LLM_MODEL:
+    if use_story_ai and allowed and OPENAI_API_KEY and PATHWAYAI_LLM_MODEL:
         llm_record, llm_status = extract_story_with_llm(quick_story)
         if llm_record is not None and llm_status.get("state") == "connected":
             st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, llm_record)
@@ -2728,7 +2772,7 @@ if not quick_story.strip():
 if st.session_state.get("story_organized", False):
     method = (st.session_state.get("organized_story_record") or {}).get("extraction_method", "Rule-based NLP fallback")
     if method == "LLM structured extraction":
-        st.caption("Extraction method: AI structured extraction with validation.")
+        st.caption("Organized with AI. Review every detail for errors.")
     else:
         st.caption('Organized with local rules. Review for errors.')
 

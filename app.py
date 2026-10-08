@@ -1523,7 +1523,7 @@ BENEFIT_RESOURCES = [
     ("211 — local social services", "https://www.211.org/", "Food, housing, utilities, transportation, caregiver and other community resources."),
     ("Social Security Disability", "https://www.ssa.gov/disability", "Federal disability-benefit information and application resources."),
     ("U.S. Department of Labor — FMLA", "https://www.dol.gov/agencies/whd/fmla", "Federal job-protected leave information for eligible workers and family caregivers."),
-    ("Benefits.gov", "https://www.benefits.gov/", "Government benefit finder covering health, income, food, housing and other programs."),
+    ("USA.gov benefits", "https://www.usa.gov/benefits", "Government benefit finder covering health, income, food, housing and other programs."),
     ("HealthCare.gov", "https://www.healthcare.gov/", "Health coverage information; state Marketplace routing is provided where applicable."),
 ]
 
@@ -2665,8 +2665,8 @@ if view == "📊 Community Burden & Action":
 st.header("🧭 TIMELY CARE & SUPPORT")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
 
-with st.expander("About Patient Voice findings"):
-    st.caption("Patient-reported pilot experiences; not representative of the county population. Aggregates show usable response counts; missing answers are not zero. Local summaries require consent and at least five usable responses per field.")
+with st.expander("Patient Voice · sources & notes"):
+    st.caption("Patient-reported pilot experiences, not county-wide findings. Counts use answered fields; missing is not zero. Local summaries require consent and at least five usable responses per measure.")
 st.write('Organize your story for care. Sharing structured Patient Voice information is optional.')
 # QUICK START — STORY FIRST
 
@@ -2759,6 +2759,52 @@ elif quick_story.strip():
     st.info('Click **Organize My Story** to view your record.')
 else:
     st.caption("Prefer structured questions? You can skip the story box and use the optional details below.")
+
+# Optional whole-person context: patient-reviewed, session-only, no composite score.
+st.markdown("### Daily life and your next appointment")
+st.caption("Optional. Use this without AI or contributing to Patient Voice.")
+with st.expander("What would you like help with?"):
+    daily_areas = st.multiselect("Which areas would you like to discuss?", ["Daily activities", "Sleep", "Stress", "Relationships / social connection", "Managing care", "Work / school", "Food / household bills"], key="daily_areas63")
+    daily_note = st.text_area("What has changed, and what would help?", key="daily_note63", max_chars=1200, placeholder="For example: shopping is harder, and I need help arranging appointments.")
+    appointment_questions = st.text_area("Questions for your clinician", key="appointment_questions63", max_chars=1200, placeholder="What follow-up should I plan? What else could explain my symptoms?")
+    st.caption("Whole-person health-informed questions; not the nine-item Whole Person Health Index or a validated score. These optional answers stay in this session and your download; they are not sent to AI or saved to Patient Voice.")
+    st.markdown("[Measurement research · NCHS RANDS, 2026](https://pubmed.ncbi.nlm.nih.gov/42221536/)")
+
+# Support appears immediately beside the selections, with no ZIP requirement.
+if daily_areas:
+    st.markdown("**Support you selected**")
+    if "Food / household bills" in daily_areas:
+        st.markdown("[Food and emergency food assistance — USA.gov](https://www.usa.gov/food-help) · [Local food, housing and bill support — 211](https://www.211.org/)")
+    if "Daily activities" in daily_areas:
+        st.markdown("[Daily-activity and caregiver support options — USA.gov](https://www.usa.gov/disability-caregiver)")
+    if "Work / school" in daily_areas:
+        st.markdown("[Workplace leave information — U.S. Department of Labor](https://www.dol.gov/agencies/whd/fmla)")
+    if any(x in daily_areas for x in ["Stress", "Relationships / social connection", "Managing care"]):
+        st.markdown("[Find local community and caregiver resources — 211](https://www.211.org/)")
+    if "Sleep" in daily_areas:
+        st.write("Include sleep changes in your appointment questions.")
+    st.caption("Resource navigation; services and eligibility must be confirmed with the program.")
+
+summary_lines = ["PATHWAYAI · APPOINTMENT SUMMARY", "Patient-reported and editable; no diagnosis or test interpretation.", "", "YOUR EXPERIENCE"]
+for label, value in [
+    ("Possible exposure location", quick.get("exposure_location")),
+    ("Exposure month", quick.get("month")),
+    ("Duration", quick.get("duration_text")),
+    ("Symptoms", ", ".join(quick.get("symptoms") or [])),
+    ("Previous testing", quick.get("llm_test_status") or ("Testing mentioned; details to confirm" if quick.get("tested") else None)),
+    ("Healthcare professionals seen", quick.get("providers_seen")),
+    ("Work / daily function", quick.get("work_impact")),
+]:
+    summary_lines.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
+summary_lines += ["", "DAILY LIFE", ", ".join(daily_areas) or "Not reported", daily_note or "", "", "QUESTIONS FOR MY CLINICIAN", appointment_questions or "Not reported", "", "Bring original test reports and a medication list. Unknown dates remain unknown."]
+summary_seed = "\n".join(summary_lines)
+# Refresh derived text only when inputs change; preserve manual corrections on reruns.
+if st.session_state.get("appointment_seed63") != summary_seed:
+    st.session_state["appointment_edit63"] = summary_seed
+    st.session_state["appointment_seed63"] = summary_seed
+with st.expander("Review and download your appointment summary"):
+    appointment_text = st.text_area("Correct the summary before sharing", key="appointment_edit63", height=280, max_chars=8000)
+    st.download_button("Download appointment summary", appointment_text.encode("utf-8"), file_name="MyJourney.txt", mime="text/plain", key="appointment_download63")
 
 # OPTIONAL LOCAL SUPPORT — ask only after the story/AI value exchange.
 st.markdown("### 📍 Find Support Near You *(Optional)*")

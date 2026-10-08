@@ -2024,10 +2024,10 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("Prevent bites", "Learn about ticks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
-    ("Reach care", "Prepare for a medical visit and find care resources.", "🧭 Care & Support", "ongoing"),
-    ("Get support", "Find help with daily life, work, transport and benefits.", "🧭 Care & Support", "support"),
-    ("Plan local action", "Compare counties and explore how to help residents.", "📊 Community Burden & Action", "county"),
+    ("I want to learn or plan an outdoor visit", "Learn about ticks and prepare for travel or outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
+    ("I found a tick or need care and support", "Prepare for care and find help with daily life.", "🧭 Care & Support", "ongoing"),
+    ("I want to explore community needs", "For policymakers and public health teams: compare counties and plan local action.", "📊 Community Burden & Action", "county"),
+    ("I want to share feedback or help", "Tell us what works and what needs improvement.", "💬 Share Feedback", "contribute"),
 ]
 available_views = ["🛡️ Learn & Prevent", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
 if st.session_state.get("admin_authenticated"):
@@ -2038,7 +2038,8 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-    st.markdown("### From prevention to care and support")
+    st.markdown("### Prevention → Care → Support → Action")
+    st.caption("Our goal: less burden from tick-borne illness.")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
@@ -2046,15 +2047,14 @@ if not st.session_state.get("pathway_open", False):
             with col:
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
-    st.button("Share Feedback", key="route_contribute", on_click=select_public_pathway, args=("💬 Share Feedback", "contribute"))
     with st.expander("Why does this matter?"):
         st.write("CDC estimates about 476,000 people were diagnosed and treated for Lyme disease each year, based on insurance claims from 2010–2018. This is not a count of confirmed infections.")
     st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
     st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
     st.stop()
 
-st.button("← Change my path", key="change_path", on_click=return_to_path_choices)
-st.caption("Prevent bites → Reach care → Get support → Plan local action")
+st.button("← Back to start", key="change_path", on_click=return_to_path_choices)
+st.caption("Prevention → Care → Support → Action · Our goal: less burden from tick-borne illness.")
 st.caption("PathwayAI · " + view)
 
 
@@ -2080,10 +2080,12 @@ def show_brief_feedback():
 if view == "💬 Share Feedback":
     show_brief_feedback()
     st.caption('Patient Voice is separate: review and consent to sharing structured fields in Care & Support.')
+    st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     st.stop()
 
 if view == "🧠 Research & Strategy Agent":
     show_research_strategy_agent()
+    st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     st.stop()
 
 
@@ -2344,6 +2346,7 @@ if view == "🛡️ Learn & Prevent":
             st.write("• If symptoms or concerns develop, use **My Journey** to organize exposure, testing, function, and burden information for discussion with a healthcare professional.")
         st.caption("Travel-plan guidance supports prevention and documentation; it is not a diagnosis or treatment recommendation.")
 
+    st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     st.stop()
 
 if view == "📊 Community Burden & Action":
@@ -2724,6 +2727,7 @@ if view == "📊 Community Burden & Action":
     })
     st.download_button("Download Dutchess evidence brief", brief.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_county_brief_{fips}.csv", mime="text/csv")
     st.download_button("Download County Action Plan", actions.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_action_plan_{fips}.csv", mime="text/csv")
+    st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     st.stop()
 
 st.header("🧭 CARE & SUPPORT")
@@ -3710,3 +3714,5 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         "Seek professional medical evaluation for concerning symptoms or "
         "illness after possible tick exposure."
     )
+
+st.button("Choose another path", key="bottom_care73", on_click=return_to_path_choices)

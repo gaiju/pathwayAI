@@ -326,17 +326,18 @@ def _geom_paths(geometry, bounds, width, height):
 
 NY_LYME_RATE_SNAPSHOT = {'36001': {'cases': 667, 'population': 316659, 'rate': 52.66}, '36003': {'cases': 168, 'population': 46651, 'rate': 90.03}, '36005': {'cases': 192, 'population': 1356476, 'rate': 3.54}, '36007': {'cases': 506, 'population': 196077, 'rate': 64.52}, '36009': {'cases': 209, 'population': 75600, 'rate': 69.11}, '36011': {'cases': 159, 'population': 74485, 'rate': 53.37}, '36013': {'cases': 136, 'population': 124891, 'rate': 27.22}, '36015': {'cases': 98, 'population': 81325, 'rate': 30.13}, '36017': {'cases': 259, 'population': 45920, 'rate': 141.01}, '36019': {'cases': 156, 'population': 78115, 'rate': 49.93}, '36021': {'cases': 554, 'population': 60470, 'rate': 229.04}, '36023': {'cases': 276, 'population': 45752, 'rate': 150.81}, '36025': {'cases': 328, 'population': 44410, 'rate': 184.64}, '36027': {'cases': 1586, 'population': 297150, 'rate': 133.43}, '36029': {'cases': 346, 'population': 946147, 'rate': 9.14}, '36031': {'cases': 144, 'population': 36775, 'rate': 97.89}, '36033': {'cases': 143, 'population': 46502, 'rate': 76.88}, '36035': {'cases': 211, 'population': 52234, 'rate': 100.99}, '36037': {'cases': 41, 'population': 57529, 'rate': 17.82}, '36039': {'cases': 379, 'population': 47062, 'rate': 201.33}, '36041': {'cases': 6, 'population': 5082, 'rate': 29.52}, '36043': {'cases': 209, 'population': 59484, 'rate': 87.84}, '36045': {'cases': 198, 'population': 114787, 'rate': 43.12}, '36047': {'cases': 1677, 'population': 2561225, 'rate': 16.37}, '36049': {'cases': 176, 'population': 26548, 'rate': 165.74}, '36051': {'cases': 148, 'population': 61158, 'rate': 60.5}, '36053': {'cases': 179, 'population': 66921, 'rate': 66.87}, '36055': {'cases': 395, 'population': 748482, 'rate': 13.19}, '36057': {'cases': 146, 'population': 49368, 'rate': 73.93}, '36059': {'cases': 597, 'population': 1381715, 'rate': 10.8}, '36061': {'cases': 1589, 'population': 1597451, 'rate': 24.87}, '36063': {'cases': 30, 'population': 209457, 'rate': 3.58}, '36065': {'cases': 383, 'population': 227555, 'rate': 42.08}, '36067': {'cases': 441, 'population': 467873, 'rate': 23.56}, '36069': {'cases': 225, 'population': 112494, 'rate': 50.0}, '36071': {'cases': 1199, 'population': 407470, 'rate': 73.56}, '36073': {'cases': 22, 'population': 39124, 'rate': 14.06}, '36075': {'cases': 290, 'population': 118162, 'rate': 61.36}, '36077': {'cases': 448, 'population': 60126, 'rate': 186.28}, '36079': {'cases': 522, 'population': 98060, 'rate': 133.08}, '36081': {'cases': 559, 'population': 2252196, 'rate': 6.21}, '36083': {'cases': 744, 'population': 159305, 'rate': 116.76}, '36085': {'cases': 283, 'population': 490687, 'rate': 14.42}, '36087': {'cases': 708, 'population': 340807, 'rate': 51.94}, '36089': {'cases': 375, 'population': 106940, 'rate': 87.67}, '36091': {'cases': 466, 'population': 238711, 'rate': 48.8}, '36093': {'cases': 140, 'population': 159902, 'rate': 21.89}, '36095': {'cases': 208, 'population': 30105, 'rate': 172.73}, '36097': {'cases': 131, 'population': 17507, 'rate': 187.07}, '36099': {'cases': 71, 'population': 32349, 'rate': 54.87}, '36101': {'cases': 205, 'population': 92162, 'rate': 55.61}, '36103': {'cases': 3068, 'population': 1523170, 'rate': 50.36}, '36105': {'cases': 299, 'population': 79920, 'rate': 93.53}, '36107': {'cases': 172, 'population': 47715, 'rate': 90.12}, '36109': {'cases': 402, 'population': 103558, 'rate': 97.05}, '36111': {'cases': 1004, 'population': 182333, 'rate': 137.66}, '36113': {'cases': 245, 'population': 65380, 'rate': 93.68}, '36115': {'cases': 334, 'population': 60047, 'rate': 139.06}, '36117': {'cases': 166, 'population': 90829, 'rate': 45.69}, '36119': {'cases': 1110, 'population': 990817, 'rate': 28.01}, '36121': {'cases': 52, 'population': 39532, 'rate': 32.88}, '36123': {'cases': 104, 'population': 24472, 'rate': 106.24}}
 
-def show_nys_tick_density_map():
+def show_nys_tick_density_map(zoom=False):
     """Render NY surveillance on a guaranteed white SVG background (no map tiles)."""
     try:
         geojson, latest_year = build_nys_tick_density_geojson()
         if not geojson:
             st.warning("The statewide surveillance map is temporarily unavailable.")
             return
-        st.markdown("#### Tick activity and reported Lyme rates across New York")
-        st.caption("Dutchess County is highlighted as our pilot.")
+        if zoom:
+            geojson = {**geojson, "features": [f for f in geojson["features"] if str(f.get("id", "")).zfill(5) in ["36027", "36071"]]}
+        st.caption("Orange = orange outline · Dutchess = blue outline. Map shading shows sampled tick density.")
         width, height = 760, 420
-        bounds = (-79.9, 40.35, -71.7, 45.15)
+        bounds = (-74.85, 41.05, -73.45, 42.15) if zoom else (-79.9, 40.35, -71.7, 45.15)
         parts = [f'<svg role="img" aria-label="New York observed tick surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Observed tick density by New York county; missing observations are gray</title>',
                  '<rect width="100%" height="100%" fill="#ffffff"/>']
         for feature in geojson.get("features", []):
@@ -350,7 +351,7 @@ def show_nys_tick_density_map():
         # Overlay reported-case rates; circle AREA is proportional to the rate.
         for feature in geojson.get("features", []):
             fid = str(feature.get("id", "")).zfill(5)
-            item = NY_LYME_RATE_SNAPSHOT.get(fid)
+            item = None if zoom else NY_LYME_RATE_SNAPSHOT.get(fid)
             center = _geometry_centroid(feature.get("geometry"))
             if not center:
                 continue
@@ -369,6 +370,8 @@ def show_nys_tick_density_map():
             for d in _geom_paths(feature.get("geometry"), bounds, width, height):
                 parts.append(f'<path d="{d}" fill="none" stroke="white" stroke-width="5"/><path d="{d}" fill="none" stroke="{color}" stroke-width="2.5"><title>{name} comparison county</title></path>')
             cx,cy=_project_svg(lon,lat,bounds,width,height)
+            if zoom:
+                parts.append(f'<text x="{cx:.1f}" y="{cy-24:.1f}" text-anchor="middle" font-size="18" font-weight="bold" fill="{color}" stroke="white" stroke-width="3" paint-order="stroke">{name}</text>')
             parts.append(f'<text x="{cx:.1f}" y="{cy:.1f}" text-anchor="middle" font-size="18" fill="{color}" stroke="white" stroke-width="0.8">★<title>{name}</title></text>')
         parts.append('</svg>')
         components.html(
@@ -390,18 +393,19 @@ def show_nys_tick_density_map():
             'background:#bebebe;border:1px solid #6b7280"></span>No observation available</div></div>',
             unsafe_allow_html=True,
         )
-        symbols = []
-        for rate in (50, 150, 300):
-            radius = math.sqrt(rate) * 0.7
-            symbols.append(f'<span style="display:inline-flex;align-items:center;gap:5px;margin-right:18px"><span aria-hidden="true" style="width:{radius*2:.2f}px;height:{radius*2:.2f}px;display:inline-block;border-radius:50%;background:rgba(23,75,115,0.25);border:1px solid #174b73;box-sizing:content-box"></span>{rate}</span>')
-        st.markdown('<strong>Approximate annualized reported Lyme rate</strong><br><span>Cases per 100,000 residents · circle area</span><br>' + ''.join(symbols), unsafe_allow_html=True)
-        st.caption("Circles: CDC reported cases, 2019–2022 total ÷ 4 ÷ HRSA 2023 population × 100,000. Approximate annualized rate, not year-specific incidence. Cases reflect residence, not necessarily exposure location; reporting changed in 2022.")
-        with st.expander("County Lyme rates in text"):
-            table = []
-            for feature in geojson["features"]:
-                item = NY_LYME_RATE_SNAPSHOT.get(str(feature.get("id", "")).zfill(5))
-                table.append({"County": feature["properties"].get("county_label"), "Tick density / 1,000 m²": feature["properties"].get("density_label"), "Reported Lyme cases · 2019–2022": item["cases"] if item else None, "Population · 2023": item["population"] if item else None, "Approx. annual rate / 100,000": item["rate"] if item else None})
-            st.dataframe(pd.DataFrame(table).sort_values("County"), hide_index=True, use_container_width=True)
+        if not zoom:
+            symbols = []
+            for rate in (50, 150, 300):
+                radius = math.sqrt(rate) * 0.7
+                symbols.append(f'<span style="display:inline-flex;align-items:center;gap:5px;margin-right:18px"><span aria-hidden="true" style="width:{radius*2:.2f}px;height:{radius*2:.2f}px;display:inline-block;border-radius:50%;background:rgba(23,75,115,0.25);border:1px solid #174b73;box-sizing:content-box"></span>{rate}</span>')
+            st.markdown('<strong>Approximate annualized reported Lyme rate</strong><br><span>Cases per 100,000 residents · circle area</span><br>' + ''.join(symbols), unsafe_allow_html=True)
+            st.caption("Circles: CDC reported cases, 2019–2022 total ÷ 4 ÷ HRSA 2023 population × 100,000. Approximate annualized rate, not year-specific incidence. Cases reflect residence, not necessarily exposure location; reporting changed in 2022.")
+            with st.expander("County Lyme rates in text"):
+                table = []
+                for feature in geojson["features"]:
+                    item = NY_LYME_RATE_SNAPSHOT.get(str(feature.get("id", "")).zfill(5))
+                    table.append({"County": feature["properties"].get("county_label"), "Tick density / 1,000 m²": feature["properties"].get("density_label"), "Reported Lyme cases · 2019–2022": item["cases"] if item else None, "Population · 2023": item["population"] if item else None, "Approx. annual rate / 100,000": item["rate"] if item else None})
+                st.dataframe(pd.DataFrame(table).sort_values("County"), hide_index=True, use_container_width=True)
         st.caption(f"NYSDOH • {latest_year} observations • Snapshot checked October 7, 2026. Hover for county values; a text table is available below.")
         st.caption("Darker colors mean more ticks observed at sampled sites, not a person's infection risk. Gray does not mean no ticks.")
     except Exception:
@@ -1466,7 +1470,7 @@ def show_care_support(zip_code, fallback_location=None):
     st.subheader("Care & Support Near You")
 
     if len(z) != 5:
-        st.info("Enter a 5-digit ZIP code to personalize nearby care navigation.")
+        st.info('Enter a 5-digit ZIP code to personalize nearby help finding care.')
         return
 
     st.write(f"**ZIP code:** {z}")
@@ -1517,9 +1521,7 @@ def show_care_support(zip_code, fallback_location=None):
     )
 
     st.caption(
-        "Care-navigation information only — not diagnosis, treatment advice, or an endorsement "
-        "of any clinician or organization. Verify provider credentials, insurance, availability, "
-        "and services directly."
+        'Help finding care only — not diagnosis, treatment advice, or an endorsement of any clinician or organization. Verify provider credentials, insurance, availability, and services directly.'
     )
 
 
@@ -1549,7 +1551,7 @@ def show_financial_support(zip_code, work_impact, insurance_context, support_nee
     st.markdown(f"[Search state/local disability and temporary-cash programs near ZIP {z}](https://www.google.com/search?q={quote_plus('state disability temporary cash assistance ZIP ' + z)})")
     for name, url, desc in BENEFIT_RESOURCES:
         st.markdown(f"**{name}** — {desc}  \n[Open resource]({url})")
-    st.caption("Navigation only. PathwayAI does not determine eligibility, legal entitlement, or benefit amount. Verify requirements with the administering agency.")
+    st.caption('Help finding services only. PathwayAI does not determine eligibility, legal entitlement, or benefit amount. Verify requirements with the administering agency.')
 
 
 
@@ -1585,7 +1587,7 @@ def show_personalized_support(zip_code, work_impact, insurance_context, support_
             st.markdown(f"[Find infectious-disease / Lyme care near {loc}]({google_maps_search_url(search_terms[-1])})")
             st.caption("City/county-level navigation from your story. Add a ZIP code only if you want more precise nearby results.")
         else:
-            st.write("Add your current city, county, or ZIP code to tailor nearby healthcare navigation.")
+            st.write('Add your current city, county, or ZIP code to tailor nearby healthhelp finding care.')
         st.caption("Compare credentials, insurance participation, availability, and services directly. PathwayAI does not endorse providers.")
 
     with c2:
@@ -1631,7 +1633,7 @@ def show_personalized_support(zip_code, work_impact, insurance_context, support_
         for resource in SUPPORT_RESOURCES:
             st.markdown(f"**{resource['name']}** — {resource['description']}  \n[Open resource]({resource['url']})")
 
-    st.caption("Navigation only. PathwayAI does not determine eligibility, legal entitlement, benefit amount, diagnosis, or treatment. Verify requirements and provider information directly.")
+    st.caption('Help finding services only. PathwayAI does not determine eligibility, legal entitlement, benefit amount, diagnosis, or treatment. Verify requirements and provider information directly.')
 
 
 # -----------------------------
@@ -2028,7 +2030,8 @@ paths = [
     ("I feel unwell after possible exposure", "Organize symptoms and prepare for a medical visit.", "🧭 Timely Care & Support", "symptoms"),
     ("I have ongoing symptoms", "Organize your journey and find care and daily-life support.", "🧭 Timely Care & Support", "ongoing"),
     ("I’m helping someone else", "Help someone prepare their story and find support, with their permission.", "🧭 Timely Care & Support", "caregiver"),
-    ("I work in public health", "Review county evidence, hidden burden and suggested actions.", "📊 Community Burden & Action", "county"),
+    ("I’m a policymaker or work in public health", "Compare counties and explore ways to help residents reach care.", "📊 Community Burden & Action", "county"),
+    ("I’m a healthcare provider", "Help patients prepare their history, questions and support needs.", "🧭 Timely Care & Support", "provider"),
     ("I want to contribute", "Leave a brief suggestion or tell us how you would like to help.", "💬 Contribute", "contribute"),
 ]
 available_views = ["📚 Learn", "🛡️ Prevention", "🧭 Timely Care & Support", "📊 Community Burden & Action", "💬 Contribute"]
@@ -2054,7 +2057,7 @@ if not st.session_state.get("pathway_open", False):
             with col:
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
-    st.caption("Education and navigation only. PathwayAI does not diagnose illness or calculate your personal chance of infection.")
+    st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
     st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
     st.stop()
 
@@ -2335,8 +2338,7 @@ if view == "🛡️ Prevention":
         )
 
         st.caption(
-            "Exposure-navigation guidance only. Environmental surveillance "
-            "does not estimate your individual probability of infection."
+            'Information about tick exposure only. Environmental surveillance does not estimate your individual probability of infection.'
         )
 
         st.subheader("My PathwayAI Travel Plan")
@@ -2359,16 +2361,8 @@ if view == "🛡️ Prevention":
 
 if view == "📊 Community Burden & Action":
     st.header("📊 NEW YORK — COMMUNITY BURDEN & ACTION")
-    show_section_hero(
-        "policy",
-        "Open County Evidence. Make Hidden Burden Measurable.",
-        "Compare two counties, identify support questions and plan measurable local action."
-    )
-
     # Oct 22 MVP: one complete demonstration county. The County Pack is the scalable product.
     policy_place = "Dutchess County, New York"
-    st.markdown("### New York · Orange and Dutchess")
-    st.caption('Compare exposure, reported illness and support needs. Detailed journey and pilot exports below remain Dutchess-specific.')
     county_ids = {
         "Dutchess County, New York": {"fips": "36027", "short": "Dutchess, NY"},
     }
@@ -2410,7 +2404,6 @@ if view == "📊 Community Burden & Action":
             exposure_pathogen = str(raw)
         except Exception: pass
 
-    st.write("Compare observed tick activity and reported Lyme illness, then identify where prevention, care navigation and support could help.")
     # Detailed implementation stays out of the opening decision flow.
     actions = pd.DataFrame([
         ["1. Target prevention outreach", "Observed tick surveillance", "County outreach / parks partners", "Choose outreach locations using loaded surveillance; record missing locations", "Reach, materials delivered and knowledge feedback"],
@@ -2426,7 +2419,14 @@ if view == "📊 Community Burden & Action":
         "Published Biobank follow-up evidence; local effect untested",
         "Proposed measurement protocol; no intervention effect claimed",
     ]
-    st.subheader("Orange and Dutchess · what differs in 2024?")
+    st.markdown("## Our pilot starts in New York")
+    st.caption("Figure 1 · Tick observations across New York. Orange and Dutchess are outlined.")
+    show_nys_tick_density_map()
+    st.markdown("## Let’s take a closer look")
+    st.write("Orange and Dutchess are neighboring counties. Let’s compare tick observations, reported Lyme disease and care resources.")
+    show_nys_tick_density_map(zoom=True)
+    st.markdown("## An interesting difference · 2024")
+    st.write("Orange had more ticks at its sampled site. Dutchess had a higher reported Lyme rate.")
     st.caption("Same-year public data · tick density at sampled sites and reported illness among residents.")
     comparison_2024 = pd.DataFrame([
         {"County": "Orange", "Year": 2024, "Nymphs / 1,000 m²": 43.2, "Reported Lyme cases": 964, "Reported Lyme cases / 100,000": 237.0, "Tick sites visited": 1},
@@ -2449,16 +2449,19 @@ if view == "📊 Community Burden & Action":
         st.markdown("**Reported Lyme rate · 2024**")
         county_bars(comparison_2024, "Reported Lyme cases / 100,000")
         st.caption("Reported cases per 100,000 residents; official NYSDOH annual rates.")
-    st.write("Orange had higher sampled tick density; Dutchess had a higher reported Lyme rate. This contrast identifies a question to investigate, not evidence that either county's prevention works better.")
+
     show_readable_table(comparison_2024, hide_index=True, width="stretch")
-    with st.expander("Questions and actions for county partners"):
-        comparison_actions = pd.DataFrame([
-            ["Are sampled sites comparable?", "Review site locations, collection dates and area sampled", "Comparable sampling coverage documented"],
-            ["Does the contrast persist over time?", "Compare annual tick observations and reported cases using consistent definitions", "Same-year series with changes in reporting annotated"],
-            ["Where could prevention reach more people?", "Review local outreach, outdoor activities and service access with both departments", "Outreach reach and referral connections measured"],
-        ], columns=["Question", "Action to consider", "Measure to track"])
-        show_readable_table(comparison_actions, hide_index=True, width="stretch")
+    st.markdown("### Why might the numbers differ?")
+    st.write("Tick sampling covers selected places. Lyme reports count people where they live, which may differ from where they were bitten. One tick site in each county cannot explain the difference.")
+    questions70 = pd.DataFrame([
+        ["Were the tick sites similar?", "Compare collection dates, habitat and area sampled", "Decide whether the observations can be compared fairly"],
+        ["Where were people exposed?", "Review available exposure locations and travel history", "Choose places for prevention outreach"],
+        ["Did people reach care?", "Ask clinics about appointments, referrals and barriers", "Help people complete a medical visit"],
+    ], columns=["What to check", "How to check", "Why it helps"])
+    show_readable_table(questions70, hide_index=True, width="stretch")
+    st.caption("Questions to investigate. These data do not show why the rates differ or which county is doing better.")
     with st.expander("Comparison sources and limits"):
+        st.caption("The maps show 2025 tick observations. The charts below compare 2024 ticks and Lyme reports in the same year. The statewide circles show a separate historical Lyme measure.")
         st.markdown("[1 · NYSDOH tick sampling](https://health.data.ny.gov/d/kibp-u2ip) · [2 · 2024 county cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [3 · 2024 county rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
         st.caption("Cases and rates verified against official tables, page 5. Tick records retrieved October 8, 2026. A site observation is not county-wide exposure. Reported cases reflect residence and surveillance practices. Measures are placed side by side by county and year; no patient records are linked, and no causal effect, savings or disability prevented is estimated.")
     comparison_export = comparison_2024.copy()
@@ -2468,37 +2471,28 @@ if view == "📊 Community Burden & Action":
     comparison_export["interpretation"] = "Descriptive same-year comparison; one tick site each; not causal or county-wide exposure"
     st.download_button("Download 2024 county comparison", comparison_export.to_csv(index=False).encode("utf-8"), file_name="CountyCompare2024.csv", mime="text/csv", key="comparison_download64")
 
-    st.subheader("Dutchess at a glance")
-    cards=[]
-    if exposure_density is not None: cards.append(("Tick density", f"{exposure_density:.1f} / 1,000 m²"))
-    if exposure_pathogen is not None: cards.append(("B. burgdorferi positive", exposure_pathogen))
-    cards.append(("Reported Lyme cases · 2024", "1,060"))
-    cards.append(("NYSDOH Lyme rate · 2024", "355.5 / 100k"))
-    if ahrf and pd.notna(ahrf.get("pcp")) and pop: cards.append(("Primary-care capacity", f"{float(ahrf['pcp'])/pop*10000:.1f} / 10k"))
-    if ahrf and pd.notna(ahrf.get("beds")): cards.append(("Hospital beds", f"{int(float(ahrf['beds'])):,}"))
-    if cards:
-        cols=st.columns(min(4,len(cards)))
-        for i,(label,value) in enumerate(cards): cols[i % len(cols)].metric(label,value)
-    source_bits=[]
-    if exposure_density is not None: source_bits.append(f"Tick surveillance: NYSDOH, {exposure_year or 'year unavailable'}")
-    source_bits.append("Lyme cases and official population-based rate: NYSDOH 2024 county tables, page 5. Tick observations: separate year and sampling coverage.")
-    if ahrf: source_bits.append("HRSA AHRF 2024–2025")
-    if source_bits:
-        for source_line in source_bits: st.caption(source_line)
-
-    st.markdown("## Figure 1 · Where is tick exposure observed?")
-    show_nys_tick_density_map()
-    with st.expander("Map data in text"):
-        tick_text = load_nys_nymph_surveillance().copy()
-        if not tick_text.empty:
-            tick_text = tick_text.rename(columns={"county": "County", "year": "Year", "nymphal_density": "Observed nymphs / 1,000 m²", "b_burgdorferi": "B. burgdorferi positive (%)"})
-            show_readable_table(tick_text.sort_values("County"), hide_index=True, width="stretch")
-            st.caption("NYSDOH observed snapshot; unsampled counties are not listed as zero. Source: health.data.ny.gov, dataset kibp-u2ip.")
-        else:
-            st.write("Surveillance data unavailable.")
-    st.markdown("**Takeaway:** surveillance identifies observed exposure, not each resident's infection risk. **Action:** review prevention outreach in observed areas; do not infer neighborhood hotspots from county data.")
-    st.markdown("## Figure 2 · Who may need more support?")
-    st.write("Disability, language and digital access can shape navigation needs. Compare these contexts with exposure and illness; do not combine them into a risk score.")
+    with st.expander("Dutchess · extra detail"):
+        st.subheader("Dutchess at a glance")
+        cards=[]
+        if exposure_density is not None: cards.append(("Tick density", f"{exposure_density:.1f} / 1,000 m²"))
+        if exposure_pathogen is not None: cards.append(("B. burgdorferi positive", exposure_pathogen))
+        cards.append(("Reported Lyme cases · 2024", "1,060"))
+        cards.append(("NYSDOH Lyme rate · 2024", "355.5 / 100k"))
+        if ahrf and pd.notna(ahrf.get("pcp")) and pop: cards.append(("Primary-care capacity", f"{float(ahrf['pcp'])/pop*10000:.1f} / 10k"))
+        if ahrf and pd.notna(ahrf.get("beds")): cards.append(("Hospital beds", f"{int(float(ahrf['beds'])):,}"))
+        if cards:
+            cols=st.columns(min(4,len(cards)))
+            for i,(label,value) in enumerate(cards): cols[i % len(cols)].metric(label,value)
+        source_bits=[]
+        if exposure_density is not None: source_bits.append(f"Tick surveillance: NYSDOH, {exposure_year or 'year unavailable'}")
+        source_bits.append("Lyme cases and official population-based rate: NYSDOH 2024 county tables, page 5. Tick observations: separate year and sampling coverage.")
+        if ahrf: source_bits.append("HRSA AHRF 2024–2025")
+        if source_bits:
+            for source_line in source_bits: st.caption(source_line)
+    
+    st.markdown("## What else should we compare?")
+    st.subheader("Who may need more support?")
+    st.write("Some people need help with disability, language or internet access. These numbers help counties plan support.")
     support68 = pd.DataFrame([
         {"County": "Orange", "Disability under 65 (%)": 7.7, "Language other than English at home, age 5+ (%)": 30.2, "Households without broadband subscription (%)": 10.7},
         {"County": "Dutchess", "Disability under 65 (%)": 9.2, "Language other than English at home, age 5+ (%)": 16.2, "Households without broadband subscription (%)": 6.5},
@@ -2523,8 +2517,9 @@ if view == "📊 Community Burden & Action":
     if any(pd.notna(row["Primary-care physicians · 2023"]) for row in capacity68):
         show_readable_table(pd.DataFrame(capacity68), hide_index=True, width="stretch")
     st.caption("² HRSA AHRF 2024–2025 release: 2020 Census rural population / 2020 Census total population; 2023 physician counts / 2023 population. Both counties have USDA RUCC 2023 code 2 (metro). Metro counties still contain rural residents. Physician counts do not measure waits or shortage designation.")
-    st.markdown("**What counties can test:** accessible referral help in Dutchess; multilingual and telephone options in Orange; transport and appointment barriers in rural parts of both. These are planning suggestions, not measured intervention effects.")
-    st.markdown("**Measure the result:** days to first available appointment, completed referrals, barrier reason, patient travel time and cost, and daily function. Compare rural and urban residents only with consented, adequately sized local groups.")
+    st.markdown("### What can both counties do?")
+    st.write("Teach tick prevention. Help people find care, get transportation, and receive language or disability support. Check whether people get the care they need.")
+    st.markdown("**Did it help?** Track appointment waits, visits completed, travel costs and daily activities. Ask people what made getting care difficult.")
     with st.expander("CDC disability detail · compare both counties"):
         detail68=[]
         for county68, fips68 in [("Orange","36071"),("Dutchess","36027")]:
@@ -2549,24 +2544,24 @@ if view == "📊 Community Burden & Action":
     export68["Interpretation"]="All-cause community context; not Lyme-attributable, a causal estimate or official shortage designation"
     st.download_button("Download two-county support comparison",export68.to_csv(index=False).encode("utf-8-sig"),file_name="Support68.csv",mime="text/csv")
 
-    st.markdown("## Figure 3 · Where can the invisible journey become easier?")
+    st.markdown("## Where can the journey become easier?")
     journey_steps = st.columns(3)
-    for col, title, burden in zip(journey_steps, ["1 · Reach care", "2 · Navigate care", "3 · Continue daily life"], ["Waits, travel and uncertainty", "Repeated histories, visits and spending", "Work, caregiving and function"]):
+    for col, title, burden in zip(journey_steps, ["1 · Reach care", "2 · Get the right help", "3 · Continue daily life"], ["Waits, travel and uncertainty", "Repeated histories, visits and spending", "Work, caregiving and daily activities"]):
         with col:
             st.markdown("**" + title + "**")
             st.write(burden)
     st.caption("Measurement framework informed by patient-reported pilot themes and published evidence. These stages do not show measured Dutchess patient outcomes or a fixed sequence for every person.")
     st.markdown("### How can we reduce burden?")
-    st.write("Make the next step easier: a patient-reviewed journey summary, a confirmed route to care or a second opinion when appropriate, and help with transport, insurance and benefits.")
-    st.markdown("**What to track:** completed referrals, patient-paid spending, travel costs, caregiver time and days of work or daily activity affected. Use the same reporting period at each check-in.")
+    st.write("Help people prepare their story for a medical visit, find care, and get help with transport, insurance and benefits. A second opinion may help when questions remain.")
+    st.markdown("**What to check:** visits completed, money paid, travel costs, time spent helping someone, and days of work or daily activities missed. Use the same time period for each comparison.")
     st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/) · [Dutchess transit routes](https://www.dutchessny.gov/Routes-Schedules.htm) · [Disability benefits information](https://www.ssa.gov/disability)")
     st.caption("Proposed navigation pilot. Directories do not confirm appointment availability. Medical spending, household expenses and time are separate measures; do not add overlapping costs or benefit payments to one total.")
 
     st.markdown("### How can we reduce the risk of disability?")
-    st.write("Support timely clinical assessment and appropriate treatment, then follow up when symptoms affect daily life. CDC says early appropriate treatment can help prevent more severe Lyme disease.⁴")
-    st.markdown("**For ongoing difficulties:** clinical partners evaluate persistent symptoms and other possible causes, assess function, and arrange appropriate rehabilitation, workplace or disability support.")
-    st.markdown("**What to track:** time to assessment, follow-up completion, patient-reported function and unmet support needs. A second opinion is an option when questions remain, not a recommendation for everyone to repeat testing.")
-    st.markdown("**Takeaway:** navigation and follow-up are actions to test. **Action:** collect comparable baseline and follow-up measures of access, spending and function.")
+    st.write('Support timely medical review and appropriate treatment, then follow up when symptoms affect daily life. CDC says early appropriate treatment can help prevent more severe Lyme disease.⁴')
+    st.markdown("**If difficulties continue:** a clinician can review symptoms and other possible causes, then help with recovery, work or disability support.")
+    st.markdown("**What to check:** time to a medical visit, follow-up visits completed, daily activities and help still needed. A second opinion does not always mean another test.")
+    st.markdown("**How can we help?** Help people find care and support. **Did it help?** Compare how long they waited, what they paid, and how illness affected daily life before and after receiving help.")
     st.caption("Proposed actions for county and clinical partners to consider.")
 
     # Local baseline is shown only when the privacy threshold is met; otherwise it stays out of the main decision flow.
@@ -2740,11 +2735,13 @@ if view == "📊 Community Burden & Action":
         "Derived public-data measure": "Approximate derived measure; source periods differ; not personal risk or predicted savings",
         "Public county context / surveillance": "County context; no inference of individual risk or Lyme-attributable cost",
     })
-    st.download_button("Download County Evidence Brief", brief.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_county_brief_{fips}.csv", mime="text/csv")
+    st.download_button("Download Dutchess evidence brief", brief.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_county_brief_{fips}.csv", mime="text/csv")
     st.download_button("Download County Action Plan", actions.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_action_plan_{fips}.csv", mime="text/csv")
     st.stop()
 
 st.header("🧭 TIMELY CARE & SUPPORT")
+if st.session_state.get("public_pathway_intent") == "provider":
+    st.info("Help a patient prepare a summary of their history, questions and support needs. The patient can review and download it for a visit.")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
 
 with st.expander("Patient Voice · sources & notes"):
@@ -2937,7 +2934,7 @@ st.caption("Eligibility and availability vary. Peer groups provide support, not 
 # PATIENT VOICE — explicit review/permission; MVP demonstrates the consent loop without publishing raw narrative.
 if quick_story.strip() and st.session_state.get("story_organized", False):
     st.markdown("### 🗣️ Make Your Experience Count *(Optional)*")
-    st.write('With your consent, reviewed structured fields can contribute to aggregated Patient Voice findings.')
+    st.write('With your consent, reviewed structured fields can contribute to Patient Voice summaries.')
     heard=[]
     if quick.get("providers_seen"): heard.append("Care access / navigation")
     if quick.get("cost_amount"): heard.append("Out-of-pocket / financial burden")
@@ -2986,7 +2983,7 @@ if len(normalize_zip(zip_code)) == 5:
     st.write(f"**Current support/care location:** {location}")
 elif current_support_location:
     st.success(f"**Current support/care location from your story:** {current_support_location}")
-    st.caption("A ZIP code is optional. Add one above only if you want more precise nearby navigation.")
+    st.caption('A ZIP code is optional. Add one above only if you want more precise nearby help.')
 
 exposure_place = st.text_input(
     "Where might the exposure have happened? (city, county, state, or ZIP)",
@@ -3082,7 +3079,7 @@ with tc2:
     st.write("• Antibodies can take several weeks to develop, so testing may be falsely negative early.")
     st.write("• A likely erythema migrans (EM) rash with plausible exposure is a special clinical situation in which clinicians may not rely on acute serology.")
     st.write("• Testing is interpreted together with exposure history, symptoms, timing, and other possible causes.")
-st.caption("Evidence basis: CDC Lyme disease testing guidance and CDC clinical guidance for erythema migrans. This is educational navigation, not a recommendation that every person needs testing.")
+st.caption('Evidence basis: CDC Lyme disease testing guidance and CDC clinical guidance for erythema migrans. This is health information, not a recommendation that every person needs testing.')
 
 test_status_options = ["Not reported / not sure", "No testing yet", "Yes — once", "Yes — more than once"]
 llm_ts = quick.get("llm_test_status")
@@ -3322,7 +3319,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     j5.caption(daily_function)
     j6.markdown("**6 · Burden**")
     j6.caption(oop_cost)
-    st.caption("PathwayAI keeps exposure, symptoms, testing, care utilization, function, and economic burden as separate signals so one does not get mistaken for another.")
+    st.caption('PathwayAI keeps exposure, symptoms, testing, medical visits, function, and costs and missed work as separate signals so one does not get mistaken for another.')
 
     # Exposure
 
@@ -3381,8 +3378,8 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         for label, action in nav_items:
             st.markdown(f"**{label}:** {action}")
     else:
-        st.write("No major navigation need is identifiable from the information entered so far.")
-    st.caption("Navigation support only — not a diagnosis, treatment recommendation, or validated risk score.")
+        st.write('You have not reported a clear need for help finding care so far.')
+    st.caption('Help finding care and support only — not a diagnosis, treatment recommendation, or validated risk score.')
 
     st.subheader("Details for your clinician")
 
@@ -3446,7 +3443,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     st.write("• Was my testing the recommended two-step serologic process, and what is the overall result?")
     st.write("• Was the test performed early enough that the antibody window period affects interpretation?")
     st.write("• If uncertainty remains, is additional evaluation appropriate, including consideration of other causes or tickborne infections?")
-    st.caption("Evidence-grounded testing navigation based on CDC guidance. PathwayAI explains reported information; it does not diagnose Lyme disease, prescribe testing, or replace clinical judgment.")
+    st.caption('Testing information based on CDC guidance. PathwayAI explains reported information; it does not diagnose Lyme disease, prescribe testing, or replace clinical judgment.')
 
     # Functional impact
 
@@ -3467,8 +3464,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         or work_impact in ["Stopped working or school", "On disability"]
     ):
         st.info(
-            "Significant functional impact reported. PathwayAI records this "
-            "separately from clinical navigation priority."
+            'Significant effects on daily life reported. PathwayAI records this separately from care guidance.'
         )
 
     # Patient journey and economic burden
@@ -3488,8 +3484,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     st.write(f"**Work/school impact:** {work_impact}")
 
     st.caption(
-        "These measures document patient-reported healthcare utilization, "
-        "functional impact, productivity loss, and direct out-of-pocket burden."
+        'These measures document patient-reported healthmedical visits, effects on daily life, missed work, and direct out-of-pocket burden.'
     )
 
     st.markdown("#### Transparent Running Burden")
@@ -3583,9 +3578,9 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.write("**Prepare by tracking:** upcoming healthcare/testing expenses, transportation, missed work or reduced hours, insurance payments/denials, and changes in daily function.")
     else:
         st.write("**Cost estimate:** Not enough dollar information has been entered for a defensible personalized estimate yet.")
-        st.write("**Prepare by tracking:** medical/testing expenses, transportation, out-of-pocket payments, missed work/reduced hours, and functional changes.")
+        st.write('**Prepare by tracking:** medical/testing expenses, transportation, out-of-pocket payments, missed work/reduced hours, and changes in daily activities.')
     if daily_function in ["Major limitation", "Unable to perform usual activities"] or work_impact in ["Stopped working or school", "On disability"]:
-        st.warning("Because substantial functional impact was reported, consider documenting when limitations began, how they affect daily activities/work, and what assistance you need. This record can support conversations with clinicians, employers, insurers, and benefit programs.")
+        st.warning('Because substantial effects on daily life was reported, consider documenting when limitations began, how they affect daily activities/work, and what assistance you need. This record can support conversations with clinicians, employers, insurers, and benefit programs.')
     st.caption('Review this summary before sharing. It does not predict expenses or determine benefit eligibility.')
 
     # Support links appear beside the single current-care location, before optional contribution.

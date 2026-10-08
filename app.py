@@ -91,6 +91,8 @@ def show_readable_table(data, **kwargs):
     st.markdown('<div class="pathway-table-wrap">' + table + '</div>', unsafe_allow_html=True)
 
 st.markdown("""<style>
+[data-testid="stMainBlockContainer"] {max-width:1200px !important; margin-left:auto !important; margin-right:auto !important; padding-left:2rem; padding-right:2rem;}
+@media (max-width:640px) { [data-testid="stMainBlockContainer"] {padding-left:1rem; padding-right:1rem;} }
 .pathway-table-wrap {width:100%; overflow-x:auto; margin:0.6rem 0 1rem;}
 .pathway-readable-table {width:100%; border-collapse:collapse; table-layout:auto; font-size:0.95rem;}
 .pathway-readable-table th, .pathway-readable-table td {white-space:normal !important; overflow-wrap:anywhere; text-overflow:clip; padding:0.7rem 0.8rem; border-bottom:1px solid #d4dbe3; text-align:left; vertical-align:top; min-width:110px; max-width:420px; line-height:1.5;}
@@ -357,15 +359,17 @@ def show_nys_tick_density_map():
                 radius = math.sqrt(item["rate"]) * 0.7
                 county = html.escape(feature["properties"].get("county_label", "County"))
                 parts.append(f'<circle cx="{cx:.1f}" cy="{cy:.1f}" r="{radius:.2f}" fill="#174b73" fill-opacity="0.25" stroke="#174b73" stroke-width="1.2"><title>{county}: approximate annualized reported Lyme rate {item["rate"]:.2f} per 100,000; {item["cases"]} cases, 2019–2022; 2023 population {item["population"]}</title></circle>')
-        # Draw pilot boundary LAST so neighboring symbols cannot hide it.
+        # County borders identify the comparison; fills still encode tick density.
+        highlights={"36027":("Dutchess","#2474A6",-73.74,41.76),"36071":("Orange","#C65D17",-74.31,41.41)}
         for feature in geojson.get("features", []):
-            if str(feature.get("id", "")).zfill(5) != "36027":
+            item=highlights.get(str(feature.get("id", "")).zfill(5))
+            if item is None:
                 continue
+            name,color,lon,lat=item
             for d in _geom_paths(feature.get("geometry"), bounds, width, height):
-                parts.append(f'<path d="{d}" fill="none" stroke="white" stroke-width="5"/><path d="{d}" fill="none" stroke="#12324a" stroke-width="2.5"><title>Dutchess County — pilot</title></path>')
-            cx, cy = _project_svg(-73.74, 41.76, bounds, width, height)
-            parts.append(f'<text x="{cx:.1f}" y="{cy:.1f}" text-anchor="middle" font-size="20" fill="#12324a" stroke="white" stroke-width="0.8">★<title>Dutchess County pilot</title></text>')
-            parts.append(f'<text x="{cx+17:.1f}" y="{cy-17:.1f}" font-size="13" font-weight="bold" fill="#12324a" stroke="white" stroke-width="3" paint-order="stroke">Dutchess — pilot</text>')
+                parts.append(f'<path d="{d}" fill="none" stroke="white" stroke-width="5"/><path d="{d}" fill="none" stroke="{color}" stroke-width="2.5"><title>{name} comparison county</title></path>')
+            cx,cy=_project_svg(lon,lat,bounds,width,height)
+            parts.append(f'<text x="{cx:.1f}" y="{cy:.1f}" text-anchor="middle" font-size="18" fill="{color}" stroke="white" stroke-width="0.8">★<title>{name}</title></text>')
         parts.append('</svg>')
         components.html(
             '<div style="background:white;border:1px solid #d1d5db;border-radius:10px;padding:8px;height:440px;">'
@@ -401,7 +405,7 @@ def show_nys_tick_density_map():
         st.caption(f"NYSDOH • {latest_year} observations • Snapshot checked October 7, 2026. Hover for county values; a text table is available below.")
         st.caption("Darker colors mean more ticks observed at sampled sites, not a person's infection risk. Gray does not mean no ticks.")
     except Exception:
-        st.warning("The statewide surveillance map could not load. Your Dutchess County summary below is still available.")
+        st.warning("The statewide map could not load. The two-county comparison remains available above.")
 
 @st.cache_data
 def load_data():
@@ -2354,17 +2358,17 @@ if view == "🛡️ Prevention":
     st.stop()
 
 if view == "📊 Community Burden & Action":
-    st.header("📊 DUTCHESS COUNTY — COST-OF-ILLNESS PILOT")
+    st.header("📊 NEW YORK — COMMUNITY BURDEN & ACTION")
     show_section_hero(
         "policy",
         "Open County Evidence. Make Hidden Burden Measurable.",
-        "A demonstration combining public county evidence, published cost context and a proposed 90-day burden-measurement plan."
+        "Compare two counties, identify support questions and plan measurable local action."
     )
 
     # Oct 22 MVP: one complete demonstration county. The County Pack is the scalable product.
     policy_place = "Dutchess County, New York"
-    st.markdown("### Dutchess County, New York — Demonstration County")
-    st.caption('Dutchess is the current county pilot.')
+    st.markdown("### New York · Orange and Dutchess")
+    st.caption('Compare exposure, reported illness and support needs. Detailed journey and pilot exports below remain Dutchess-specific.')
     county_ids = {
         "Dutchess County, New York": {"fips": "36027", "short": "Dutchess, NY"},
     }
@@ -2428,14 +2432,22 @@ if view == "📊 Community Burden & Action":
         {"County": "Orange", "Year": 2024, "Nymphs / 1,000 m²": 43.2, "Reported Lyme cases": 964, "Reported Lyme cases / 100,000": 237.0, "Tick sites visited": 1},
         {"County": "Dutchess", "Year": 2024, "Nymphs / 1,000 m²": 28.8, "Reported Lyme cases": 1060, "Reported Lyme cases / 100,000": 355.5, "Tick sites visited": 1},
     ])
+    import altair as alt
+    def county_bars(frame, measure):
+        chart = alt.Chart(frame).mark_bar().encode(
+            x=alt.X("County:N", sort=["Orange", "Dutchess"], title=None),
+            y=alt.Y(measure + ":Q", scale=alt.Scale(zero=True)),
+            color=alt.Color("County:N", scale=alt.Scale(domain=["Orange", "Dutchess"], range=["#C65D17", "#2474A6"]), legend=None),
+            tooltip=["County:N", alt.Tooltip(measure + ":Q", format=".1f")]).properties(height=230)
+        st.altair_chart(chart, use_container_width=True)
     chart_left, chart_right = st.columns(2)
     with chart_left:
         st.markdown("**Observed tick density · 2024**")
-        st.bar_chart(comparison_2024.set_index("County")[["Nymphs / 1,000 m²"]], color="#cf7724", height=240)
+        county_bars(comparison_2024, "Nymphs / 1,000 m²")
         st.caption("Nymphs per 1,000 m² at sampled sites; one site visited in each county.")
     with chart_right:
         st.markdown("**Reported Lyme rate · 2024**")
-        st.bar_chart(comparison_2024.set_index("County")[["Reported Lyme cases / 100,000"]], color="#317399", height=240)
+        county_bars(comparison_2024, "Reported Lyme cases / 100,000")
         st.caption("Reported cases per 100,000 residents; official NYSDOH annual rates.")
     st.write("Orange had higher sampled tick density; Dutchess had a higher reported Lyme rate. This contrast identifies a question to investigate, not evidence that either county's prevention works better.")
     show_readable_table(comparison_2024, hide_index=True, width="stretch")
@@ -2485,29 +2497,57 @@ if view == "📊 Community Burden & Action":
         else:
             st.write("Surveillance data unavailable.")
     st.markdown("**Takeaway:** surveillance identifies observed exposure, not each resident's infection risk. **Action:** review prevention outreach in observed areas; do not infer neighborhood hotspots from county data.")
-    st.markdown("## Figure 2 · Who may need help reaching care?")
-    st.write("Dutchess community partners report difficulty getting appointments, reaching services and knowing what help exists. Start by checking where referrals fail and why.³")
-    st.markdown("**Who may need more support?** Residents with disability or ongoing health needs, limited income, no insurance, transport barriers or difficulty navigating services.")
-    c1,c2,c3 = st.columns(3)
-    c1.metric("Living in poverty¹", "8.4%")
-    c2.metric("Uninsured, under 65¹", "4.9%")
-    c3.metric("Disability, under 65¹", "9.2%")
-    access_profile = pd.DataFrame({"Community measure": ["Poverty · source-defined population", "Uninsured · under 65", "Disability · under 65"], "Percent": [8.4, 4.9, 9.2]})
-    st.bar_chart(access_profile, x="Community measure", y="Percent", horizontal=True, color="#28785c")
-    if ahrf and pop and pd.notna(ahrf.get("pcp")):
-        st.caption(f"HRSA context²: {int(float(ahrf['pcp'])):,} primary-care physicians in 2023 ({float(ahrf['pcp'])/pop*10000:.1f} per 10,000 residents). This is not a shortage designation or appointment-wait measure.")
-    with st.expander("Disability detail and data still needed"):
-        if places is not None and not places.empty:
-            profile = places[places["MeasureId"].isin(["DISABILITY", "MOBILITY", "COGNITION", "LACKTRPT"])].copy()
-            if not profile.empty:
-                cols = [c for c in ["Measure", "Data_Value", "Year", "Data_Value_Type"] if c in profile.columns]
-                show_readable_table(profile[cols], hide_index=True, width="stretch")
-                st.caption("CDC PLACES: model-based adult crude prevalence estimates, not the Census under-65 disability measure. All-cause support context, not Lyme-attributable.")
-        st.write("Not yet verified: current HRSA shortage boundaries, appointment waits, healthcare travel time, Census vehicle access, Medicaid coverage and Lyme-specific Medicaid payments.")
-        st.markdown("[Check official HRSA shortage areas](https://data.hrsa.gov/topics/health-workforce/shortage-areas)")
-    st.markdown("**Takeaway:** support needs and provider counts coexist in this county; they do not prove a local access problem for each resident. **Action:** check referral failures and transport or insurance barriers with partners.")
-    st.caption("Community context, not Lyme patient counts or a ranking. Groups overlap. Existing conditions can add care needs; these figures do not establish higher Lyme risk.")
-    st.markdown("**First step:** ask clinical and community partners to record appointment waits, unsuccessful referrals and the barriers patients identify. Physician counts alone do not show available appointments.")
+    st.markdown("## Figure 2 · Who may need more support?")
+    st.write("Disability, language and digital access can shape navigation needs. Compare these contexts with exposure and illness; do not combine them into a risk score.")
+    support68 = pd.DataFrame([
+        {"County": "Orange", "Disability under 65 (%)": 7.7, "Language other than English at home, age 5+ (%)": 30.2, "Households without broadband subscription (%)": 10.7},
+        {"County": "Dutchess", "Disability under 65 (%)": 9.2, "Language other than English at home, age 5+ (%)": 16.2, "Households without broadband subscription (%)": 6.5},
+    ])
+    left68, right68 = st.columns(2)
+    with left68:
+        st.markdown("**All-cause disability · under 65¹**")
+        county_bars(support68, "Disability under 65 (%)")
+    with right68:
+        st.markdown("**Rural residents · 2020²**")
+        rural68 = pd.DataFrame([{"County":"Orange", "Rural residents (%)":110690 / 401310 * 100}, {"County":"Dutchess", "Rural residents (%)":93921 / 295911 * 100}])
+        county_bars(rural68, "Rural residents (%)")
+    show_readable_table(support68, hide_index=True, width="stretch")
+    st.caption("¹ Census QuickFacts, 2020–2024 ACS. Broadband complement = 100 − subscription percentage. Different denominators; groups overlap. Disability is all-cause, not Lyme-attributable. Differences are descriptive, not significance tests.")
+    capacity68 = []
+    for county68, fips68 in [("Orange", "36071"), ("Dutchess", "36027")]:
+        a68 = load_ahrf_county(fips68)
+        p68 = a68.get("population") if a68 else None
+        n68 = a68.get("pcp") if a68 else None
+        rate68 = float(n68) / float(p68) * 10000 if pd.notna(p68) and pd.notna(n68) and float(p68) > 0 else None
+        capacity68.append({"County":county68,"Primary-care physicians · 2023":n68,"Per 10,000 residents · 2023":round(rate68,2) if rate68 is not None else None})
+    if any(pd.notna(row["Primary-care physicians · 2023"]) for row in capacity68):
+        show_readable_table(pd.DataFrame(capacity68), hide_index=True, width="stretch")
+    st.caption("² HRSA AHRF 2024–2025 release: 2020 Census rural population / 2020 Census total population; 2023 physician counts / 2023 population. Both counties have USDA RUCC 2023 code 2 (metro). Metro counties still contain rural residents. Physician counts do not measure waits or shortage designation.")
+    st.markdown("**What counties can test:** accessible referral help in Dutchess; multilingual and telephone options in Orange; transport and appointment barriers in rural parts of both. These are planning suggestions, not measured intervention effects.")
+    st.markdown("**Measure the result:** days to first available appointment, completed referrals, barrier reason, patient travel time and cost, and daily function. Compare rural and urban residents only with consented, adequately sized local groups.")
+    with st.expander("CDC disability detail · compare both counties"):
+        detail68=[]
+        for county68, fips68 in [("Orange","36071"),("Dutchess","36027")]:
+            p68=load_places_county(fips68)
+            if p68 is not None and not p68.empty:
+                p68=p68[p68["MeasureId"].isin(["DISABILITY","MOBILITY","COGNITION","LACKTRPT"])].copy()
+                if "Data_Value_Type" in p68:
+                    p68=p68[p68["Data_Value_Type"].astype(str).str.contains("Crude",case=False)]
+                p68.insert(0,"County",county68)
+                detail68.append(p68[[c for c in ["County","Measure","Data_Value","Year","Data_Value_Type"] if c in p68]])
+        if detail68:
+            show_readable_table(pd.concat(detail68,ignore_index=True), hide_index=True, width="stretch")
+
+        st.caption("CDC PLACES 2025 release: modeled adult estimates, with measure-specific years. Separate from the Census under-65 measure; not Lyme outcomes.")
+    st.markdown("[Check HRSA shortage areas](https://data.hrsa.gov/topics/health-workforce/shortage-areas) · [CMS hospital emergency-department duration](https://data.cms.gov/provider-data/dataset/yv7e-xc69)")
+
+    with st.expander("Sources and rural methods"):
+        st.markdown("¹ [Orange Census](https://www.census.gov/quickfacts/fact/table/orangecountynewyork/DIS010224) · [Dutchess Census](https://www.census.gov/quickfacts/fact/table/dutchesscountynewyork/DIS010224) · ² [HRSA AHRF](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf) · [USDA rural definitions](https://www.ers.usda.gov/data-products/rural-urban-continuum-codes/documentation) · [Tract-level RUCA](https://www.ers.usda.gov/data-products/rural-urban-commuting-area-codes/descriptions-and-maps) · [CDC Lyme surveillance](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
+        st.markdown("[CDC tick surveillance datasets](https://www.cdc.gov/ticks/data-research/facts-stats/tick-surveillance-data-sets.html): cumulative distribution records through December 31, 2025; established/reported status is not tick density. Keep historical 2022 observations labeled by their sampling period.")
+        st.write("Checked October 8, 2026. Public aggregates aligned by county FIPS; no person-level linkage. County rural shares use Census geography, not HRSA program eligibility or RUCA. Tract-level shortage boundaries, actual waits and travel-to-care remain separate local measurements; commuting time is not healthcare travel time.")
+    export68=support68.merge(rural68,on="County").merge(pd.DataFrame(capacity68),on="County")
+    export68["Interpretation"]="All-cause community context; not Lyme-attributable, a causal estimate or official shortage designation"
+    st.download_button("Download two-county support comparison",export68.to_csv(index=False).encode("utf-8-sig"),file_name="Support68.csv",mime="text/csv")
 
     st.markdown("## Figure 3 · Where can the invisible journey become easier?")
     journey_steps = st.columns(3)

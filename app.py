@@ -2024,17 +2024,12 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("I want to learn", "Explore Lyme, tick-borne illness and prevention—no personal information needed.", "📚 Learn", "learn"),
-    ("I’m planning a visit or outdoor activity", "Explore destination tick information and prepare a prevention plan.", "🛡️ Prevention", "outdoors"),
-    ("I found a tick", "Find removal guidance and information about contacting a clinician.", "🛡️ Prevention", "bite"),
-    ("I feel unwell after possible exposure", "Organize symptoms and prepare for a medical visit.", "🧭 Timely Care & Support", "symptoms"),
-    ("I have ongoing symptoms", "Organize your journey and find care and daily-life support.", "🧭 Timely Care & Support", "ongoing"),
-    ("I’m helping someone else", "Help someone prepare their story and find support, with their permission.", "🧭 Timely Care & Support", "caregiver"),
-    ("I’m a policymaker or work in public health", "Compare counties and explore ways to help residents reach care.", "📊 Community Burden & Action", "county"),
-    ("I’m a healthcare provider", "Help patients prepare their history, questions and support needs.", "🧭 Timely Care & Support", "provider"),
-    ("I want to contribute", "Leave a brief suggestion or tell us how you would like to help.", "💬 Contribute", "contribute"),
+    ("Learn & Prevent", "Understand ticks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
+    ("Care & Support", "Found a tick, feel unwell, or need help? Start here.", "🧭 Care & Support", "ongoing"),
+    ("Community Burden & Action", "For policymakers and public health teams: compare counties and explore what can help residents.", "📊 Community Burden & Action", "county"),
+    ("Share Feedback", "Tell us what works, what needs improvement, or how you would like to help.", "💬 Share Feedback", "contribute"),
 ]
-available_views = ["📚 Learn", "🛡️ Prevention", "🧭 Timely Care & Support", "📊 Community Burden & Action", "💬 Contribute"]
+available_views = ["🛡️ Learn & Prevent", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if st.session_state.get("pathway_view") not in available_views:
@@ -2043,10 +2038,9 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-    st.markdown("### A tiny tick bite can have a big impact.")
-    st.write("Tick-borne illnesses can affect health, work, and daily life. Knowing how to prevent bites and when to seek care matters—at home and when traveling.")
-    st.markdown("**Find your next step with PathwayAI.**")
-    st.write("Prepare for outdoor activities, organize your health journey, or explore the burden on your community.")
+    st.markdown("### From prevention to care and support")
+    st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
+    st.markdown("**Prevent bites → Reach care → Get support → Plan local action**")
     with st.expander("Why does this matter?"):
         st.write("CDC estimates approximately 476,000 people were diagnosed and treated for Lyme disease annually in the United States, based on insurance-claims research from 2010–2018. Most people recover with appropriate treatment, especially when treated early.¹")
         st.caption("This is an estimate of diagnoses and treatment, not a count of confirmed infections or a new 2026 case count.")
@@ -2062,6 +2056,7 @@ if not st.session_state.get("pathway_open", False):
     st.stop()
 
 st.button("← Change my path", key="change_path", on_click=return_to_path_choices)
+st.caption("Prevent bites → Reach care → Get support → Plan local action")
 st.caption("PathwayAI · " + view)
 
 
@@ -2069,8 +2064,8 @@ def show_brief_feedback():
     st.subheader("Help shape PathwayAI")
     st.write("Explore the tool, then tell us what could make it more useful—or how you’d like to help.")
     choices = [
-        ("Explore prevention and travel", "🛡️ Prevention", "outdoors"),
-        ("Explore patient journey and support", "🧭 Timely Care & Support", "ongoing"),
+        ("Explore prevention and travel", "🛡️ Learn & Prevent", "outdoors"),
+        ("Explore patient journey and support", "🧭 Care & Support", "ongoing"),
         ("Explore community burden", "📊 Community Burden & Action", "county"),
     ]
     for label, target, intent in choices:
@@ -2084,18 +2079,9 @@ def show_brief_feedback():
     st.caption('Opens your email app; press Send there. If it does not open, copy the address into your email service.')
     st.write("Thank you so much for your contribution!")
 
-if view == "📚 Learn":
-    st.header("Why pay attention to ticks?")
-    st.write("A tiny tick bite can have a big impact. Ticks can spread Lyme disease and other illnesses, making prevention and timely care important—whether you’re traveling, visiting a park, or spending time in your backyard.")
-    st.markdown("**Learn about tick-borne illness, protect yourself, and know what to do after a bite.**")
-    st.markdown("**Explore the basics**\n\n[CDC: About Lyme disease](https://www.cdc.gov/lyme/about/index.html) · [CDC: Tick-bite prevention](https://www.cdc.gov/ticks/prevention/index.html) · [CDC: After a tick bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
-    st.markdown("**Choose your next step**\n\n- Planning a visit? Open Prevention for destination surveillance and an outdoor plan.\n- Preparing for care? Open Timely Care & Support to organize your story.\n- Exploring local needs? Open Community Burden & Action for the Dutchess pilot.\n- Have an idea? Open Contribute and leave a short note.")
-    st.caption("County surveillance describes population context, not your individual chance of infection. Reported case counts and tick-presence categories are different measures.")
-    st.stop()
-
-if view == "💬 Contribute":
+if view == "💬 Share Feedback":
     show_brief_feedback()
-    st.caption('Patient Voice is separate: review and consent to sharing structured fields in Timely Care & Support.')
+    st.caption('Patient Voice is separate: review and consent to sharing structured fields in Care & Support.')
     st.stop()
 
 if view == "🧠 Research & Strategy Agent":
@@ -2103,8 +2089,11 @@ if view == "🧠 Research & Strategy Agent":
     st.stop()
 
 
-if view == "🛡️ Prevention":
-    st.header("🛡️ PREVENTION")
+if view == "🛡️ Learn & Prevent":
+    st.header("🛡️ LEARN & PREVENT")
+    st.write("Ticks can spread Lyme disease and other illnesses. Learn how to prevent bites and prepare for outdoor activities.")
+    with st.expander("Learn the basics"):
+        st.markdown("[About Lyme disease — CDC](https://www.cdc.gov/lyme/about/index.html) · [Prevent tick bites — CDC](https://www.cdc.gov/ticks/prevention/index.html)")
     show_section_hero("travel", "Know Your Exposure. Reduce Avoidable Risk.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
     if st.session_state.get("public_pathway_intent") == "bite":
         st.info("Found an attached tick? Remove it promptly with fine-tipped tweezers, grasping close to the skin and pulling steadily upward. Clean the area and your hands. Do not wait for this card; contact a clinician for advice about your bite, particularly if you develop symptoms.")
@@ -2153,7 +2142,7 @@ if view == "🛡️ Prevention":
         st.divider()
         st.header("My Outdoor Tick-Prevention Plan")
         st.info('Use this plan for prevention, not diagnosis or personal risk prediction.')
-        st.markdown("**Your next steps**\n- Before: prepare EPA-registered repellent and protective clothing; follow product instructions.\n- After outdoor activities: check your body, clothing, gear and pets; shower within two hours.\n- If you found a tick or feel unwell: use the bite guidance below or choose Timely Care & Support.")
+        st.markdown("**Your next steps**\n- Before: prepare EPA-registered repellent and protective clothing; follow product instructions.\n- After outdoor activities: check your body, clothing, gear and pets; shower within two hours.\n- If you found a tick or feel unwell: use the bite guidance below or choose Care & Support.")
 
         st.write(f"**Destination:** {travel_destination}")
         if normalize_zip(travel_zip):
@@ -2739,7 +2728,13 @@ if view == "📊 Community Burden & Action":
     st.download_button("Download County Action Plan", actions.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_action_plan_{fips}.csv", mime="text/csv")
     st.stop()
 
-st.header("🧭 TIMELY CARE & SUPPORT")
+st.header("🧭 CARE & SUPPORT")
+st.write("Prepare for a medical visit, find care, and get help with daily life.")
+care_paths71=st.columns(2)
+with care_paths71[0]:
+    st.button("I found a tick", key="care_bite71", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "bite"), use_container_width=True)
+with care_paths71[1]:
+    st.button("I’m a healthcare provider", key="care_provider71", on_click=select_public_pathway, args=("🧭 Care & Support", "provider"), use_container_width=True)
 if st.session_state.get("public_pathway_intent") == "provider":
     st.info("Help a patient prepare a summary of their history, questions and support needs. The patient can review and download it for a visit.")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')

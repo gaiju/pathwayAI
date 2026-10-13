@@ -2098,7 +2098,6 @@ if not st.session_state.get("pathway_open", False):
     st.caption("Our goal: less burden from tick-borne illness.")
     st.markdown("#### A small tick bite can have a big impact.")
     st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
-    st.caption("Delaware Water Gap, Pennsylvania / New Jersey · Photo: NPS staff, public domain. Scenic reference—not a measurement of tick activity at this site.")
     st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
     lyme74, reported79 = st.columns(2)
     with lyme74:

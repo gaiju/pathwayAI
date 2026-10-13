@@ -880,11 +880,11 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"] div.stButton > button {min-height:50px;font-size:1.04rem;font-weight:600;white-space:normal;}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
-/* v116: full-width photographic banner within Streamlit content area. */
+/* v122: preserve entire photo in responsive banner; no center cropping. */
 .pathway-photo116 {width:100%;margin:0.5rem 0 1.2rem;overflow:hidden;border-radius:14px;}
-.pathway-photo116 img {display:block;width:100%;height:auto;max-height:320px;object-fit:cover;object-position:center;}
+.pathway-photo116 img {display:block;width:100%;height:clamp(240px,32vw,430px);object-fit:contain;object-position:center;background:#10151a;}
 [data-testid="stMainBlockContainer"] {max-width: min(96vw, 1800px) !important;}
-@media(max-width:700px){.pathway-photo116 img{max-height:250px;}}
+@media(max-width:700px){.pathway-photo116 img{height:240px;object-fit:contain;}}
 </style>""", unsafe_allow_html=True)
 
 # -----------------------------

@@ -1,4 +1,4 @@
-# PathwayAI v90 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v91 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -2433,15 +2433,35 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-    st.markdown("### Prepare for care. Make hidden burden visible.")
-    st.write("GreenAcorn’s Lyme disease care and burden tool. Patients can leave with an appointment summary, a cost-and-time record, and a support resource. Community teams can review evidence and prepare a local support pilot.")
-    for label, detail, target, intent in paths:
-        st.button(label,key="route_"+intent,on_click=select_public_pathway,args=(target,intent),use_container_width=True)
-        st.write(detail)
-    with st.expander("About PathwayAI"):
-        st.write("Primary audience: county public-health and community teams. Patients and caregivers use the care-preparation tools and may contribute reviewed burden fields when collection is enabled.")
-        st.write("The county view focuses on Dutchess, with Orange as a comparison. Patient entries and national survey themes are separate from county statistics.")
-        st.write("PathwayAI does not diagnose, recommend treatment, arrange services or predict personal cost.")
+    st.markdown("### Make the hidden journey visible.")
+    st.write("Prepare for care, record costs and time, and find support.")
+    st.caption("Prevention → Care → Support → Action")
+    st.markdown("#### A small tick bite can have a big impact.")
+    st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
+    st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
+    lyme74, reported79 = st.columns(2)
+    with lyme74:
+        st.metric("Lyme · estimated each year", "476,000")
+        st.caption("People diagnosed and treated in the U.S. Estimate based on insurance claims from 2010–2018.¹")
+    with reported79:
+        st.metric("Lyme · reported each year", "80,000+")
+        st.caption("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
+    st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
+    st.caption("Travelers: Learn & Prevent. Patients and caregivers: Care & Support. Providers: open Care & Support, then choose the provider option. Policymakers and county teams: Community Burden & Action.")
+    for start in range(0, len(paths), 2):
+        cols = st.columns(2)
+        for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
+            with col:
+                st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
+                st.caption(detail)
+    with st.expander("Why does this matter?"):
+        st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
+        st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")
+    with st.expander("Other tick-related conditions · alpha-gal"):
+        st.write("Some tick bites can lead to alpha-gal syndrome, an allergy to products from mammals. This is a separate condition from Lyme disease.")
+        st.markdown("[CDC alpha-gal information](https://www.cdc.gov/alpha-gal-syndrome/about/index.html)")
+    st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
+    st.caption("¹ [CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html) · [Forest photo source and rights](https://npgallery.nps.gov/AssetDetail/cc3b6242-5cfe-4754-a632-00be104abe5c). No agency endorsement is implied.")
     st.stop()
 
 st.button("← Back to start", key="change_path", on_click=return_to_path_choices)

@@ -2737,12 +2737,12 @@ def open_sidebar_view():
 
 paths = [
     ("I want to prevent tick bites", "Learn about tick risks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
-    ("I've been bitten by a tick", "Find out what to do after a tick bite and when to seek care.", "🛡️ Learn & Prevent", "bite"),
+    ("I've been bitten by a tick", "Find out what to do after a tick bite and when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
     ("I need care & support", "Find health information, services, and optional tools to prepare for care.", "🧭 Care & Support", "ongoing"),
     ("I want to understand community burden", "Explore costs, local reports, and possible community actions.", "📊 Community Burden & Action", "county"),
 ]
 
-available_views = ["🛡️ Learn & Prevent", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
+available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if st.session_state.get("pathway_view") not in available_views:
@@ -2855,6 +2855,24 @@ if view == "🧠 Research & Strategy Agent":
     st.stop()
 
 
+if view == "🩹 Tick Bite: What Next?":
+    st.header("🩹 I've Been Bitten by a Tick — What Next?")
+    show_photo116("forest", "Woodland walking trail")
+    st.write("A tick bite does not always cause illness. These steps can help you decide what to do next.")
+    st.subheader("1. Remove the tick")
+    st.write("If the tick is attached, use clean, fine-tipped tweezers. Grasp it close to the skin and pull upward with steady pressure. Clean the bite area and your hands. Do not burn the tick or cover it with oil or petroleum jelly.")
+    st.subheader("2. Note when and where it happened")
+    st.write("Write down the date and place of the bite. Watch for a new rash, fever, fatigue, or other symptoms in the following days and weeks. A Lyme rash does not always look like a bull's-eye.")
+    st.subheader("3. Know when to get medical advice")
+    st.write("Contact a healthcare professional promptly if symptoms develop. After some high-risk bites, preventive antibiotics may be appropriate if started within 72 hours of tick removal; a clinician can assess whether this applies. Do not wait for symptoms if you need advice about prevention after a recent bite.")
+    st.markdown("[CDC: What to Do After a Tick Bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html) · [CDC: Signs and Symptoms of Lyme Disease](https://www.cdc.gov/lyme/signs-symptoms/index.html)")
+    st.info("Seek urgent medical attention for severe symptoms, such as trouble breathing, fainting, or new facial weakness. This app does not diagnose or recommend treatment.")
+    st.button("Find care and support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+    with st.expander("Learn more about Lyme disease, symptoms and rashes"):
+        show_lyme_learning78()
+    st.button("← Back to choices", key="bite118_back", on_click=return_to_path_choices)
+    st.stop()
+
 if view == "🛡️ Learn & Prevent":
     st.header("🛡️ LEARN & PREVENT")
     show_photo116("forest", "Woodland walking trail in a green forest")
@@ -2862,9 +2880,6 @@ if view == "🛡️ Learn & Prevent":
     with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=True):
         show_lyme_learning78()
     show_section_hero("travel", "Plan Your Outdoor Visit. Prepare for Ticks.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
-    if st.session_state.get("public_pathway_intent") == "bite":
-        st.info("Found an attached tick? Remove it promptly with fine-tipped tweezers, grasping close to the skin and pulling steadily upward. Clean the area and your hands. Do not wait for this card; contact a clinician for advice about your bite, particularly if you develop symptoms.")
-        st.markdown("[CDC tick-removal guidance](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
     st.subheader("Plan Your Outdoor Activities")
 
     travel_zip = st.text_input(

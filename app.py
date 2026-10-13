@@ -2579,14 +2579,14 @@ if view == "📊 Community Burden & Action":
     st.markdown("### Language context · Orange and Dutchess")
     st.caption("Residents age 5+ who speak a language other than English at home · Census ACS 2020–2024. This is not an interpreter-needs estimate.")
     language_values83 = {"36071": ("Orange", 30.2), "36027": ("Dutchess", 16.2)}
-    bounds83 = (-74.85, 41.05, -73.45, 42.15)
-    parts83 = ['<svg viewBox="0 0 760 380" role="img" aria-label="Language other than English at home: Orange 30.2 percent, Dutchess 16.2 percent" xmlns="http://www.w3.org/2000/svg"><title>County language context, Census ACS 2020–2024</title><rect width="760" height="380" fill="#f8fafc"/>']
+    bounds83 = (-75.0, 40.95, -73.35, 42.25)
+    parts83 = ['<svg viewBox="0 0 760 380" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="display:block;font-family:Arial,sans-serif" role="img" aria-label="Language other than English at home: Orange 30.2 percent, Dutchess 16.2 percent" xmlns="http://www.w3.org/2000/svg"><title>County language context, Census ACS 2020–2024</title><rect width="760" height="380" fill="#f8fafc"/>']
     for feature83 in NYS_MAP_BOUNDARIES.get("features", []):
         fid83 = str(feature83.get("id", "")).zfill(5)
         if fid83 not in language_values83:
             continue
         name83, value83 = language_values83[fid83]
-        fill83 = "#236b8e" if fid83 == "36071" else "#83c3cf"
+        fill83 = "#C65D17" if fid83 == "36071" else "#2474A6"
         for path83 in _geom_paths(feature83.get("geometry"), bounds83, 760, 380):
             parts83.append(f'<path d="{path83}" fill="{fill83}" stroke="white" stroke-width="3"><title>{name83}: {value83}%</title></path>')
         center83 = _geometry_centroid(feature83.get("geometry"))
@@ -2594,8 +2594,8 @@ if view == "📊 Community Burden & Action":
             x83, y83 = _project_svg(*center83, bounds83, 760, 380)
             parts83.append(f'<text x="{x83:.1f}" y="{y83:.1f}" text-anchor="middle" fill="#122f43" stroke="white" stroke-width="3" paint-order="stroke" font-size="20" font-weight="bold">{name83} {value83}%</text>')
     parts83.append('</svg>')
-    components.html(''.join(parts83), height=390)
-    st.caption("Light teal: Dutchess 16.2%. Dark teal: Orange 30.2%. Simplified county boundaries; descriptive community context, not Lyme risk.")
+    components.html('<style>html,body{margin:0;padding:0;height:100%;overflow:hidden}</style><div style="height:380px;width:100%">'+''.join(parts83)+'</div>', height=385)
+    st.caption("Orange: 30.2%. Blue: Dutchess 16.2%. Colors identify counties, not risk levels. Simplified county boundaries.")
     st.write("**Actions to consider:** ask residents which language they prefer, offer translated prevention materials, and confirm interpreter services with care partners. Do not infer English ability from the language spoken at home.")
     with st.expander("Language sources and next data step"):
         st.markdown("[Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork) · [HRSA interpretation guidance](https://bphc.hrsa.gov/compliance/compliance-manual/chapter4)")

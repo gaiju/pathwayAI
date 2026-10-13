@@ -1,4 +1,4 @@
-# PathwayAI v106 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v109 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -204,7 +204,7 @@ def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
     st.markdown("### Economic burden: what is measured and what is missing")
     st.caption("Published evidence, patient reports, and illustrative scenarios are separate. "
-               "No Bayesian estimate or county-level Stage 0 cost has been fitted.")
+               "We have not calculated a reliable cost for the time before diagnosis in this county.")
 
     published = pd.DataFrame([
         {"Measure": "Societal cost, mean per participant",
@@ -226,26 +226,26 @@ def show_burden_evidence_panel104():
             "Do not add their values, interpret them as a single cost distribution, "
             "or call them pre-diagnosis costs.")
 
-    st.markdown("#### Explore a fictional cost breakdown")
+    st.markdown("#### See an example of how costs add up")
     st.write("A pie chart is useful for an individual scenario with mutually exclusive categories. "
              "The published sources above do not establish a comparable, complete "
              "Stage 0 percentage breakdown.")
     with st.expander("Open synthetic pie chart and cost table", expanded=True):
         st.caption("Entirely synthetic demonstration. Adjust amounts; no patient data are used or stored.")
         c1, c2, c3 = st.columns(3)
-        medical = c1.number_input("Patient-paid medical ($)", 0, 100000, 400, 50, key="burden104_med")
+        medical = c1.number_input("Medical bills paid by the patient ($)", 0, 100000, 400, 50, key="burden104_med")
         nonmedical = c2.number_input("Travel and other nonmedical ($)", 0, 100000, 100, 25, key="burden104_other")
-        work = c3.number_input("Modeled work loss ($)", 0, 100000, 600, 50, key="burden104_work")
+        work = c3.number_input("Estimated value of missed work ($)", 0, 100000, 600, 50, key="burden104_work")
         components = pd.DataFrame([
             {"Component": "Patient-paid medical", "USD": medical},
-            {"Component": "Nonmedical", "USD": nonmedical},
+            {"Component": "Other expenses", "USD": nonmedical},
             {"Component": "Modeled work loss", "USD": work},
         ])
         total = int(components["USD"].sum())
         components["Share"] = components["USD"].apply(
             lambda v: f"{v / total:.1%}" if total else "Not applicable"
         )
-        st.metric("Fictional total", f"${total:,}")
+        st.metric("Example total (not a real patient)", f"${total:,}")
         if total:
             import altair as alt
             pie = alt.Chart(components).mark_arc(innerRadius=55).encode(
@@ -300,9 +300,9 @@ def policy_ai105():
         "Which access barriers could a community assess, and how might they be measured?",
         "What evidence is missing before estimating local Stage 0 costs?",
     ]
-    question = st.selectbox("Policy question", questions, key="policy_ai105_question")
+    question = st.selectbox("What would you like to understand?", questions, key="policy_ai105_question")
     st.caption("Only the selected question and the fixed public evidence summary below are sent to the configured AI service. No Patient Voice records or patient stories are included.")
-    if st.button("Generate evidence-grounded analysis", key="policy_ai105_run", type="primary"):
+    if st.button("Ask AI to explain the evidence", key="policy_ai105_run", type="primary"):
         if not OPENAI_API_KEY or not PATHWAYAI_LLM_MODEL:
             st.info("Live AI is not configured. Set OPENAI_API_KEY and PATHWAYAI_LLM_MODEL in Streamlit secrets to enable this feature.")
             return
@@ -338,9 +338,9 @@ def policy_ai105():
             st.session_state["policy_ai105_answer_question"] = question
     if st.session_state.get("policy_ai105_answer") and st.session_state.get("policy_ai105_answer_question") == question:
         st.markdown(st.session_state["policy_ai105_answer"])
-        st.caption("AI-generated interpretation, not validated economic modeling or an official HHS recommendation. Verify sources before policy use.")
+        st.caption("AI can make mistakes. Check the linked sources before using this summary to plan services.")
         note = "\n".join([
-            "PathwayAI | AI Community Burden Analyst | v107",
+            "PathwayAI | AI guide for community health needs | v109",
             "Generated: " + pd.Timestamp.utcnow().isoformat(),
             "Question: " + question,
             "Evidence snapshot: NYSDOH 2024; Census ACS 2020–2024; PathwayAI voluntary survey snapshot October 3, 2026; Hook 2022; Yu 2026.",
@@ -351,7 +351,24 @@ def policy_ai105():
             "Limitations: Independent demonstration, not county-endorsed; no validated county Stage 0 estimate, intervention savings, causal inference, or Bayesian posterior.",
             "", "AI-GENERATED INTERPRETATION", st.session_state["policy_ai105_answer"]
         ])
-        st.download_button("Download AI planning note with sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v107.txt", mime="text/plain", key="policy_ai105_download")
+        st.download_button("Download AI summary and sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v109.txt", mime="text/plain", key="policy_ai105_download")
+
+
+def plain_language_help108():
+    st.markdown("### What can this page help you do?")
+    st.write(
+        "If you live in or visit an area with ticks, find prevention information and care resources. "
+        "If you are dealing with Lyme disease, keep track of costs, missed work, and questions for your care team. "
+        "If you work in public health, compare local reports with published research and explore where people may need support."
+    )
+    with st.expander("Simple explanations of terms used on this page"):
+        st.write("**Economic burden:** Money spent and income or time lost because of illness.")
+        st.write("**Before diagnosis (sometimes called Stage 0 here):** The time before Lyme disease was diagnosed; not an official medical stage.")
+        st.write("**Surveillance:** Information health departments collect about reported disease or ticks.")
+        st.write("**Out-of-pocket costs:** Money you pay yourself, such as copays or travel.")
+        st.write("**Published benchmark:** A result from a research study, not a prediction of your costs.")
+        st.write("**Synthetic or fictional example:** Made-up numbers used to show how a feature works.")
+        st.write("**AI summary:** A computer-generated explanation that may make mistakes. Check the linked sources.")
 
 
 def public_value107():
@@ -373,7 +390,11 @@ def public_value107():
 def policy89():
     st.header("Community burden & action")
     st.write("Explore public-health evidence, patient and community needs, and possible next steps. This is an independent prototype, not an official county service.")
-    public_value107()
+    st.write("**For residents:** Learn about tick risks and find help. **For community teams:** See reported Lyme cases, explore costs from published studies, and download a planning brief.")
+    st.write("**Start here:** Ask the AI guide a question about community needs, or explore costs using published research below.")
+    with st.expander("About this tool and how to use it"):
+        plain_language_help108()
+        public_value107()
     with st.expander("Change community"):
         county=county_selector88("policy89")
     if county == "Not selected": county="Dutchess County, New York"
@@ -382,15 +403,15 @@ def policy89():
         st.info("The detailed evidence demonstration below uses Dutchess County public data as an example. "
                 "Do not interpret its figures or AI responses as estimates for the selected community.")
         return
-    st.markdown("### Public-data example: Dutchess County · evidence snapshot")
+    st.markdown("### Dutchess County: an example using public data · evidence snapshot")
     a106, b106 = st.columns(2)
     a106.metric("Reported Lyme cases · 2024", "1,060")
     b106.metric("Reported rate · per 100,000", "355.5")
-    st.caption("NYSDOH 2024 county surveillance; cases by residence, not exposure. Public-data demonstration only; no county endorsement or Stage 0 cost estimate.")
+    st.caption("2024 New York State health data. These are reported cases, not a count of tick bites. This is not an official county service.")
     policy_ai105()
-    st.markdown("### Explore published-cost scenarios")
+    st.markdown("### Explore costs using published research")
     scenario_notes101 = planning_scenario101()
-    st.markdown("### Explore local surveillance")
+    st.markdown("### Explore local Lyme disease reports")
     st.markdown("### 1. Explore the place")
     map_view=st.radio("Map view",["New York","Dutchess–Orange"],horizontal=True,key="map100")
     show_nys_tick_density_map(zoom=(map_view=="Dutchess–Orange"))
@@ -418,7 +439,8 @@ def policy89():
     with st.expander("Comparison sources and interpretation"):
         st.write("Tick observations describe sampled sites; cases describe residents, not necessarily exposure location. Language spoken at home does not establish interpreter need. These separate measures do not establish a causal relationship.")
         st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [NYSDOH rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf) · [Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork)")
-    show_burden_evidence_panel104()
+    with st.expander("Optional: cost chart and detailed research"):
+        show_burden_evidence_panel104()
     st.markdown("### 3. Explore broader burden evidence")
     st.write("Survey and literature references across locations, separate from Dutchess data.")
     with st.expander("PathwayAI survey · small sample across locations"):
@@ -2709,33 +2731,36 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-    st.markdown("### Make the hidden journey visible.")
+    st.markdown("### Prevent tick bites. Prepare for care. Find help.")
+    st.write("**Patients and families:** Write a short visit summary, keep track of costs and missed work, and find a support contact.")
+    st.write("**Community teams:** Explore local Lyme reports, ask questions about needs, and download a planning brief.")
+    st.caption("This is a working example using public data. Sharing personal information is optional. PathwayAI does not diagnose or recommend treatment.")
     st.write("Prepare for care, record costs and time, and find support.")
-    st.caption("Prevention → Care → Support → Action")
     st.markdown("#### A small tick bite can have a big impact.")
     st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
     st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
-    lyme74, reported79 = st.columns(2)
-    with lyme74:
-        st.metric("Lyme · estimated each year", "476,000")
-        st.caption("People diagnosed and treated in the U.S. Estimate based on insurance claims from 2010–2018.¹")
-    with reported79:
-        st.metric("Lyme · reported each year", "80,000+")
-        st.caption("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
-    disability102, cost102 = st.columns(2)
-    with disability102:
-        st.metric("Disabled employment status · study group", "35%")
-        st.write("Self-reported by persistent-illness participants described in MyLymeData’s 2025 Chartbook. Not a rate for all Lyme patients.")
-    with cost102:
-        st.metric("Published U.S. societal cost / year", "$345–968M")
-        st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")
-    with st.expander("Sources and scope of these burden figures"):
-        st.markdown("[MyLymeData 2025 Chartbook · printed pages 22–23](https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf)")
-        st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
-        st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
-        st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
-    st.write("Explore medical bills, other spending, work loss and daily-life effects separately in the burden views.")
-    st.info("**Explore PathwayAI in 60 seconds:** Select **I want to explore community needs** → ask the AI Community Burden Analyst a policy question → adjust the published-cost planning scenario → review the burden chart and download a county brief. For the patient journey, select **I found a tick or need care and support** and try the fictional story example.")
+    with st.expander("Optional: research numbers and sources"):
+        lyme74, reported79 = st.columns(2)
+        with lyme74:
+            st.metric("Lyme · estimated each year", "476,000")
+            st.caption("People diagnosed and treated in the U.S. Estimate based on insurance claims from 2010–2018.¹")
+        with reported79:
+            st.metric("Lyme · reported each year", "80,000+")
+            st.caption("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
+        disability102, cost102 = st.columns(2)
+        with disability102:
+            st.metric("Disabled employment status · study group", "35%")
+            st.write("Self-reported by persistent-illness participants described in MyLymeData’s 2025 Chartbook. Not a rate for all Lyme patients.")
+        with cost102:
+            st.metric("Published U.S. societal cost / year", "$345–968M")
+            st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")
+        with st.expander("Sources and scope of these burden figures"):
+            st.markdown("[MyLymeData 2025 Chartbook · printed pages 22–23](https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf)")
+            st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
+            st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+            st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
+        st.write("Explore medical bills, other spending, work loss and daily-life effects separately in the burden views.")
+    st.info("**Try PathwayAI in one minute:** Select **I want to explore community needs** → ask the AI guide for community health needs a policy question → adjust the published-cost planning scenario → review the burden chart and download a county brief. For the patient journey, select **I found a tick or need care and support** and try the fictional story example.")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
     st.caption("Travelers: Learn & Prevent. Patients and caregivers: Care & Support. Providers: open Care & Support, then choose the provider option. Policymakers and county teams: Community Burden & Action.")
     for start in range(0, len(paths), 2):
@@ -3596,7 +3621,8 @@ if view == "📊 Community Burden & Action":
 st.header("Care & support")
 with st.container(border=True):
     st.markdown("**Leave with a visit summary and a clearer burden record**")
-    st.write("For patients and caregivers preparing for a Lyme-related visit. Organize your story and record money paid and time lost. Download a summary to share, then find a contact for your support needs. Community Voice sharing is optional and currently unavailable unless collection is enabled.")
+    st.write("**1. Tell your story. 2. Download a visit summary. 3. Find a phone number or service that can help.**")
+    st.write("You can use the tool without sharing your story with the community.")
 with st.expander("About this tool"):
     st.write("Working prototype for feedback. PathwayAI helps with preparation and support information; clinicians determine diagnosis and care. Planned access channels include clinic handouts and patient-advocate groups.")
 # QUICK START — STORY FIRST
@@ -4069,7 +4095,7 @@ show_sample_burden_card()
 st.markdown("#### Optional transparent cost inputs")
 cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
 burden_phase81 = st.selectbox("Which part of your journey do these amounts cover?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="burden_phase81")
-st.caption("Stage 0 means the period before diagnosis in this burden record. It is not an official clinical stage. If amounts cover both periods, this app cannot separate them or call them pre-diagnosis costs.")
+st.caption("“Before diagnosis” means the time before a person learned they had Lyme disease. It is not a medical stage. If your costs cover both before and after diagnosis, we cannot separate them for you.")
 st.caption('Use one time period. Enter only money you paid. Leave unknown amounts blank. Count each payment once; do not repeat a specialist or test payment under medical spending.')
 medical_cost = st.number_input("Medical / healthcare spending ($)", min_value=0.0, value=None, step=100.0)
 second_opinion_cost = st.number_input("Second opinion / specialist evaluation spending ($)", min_value=0.0, value=None, step=100.0, help="This may represent appropriate or beneficial care. PathwayAI does not automatically treat it as avoidable.")
@@ -4158,10 +4184,10 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     symptom_text = ", ".join(combined_symptoms) if combined_symptoms else "Not reported"
 
     st.divider()
-    st.header("My PathwayAI Journey Card")
+    st.header("Your visit summary")
 
     # Journey at a glance — make the invisible pathway visible before details
-    st.subheader("Journey at a Glance")
+    st.subheader("Your story at a glance")
     j1, j2, j3, j4, j5, j6 = st.columns(6)
     j1.markdown("**1 · Exposure**")
     j1.caption("Tick / place / time")

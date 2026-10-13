@@ -3603,19 +3603,20 @@ if view == "📊 Community Burden & Action":
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     st.stop()
 
-st.header("Care & support")
+st.header("Timely Care & Community Support")
 with st.container(border=True):
-    st.markdown("**Leave with a visit summary and a clearer burden record**")
-    st.write("For patients and caregivers preparing for a Lyme-related visit. Organize your story and record money paid and time lost. Download a summary to share, then find a contact for your support needs. Community Voice sharing is optional and currently unavailable unless collection is enabled.")
-with st.expander("About this tool"):
-    st.write("Working prototype for feedback. PathwayAI helps with preparation and support information; clinicians determine diagnosis and care. Planned access channels include clinic handouts and patient-advocate groups.")
+    st.markdown("**Find information, prepare for care, and connect with support**")
+    st.write("Explore reliable information about Lyme disease, prepare for medical care, and find healthcare and community resources. You can also record how illness affects your health, work, and daily life.")
+with st.expander("About this tool and privacy"):
+    st.write("PathwayAI is a working prototype. It does not diagnose illness or recommend treatment. A healthcare professional can help you decide what care you need.")
+    st.write("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST
 
 # Location is intentionally optional and comes after the patient receives immediate value.
 # This keeps the opening experience supportive rather than feeling like data collection.
 current_location_start = st.session_state.get("current_location_start", "")
 
-st.markdown("### 1. Prepare your visit summary")
+st.markdown("### Optional: Prepare for a medical visit")
 st.write("One or two sentences are enough. Review the summary before sharing it.")
 st.write("Please leave out names, contact details and other identifying information.")
 

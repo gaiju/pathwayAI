@@ -19,6 +19,45 @@ from io import BytesIO
 from pathlib import Path
 from urllib.parse import quote_plus, urlencode
 
+def show_lyme_learning78():
+    """Source-based education, separate from diagnosis and personal-risk estimates."""
+    st.markdown("### What is Lyme disease?")
+    st.write("Lyme disease is an infection caused by Borrelia bacteria spread through the bite of an infected blacklegged tick. A tick bite does not always cause infection.")
+    overview, symptoms_tab, photos_tab, science_tab = st.tabs([
+        "Start here", "Symptoms & timing", "Rash reference", "History & research"
+    ])
+    with overview:
+        st.write("Prevention, prompt tick removal and appropriate care matter. Record the date and place of a bite and any new symptoms. A photo or checklist cannot diagnose Lyme disease.")
+        st.markdown("**Tick stages:** egg → larva → nymph → adult. Nymphs are small and easy to miss. A tick grows larger as it feeds; a photo alone cannot reliably tell how long it was attached.")
+        stage_image78, fed_image78 = st.columns(2)
+        with stage_image78:
+            st.image("https://www.cdc.gov/ticks/media/images/2024/04/Iscap-lifeseries.jpg", caption="CDC: blacklegged tick life stages shown beside a dime for scale.", use_container_width=True)
+        with fed_image78:
+            st.image("https://wwwn.cdc.gov/phil/PHIL_Images/15993/15993_lores.jpg", caption="Engorged female blacklegged tick. Credit: CDC / Dr. Gary Alpert; PHIL 15993. Different reference specimens—not a before-and-after pair.", use_container_width=True)
+        st.markdown("[CDC tick life stages and photos](https://www.cdc.gov/ticks/about/tick-lifecycles.html) · [CDC tick species reference](https://www.cdc.gov/ticks/about/where-ticks-live.html) · [Engorged blacklegged tick — CDC photo](https://wwwn.cdc.gov/phil/Details.aspx?pid=15993)")
+        st.caption("Tick life stages are not the same as stages of infection in a person. Compare reference images, but do not delay tick removal or care while trying to identify a species.")
+    with symptoms_tab:
+        early, later = st.columns(2)
+        with early:
+            st.markdown("**Early signs · often 3–30 days after a bite**")
+            st.write("Fever, chills, headache, fatigue, muscle or joint aches, swollen lymph nodes, or a gradually expanding rash. Symptoms may occur without a rash.")
+        with later:
+            st.markdown("**Possible later signs · days to months**")
+            st.write("Additional rashes, swollen painful joints, facial weakness, nerve pain or tingling, severe headache or neck stiffness, or an irregular heartbeat. These signs can have other causes.")
+        st.markdown("**Why timing matters:** antibody blood tests can be negative early, before antibodies develop. Clinicians consider symptoms, exposure and timing, and use the recommended two-step testing process when appropriate. Do not wait for a rash or a positive test before asking about concerning symptoms.")
+        st.write("Call emergency services for severe chest pain, severe trouble breathing, fainting, or sudden stroke-like symptoms. Seek prompt medical care for new symptoms after possible tick exposure.")
+        st.markdown("[CDC symptoms](https://www.cdc.gov/lyme/signs-symptoms/index.html) · [CDC testing](https://www.cdc.gov/lyme/diagnosis-testing/index.html) · [CDC treatment](https://www.cdc.gov/lyme/treatment/index.html)")
+    with photos_tab:
+        st.write("A Lyme rash may be evenly colored, oval, ring-shaped or have a darker center. It is not always a bull’s-eye, and its appearance can differ across skin tones.")
+        st.image("https://www.cdc.gov/lyme/media/images/EM-rashes.jpg", caption="CDC educational illustration: several forms of erythema migrans on different skin tones. Reference only—not a diagnostic tool.", use_container_width=True)
+        st.markdown("[See CDC’s clinical rash photo gallery and look-alikes](https://www.cdc.gov/lyme/signs-symptoms/lyme-disease-rashes.html)")
+        st.caption("The illustration is not a patient photograph. Individual clinical photos have separate credits and reuse terms. A small immediate bite reaction is different from a rash that expands over days; have a clinician assess a new or changing rash.")
+    with science_tab:
+        st.write("Lyme disease was recognized as a cluster in Connecticut in 1975. The bacterium’s discovery was reported in 1982. Recognition dates are not proof that the infection first existed then.")
+        st.write("Its spread involves ticks, animal hosts and human contact with tick habitats. We do not present a speculative single origin or a bacterial-form explanation for every testing or treatment problem.")
+        st.markdown("[NIH discovery history](https://irp.nih.gov/accomplishments/discovery-of-the-disease-agent-causing-lyme-disease) · [NIAID research resources](https://data.niaid.nih.gov/diseases/lyme-disease) · [Published Biobank follow-up study](https://doi.org/10.3389/fmed.2025.1577936)")
+        st.caption("Research describes study groups, not your diagnosis or expected outcome. Your clinician decides which evaluation and care fit your history.")
+    st.caption("Sources: CDC and NIH · checked October 13, 2026. Education supports care preparation; PathwayAI has not measured savings or illness prevented.")
 
 def show_tick_identification_guide():
     """Low-burden educational visual to help users distinguish a possible tick from common look-alikes."""
@@ -126,6 +165,7 @@ MAX_STORY_CHARS = positive_config_integer("PATHWAYAI_MAX_STORY_CHARS", 5000)
 MAX_AI_CALLS_PER_SESSION = positive_config_integer("PATHWAYAI_MAX_AI_CALLS_PER_SESSION", 5)
 OPENAI_API_KEY = _secret("OPENAI_API_KEY")
 PATHWAYAI_LLM_MODEL = _secret("PATHWAYAI_LLM_MODEL")
+PATIENT_VOICE_STORAGE_ENABLED = _secret("PATHWAYAI_PATIENT_VOICE_STORAGE_ENABLED", "false").casefold() in {"1", "true", "yes", "on"}
 
 AI_WINDOW_SECONDS = 30 * 60
 AI_WINDOW_MAX_REQUESTS = 3
@@ -166,6 +206,12 @@ def ai_call_allowed(kind="AI"):
         return False, "AI usage tracking is temporarily unavailable. Please try again later; other features remain available."
 
 def _limited_ai_urlopen(request, timeout=60):
+    session_calls = int(st.session_state.get("pathwayai_ai_calls", 0) or 0)
+    if session_calls >= MAX_AI_CALLS_PER_SESSION:
+        raise AIRateLimitError(
+            f"This session has reached its AI request limit ({MAX_AI_CALLS_PER_SESSION}). "
+            "Other PathwayAI features remain available."
+        )
     try:
         allowed, message = _ai_quota(Path(__file__).resolve().parent / ".pathwayai_ai_limits.sqlite3", _ai_bucket(), consume=True)
     except (sqlite3.Error, OSError):
@@ -173,6 +219,7 @@ def _limited_ai_urlopen(request, timeout=60):
     if not allowed:
         raise AIRateLimitError(message)
     # Reserve before sending: failed requests also consume quota. No automatic retries.
+    st.session_state["pathwayai_ai_calls"] = session_calls + 1
     return urllib.request.urlopen(request, timeout=timeout)
 
 def record_completed_ai_call():
@@ -553,6 +600,8 @@ def load_patient_voice(fips=None):
 
 def append_patient_voice(row):
     """Append reviewed structured fields only, using a small cross-platform lock file."""
+    if not PATIENT_VOICE_STORAGE_ENABLED:
+        return False
     import time
     cols = ["fips","delay_band","providers_seen","visits","oop_band","workdays","caregiver_hours","function","consent_time"]
     lock_path = Path(str(PATIENT_VOICE_FILE) + ".lock")
@@ -2019,6 +2068,13 @@ def select_public_pathway(target, intent):
 def return_to_path_choices():
     st.session_state["pathway_open"] = False
 
+def clear_session_and_return():
+    """Remove this browser session's PathwayAI inputs and return to the start screen."""
+    ai_calls = st.session_state.get("pathwayai_ai_calls", 0)
+    st.session_state.clear()
+    st.session_state["pathwayai_ai_calls"] = ai_calls
+    st.session_state["pathway_open"] = False
+
 def open_sidebar_view():
     st.session_state["pathway_open"] = True
     st.session_state["public_pathway_intent"] = "browse"
@@ -2040,6 +2096,18 @@ if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
     st.markdown("### Prevention → Care → Support → Action")
     st.caption("Our goal: less burden from tick-borne illness.")
+    st.markdown("#### A small tick bite can have a big impact.")
+    st.markdown('<svg viewBox="0 0 1000 140" role="img" aria-label="Decorative mountain and forest illustration; not an exposure map" xmlns="http://www.w3.org/2000/svg"><rect width="1000" height="140" fill="#e8f3f0"/><path d="M0 140 L180 20 L330 140 L500 5 L670 140 L810 35 L1000 140" fill="#98b8ac"/><path d="M0 140 L120 65 L230 140 L370 50 L500 140 L650 60 L820 140 L930 55 L1000 140" fill="#447a68"/><path d="M80 140 L110 70 L140 140 M235 140 L265 55 L295 140 M700 140 L730 65 L760 140 M860 140 L890 55 L920 140" fill="#194f42"/></svg>', unsafe_allow_html=True)
+    st.caption("Enjoy the outdoors. Plan for ticks in wooded, brushy and grassy places. Illustration only—not a local risk map.")
+    st.write("Ticks can spread Lyme disease and can trigger alpha-gal syndrome, a serious allergy to red meat and other products from mammals.")
+    st.markdown("- **More than 80,000** Lyme cases are reported to CDC each year.¹\n- **About 476,000** people are estimated to be diagnosed and treated each year in the U.S.¹\n- Reported cases and insurance-based treatment estimates are different measures—not numbers to add together.")
+    lyme74, ags74 = st.columns(2)
+    with lyme74:
+        st.metric("Lyme · estimated each year", "476,000")
+        st.caption("People diagnosed and treated in the U.S. Estimate based on insurance claims from 2010–2018.¹")
+    with ags74:
+        st.metric("Alpha-gal · suspected cases", "110,000+")
+        st.caption("Identified in the U.S. during 2010–2022. A total over several years, not an annual count.²")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
@@ -2048,14 +2116,23 @@ if not st.session_state.get("pathway_open", False):
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
     with st.expander("Why does this matter?"):
-        st.write("CDC estimates about 476,000 people were diagnosed and treated for Lyme disease each year, based on insurance claims from 2010–2018. This is not a count of confirmed infections.")
+        st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Alpha-gal suspected cases are not all confirmed disease. Not every tick bite causes illness.")
+        st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html) · [2026 CDC alpha-gal research](https://www.cdc.gov/mmwr/volumes/75/wr/mm7525a1.htm)")
+        st.caption("The 2026 study measured allergy antibodies among blood donors in 10 states. A positive antibody test does not by itself show alpha-gal illness.")
     st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
-    st.caption("¹ Sources: [CDC diagnoses study](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article) · [CDC prevention](https://www.cdc.gov/ticks/prevention/)")
+    st.caption("¹ [CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html) · ² [CDC alpha-gal facts](https://www.cdc.gov/alpha-gal-syndrome/about/index.html). Different measures and years; do not add these figures. Sources checked October 8, 2026.")
     st.stop()
 
 st.button("← Back to start", key="change_path", on_click=return_to_path_choices)
 st.caption("Prevention → Care → Support → Action · Our goal: less burden from tick-borne illness.")
 st.caption("PathwayAI · " + view)
+page_purpose75 = {
+    "🛡️ Learn & Prevent": "Learn how to prevent bites and prepare for an outdoor visit. Illness can bring medical bills and time away from work.",
+    "🧭 Care & Support": "Prepare your story for care. Track money and time, and find help with transport, benefits and language needs.",
+    "📊 Community Burden & Action": "Compare public county data, then plan how to help people reach care and support. Check visits completed, spending and time lost.",
+    "💬 Share Feedback": "Help us make the steps clearer and the burden easier to record."
+}
+st.caption(page_purpose75.get(view, ""))
 
 
 def show_brief_feedback():
@@ -2092,9 +2169,9 @@ if view == "🧠 Research & Strategy Agent":
 if view == "🛡️ Learn & Prevent":
     st.header("🛡️ LEARN & PREVENT")
     st.write("Ticks can spread Lyme disease and other illnesses. Learn how to prevent bites and prepare for outdoor activities.")
-    with st.expander("Learn the basics"):
-        st.markdown("[About Lyme disease — CDC](https://www.cdc.gov/lyme/about/index.html) · [Prevent tick bites — CDC](https://www.cdc.gov/ticks/prevention/index.html)")
-    show_section_hero("travel", "Know Your Exposure. Reduce Avoidable Risk.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
+    with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=True):
+        show_lyme_learning78()
+    show_section_hero("travel", "Plan Your Outdoor Visit. Prepare for Ticks.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
     if st.session_state.get("public_pathway_intent") == "bite":
         st.info("Found an attached tick? Remove it promptly with fine-tipped tweezers, grasping close to the skin and pulling steadily upward. Clean the area and your hands. Do not wait for this card; contact a clinician for advice about your bite, particularly if you develop symptoms.")
         st.markdown("[CDC tick-removal guidance](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
@@ -2441,6 +2518,17 @@ if view == "📊 Community Burden & Action":
         st.caption("Reported cases per 100,000 residents; official NYSDOH annual rates.")
 
     show_readable_table(comparison_2024, hide_index=True, width="stretch")
+    st.markdown("### What this comparison means")
+    meaning_cols77 = st.columns(3)
+    for column, title, detail in [
+        (meaning_cols77[0], "What we know", "The two 2024 public measures show different county patterns."),
+        (meaning_cols77[1], "What we do not know", "One tick site per county cannot explain why reported Lyme rates differ."),
+        (meaning_cols77[2], "What counties can do next", "Track likely exposure place, completed referrals, appointment barriers, spending and time lost."),
+    ]:
+        with column:
+            with st.container(border=True):
+                st.markdown("**" + title + "**")
+                st.caption(detail)
     st.markdown("### Why might the numbers differ?")
     st.write("Tick sampling covers selected places. Lyme reports count people where they live, which may differ from where they were bitten. One tick site in each county cannot explain the difference.")
     questions70 = pd.DataFrame([
@@ -2544,8 +2632,15 @@ if view == "📊 Community Burden & Action":
     st.markdown("### How can we reduce burden?")
     st.write("Help people prepare their story for a medical visit, find care, and get help with transport, insurance and benefits. A second opinion may help when questions remain.")
     st.markdown("**What to check:** visits completed, money paid, travel costs, time spent helping someone, and days of work or daily activities missed. Use the same time period for each comparison.")
-    st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/) · [Dutchess transit routes](https://www.dutchessny.gov/Routes-Schedules.htm) · [Disability benefits information](https://www.ssa.gov/disability)")
-    st.caption("Proposed navigation pilot. Directories do not confirm appointment availability. Medical spending, household expenses and time are separate measures; do not add overlapping costs or benefit payments to one total.")
+    st.markdown("[Find a health center — either county](https://findahealthcenter.hrsa.gov/) · [Disability benefits — SSA](https://www.ssa.gov/disability)")
+    orange74, dutchess74 = st.columns(2)
+    with orange74:
+        st.markdown("**Orange County**")
+        st.markdown("[Transport options](https://www.orangecountyny.gov/2685/Transit) · [County health information](https://www.orangecountyny.gov/2354/Health)")
+    with dutchess74:
+        st.markdown("**Dutchess County**")
+        st.markdown("[Transport options](https://www.dutchessny.gov/Routes-Schedules.htm) · [County health information](https://www.dutchessny.gov/dbch.htm)")
+    st.caption("Check services, appointments and transport with each provider. Keep medical bills, household spending and time separate. Benefit payments are support, not another medical bill.")
 
     st.markdown("### How can we reduce the risk of disability?")
     st.write('Support timely medical review and appropriate treatment, then follow up when symptoms affect daily life. CDC says early appropriate treatment can help prevent more severe Lyme disease.⁴')
@@ -2741,6 +2836,18 @@ if st.session_state.get("public_pathway_intent") == "provider":
     st.info("Help a patient prepare a summary of their history, questions and support needs. The patient can review and download it for a visit.")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
 
+st.markdown("#### What you receive")
+benefit_cols76 = st.columns(3)
+for column, title, detail in [
+    (benefit_cols76[0], "Visit summary", "A short timeline and questions you can download for a healthcare visit."),
+    (benefit_cols76[1], "Burden record", "A clear view of money paid, time spent, missed work and daily-life impact."),
+    (benefit_cols76[2], "Support links", "Official care, transport, benefits and local-help resources based on the location you choose."),
+]:
+    with column:
+        with st.container(border=True):
+            st.markdown("**" + title + "**")
+            st.caption(detail)
+
 with st.expander("Patient Voice · sources & notes"):
     st.caption("Patient-reported pilot experiences, not county-wide findings. Counts use answered fields; missing is not zero. Local summaries require consent and at least five usable responses per measure.")
 st.write('Organize your story for care. Sharing structured Patient Voice information is optional.')
@@ -2766,8 +2873,11 @@ if "quick_story_value" not in st.session_state:
 if st.button("Try this example", help="Copies the example into the story box so you can edit only the details that apply to you."):
     st.session_state.quick_story_value = STORY_SAMPLE
 
-st.caption("AI processing notice: if the optional AI extraction is enabled, your story may be sent to the configured AI service for processing. Do not include names or other direct identifiers. Raw story text is not written to the Patient Voice CSV by PathwayAI.")
-use_story_ai = st.checkbox("Use optional AI to organize my story", value=True, key="use_story_ai65", help="Turn off for local processing, including agency demonstrations. Daily-life answers are not sent to AI.")
+st.caption("Data-use notice: your text passes through this hosted app session. The built-in organizer does not call an external AI service. If optional external AI is enabled, the story may be sent to the configured AI service. Do not include names or other direct identifiers. Raw story text is not added to Patient Voice by PathwayAI.")
+use_story_ai = st.checkbox("Use optional external AI to organize my story", value=False, key="use_story_ai65", help="Leave off to use the built-in organizer without sending the story to an external AI service. Daily-life answers are not sent to external AI.")
+if use_story_ai:
+    st.caption(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
+st.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
 quick_story = st.text_area(
     "Tell us what happened in your own words",
     key="quick_story_value",
@@ -2931,7 +3041,10 @@ st.caption("Eligibility and availability vary. Peer groups provide support, not 
 # PATIENT VOICE — explicit review/permission; MVP demonstrates the consent loop without publishing raw narrative.
 if quick_story.strip() and st.session_state.get("story_organized", False):
     st.markdown("### 🗣️ Make Your Experience Count *(Optional)*")
-    st.write('With your consent, reviewed structured fields can contribute to Patient Voice summaries.')
+    if PATIENT_VOICE_STORAGE_ENABLED:
+        st.write('With your consent, reviewed structured fields can contribute to Patient Voice summaries.')
+    else:
+        st.write('Review the themes PathwayAI heard. Public collection is currently off, so your answers will not be added to a shared Patient Voice file.')
     heard=[]
     if quick.get("providers_seen"): heard.append("Care access / navigation")
     if quick.get("cost_amount"): heard.append("Out-of-pocket / financial burden")
@@ -2943,13 +3056,20 @@ if quick_story.strip() and st.session_state.get("story_organized", False):
     else:
         st.write("PathwayAI can still organize your journey; you do not need to contribute anything to Patient Voice.")
     accurate = st.checkbox("This is an accurate reflection of the themes I want to share.", key="pv_review")
-    consent = st.checkbox("I agree that these de-identified structured themes may contribute to aggregated PathwayAI Patient Voice.", key="pv_consent", disabled=not accurate)
+    consent = st.checkbox(
+        "I agree that these reviewed structured themes may contribute to aggregated PathwayAI Patient Voice.",
+        key="pv_consent",
+        disabled=(not accurate or not PATIENT_VOICE_STORAGE_ENABLED),
+    )
     if accurate and consent:
         st.success("✓ Your voice can contribute to aggregated Patient Voice after you review the structured fields below.")
         st.selectbox("County for aggregation (optional)", ["Not selected", "Dutchess County, New York", "Chester County, Pennsylvania", "Carroll County, Maryland"], key="pv_county_choice")
         st.caption("Your Journey → Your Voice → Population Insight → Policy Action")
     else:
-        st.caption("Sharing is optional. You still receive the same PathwayAI journey and preparation support if you do not contribute.")
+        if PATIENT_VOICE_STORAGE_ENABLED:
+            st.caption("Sharing is optional. You still receive the same PathwayAI journey and preparation support if you do not contribute.")
+        else:
+            st.caption("You still receive the same journey summary and support links. A future collection system needs private, durable storage, retention rules and a withdrawal process.")
 
 # Apply optional location to the structured journey after it is entered.
 if current_location_start.strip():
@@ -3207,7 +3327,8 @@ support_needs = st.multiselect(
 if quick["cost_amount"] is not None:
     st.info(f"From your story: approximately ${quick['cost_amount']:,.0f} in patient-reported illness-related cost. This is kept separate unless you choose to break it into categories below.")
 st.markdown("#### Optional transparent cost inputs")
-st.caption('Enter known amounts; leave unknown costs blank.')
+cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
+st.caption('Use one time period. Enter only money you paid. Leave unknown amounts blank. Count each payment once; do not repeat a specialist or test payment under medical spending.')
 medical_cost = st.number_input("Medical / healthcare spending ($)", min_value=0.0, value=None, step=100.0)
 second_opinion_cost = st.number_input("Second opinion / specialist evaluation spending ($)", min_value=0.0, value=None, step=100.0, help="This may represent appropriate or beneficial care. PathwayAI does not automatically treat it as avoidable.")
 repeat_testing_cost = st.number_input("Repeat / duplicative testing or fragmented-care spending ($)", min_value=0.0, value=None, step=100.0, help="Enter only costs you can reasonably distinguish from necessary follow-up or clinically indicated testing.")
@@ -3221,7 +3342,7 @@ income_loss_band = st.selectbox("Estimated income lost because of illness (optio
 
 
 # Review and persist only consented, de-identified structured Patient Voice fields.
-if st.session_state.get("pv_review") and st.session_state.get("pv_consent"):
+if PATIENT_VOICE_STORAGE_ENABLED and st.session_state.get("pv_review") and st.session_state.get("pv_consent"):
     county_choice = st.session_state.get("pv_county_choice", "Not selected")
     fips_map = {"Dutchess County, New York":"36027", "Chester County, Pennsylvania":"42029", "Carroll County, Maryland":"24013"}
     chosen_fips = fips_map.get(county_choice)
@@ -3481,15 +3602,16 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     st.write(f"**Work/school impact:** {work_impact}")
 
     st.caption(
-        'These measures document patient-reported healthmedical visits, effects on daily life, missed work, and direct out-of-pocket burden.'
+        'These measures document patient-reported medical visits, effects on daily life, missed work, and direct out-of-pocket burden.'
     )
 
-    st.markdown("#### Transparent Running Burden")
+    st.markdown("#### Your spending and time")
+    st.caption("Period: " + cost_period75 + ". Workdays and costs must cover this same period to be compared.")
     st.caption('**Sources:** 👤 Patient-entered · 🧮 Modeled · 📚 Published/public evidence')
-    productivity_loss = float(days_missed or 0) * _num0(daily_productivity_value) if daily_productivity_value is not None else 0.0
+    productivity_loss = float(days_missed) * float(daily_productivity_value) if days_missed is not None and daily_productivity_value is not None else None
     entered_costs = [v for v in [medical_cost, second_opinion_cost, repeat_testing_cost, transport_cost, self_care_cost] if v is not None]
     productivity_entered = days_missed is not None and daily_productivity_value is not None
-    known_total = sum(float(v) for v in entered_costs) + productivity_loss
+    known_total = sum(float(v) for v in entered_costs) + _num0(productivity_loss)
     burden_table = pd.DataFrame({
         "Burden component": ["Medical / healthcare", "Second opinion / specialist evaluation", "Repeat / duplicative testing or fragmented care", "Transportation / lodging", "Self-paid supportive care / supplies", "Productivity loss"],
         "Amount entered / modeled ($)": [medical_cost, second_opinion_cost, repeat_testing_cost, transport_cost, self_care_cost, productivity_loss],
@@ -3504,8 +3626,8 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.metric("Known / modeled burden subtotal", "Not reported")
         st.caption("No dollar components were entered. Missing cost information is not treated as zero.")
     nd1,nd2,nd3 = st.columns(3)
-    nd1.metric("Caregiver time", f"{caregiver_hours:,.0f} h" if caregiver_hours > 0 else "Not reported")
-    nd2.metric("Navigation time", f"{navigation_hours:,.0f} h" if navigation_hours > 0 else "Not reported")
+    nd1.metric("Caregiver time", f"{caregiver_hours:,.0f} h" if caregiver_hours is not None else "Not reported")
+    nd2.metric("Navigation time", f"{navigation_hours:,.0f} h" if navigation_hours is not None else "Not reported")
     nd3.metric("Income loss", income_loss_band)
     st.caption(f"Typical travel: {travel_distance} • Pre-diagnosis visits: {pre_dx_visits} • Caregiver work impact: {caregiver_missed_work}. These are kept visible even when no defensible dollar conversion is available.")
 
@@ -3516,7 +3638,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     if _num0(repeat_testing_cost) > 0: accumulation.append(("Repeat / duplicative testing or fragmented care", _num0(repeat_testing_cost)))
     if _num0(transport_cost) > 0: accumulation.append(("Transportation / lodging", _num0(transport_cost)))
     if _num0(self_care_cost) > 0: accumulation.append(("Self-paid supportive care / supplies", _num0(self_care_cost)))
-    if productivity_loss > 0: accumulation.append(("Work / school productivity", productivity_loss))
+    if _num0(productivity_loss) > 0: accumulation.append(("Work / school productivity", productivity_loss))
     if accumulation:
         accumulation = sorted(accumulation, key=lambda x: x[1], reverse=True)
         for label, amount in accumulation:
@@ -3526,7 +3648,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.write("Not enough dollar information has been entered to show where financial burden accumulates.")
 
     if known_total > 0:
-        st.success(f"**Documented/modelled burden so far:** ${known_total:,.0f}. The section below keeps future scenarios separate from what has already happened.")
+        st.success(f"**Documented/modeled burden so far:** ${known_total:,.0f}. The section below keeps future scenarios separate from what has already happened.")
 
     st.markdown("#### 📚 Published Cost Context — Not a Personal Forecast")
     st.caption('Published averages are reference points, not your future bill.')
@@ -3577,7 +3699,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         st.write("**Cost estimate:** Not enough dollar information has been entered for a defensible personalized estimate yet.")
         st.write('**Prepare by tracking:** medical/testing expenses, transportation, out-of-pocket payments, missed work/reduced hours, and changes in daily activities.')
     if daily_function in ["Major limitation", "Unable to perform usual activities"] or work_impact in ["Stopped working or school", "On disability"]:
-        st.warning('Because substantial effects on daily life was reported, consider documenting when limitations began, how they affect daily activities/work, and what assistance you need. This record can support conversations with clinicians, employers, insurers, and benefit programs.')
+        st.warning('Because substantial effects on daily life were reported, consider documenting when limitations began, how they affect daily activities or work, and what assistance you need. This record can support conversations with clinicians, employers, insurers, and benefit programs.')
     st.caption('Review this summary before sharing. It does not predict expenses or determine benefit eligibility.')
 
     # Support links appear beside the single current-care location, before optional contribution.

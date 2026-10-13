@@ -1,4 +1,4 @@
-# v61 — readable research cards and compact study methods
+# PathwayAI v88 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -67,6 +67,147 @@ def show_sample_burden_card():
         st.caption("These invented entries have a different scope and period from published episode benchmarks; no direct expected-cost comparison is made.")
         for line in published_reference_text():
             st.write(line)
+
+# v88: concise patient flow and consented county burden summaries.
+VOICE88_COLUMNS = ["fips", "phase", "period", "medical_oop_band", "other_oop_band", "workdays", "caregiver_hours", "barrier", "consent_time"]
+VOICE88_COUNTIES = {"Dutchess County, New York": "36027", "Orange County, New York": "36071", "Chester County, Pennsylvania": "42029", "Carroll County, Maryland": "24013"}
+
+def cost_band88(value):
+    if value is None:
+        return None
+    return "$0" if value == 0 else "Under $100" if value < 100 else "$100–$499" if value < 500 else "$500–$999" if value < 1000 else "$1,000–$4,999" if value < 5000 else "$5,000 or more"
+
+def voice_path88():
+    return BASE_DIR / "pathwayai_patient_voice_v88.csv"
+
+def save_voice88(row):
+    # Separate schema leaves all legacy records intact. No ZIP, narrative or exact costs.
+    if not PATIENT_VOICE_STORAGE_ENABLED:
+        return False
+    path = voice_path88()
+    if path.exists():
+        try:
+            if list(pd.read_csv(path, nrows=0).columns) != VOICE88_COLUMNS:
+                return False
+        except Exception:
+            return False
+    return append_csv_row_locked(path, {c: row.get(c) for c in VOICE88_COLUMNS})
+
+def county_selector88(key):
+    z = st.text_input("ZIP code (optional)", max_chars=5, key=key + "_zip", placeholder="Example: 12601")
+    if z and (len(z) != 5 or not z.isdigit()):
+        st.caption("Enter five digits or leave ZIP blank. Confirm your county below.")
+    # ZIPs can span counties. Never assign residence from a prefix or city centroid.
+    if z == "12601":
+        st.caption("Demo ZIP 12601: select Dutchess below if that is your county of residence.")
+    st.caption("Confirm your county. ZIP alone does not establish county residence; automatic nationwide matching is a next step. ZIP is not saved to Community Voice.")
+    return st.selectbox("County of residence", ["Not selected"] + list(VOICE88_COUNTIES) + ["Another county / unsure"], key=key + "_county")
+
+def community_voice88(county):
+    st.markdown("### Community Voice · reported financial and access needs")
+    fips = VOICE88_COUNTIES.get(county)
+    if not fips:
+        st.info("Select a supported county to view available local summaries. Additional county coverage is planned.")
+        return
+    rows = pd.DataFrame(columns=VOICE88_COLUMNS)
+    if voice_path88().exists():
+        try:
+            rows = pd.read_csv(voice_path88(), dtype={"fips":str})
+            if not set(VOICE88_COLUMNS).issubset(rows.columns):
+                rows = pd.DataFrame(columns=VOICE88_COLUMNS)
+        except Exception:
+            pass
+    rows = rows[rows["fips"].astype(str).str.zfill(5) == fips]
+    if len(rows) < 5:
+        st.info("Not enough local responses to display yet. Local summaries require at least five usable contributions per displayed measure and matching reporting period.")
+        st.caption("No local cost baseline or county-wide total is inferred. Public county data and published cost illustrations remain separate.")
+        return
+    published = []
+    for (phase, period), group in rows.groupby(["phase", "period"], dropna=True):
+        if phase == "Not reported" or period not in ["Past 30 days", "Past 90 days"] or len(group) < 5:
+            continue
+        for field, label in [("medical_oop_band", "Medical OOP"), ("other_oop_band", "Other OOP"), ("barrier", "Main care barrier")]:
+            counts = group[field].dropna().value_counts()
+            counts = counts[counts.index != "Not reported"]
+            # Withhold the whole distribution if any category is small, preventing deduction.
+            if counts.empty or counts.sum() < 5 or (counts < 5).any():
+                continue
+            for category, n in counts.items():
+                published.append({"County":county, "Phase":phase, "Period":period, "Measure":label, "Reported result":category, "Usable responses":int(n), "Evidence":"Consented voluntary contributions; not population prevalence"})
+        for field, label in [("workdays", "Median missed workdays"), ("caregiver_hours", "Median caregiver hours")]:
+            numbers = usable_burden_numbers(group[field])
+            if len(numbers) >= 5:
+                published.append({"County":county, "Phase":phase, "Period":period, "Measure":label, "Reported result":round(float(numbers.median()),1), "Usable responses":len(numbers), "Evidence":"Consented voluntary contributions; not population prevalence"})
+    if not published:
+        st.info("Not enough comparable responses to publish a measure yet. Different periods are not combined; small cost or barrier categories are withheld.")
+        return
+    frame = pd.DataFrame(published)
+    show_readable_table(frame, hide_index=True)
+    st.caption("Voluntary, unverified reports. Contributions are not verified unique people. No population estimate, causal effect or savings is established. Before diagnosis is a recording phase, not a clinical stage.")
+    st.markdown("**How a community team could use this**")
+    st.write("Transport needs: consider navigation or travel assistance. Coverage/cost barriers: consider benefits or financial-assistance navigation. Appointment barriers: review referral coordination with clinics. Confirm needs with participants before choosing an action.")
+    st.caption("Proposed evaluation: referral completion, appointment waits, spending and time lost using the same reporting period at follow-up. Effects are not yet measured.")
+    st.download_button("Download displayed Community Voice summary",frame.to_csv(index=False).encode("utf-8-sig"),file_name="CommunityVoiceSummary.csv",mime="text/csv",key="voice88_export")
+
+def compact_care88(quick, story):
+    st.markdown("### 2. Record money and time · optional")
+    st.write("Keep a record for your appointment or support requests. If you choose to contribute, cost bands and other reviewed fields can help community teams understand reported barriers and plan patient support.")
+    period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
+    phase = st.selectbox("Journey phase", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88")
+    st.caption("Stage 0 means before diagnosis in this record, not an official clinical stage. Use one period, leave unknown amounts blank, and count each payment once.")
+    a,b=st.columns(2)
+    with a:
+        medical=st.number_input("Medical costs you paid ($)",min_value=0.0,value=None,step=50.0,key="medical88",help="Include your specialist and testing payments here once. Exclude insurer payments.")
+    with b:
+        other=st.number_input("Other costs you paid ($)",min_value=0.0,value=None,step=25.0,key="other88",help="For example, transport, lodging and supplies. Exclude payments counted as medical costs.")
+    workdays=st.number_input("Workdays missed in this period",min_value=0,max_value=3650,value=None,key="workdays88")
+    barrier=st.selectbox("Main barrier to getting care or support",["Not reported","No barrier reported","Transportation / distance","Cost / insurance coverage","Appointment / referral access","Language / accessibility","Finding appropriate support","Other / unsure"],key="barrier88")
+    with st.expander("Caregiver time and optional work-loss calculation"):
+        caregiver=st.number_input("Unpaid caregiver hours in this period",min_value=0.0,value=None,step=1.0,key="caregiver88")
+        dayvalue=st.number_input("Your chosen value per missed workday ($)",min_value=0.0,value=None,step=25.0,key="dayvalue88")
+        st.caption("Workdays must cover the same period. The multiplication is a separate model, not a medical bill or measured income loss. This dollar model is not saved to Community Voice.")
+    modeled=workdays*dayvalue if workdays is not None and dayvalue is not None else None
+    cards=st.columns(3)
+    for col,label,value in zip(cards,["Medical OOP","Other OOP","Modeled work loss"],[medical,other,modeled]):
+        col.metric(label,"Not reported" if value is None else f"${value:,.0f}")
+    st.caption("Your entries are a partial record, not a prediction or an estimate of costs caused by Lyme disease.")
+    with st.expander("Published references — not your expected cost"):
+        for line in published_reference_text(): st.write(line)
+    record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
+    for label,value in [("Exposure",quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
+        record.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
+    record += ["", "BURDEN", "Period: " + period,"Phase: " + phase]
+    for label,value in [("Medical OOP",medical),("Other OOP",other),("Modeled work-loss value",modeled)]:
+        record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
+    record += [f"Missed workdays: {workdays if workdays is not None else 'Not reported'}",f"Caregiver hours: {caregiver if caregiver is not None else 'Not reported'}","Main barrier: " + barrier,"Modeled work loss = missed workdays × chosen value/day; not added to OOP.","",*published_reference_text()]
+    seed="\n".join(record)
+    if st.session_state.get("summary88_seed") != seed:
+        st.session_state["summary88_text"]=seed
+        st.session_state["summary88_seed"]=seed
+    with st.expander("Review and download your appointment summary",expanded=True):
+        reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
+        st.download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
+    st.markdown("### 3. Find support and explore your community")
+    county=county_selector88("patient88")
+    st.markdown("[Find affordable care — HRSA](https://findahealthcenter.hrsa.gov/) · [Medicare Care Compare](https://www.medicare.gov/care-compare/) · [Benefits information](https://www.usa.gov/benefits) · [Local assistance — 211](https://www.211.org/)")
+    st.caption("Confirm services, coverage and eligibility directly. Directories do not establish Lyme expertise or appointment availability.")
+    community_voice88(county)
+    with st.expander("Help community teams understand reported needs · optional"):
+        payload={"fips":VOICE88_COUNTIES.get(county),"phase":phase,"period":period,"medical_oop_band":cost_band88(medical),"other_oop_band":cost_band88(other),"workdays":workdays,"caregiver_hours":caregiver,"barrier":barrier}
+        show_readable_table([{"Field":k,"Value":v if v is not None else "Not reported"} for k,v in payload.items()],hide_index=True)
+        st.caption("Only these fields and a consent timestamp are saved. No ZIP, raw story, exact dollar amounts or appointment edits are included. Small categories are withheld. Records are voluntary contributions, not verified unique people.")
+        if not PATIENT_VOICE_STORAGE_ENABLED:
+            st.info("Shared collection is off in this deployment. You can use and download your summary without contributing. A private controlled pilot can enable collection after storage and retention controls are established.")
+        checked=st.checkbox("I reviewed these fields and consent to their use in aggregated Community Voice summaries.",key="consent88",disabled=not PATIENT_VOICE_STORAGE_ENABLED)
+        eligible=payload["fips"] is not None and period != "Not reported" and phase != "Not reported" and any(v is not None for v in [medical,other,workdays,caregiver])
+        if st.button("Contribute reviewed fields",key="save88",disabled=not (PATIENT_VOICE_STORAGE_ENABLED and checked and eligible) or st.session_state.get("voice88_saved",False)):
+            if save_voice88({**payload,"consent_time":pd.Timestamp.utcnow().isoformat()}):
+                st.session_state["voice88_saved"]=True
+                st.success("Contribution saved. Public summaries appear only when privacy and comparability thresholds are met.")
+            else:
+                st.error("Contribution could not be saved. Your summary is still available to download.")
+        if not eligible: st.caption("To contribute, confirm a supported county, period and journey phase, and enter at least one cost or time measure.")
+    st.caption("Intended benefit: clearer support planning. User task completion, reduced burden and ROI have not yet been measured.")
 
 def show_lyme_learning78():
     """Source-based education, separate from diagnosis and personal-risk estimates."""
@@ -2481,6 +2622,16 @@ if view == "🛡️ Learn & Prevent":
 if view == "📊 Community Burden & Action":
     st.header("📊 NEW YORK — COMMUNITY BURDEN & ACTION")
     # Oct 22 MVP: one complete demonstration county. The County Pack is the scalable product.
+    st.markdown("**Explore your community**")
+    selected88 = county_selector88("community88")
+    if selected88 != "Not selected":
+        community_voice88(selected88)
+        if selected88 != "Dutchess County, New York":
+            st.info("The complete public-data planning pack currently covers Dutchess. Orange appears as a labeled comparison. This county's full public-data pack is not loaded.")
+            st.button("View Dutchess demonstration",key="dutchess88_demo",on_click=lambda: st.session_state.update({"community88_county":"Dutchess County, New York"}))
+            st.stop()
+    else:
+        st.caption("Showing the Dutchess demonstration below. Select your county above for available Community Voice summaries.")
     policy_place = "Dutchess County, New York"
     county_ids = {
         "Dutchess County, New York": {"fips": "36027", "short": "Dutchess, NY"},
@@ -3128,6 +3279,10 @@ elif quick_story.strip():
 else:
     st.caption("Prefer structured questions? You can skip the story box and use the optional details below.")
 
+if not st.checkbox("Open the detailed journey form · optional", key="details88"):
+    compact_care88(quick, quick_story)
+    st.stop()
+
 # Optional whole-person context: patient-reviewed, session-only, no composite score.
 st.markdown("### Daily life and your next appointment")
 st.caption("Optional. Use this without AI or contributing to Patient Voice.")
@@ -3570,15 +3725,11 @@ if PATIENT_VOICE_STORAGE_ENABLED and st.session_state.get("pv_review") and st.se
         st.caption("Choose a county above if you want these fields included in a county-level Patient Voice count.")
 daily_productivity_value = st.number_input("Estimated value per missed work/school day ($, optional)", min_value=0.0, value=None, step=25.0)
 
-st.markdown("#### Optional user-entered earlier-action scenario")
-st.caption("Use only amounts/days you think might plausibly have been avoided with earlier navigation or support. PathwayAI does not assume these savings or claim causality.")
-avoid_repeat_cost = st.number_input("Duplicative testing / fragmented-care cost that might have been reduced ($)", min_value=0.0, value=None, step=100.0, help="Do not include a useful second opinion or clinically indicated follow-up simply because it was additional care.")
-avoid_transport_cost = st.number_input("Transportation / lodging cost that might have been avoided ($)", min_value=0.0, value=None, step=50.0)
-avoid_days = st.number_input("Missed work/school days that might have been avoided", min_value=0, max_value=3650, value=0)
+avoid_repeat_cost = avoid_transport_cost = None
+avoid_days = 0
 def _num0(value):
     return 0.0 if value is None else float(value)
-
-scenario_savings = _num0(avoid_repeat_cost) + _num0(avoid_transport_cost) + float(avoid_days) * _num0(daily_productivity_value)
+scenario_savings = 0.0
 
 # GENERATE CARD
 
@@ -3882,22 +4033,6 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     show_readable_table(published_costs, hide_index=True, width="stretch")
     st.write('Costs vary with insurance, illness, care, work and support needs.')
     st.caption("Recent cost study values are standardized to 2022 USD. CDC/TickNET separately captures direct medical, direct nonmedical, and productivity costs, which is why PathwayAI also asks about travel, work, caregiving, and navigation.")
-
-    st.markdown("#### Could Better Support Reduce Some of This Burden?")
-    st.write("PathwayAI separates **care that may be appropriate or beneficial** from burden that might be influenced by better access, coordination, or navigation.")
-    if scenario_savings > 0:
-        st.metric("User-entered scenario amount", f"${scenario_savings:,.0f}")
-        st.write("This is the portion of costs or missed-day value that **you identified as potentially addressable**. It is not a promise that this amount would have been saved.")
-        transparency_rows=[]
-        if _num0(avoid_repeat_cost)>0: transparency_rows.append(["Fragmented/repeated-care cost you marked as potentially addressable",f"${_num0(avoid_repeat_cost):,.0f}","Included in scenario"])
-        if _num0(avoid_transport_cost)>0: transparency_rows.append(["Travel/access cost you marked as potentially addressable",f"${_num0(avoid_transport_cost):,.0f}","Included in scenario"])
-        if float(avoid_days)>0 and _num0(daily_productivity_value)>0: transparency_rows.append(["Missed-day value you marked as potentially addressable",f"${float(avoid_days)*_num0(daily_productivity_value):,.0f}","Included in scenario"])
-        if second_opinion=="Yes": transparency_rows.append(["Second opinion","Not counted","May be beneficial care"])
-        transparency_rows.append(["Appropriate testing / follow-up","Not counted","Not automatically treated as savings"])
-        show_readable_table(pd.DataFrame(transparency_rows,columns=["What contributed","Amount","How PathwayAI treats it"]),hide_index=True,width="stretch")
-    else:
-        st.info("You have not identified any costs or missed-day value as potentially addressable. That is okay. PathwayAI does not assume that more care means waste.")
-    st.caption("Modeled scenario only—not a prediction or proven savings estimate. Useful second opinions, clinically indicated testing, and appropriate follow-up are not automatically counted as savings.")
 
     st.markdown("#### Burden you reported")
     burden_drivers = []

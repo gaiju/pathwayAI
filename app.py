@@ -768,6 +768,17 @@ st.markdown("""<style>
 [data-testid="stMetricValue"] {white-space:normal !important; overflow:visible !important; text-overflow:clip !important; font-size:1.7rem !important;}
 [data-testid="stMetricLabel"] p {white-space:normal !important; overflow:visible !important; text-overflow:clip !important;}
 [data-testid="stHeading"] h1, [data-testid="stHeading"] h2, [data-testid="stHeading"] h3 {overflow-wrap:break-word;}
+
+/* v115: navigation is easier to find and use on desktop and mobile. */
+.pathway-hero {width:100%;margin:0.35rem 0 1rem;display:flex;justify-content:center;overflow:hidden;border-radius:14px;}
+.pathway-hero img {display:block;width:100%;height:auto;max-height:310px;object-fit:contain;object-position:center;}
+[data-testid="stSidebar"] {min-width:295px;}
+[data-testid="stSidebar"] [role="radiogroup"] label {padding:0.7rem 0.5rem;min-height:52px;border-radius:8px;}
+[data-testid="stSidebar"] [role="radiogroup"] label p {font-size:1.08rem !important;line-height:1.4 !important;font-weight:600;}
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 {font-size:1.2rem;}
+[data-testid="stSidebarCollapsedControl"] button {min-width:48px;min-height:48px;}
+[data-testid="stMainBlockContainer"] div.stButton > button {min-height:50px;font-size:1.04rem;font-weight:600;white-space:normal;}
+@media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 </style>""", unsafe_allow_html=True)
 
 # -----------------------------
@@ -2721,10 +2732,14 @@ if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if st.session_state.get("pathway_view") not in available_views:
     st.session_state["pathway_view"] = "📊 Community Burden & Action"
+st.sidebar.markdown("### 🧭 Choose a section")
+st.sidebar.caption("Use these large choices to move between sections.")
 view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view", on_change=open_sidebar_view)
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
+    # Hero photo: visible at the top, with its full composition preserved.
+    st.markdown('<div class="pathway-hero"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest at Delaware Water Gap National Recreation Area" /></div>', unsafe_allow_html=True)
     st.markdown("### Prevent tick bites. Support timely care. Understand the burden. Guide community action.")
     st.write("PathwayAI connects public-health data, research, and AI to help people understand tick-borne disease risks, "
              "find care and support, and explore the costs of illness. It helps communities turn evidence into questions and possible actions.")
@@ -2746,7 +2761,7 @@ if not st.session_state.get("pathway_open", False):
         st.caption("Published costs are research references, not local predictions. The AI may make mistakes; check cited sources.")
     st.markdown("---")
     st.markdown("#### Lyme disease: facts and costs")
-    st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
+
     st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
     lyme74, reported79 = st.columns(2)
     with lyme74:

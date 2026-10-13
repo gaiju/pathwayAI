@@ -2107,6 +2107,7 @@ if not st.session_state.get("pathway_open", False):
         st.metric("Lyme · reported each year", "80,000+")
         st.caption("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
+    st.caption("Travelers: Learn & Prevent. Patients and caregivers: Care & Support. Providers: open Care & Support, then choose the provider option. Policymakers and county teams: Community Burden & Action.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
         for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
@@ -2575,6 +2576,30 @@ if view == "📊 Community Burden & Action":
         {"County": "Orange", "Disability under 65 (%)": 7.7, "Language other than English at home, age 5+ (%)": 30.2, "Households without broadband subscription (%)": 10.7},
         {"County": "Dutchess", "Disability under 65 (%)": 9.2, "Language other than English at home, age 5+ (%)": 16.2, "Households without broadband subscription (%)": 6.5},
     ])
+    st.markdown("### Language context · Orange and Dutchess")
+    st.caption("Residents age 5+ who speak a language other than English at home · Census ACS 2020–2024. This is not an interpreter-needs estimate.")
+    language_values83 = {"36071": ("Orange", 30.2), "36027": ("Dutchess", 16.2)}
+    bounds83 = (-74.85, 41.05, -73.45, 42.15)
+    parts83 = ['<svg viewBox="0 0 760 380" role="img" aria-label="Language other than English at home: Orange 30.2 percent, Dutchess 16.2 percent" xmlns="http://www.w3.org/2000/svg"><title>County language context, Census ACS 2020–2024</title><rect width="760" height="380" fill="#f8fafc"/>']
+    for feature83 in NYS_MAP_BOUNDARIES.get("features", []):
+        fid83 = str(feature83.get("id", "")).zfill(5)
+        if fid83 not in language_values83:
+            continue
+        name83, value83 = language_values83[fid83]
+        fill83 = "#236b8e" if fid83 == "36071" else "#83c3cf"
+        for path83 in _geom_paths(feature83.get("geometry"), bounds83, 760, 380):
+            parts83.append(f'<path d="{path83}" fill="{fill83}" stroke="white" stroke-width="3"><title>{name83}: {value83}%</title></path>')
+        center83 = _geometry_centroid(feature83.get("geometry"))
+        if center83:
+            x83, y83 = _project_svg(*center83, bounds83, 760, 380)
+            parts83.append(f'<text x="{x83:.1f}" y="{y83:.1f}" text-anchor="middle" fill="#122f43" stroke="white" stroke-width="3" paint-order="stroke" font-size="20" font-weight="bold">{name83} {value83}%</text>')
+    parts83.append('</svg>')
+    components.html(''.join(parts83), height=390)
+    st.caption("Light teal: Dutchess 16.2%. Dark teal: Orange 30.2%. Simplified county boundaries; descriptive community context, not Lyme risk.")
+    st.write("**Actions to consider:** ask residents which language they prefer, offer translated prevention materials, and confirm interpreter services with care partners. Do not infer English ability from the language spoken at home.")
+    with st.expander("Language sources and next data step"):
+        st.markdown("[Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork) · [HRSA interpretation guidance](https://bphc.hrsa.gov/compliance/compliance-manual/chapter4)")
+        st.caption("A more specific interpreter-planning view needs ACS B16001 estimates of English ability, language groups and margins of error. These were not retrieved; the current map does not substitute this broader measure for them.")
     left68, right68 = st.columns(2)
     with left68:
         st.markdown("**All-cause disability · under 65¹**")
@@ -2621,6 +2646,58 @@ if view == "📊 Community Burden & Action":
     export68=support68.merge(rural68,on="County").merge(pd.DataFrame(capacity68),on="County")
     export68["Interpretation"]="All-cause community context; not Lyme-attributable, a causal estimate or official shortage designation"
     st.download_button("Download two-county support comparison",export68.to_csv(index=False).encode("utf-8-sig"),file_name="Support68.csv",mime="text/csv")
+    st.markdown("### County planning briefs · ready to share")
+    st.write("Each brief brings public evidence together with a proposed action and measures for a local pilot.")
+    brief_cols82 = st.columns(2)
+    for brief_col82, county82, fips82 in zip(brief_cols82, ["Orange", "Dutchess"], ["36071", "36027"]):
+        with brief_col82:
+            surveillance82 = comparison_2024[comparison_2024["County"] == county82].iloc[0]
+            context82 = export68[export68["County"] == county82].iloc[0]
+            lines82 = [
+                f"PathwayAI | {county82} County, New York | Planning brief",
+                "Prepared October 13, 2026. Proposed pilot; not an adopted county program.",
+                "", "PUBLIC SURVEILLANCE",
+                f"NYSDOH 2024: {int(surveillance82['Reported Lyme cases'])} reported Lyme cases; {surveillance82['Reported Lyme cases / 100,000']:.1f} per 100,000 residents.",
+                f"NYSDOH 2024: {surveillance82['Nymphs / 1,000 m²']:.1f} nymphs per 1,000 square meters at sampled sites; {int(surveillance82['Tick sites visited'])} site visited.",
+                "Tick sampling describes selected sites. Lyme reports describe residents, not necessarily exposure location.",
+                "", "COMMUNITY AND CARE CONTEXT",
+            ]
+            for field82, value82 in context82.items():
+                if field82 not in ["County", "Interpretation"]:
+                    lines82.append(f"{field82}: {value82 if pd.notna(value82) else 'Not available'}")
+            lines82.extend([
+                "Census: 2020–2024 ACS disability, language and broadband context; 2020 rural share. HRSA AHRF: 2023 physician counts and population.",
+                "These measures can guide questions about accessible care, language, telephone options and transport. Groups overlap. Disability is all-cause; physician counts do not measure waits or HPSA status.",
+                "", "CDC PLACES | MODELED ADULT CONTEXT",
+            ])
+            places82 = load_places_county(fips82)
+            if places82 is not None and not places82.empty:
+                for _, row82 in places82[places82["MeasureId"].isin(["DISABILITY", "LACKTRPT"])].iterrows():
+                    lines82.append(f"{row82['Measure']}: {row82['Data_Value']}%; year {row82['Year']}; crude modeled adult estimate.")
+            else:
+                lines82.append("No compatible PLACES rows loaded.")
+            lines82.extend([
+                "PLACES is model-based adult context, separate from Census under-65 disability. Neither measures Lyme-attributable disability.",
+                "", "PROPOSED COUNTY ACTION",
+                "Test referral-navigation help with a willing clinic and community partner. Offer language, telephone, disability-access and transport help based on the person's stated need.",
+                "Ask each participant whether a referral was offered, whether care was completed, time to appointment, and why care was difficult to obtain.",
+                "Record one period for patient-paid medical costs, other out-of-pocket costs, missed work, caregiver time and daily function. Label before-diagnosis (Stage 0) separately from after-diagnosis amounts.",
+                "Use the same questions at baseline and follow-up. Report usable answers and missing data separately. No benefit or savings is established yet.",
+                "", "WHAT THIS BRIEF DOES NOT ESTIMATE",
+                "No local patient burden baseline, insurer spending, Lyme-attributable disability, prevented illness or county savings is inferred from these public measures.",
+                "", "SOURCES",
+                "NYSDOH tick sampling: https://health.data.ny.gov/d/kibp-u2ip",
+                "NYSDOH Lyme cases: https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf",
+                "NYSDOH Lyme rates: https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf",
+                f"Census: https://www.census.gov/quickfacts/{county82.lower()}countynewyork",
+                "HRSA AHRF: https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf",
+                "CDC PLACES: https://www.cdc.gov/places/",
+                "CARE: https://findahealthcenter.hrsa.gov/ | BENEFITS: https://www.ssa.gov/disability",
+            ])
+            text82 = "\n".join(lines82)
+            st.download_button(f"Download {county82} planning brief", text82.encode("utf-8"), file_name=f"{county82}Brief.txt", mime="text/plain", key="brief82_"+fips82)
+            with st.expander(f"Read {county82} brief"):
+                st.text(text82)
 
     st.markdown("## Where can the journey become easier?")
     journey_steps = st.columns(3)

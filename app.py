@@ -1,4 +1,4 @@
-# PathwayAI v94 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v97 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -87,19 +87,19 @@ def evidence89():
     st.write("Yu: 2022 USD, medical episode costs. Hook: 2016 USD, medical + nonmedical + productivity costs. Do not add these columns. Your insurance, care and reporting period may differ.")
     cards=st.columns(2)
     with cards[0]:
-        st.markdown("🌱 **GreenAcorn patient survey**")
+        st.markdown("🌱 **PathwayAI patient survey**")
         st.markdown("**Early snapshot · October 3, 2026**")
-        st.metric("Reported at least $10,000 out of pocket", "14 of 33", help="Previously supplied GreenAcorn survey summary; self-reported diagnosed-Lyme respondents. Not a monthly or annual estimate.")
+        st.metric("Reported at least $10,000 out of pocket", "14 of 33", help="Previously supplied PathwayAI survey summary; self-reported diagnosed-Lyme respondents. Not a monthly or annual estimate.")
         st.write("18 of 33 reported more than 100 days lost; 20 of 33 reported more than five years to diagnosis; 16 of 33 reported seeing more than ten clinicians.")
         with st.expander("Survey source and scope"):
-            st.write("Source: GreenAcorn survey, early summary supplied by the project lead, October 3, 2026; 33 respondents reported a Lyme diagnosis. Counts are reproduced from that supplied snapshot, not recalculated from a current response export.")
+            st.write("Source: PathwayAI survey, early summary supplied by the project lead, October 3, 2026; 33 respondents reported a Lyme diagnosis. Counts are reproduced from that supplied snapshot, not recalculated from a current response export.")
             st.write("Voluntary convenience sample, not county prevalence or a personal prediction. Exact question wording, missing-response denominators and cost/time reporting periods require confirmation against the export. Spending is not assigned to Stage 0, a monthly/annual period, or medical/travel categories.")
     with cards[1]:
         st.markdown("🧬 **Lyme Disease Biobank research**")
         st.write("Among 253 participants returning for follow-up, 55 (22%) reported ongoing symptoms; 19 of those 55 (35%) had seen a provider about them. This selected study group provides follow-up context, not a personal prognosis or dollar estimate.")
     with st.expander("Patient journey · where costs and time can accumulate"):
         show_readable_table([
-            {"Journey period":"Before diagnosis (Stage 0)","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":"GreenAcorn survey themes motivate collection; no published Stage 0 unit cost is assigned"},
+            {"Journey period":"Before diagnosis (Stage 0)","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":"PathwayAI survey themes motivate collection; no published Stage 0 unit cost is assigned"},
             {"Journey period":"Diagnosis and care episode","What to record":"Medical OOP separately from insurer payments and other spending","Evidence role":"Yu localized/disseminated episode benchmarks; does not imply all patients progress through both groups"},
             {"Journey period":"Follow-up and daily life","What to record":"Continuing symptoms, follow-up access, function, work and caregiver time","Evidence role":"Biobank follow-up findings; continuing symptoms do not automatically establish ongoing infection or future costs"},
         ],hide_index=True)
@@ -109,41 +109,65 @@ def evidence89():
         st.write(r"Hook et al. 2022, Table 5: confirmed localized societal mean \$1,307, median \$493; confirmed disseminated mean \$3,251, median \$1,081. Societal cost includes medical, nonmedical and productivity components. Patient medical spending is already included, not an extra amount to add.")
         st.write("Personal record assumptions: enter payments once, use one time period, and leave unknown values blank. Work-loss value equals your missed workdays × your chosen value/day. It is a user-entered scenario, not measured income loss. Caregiver hours remain hours unless a separately justified valuation is made.")
         st.write("County illustration assumptions: official reported cases × one published overall mean; no correction for underreporting, inflation, local case mix or diagnostic delay. Differences between localized and disseminated costs are observational comparisons, not money proven savable through earlier care.")
-        st.write("GreenAcorn: the dated national survey snapshot is separate from local county reports. Its total-spending threshold is not a breakdown by category. Census contextualizes affordability, HRSA contextualizes capacity, and CDC/NYSDOH contextualize disease and exposure; none predicts a person's costs.")
+        st.write("PathwayAI: the dated national survey snapshot is separate from local county reports. Its total-spending threshold is not a breakdown by category. Census contextualizes affordability, HRSA contextualizes capacity, and CDC/NYSDOH contextualize disease and exposure; none predicts a person's costs.")
     with st.expander("Literature and data sources"):
         st.markdown(f"[Yu et al., JAMA Network Open 2026, Table 2]({YU_COST_URL})")
         st.markdown(f"[Hook et al., Emerging Infectious Diseases 2022, Table 5]({HOOK_COST_URL})")
         st.markdown("[Horn et al., Lyme Disease Biobank follow-up, Frontiers in Medicine 2025](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
-        st.write("Curated literature summary, not a systematic review. Study populations, observation periods, methods and dollar years differ. References checked October 13, 2026. GreenAcorn counts show the project lead’s previously supplied October 3 snapshot; a current export is needed to update and independently check them.")
+        st.write("Curated literature summary, not a systematic review. Study populations, observation periods, methods and dollar years differ. References checked October 13, 2026. PathwayAI counts show the project lead’s previously supplied October 3 snapshot; a current export is needed to update and independently check them.")
         st.write("Icons are generic visual cues, not official logos or endorsements.")
 
 
 def support89(county, barrier):
-    st.markdown("### Your next step")
     item=SUPPORT89.get(barrier)
-    if item:
-        st.markdown("**"+item[0]+"**")
-        if county == "Dutchess County, New York":
-            st.write(item[1])
-            st.markdown("[Open the official resource]("+item[2]+")")
+    st.markdown("#### Your support contact")
+    if county == "Dutchess County, New York" and item:
+        if barrier == "Transportation / distance":
+            st.write("**Call 845-486-2555** to ask about GoGo registration and medical-ride availability for Dutchess older adults without Medicaid.")
+        elif barrier == "Cost / insurance coverage":
+            st.write("**Call 845-486-3340** for Medicaid assistance or **845-486-3190** for temporary-assistance information.")
+        elif barrier == "Appointment / referral access":
+            st.write("**Contact a health center** to ask about services, coverage and appointment availability. Bring your visit summary.")
         else:
-            st.write("Ask 211 about services in your county. For care, use the HRSA locator and confirm coverage, appointments and needed accommodations directly with the clinic.")
-            st.markdown("[Local help — 211](https://www.211.org/) · [HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
+            st.write("**Call NY Connects at 845-475-3511** to discuss local support and access needs.")
+        st.markdown("[Open the resource]("+item[2]+")")
+        with st.expander("Other options and eligibility"):
+            st.write(item[1])
+            st.markdown("[Medicaid transport information](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [Local help — 211](https://www.211.org/)")
+            st.write("Confirm eligibility and availability. PathwayAI provides information; it does not book rides or appointments. Official Dutchess pages checked October 13, 2026.")
     else:
-        st.write("Use your reviewed summary when contacting a clinic. Ask about insurance, fees, appointment availability and any help you need reaching care.")
-        st.markdown("[HRSA health-center locator](https://findahealthcenter.hrsa.gov/) · [Local help — 211](https://www.211.org/)")
-    st.write("Confirm eligibility and availability with the service. PathwayAI provides information and preparation tools; it does not arrange rides or appointments.")
-    with st.expander("Resource sources"):
-        st.markdown("[NYSDOH Medicaid transportation](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm)")
-        st.write("Dutchess resource pages checked October 13, 2026. Local programs and their eligibility are separate from Lyme disease care.")
+        st.write("**Contact 211** for local assistance, or use HRSA to find a health center. Ask the clinic about coverage, fees, appointments and accommodations.")
+        st.markdown("[211](https://www.211.org/) · [HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
+
 
 def policy89():
     st.header("Community burden & action")
-    st.write("For county public-health and community teams: review reported patient burden, choose a support action to test, and download a planning brief.")
-    st.write("**County focus:** Dutchess, New York, with Orange as a comparison.")
+    st.write("For county public-health and community teams. Connect reported financial and access barriers to existing support, and leave with a downloadable community brief. Explore New York, compare Dutchess and Orange, then examine the patient burden behind the numbers.")
     with st.expander("Select your community"):
         county=county_selector88("policy89")
     if county == "Not selected": county="Dutchess County, New York"
+    if county == "Dutchess County, New York":
+        st.markdown("### Local support")
+        barrier=st.selectbox("What help is needed?",list(SUPPORT89),key="policy89_focus")
+        item=SUPPORT89[barrier]
+        if barrier == "Transportation / distance":
+            st.write("**Need a ride to care?** Dutchess older adults without Medicaid can call **845-486-2555** to ask about GoGo registration and ride availability. Medicaid members can check the state transportation service; other residents can contact 211.")
+            st.markdown("[Dutchess transport options](https://www.dutchessny.gov/Departments/Aging/Transportation-for-Seniors.htm) · [Medicaid transport](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [211](https://www.211.org/)")
+        elif barrier == "Cost / insurance coverage":
+            st.write("**Help with coverage or bills:** Dutchess Community and Family Services lists Medicaid assistance at **845-486-3340** and temporary assistance at **845-486-3190**.")
+            st.markdown("[Coverage and assistance]("+item[2]+")")
+        elif barrier == "Appointment / referral access":
+            st.write("**Find a care option:** contact a health center to confirm services, coverage and appointments. Bring your PathwayAI visit summary.")
+            st.markdown("[HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
+        else:
+            st.write("**Ask about support or accommodations:** Dutchess NY Connects can discuss available options at **845-475-3511**.")
+            st.markdown("[NY Connects](https://www.dutchessny.gov/Departments/Aging/OFA-NY-Connects.htm)")
+        st.write("Eligibility and availability vary.")
+        brief=["PathwayAI | Dutchess support planning brief","Proposed support pilot. No county adoption or measured effect.","","QUESTION",barrier,"ACTION",item[4],"POTENTIAL OWNER",item[3],"EXISTING RESOURCE",item[1],item[2],"MEASURES",item[5],"Compare the same reporting period at baseline and 90-day follow-up. Record missing answers. Change alone does not establish causality or ROI.","","EVIDENCE STATUS","National PathwayAI survey themes and published research inform questions. Local Community Voice contributions are voluntary and require privacy thresholds. No county prevalence or local intervention effect is inferred.","NYSDOH: 1,060 reported Lyme cases in 2024.","Census ACS 2020–2024: poverty 8.4%; uninsured under 65 4.9%; disability under 65 9.2%. All-cause context.","HRSA capacity depends on the loaded file; no official shortage designation or wait time is inferred.","","SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
+        rows=reference_cost_rows("Dutchess",1060)
+        for r in rows: brief.append(f"Illustrative {r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
+        brief.append(COST_CONTEXT_CAVEAT)
+        st.download_button("Download community support brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_SupportPlan.txt",mime="text/plain",key="policy89_download")
     if county == "Dutchess County, New York":
         st.markdown("### 1. Start with New York")
         st.write("Explore observed tick surveillance across the state, then examine two neighboring counties.")
@@ -167,11 +191,19 @@ def policy89():
             st.write("NYSDOH 2024. One tick site was visited in each county. Site sampling does not represent every county location; cases describe residents, not necessarily where they were exposed. No causal link is inferred. State maps keep their own sampling-year labels.")
             st.markdown("[Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Reported cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [Official rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
         st.markdown("#### Language context")
-        language94=pd.DataFrame([
-            {"County":"Orange","Language other than English at home (%)":30.2},
-            {"County":"Dutchess","Language other than English at home (%)":16.2},
-        ])
-        st.altair_chart(alt.Chart(language94).mark_bar().encode(x=alt.X("County:N",title=None),y=alt.Y("Language other than English at home (%):Q",scale=alt.Scale(zero=True)),color=alt.Color("County:N",scale=alt.Scale(domain=["Orange","Dutchess"],range=["#C65D17","#2474A6"]),legend=None),tooltip=["County:N",alt.Tooltip("Language other than English at home (%):Q",format=".1f")]).properties(height=170),use_container_width=True)
+        # Plain SVG avoids field-name/dataset rendering differences across hosts.
+        st.markdown("""<svg viewBox="0 0 760 180" width="100%" role="img" aria-label="Language other than English at home: Orange 30.2 percent, Dutchess 16.2 percent" xmlns="http://www.w3.org/2000/svg">
+        <title>Language context: Orange 30.2%, Dutchess 16.2%</title>
+        <text x="8" y="42" fill="currentColor" font-size="18">Orange</text>
+        <rect x="120" y="18" width="453" height="36" rx="4" fill="#C65D17"/>
+        <text x="585" y="42" fill="currentColor" font-size="18" font-weight="bold">30.2%</text>
+        <text x="8" y="103" fill="currentColor" font-size="18">Dutchess</text>
+        <rect x="120" y="79" width="243" height="36" rx="4" fill="#2474A6"/>
+        <text x="375" y="103" fill="currentColor" font-size="18" font-weight="bold">16.2%</text>
+        <line x1="120" y1="130" x2="645" y2="130" stroke="currentColor" opacity="0.35"/>
+        <text x="120" y="157" fill="currentColor" font-size="14">0%</text>
+        <text x="645" y="157" text-anchor="end" fill="currentColor" font-size="14">35%</text>
+        </svg>""",unsafe_allow_html=True)
         st.write("Census ACS 2020–2024, residents age 5+. Language spoken at home does not establish English proficiency or interpreter needs.")
         with st.expander("Language comparison sources"):
             st.markdown("[Orange QuickFacts](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess QuickFacts](https://www.census.gov/quickfacts/dutchesscountynewyork)")
@@ -205,35 +237,16 @@ def policy89():
         if places is not None and not places.empty:
             st.write("CDC PLACES: modeled adult community context, separate from patient reports and Census under-65 measures.")
             show_readable_table(places,hide_index=True)
-    st.markdown("### Local support")
-    barrier=st.selectbox("What help is needed?",list(SUPPORT89),key="policy89_focus")
-    item=SUPPORT89[barrier]
-    if barrier == "Transportation / distance":
-        st.write("**Need a ride to care?** Dutchess older adults without Medicaid can call **845-486-2555** to ask about GoGo registration and ride availability. Medicaid members can check the state transportation service; other residents can contact 211.")
-        st.markdown("[Dutchess transport options](https://www.dutchessny.gov/Departments/Aging/Transportation-for-Seniors.htm) · [Medicaid transport](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [211](https://www.211.org/)")
-    elif barrier == "Cost / insurance coverage":
-        st.write("**Help with coverage or bills:** Dutchess Community and Family Services lists Medicaid assistance at **845-486-3340** and temporary assistance at **845-486-3190**.")
-        st.markdown("[Coverage and assistance]("+item[2]+")")
-    elif barrier == "Appointment / referral access":
-        st.write("**Find a care option:** contact a health center to confirm services, coverage and appointments. Bring your PathwayAI visit summary.")
-        st.markdown("[HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
-    else:
-        st.write("**Ask about support or accommodations:** Dutchess NY Connects can discuss available options at **845-475-3511**.")
-        st.markdown("[NY Connects](https://www.dutchessny.gov/Departments/Aging/OFA-NY-Connects.htm)")
-    st.write("Eligibility and availability vary.")
-    brief=["PathwayAI | Dutchess support planning brief","Proposed support pilot. No county adoption or measured effect.","","QUESTION",barrier,"ACTION",item[4],"POTENTIAL OWNER",item[3],"EXISTING RESOURCE",item[1],item[2],"MEASURES",item[5],"Compare the same reporting period at baseline and 90-day follow-up. Record missing answers. Change alone does not establish causality or ROI.","","EVIDENCE STATUS","National GreenAcorn survey themes and published research inform questions. Local Community Voice contributions are voluntary and require privacy thresholds. No county prevalence or local intervention effect is inferred.","NYSDOH: 1,060 reported Lyme cases in 2024.","Census ACS 2020–2024: poverty 8.4%; uninsured under 65 4.9%; disability under 65 9.2%. All-cause context.","HRSA capacity depends on the loaded file; no official shortage designation or wait time is inferred.","","SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
     with st.expander("Published-cost illustration"):
         rows=reference_cost_rows("Dutchess",1060)
         show_readable_table([{"Perspective":r["perspective"],"Calculation":f"1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,}","Dollar year":r["dollar_year"]} for r in rows],hide_index=True)
         st.write(COST_CONTEXT_CAVEAT)
         st.markdown(f"[Yu]({YU_COST_URL}) · [Hook]({HOOK_COST_URL})")
-        for r in rows: brief.append(f"Illustrative {r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
-        brief.append(COST_CONTEXT_CAVEAT)
-    st.download_button("Download community support brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_SupportPlan.txt",mime="text/plain",key="policy89_download")
-    if st.session_state.get("admin_authenticated"):
-      with st.expander("Deployment and evaluation notes"):
-          st.write("Proposed outreach: invite patient advocates and clinics to test the appointment summary, and a county/community team to review the planning brief. Participation and partnerships must be confirmed.")
-          st.write("Public collection remains off by default. A controlled pilot needs private durable storage, retention/access rules and duplicate-response handling. Next evaluation: task completion, time to prepare a summary, successful support connections and comparable burden follow-up. No measured savings or ROI is claimed.")
+    with st.expander("About PathwayAI and access"):
+        st.write("Working prototype for feedback, focused on Dutchess. Use the patient view to prepare a visit summary and the county view to prepare a support brief.")
+        st.write("Planned access channels: clinic handouts or QR links, patient-advocate groups, and county community-health partners. These channels and partnerships are being confirmed.")
+        st.write("Available now: education, cost records, downloads and resource links. Shared Community Voice collection is off by default; private durable storage and collection controls are required before broader use.")
+
 
 # v88: concise patient flow and consented county burden summaries.
 VOICE88_COLUMNS = ["fips", "phase", "period", "medical_oop_band", "other_oop_band", "workdays", "caregiver_hours", "barrier", "consent_time"]
@@ -287,8 +300,9 @@ def community_voice88(county):
             pass
     rows = rows[rows["fips"].astype(str).str.zfill(5) == fips]
     if len(rows) < 5:
-        st.info("Not enough local responses to display yet. Local summaries require at least five usable contributions per displayed measure and matching reporting period.")
-        st.caption("No local cost baseline or county-wide total is inferred. Public county data and published cost illustrations remain separate.")
+        st.write("Local patient summaries are not yet available for this county.")
+        with st.expander("Community Voice methods"):
+            st.write("Only comparable, consented contributions are displayed, with at least five usable responses per measure. Small groups are withheld. No county-wide cost estimate is inferred.")
         return
     published = []
     for (phase, period), group in rows.groupby(["phase", "period"], dropna=True):
@@ -314,13 +328,12 @@ def community_voice88(county):
     st.caption("Voluntary, unverified reports. Contributions are not verified unique people. No population estimate, causal effect or savings is established. Before diagnosis is a recording phase, not a clinical stage.")
     st.markdown("**How a community team could use this**")
     st.write("Transport needs: consider navigation or travel assistance. Coverage/cost barriers: consider benefits or financial-assistance navigation. Appointment barriers: review referral coordination with clinics. Confirm needs with participants before choosing an action.")
-    st.caption("Proposed evaluation: referral completion, appointment waits, spending and time lost using the same reporting period at follow-up. Effects are not yet measured.")
+
     st.download_button("Download displayed Community Voice summary",frame.to_csv(index=False).encode("utf-8-sig"),file_name="CommunityVoiceSummary.csv",mime="text/csv",key="voice88_export")
 
 def compact_care88(quick, story):
-    evidence89()
     st.markdown("### 2. Record money and time · optional")
-    st.write("Keep a record for your appointment or support requests. If you choose to contribute, cost bands and other reviewed fields can help community teams understand reported barriers and plan patient support.")
+    st.write("Record what you paid and time you lost, using one period.")
     period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
     phase = st.selectbox("Journey phase", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88")
     st.write("Use one period. Leave unknown amounts blank and count each payment once.")
@@ -341,13 +354,14 @@ def compact_care88(quick, story):
     cards=st.columns(3)
     for col,label,value in zip(cards,["Medical OOP","Other OOP","Modeled work loss"],[medical,other,modeled]):
         col.metric(label,"Not reported" if value is None else f"${value:,.0f}")
-    st.caption("Your entries are a partial record, not a prediction or an estimate of costs caused by Lyme disease.")
-    with st.expander("Published references — not your expected cost"):
-        for line in published_reference_text(): st.write(line)
+    with st.expander("Methods & limits"):
+        st.write("Entries describe your experience; they do not establish costs caused by Lyme disease or predict future bills. Work-loss value is days × your chosen value/day, separate from medical spending.")
+        for line in published_reference_text(): st.write(line.replace("$", r"\$"))
+    questions = st.text_input("Question for your clinician (optional)",key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
     for label,value in [("Exposure",quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
         record.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
-    record += ["", "BURDEN", "Period: " + period,"Phase: " + phase]
+    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase]
     for label,value in [("Medical OOP",medical),("Other OOP",other),("Modeled work-loss value",modeled)]:
         record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
     record += [f"Missed workdays: {workdays if workdays is not None else 'Not reported'}",f"Caregiver hours: {caregiver if caregiver is not None else 'Not reported'}","Main barrier: " + barrier,"Modeled work loss = missed workdays × chosen value/day; not added to OOP.","",*published_reference_text()]
@@ -361,6 +375,8 @@ def compact_care88(quick, story):
     st.markdown("### 3. Find support and explore your community")
     county=county_selector88("patient88")
     support89(county,barrier)
+    with st.expander("What others reported · cost and journey evidence"):
+        evidence89()
     with st.expander("See available Community Voice summaries"):
         community_voice88(county)
     with st.expander("Help community teams understand reported needs · optional"):
@@ -3325,46 +3341,19 @@ if view == "📊 Community Burden & Action":
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     st.stop()
 
-st.header("🧭 CARE & SUPPORT")
-st.write("Prepare for a medical visit, find care, and get help with daily life.")
-care_paths71=st.columns(2)
-with care_paths71[0]:
-    st.button("I found a tick", key="care_bite71", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "bite"), use_container_width=True)
-with care_paths71[1]:
-    st.button("I’m a healthcare provider", key="care_provider71", on_click=select_public_pathway, args=("🧭 Care & Support", "provider"), use_container_width=True)
-if st.session_state.get("public_pathway_intent") == "provider":
-    st.info("Help a patient prepare a summary of their history, questions and support needs. The patient can review and download it for a visit.")
-show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
-with st.expander("I still have questions after a visit or test · second opinion"):
-    st.write("Ask whether another clinical opinion could help. Bring your symptom timeline, test dates and results, treatments and prior visit records. Another opinion does not automatically mean more tests or that the first clinician was wrong.")
-    st.markdown("[Find clinicians — Medicare Care Compare](https://www.medicare.gov/care-compare/) · [Find a community health center — HRSA](https://findahealthcenter.hrsa.gov/)")
-    st.caption("Ask the practice whether it evaluates tick-borne illness, accepts your coverage and has appointments. Directories do not confirm Lyme expertise or availability.")
-
-st.markdown("#### Leave with a summary, a burden record, and a support contact")
-benefit_cols76 = st.columns(3)
-for column, title, detail in [
-    (benefit_cols76[0], "Visit summary", "A short timeline and questions you can download for a healthcare visit."),
-    (benefit_cols76[1], "Burden record", "A clear view of money paid, time spent, missed work and daily-life impact."),
-    (benefit_cols76[2], "Support links", "Official care, transport, benefits and local-help resources based on the location you choose."),
-]:
-    with column:
-        with st.container(border=True):
-            st.markdown("**" + title + "**")
-            st.caption(detail)
-
-with st.expander("Patient Voice · sources & notes"):
-    st.caption("Patient-reported pilot experiences, not county-wide findings. Counts use answered fields; missing is not zero. Local summaries require consent and at least five usable responses per measure.")
-st.write('Organize your story for care. Sharing structured Patient Voice information is optional.')
+st.header("Care & support")
+st.write("For patients and caregivers preparing for a Lyme-related visit. Organize your story, keep a cost-and-time record, and leave with a reviewed appointment summary and a support contact. Community Voice contribution is optional when available.")
+with st.expander("About this tool"):
+    st.write("Working prototype for feedback. PathwayAI helps with preparation and support information; clinicians determine diagnosis and care. Planned access channels include clinic handouts and patient-advocate groups.")
 # QUICK START — STORY FIRST
 
 # Location is intentionally optional and comes after the patient receives immediate value.
 # This keeps the opening experience supportive rather than feeling like data collection.
 current_location_start = st.session_state.get("current_location_start", "")
 
-st.markdown("## 💬 TELL US YOUR STORY")
-st.markdown("**Low on energy? Start here. One or two sentences are enough.**")
-st.write('Write a sentence or two, then review your Journey Record. The detailed questions are optional.')
-st.warning("🔒 **Protect your privacy:** Please do not enter your name, date of birth, street address, phone number, email, medical record number, or other identifying information.")
+st.markdown("### 1. Prepare your visit summary")
+st.write("One or two sentences are enough. Review the summary before sharing it.")
+st.write("Please leave out names, contact details and other identifying information.")
 
 STORY_SAMPLE = 'I visited Maryland in June and had a tick bite. A few days later I developed a rash and became extremely tired and dizzy. I have felt this way for about two weeks. I had a Lyme blood test last week and was told it was negative. I have seen two doctors, missed five days of work, and spent about $600. I am now back home in Boston.'
 with st.expander("See a fictional story example"):

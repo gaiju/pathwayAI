@@ -1,4 +1,4 @@
-# PathwayAI v100 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v101 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -140,6 +140,61 @@ def support89(county, barrier):
         st.markdown("[211](https://www.211.org/) · [HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
 
 
+# Reference-only scenario: never infer a county's case mix from a voluntary survey.
+MYLYME_CHARTBOOK101 = "https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf"
+
+def larger_evidence101():
+    show_readable_table([
+        {"Source":"PathwayAI survey","Population":"Small voluntary sample across locations","Contribution":"Spending, diagnosis delay and days lost","Limit":"Early supplied snapshot; not county prevalence or a spending average"},
+        {"Source":"MyLymeData 2025 Chartbook","Population":"19,000+ enrolled overall; chart-specific subsets","Contribution":"Persistent-illness access, work and disability context","Limit":"Registry enrollment is not the denominator for every chart; not a random population sample"},
+        {"Source":"Hook / TickNET 2022","Population":"901 in patient-perspective analysis; high-incidence areas, 2014–2016","Contribution":"Medical, nonmedical and productivity components","Limit":"2016 USD; patient total includes work-loss value, not just OOP"},
+        {"Source":"Yu 2026","Population":"70,531 cases; 10,962 with recorded OOP","Contribution":"Localized/disseminated medical and OOP episode references","Limit":"2022 USD; excludes pharmacy; not a Stage 0 unit cost"},
+        {"Source":"Lyme Disease Biobank, Horn 2025","Population":"253 returning participants","Contribution":"Symptoms and care at follow-up","Limit":"Selected follow-up group; no cost valuation"},
+    ],hide_index=True)
+    st.write("MyLymeData's chartbook reports that 62% reduced work hours and 30% stopped work currently or in the past among the persistent-illness participants discussed. These may overlap and are not amounts of money or rates for all Lyme patients.")
+    st.markdown("[MyLymeData Chartbook · work section, printed pages 22–23]("+MYLYME_CHARTBOOK101+") · [Hook patient cost Table 3](https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t3)")
+    st.write("Use external studies as separate reference populations. They do not fill individual missing survey answers, confirm your survey's reporting period, or establish local prevalence. Unpaid caregiver valuation and pre-diagnosis-only spending remain gaps.")
+
+def planning_scenario101():
+    st.markdown("#### Explore an illustrative group cost")
+    st.write("Choose a hypothetical group and one published benchmark. This is a planning reference, not a Dutchess estimate or a prediction.")
+    n=st.number_input("Hypothetical number of people",min_value=1,max_value=100000,value=100,key="n101")
+    references={
+        "Patient medical OOP · Yu episode":(188,2022,"Medical OOP only; recorded-OOP subset; excludes pharmacy",YU_COST_URL,"Episode"),
+        "Total medical spending · Yu episode":(2227,2022,"Direct medical cost; OOP already part of medical spending",YU_COST_URL,"Episode"),
+        "Societal burden · Hook":(2032,2016,"Medical + nonmedical + productivity; do not add work loss again",HOOK_COST_URL,"Study observation"),
+    }
+    choice=st.selectbox("Reference perspective",list(references),key="reference101")
+    unit,year,scope,url,horizon=references[choice]
+    group=st.selectbox("Published study group",["Overall","Localized","Disseminated"],key="group101")
+    if choice.startswith("Patient medical"):
+        unit={"Overall":188,"Localized":107,"Disseminated":401}[group]
+    elif choice.startswith("Total medical"):
+        unit={"Overall":2227,"Localized":695,"Disseminated":6833}[group]
+    else:
+        unit={"Overall":2032,"Localized":1307,"Disseminated":3251}[group]
+    amount=n*unit
+    a,b=st.columns(2)
+    a.metric("Published mean per person",f"${unit:,.0f}")
+    b.metric("Illustrative group amount",f"${amount:,.0f}")
+    st.write(f"{n:,} people × USD {unit:,} = USD {amount:,}, expressed in {year} dollars. {scope}.")
+    st.markdown("[Benchmark source]("+url+")")
+    notes=["PathwayAI | Illustrative planning scenario","Not a county estimate, personal prediction, survey-derived average, savings or Stage 0 estimate.",f"Hypothetical people: {n}","Perspective: "+choice,"Study group: "+group,f"Published unit cost: USD {unit}; dollar year {year}",f"Calculation: {n} × USD {unit} = USD {amount}","Cost scope: "+scope,"Reference horizon: "+horizon,"Source: "+url,"Assumption: each hypothetical person is assigned the selected published study-group mean. No observed local case mix or disease classification is inferred. No inflation or underreporting adjustment."]
+    with st.expander("Optional work-loss assumption · kept separate"):
+        period=st.selectbox("Assumed work-loss reporting period",["Choose a period","30 days","90 days","One year","A care episode"],key="workperiod101")
+        days=st.number_input("Assumed missed workdays per person",min_value=0.0,max_value=3650.0,value=None,step=1.0,key="days101")
+        daily=st.number_input("Assumed value per workday (USD)",min_value=0.0,value=None,step=25.0,key="daily101")
+        st.write("These inputs are analyst assumptions, not measured survey averages. This work-loss calculation is not added to the reference amount; Hook's societal benchmark already includes productivity loss.")
+        if days is not None and daily is not None and period != "Choose a period":
+            work=n*days*daily
+            st.metric("Separate illustrative work-loss value",f"${work:,.0f}")
+            notes.extend(["","SEPARATE WORK-LOSS SCENARIO",f"Assumed period: {period}",f"{n} people × {days:g} missed days/person × USD {daily:g}/day = USD {work:,.2f}","User-chosen nominal USD; no published dollar-year adjustment. Not added to the study reference amount; observation periods may differ."])
+    with st.expander("Scenario assumptions"):
+        st.write("The small PathwayAI survey identifies burdens to investigate; it does not determine the unit cost or group size above. Published means come from the selected external study. Localized and disseminated groups are study classifications, not a pathway everyone follows. No relationship between diagnostic delay and a dollar difference is treated as proven savings.")
+        st.write("MyLymeData supports questions about persistent-illness work and access needs, not a monetary conversion. Census and HRSA provide separate community context. Do not sum medical, OOP and societal perspectives or extrapolate registry percentages to county cases.")
+    st.download_button("Download scenario and assumptions","\n".join(notes).encode("utf-8"),file_name="PathwayAI_ReferenceScenario.txt",mime="text/plain",key="scenario101_download")
+    return notes
+
 def policy89():
     st.header("Community burden & action")
     st.write("Explore a county, see the burden behind its case count, and download a brief for a planning discussion.")
@@ -177,14 +232,19 @@ def policy89():
     with st.expander("Comparison sources and interpretation"):
         st.write("Tick observations describe sampled sites; cases describe residents, not necessarily exposure location. Language spoken at home does not establish interpreter need. These separate measures do not establish a causal relationship.")
         st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [NYSDOH rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf) · [Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork)")
-    st.markdown("### 3. See the burden behind the numbers")
-    c1,c2,c3=st.columns(3)
-    c1.metric("At least $10,000 OOP", "14 of 33")
-    c2.metric("More than 100 days lost", "18 of 33")
-    c3.metric("More than 5 years to diagnosis", "20 of 33")
-    st.write("PathwayAI national survey · early October 3, 2026 snapshot supplied by the project lead. Self-reported experiences, separate from Dutchess county data; reporting periods require confirmation.")
-    with st.expander("Evidence & methods"):
+    st.markdown("### 3. Explore broader burden evidence")
+    st.write("**Evidence from outside this county:** your PathwayAI survey and external studies provide reference context across locations. They are not Dutchess findings.")
+    with st.expander("PathwayAI survey · small sample across locations"):
+        c1,c2,c3=st.columns(3)
+        c1.metric("At least $10,000 OOP", "14 of 33")
+        c2.metric("More than 100 days lost", "18 of 33")
+        c3.metric("More than 5 years to diagnosis", "20 of 33")
+        st.write("Early October 3, 2026 summary supplied by the project lead. Voluntary, self-reported experiences. Counts, question wording and reporting periods need confirmation against the current export; no average spending or pre-diagnosis cost is inferred.")
+    with st.expander("Larger surveys and study populations"):
+        larger_evidence101()
+    with st.expander("Published evidence & methods"):
         evidence89()
+    scenario_notes101=planning_scenario101()
     with st.expander("Available local patient experiences"):
         community_voice88(county)
     st.markdown("### 4. Choose a planning question")
@@ -203,6 +263,7 @@ def policy89():
     brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE","PathwayAI national survey early snapshot (October 3, 2026): 14/33 reported at least $10,000 OOP; 18/33 more than 100 days lost; 20/33 more than five years to diagnosis. Previously supplied project-lead summary, not recalculated from the current export. Confirm question wording and reporting periods. Not Dutchess prevalence or Stage 0 cost attribution.","NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
+    brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
     st.download_button("Download your burden discussion brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     with st.expander("Local support resources"):
         support_focus=st.selectbox("Support need",list(SUPPORT89),key="policy89_focus")
@@ -364,6 +425,7 @@ def compact_care88(quick, story):
     support89(county,barrier)
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
+        larger_evidence101()
     with st.expander("See available Community Voice summaries"):
         community_voice88(county)
     with st.expander("Help community teams understand reported needs · optional"):

@@ -2094,8 +2094,9 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-    st.markdown("### Prevention → Care → Support → Action")
-    st.caption("Our goal: less burden from tick-borne illness.")
+    st.markdown("### Make the hidden journey visible.")
+    st.write("Prepare for care, record costs and time, and find support.")
+    st.caption("Prevention → Care → Support → Action")
     st.markdown("#### A small tick bite can have a big impact.")
     st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
     st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
@@ -2621,6 +2622,19 @@ if view == "📊 Community Burden & Action":
         show_readable_table(pd.DataFrame(capacity68), hide_index=True, width="stretch")
     st.caption("² HRSA AHRF 2024–2025 release: 2020 Census rural population / 2020 Census total population; 2023 physician counts / 2023 population. Both counties have USDA RUCC 2023 code 2 (metro). Metro counties still contain rural residents. Physician counts do not measure waits or shortage designation.")
     st.markdown("### What can both counties do?")
+    with st.expander("County health assessments · local needs and proposed Lyme actions"):
+        st.markdown("**Dutchess · 2025–2030 Community Health Assessment**")
+        st.write("The assessment describes access-to-care concerns, transport and health-literacy barriers, and differences affecting rural communities and households with disabilities. These are broader community findings, not Lyme-specific outcomes.")
+        cha85 = pd.DataFrame([
+            ["Access and transport barriers", "Offer referral and transport navigation", "Visits completed; appointment time; travel spending"],
+            ["Health literacy and service awareness", "Use plain-language instructions and confirm understanding", "Can residents explain their next step and find help?"],
+            ["Rural communities and disability-related disparities", "Test telephone options and accessible care summaries", "Unmet needs; referral completion; daily function"],
+        ], columns=["Assessment finding", "PathwayAI proposal · untested", "Pilot measure"])
+        show_readable_table(cha85, hide_index=True, width="stretch")
+        st.markdown("[Dutchess assessment · executive summary, PDF page 4](https://www.dutchessny.gov/Departments/DBCH/Docs/DCCHA2025.pdf)")
+        st.markdown("**Orange County, New York**")
+        st.markdown("[County reports and assessments](https://www.orangecountyny.gov/2325/Reports-Assessments) · [2025–2030 executive summary](https://www.orangecountyny.gov/DocumentCenter/View/37388/Orange-County-Executive-Summary-NYSDOH-Submission-FINAL-12232025)")
+        st.caption("Orange's specific priorities have not been extracted or verified in this build. Do not transfer Dutchess findings to Orange. Each county's assessment and improvement plan should guide local partner review. Sources checked October 13, 2026.")
     st.write("Teach tick prevention. Help people find care, get transportation, and receive language or disability support. Check whether people get the care they need.")
     st.markdown("**Did it help?** Track appointment waits, visits completed, travel costs and daily activities. Ask people what made getting care difficult.")
     with st.expander("CDC disability detail · compare both counties"):
@@ -2694,6 +2708,10 @@ if view == "📊 Community Burden & Action":
                 "CDC PLACES: https://www.cdc.gov/places/",
                 "CARE: https://findahealthcenter.hrsa.gov/ | BENEFITS: https://www.ssa.gov/disability",
             ])
+            if county82 == "Dutchess":
+                lines82.extend(["", "LOCAL ASSESSMENT ALIGNMENT", "Dutchess CHA 2025–2030, executive summary (PDF page 4): access, transport, health-literacy barriers and rural/disability disparities. PathwayAI proposes navigation measures aligned with these broader needs; county adoption and Lyme-specific benefit are not established.", "https://www.dutchessny.gov/Departments/DBCH/Docs/DCCHA2025.pdf"])
+            else:
+                lines82.extend(["", "LOCAL ASSESSMENT SOURCE", "Orange's current assessment priorities require local review; no priorities are assigned from Dutchess.", "https://www.orangecountyny.gov/2325/Reports-Assessments"])
             text82 = "\n".join(lines82)
             st.download_button(f"Download {county82} planning brief", text82.encode("utf-8"), file_name=f"{county82}Brief.txt", mime="text/plain", key="brief82_"+fips82)
             with st.expander(f"Read {county82} brief"):

@@ -390,14 +390,14 @@ def policy89():
         st.info("The detailed evidence demonstration below uses Dutchess County public data as an example. "
                 "Do not interpret its figures or AI responses as estimates for the selected community.")
         return
+    st.markdown("### Start with New York: what do public records show?")
+    st.write("First explore reported Lyme disease and tick observations. Then compare published costs and consider ways communities can respond.")
+    st.caption("New York is the current mapped example. Pennsylvania and Maryland are planned comparison areas, not loaded county estimates.")
     st.markdown("### Dutchess County: an example using public data · evidence snapshot")
     a106, b106 = st.columns(2)
     a106.metric("Reported Lyme cases · 2024", "1,060")
     b106.metric("Reported rate · per 100,000", "355.5")
     st.caption("NYSDOH 2024 county surveillance; cases by residence, not exposure. Public-data demonstration only; no county endorsement or Stage 0 cost estimate.")
-    policy_ai105()
-    st.markdown("### Explore costs using published research")
-    scenario_notes101 = planning_scenario101()
     st.markdown("### Explore local Lyme disease reports")
     st.markdown("### 1. Explore the place")
     map_view=st.radio("Map view",["New York","Dutchess–Orange"],horizontal=True,key="map100")
@@ -426,8 +426,15 @@ def policy89():
     with st.expander("Comparison sources and interpretation"):
         st.write("Tick observations describe sampled sites; cases describe residents, not necessarily exposure location. Language spoken at home does not establish interpreter need. These separate measures do not establish a causal relationship.")
         st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [NYSDOH rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf) · [Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork)")
+    st.markdown("### 3. Understand the economic impact")
+    st.write("Published studies describe different kinds of costs. These are research findings, not estimates for Dutchess County.")
     show_burden_evidence_panel104()
-    st.markdown("### 3. Explore broader burden evidence")
+    with st.expander("Optional: explore group-cost scenarios"):
+        scenario_notes101 = planning_scenario101()
+    st.markdown("### Ask AI about community needs")
+    policy_ai105()
+
+    st.markdown("### More research on the burden")
     st.write("Survey and literature references across locations, separate from Dutchess data.")
     with st.expander("PathwayAI survey · small sample across locations"):
         c1,c2,c3=st.columns(3)
@@ -443,7 +450,7 @@ def policy89():
         evidence89(include_survey=False)
     with st.expander("Available local patient experiences"):
         community_voice88(county)
-    st.markdown("### 4. Choose a planning question")
+    st.markdown("### Turn evidence into community action")
     focus=st.selectbox("What burden do you want to investigate?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Record medical and other OOP separately, with one reporting period; review coverage and assistance needs.","Medical/other OOP bands; assistance connections completed"),
@@ -2730,7 +2737,7 @@ if not st.session_state.get("pathway_open", False):
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
     with st.expander("Reviewing PathwayAI for HHS TOPx? Start here (90 seconds)", expanded=False):
-        st.write("**1. Community Burden & Action (40 seconds):** Review published costs, try the group-cost example, and ask AI about community needs.")
+        st.write("**1. Community Burden & Action (40 seconds):** Start with New York maps and reported cases, then explore costs and ask AI about community needs.")
         st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
         st.write("**2. Care & Support (25 seconds):** See how people can organize information and find support.")
         st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)

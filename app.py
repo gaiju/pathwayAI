@@ -2835,6 +2835,10 @@ with care_paths71[1]:
 if st.session_state.get("public_pathway_intent") == "provider":
     st.info("Help a patient prepare a summary of their history, questions and support needs. The patient can review and download it for a visit.")
 show_section_hero("journey", "Understand Your Journey. Plan Your Next Step.", 'Organize symptoms, tests, care, costs and daily-life impact for your next healthcare visit.')
+with st.expander("I still have questions after a visit or test · second opinion"):
+    st.write("Ask whether another clinical opinion could help. Bring your symptom timeline, test dates and results, treatments and prior visit records. Another opinion does not automatically mean more tests or that the first clinician was wrong.")
+    st.markdown("[Find clinicians — Medicare Care Compare](https://www.medicare.gov/care-compare/) · [Find a community health center — HRSA](https://findahealthcenter.hrsa.gov/)")
+    st.caption("Ask the practice whether it evaluates tick-borne illness, accepts your coverage and has appointments. Directories do not confirm Lyme expertise or availability.")
 
 st.markdown("#### What you receive")
 benefit_cols76 = st.columns(3)
@@ -3328,6 +3332,8 @@ if quick["cost_amount"] is not None:
     st.info(f"From your story: approximately ${quick['cost_amount']:,.0f} in patient-reported illness-related cost. This is kept separate unless you choose to break it into categories below.")
 st.markdown("#### Optional transparent cost inputs")
 cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
+burden_phase81 = st.selectbox("Which part of your journey do these amounts cover?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="burden_phase81")
+st.caption("Stage 0 means the period before diagnosis in this burden record. It is not an official clinical stage. If amounts cover both periods, this app cannot separate them or call them pre-diagnosis costs.")
 st.caption('Use one time period. Enter only money you paid. Leave unknown amounts blank. Count each payment once; do not repeat a specialist or test payment under medical spending.')
 medical_cost = st.number_input("Medical / healthcare spending ($)", min_value=0.0, value=None, step=100.0)
 second_opinion_cost = st.number_input("Second opinion / specialist evaluation spending ($)", min_value=0.0, value=None, step=100.0, help="This may represent appropriate or beneficial care. PathwayAI does not automatically treat it as avoidable.")
@@ -3606,12 +3612,20 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     )
 
     st.markdown("#### Your spending and time")
+    st.write("**Journey period:** " + burden_phase81)
     st.caption("Period: " + cost_period75 + ". Workdays and costs must cover this same period to be compared.")
     st.caption('**Sources:** 👤 Patient-entered · 🧮 Modeled · 📚 Published/public evidence')
     productivity_loss = float(days_missed) * float(daily_productivity_value) if days_missed is not None and daily_productivity_value is not None else None
     entered_costs = [v for v in [medical_cost, second_opinion_cost, repeat_testing_cost, transport_cost, self_care_cost] if v is not None]
     productivity_entered = days_missed is not None and daily_productivity_value is not None
     known_total = sum(float(v) for v in entered_costs) + _num0(productivity_loss)
+    medical_paid81 = [v for v in [medical_cost, second_opinion_cost, repeat_testing_cost] if v is not None]
+    other_paid81 = [v for v in [transport_cost, self_care_cost] if v is not None]
+    cost_cards81 = st.columns(3)
+    cost_cards81[0].metric("Medical out-of-pocket subtotal", f"${sum(medical_paid81):,.0f}" if medical_paid81 else "Not reported")
+    cost_cards81[1].metric("Other out-of-pocket subtotal", f"${sum(other_paid81):,.0f}" if other_paid81 else "Not reported")
+    cost_cards81[2].metric("Modeled work-loss value", f"${productivity_loss:,.0f}" if productivity_entered else "Not reported")
+    st.caption("Medical out-of-pocket includes the separate medical, second-opinion and testing entries. Other out-of-pocket includes travel/lodging and self-care supplies. These are partial subtotals of your entries. Do not count a payment twice. Insurer payments and total healthcare spending are not collected here. Work-loss value is days × your entered value per day, not a medical bill.")
     burden_table = pd.DataFrame({
         "Burden component": ["Medical / healthcare", "Second opinion / specialist evaluation", "Repeat / duplicative testing or fragmented care", "Transportation / lodging", "Self-paid supportive care / supplies", "Productivity loss"],
         "Amount entered / modeled ($)": [medical_cost, second_opinion_cost, repeat_testing_cost, transport_cost, self_care_cost, productivity_loss],

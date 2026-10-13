@@ -1,4 +1,4 @@
-# PathwayAI v91 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v94 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -63,7 +63,7 @@ def show_sample_burden_card():
         a.metric("Medical OOP", "$400")
         b.metric("Other OOP", "$100")
         c.metric("Modeled work loss", "$600")
-        st.write("Example period: past 30 days, before diagnosis. Medical $300 + specialist $100; travel $75 + supplies $25; work loss 3 days × $200/day. Partial entered spending $500; separate modeled work loss $600.")
+        st.write(r"Example period: past 30 days, before diagnosis. Medical \$300 + specialist \$100; travel \$75 + supplies \$25; work loss 3 days × \$200/day. Partial entered spending \$500; separate modeled work loss \$600.")
         st.caption("These invented entries have a different scope and period from published episode benchmarks; no direct expected-cost comparison is made.")
         for line in published_reference_text():
             st.write(line)
@@ -88,7 +88,12 @@ def evidence89():
     cards=st.columns(2)
     with cards[0]:
         st.markdown("🌱 **GreenAcorn patient survey**")
-        st.write("Early voluntary responses describe diagnostic delays, repeated visits, out-of-pocket spending and work disruption. These themes show why the period before diagnosis matters.")
+        st.markdown("**Early snapshot · October 3, 2026**")
+        st.metric("Reported at least $10,000 out of pocket", "14 of 33", help="Previously supplied GreenAcorn survey summary; self-reported diagnosed-Lyme respondents. Not a monthly or annual estimate.")
+        st.write("18 of 33 reported more than 100 days lost; 20 of 33 reported more than five years to diagnosis; 16 of 33 reported seeing more than ten clinicians.")
+        with st.expander("Survey source and scope"):
+            st.write("Source: GreenAcorn survey, early summary supplied by the project lead, October 3, 2026; 33 respondents reported a Lyme diagnosis. Counts are reproduced from that supplied snapshot, not recalculated from a current response export.")
+            st.write("Voluntary convenience sample, not county prevalence or a personal prediction. Exact question wording, missing-response denominators and cost/time reporting periods require confirmation against the export. Spending is not assigned to Stage 0, a monthly/annual period, or medical/travel categories.")
     with cards[1]:
         st.markdown("🧬 **Lyme Disease Biobank research**")
         st.write("Among 253 participants returning for follow-up, 55 (22%) reported ongoing symptoms; 19 of those 55 (35%) had seen a provider about them. This selected study group provides follow-up context, not a personal prognosis or dollar estimate.")
@@ -100,16 +105,16 @@ def evidence89():
         ],hide_index=True)
     with st.expander("How to interpret these numbers and calculations"):
         st.write("Localized generally refers to disease confined to the initial site; disseminated describes manifestations beyond it. The cost study used its own identification rules. PathwayAI does not classify your disease or infer dissemination from symptoms, delay or spending.")
-        st.write("Yu et al. 2026, Table 2: 70,531 case patients; OOP recorded for 10,962. Medical episode means were $695 localized and $6,833 disseminated; corresponding medians were $177 and $431. Patient OOP means were $107 and $401, with medians $30 and $50. High-cost episodes raise means; a mean is not a typical expected bill. Pharmacy costs were excluded.")
-        st.write("Hook et al. 2022, Table 5: confirmed localized societal mean $1,307, median $493; confirmed disseminated mean $3,251, median $1,081. Societal cost includes medical, nonmedical and productivity components. Patient medical spending is already included, not an extra amount to add.")
+        st.write(r"Yu et al. 2026, Table 2: 70,531 case patients; OOP recorded for 10,962. Medical episode means were \$695 localized and \$6,833 disseminated; corresponding medians were \$177 and \$431. Patient OOP means were \$107 and \$401, with medians \$30 and \$50. High-cost episodes raise means; a mean is not a typical expected bill. Pharmacy costs were excluded.")
+        st.write(r"Hook et al. 2022, Table 5: confirmed localized societal mean \$1,307, median \$493; confirmed disseminated mean \$3,251, median \$1,081. Societal cost includes medical, nonmedical and productivity components. Patient medical spending is already included, not an extra amount to add.")
         st.write("Personal record assumptions: enter payments once, use one time period, and leave unknown values blank. Work-loss value equals your missed workdays × your chosen value/day. It is a user-entered scenario, not measured income loss. Caregiver hours remain hours unless a separately justified valuation is made.")
         st.write("County illustration assumptions: official reported cases × one published overall mean; no correction for underreporting, inflation, local case mix or diagnostic delay. Differences between localized and disseminated costs are observational comparisons, not money proven savable through earlier care.")
-        st.write("GreenAcorn: national convenience-survey themes are separate from local county reports. No numerical survey spending breakdown is inferred. Census contextualizes affordability, HRSA contextualizes capacity, and CDC/NYSDOH contextualize disease and exposure; none predicts a person's costs.")
+        st.write("GreenAcorn: the dated national survey snapshot is separate from local county reports. Its total-spending threshold is not a breakdown by category. Census contextualizes affordability, HRSA contextualizes capacity, and CDC/NYSDOH contextualize disease and exposure; none predicts a person's costs.")
     with st.expander("Literature and data sources"):
         st.markdown(f"[Yu et al., JAMA Network Open 2026, Table 2]({YU_COST_URL})")
         st.markdown(f"[Hook et al., Emerging Infectious Diseases 2022, Table 5]({HOOK_COST_URL})")
         st.markdown("[Horn et al., Lyme Disease Biobank follow-up, Frontiers in Medicine 2025](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
-        st.write("Curated literature summary, not a systematic review. Study populations, observation periods, methods and dollar years differ. References checked October 13, 2026. GreenAcorn survey counts require a current verified export before publication.")
+        st.write("Curated literature summary, not a systematic review. Study populations, observation periods, methods and dollar years differ. References checked October 13, 2026. GreenAcorn counts show the project lead’s previously supplied October 3 snapshot; a current export is needed to update and independently check them.")
         st.write("Icons are generic visual cues, not official logos or endorsements.")
 
 
@@ -155,12 +160,21 @@ def policy89():
         for col89,measure89 in [(left89,"Nymphs per 1,000 m²"),(right89,"Reported Lyme cases per 100,000")]:
             with col89:
                 st.markdown("**"+measure89+"**")
-                st.altair_chart(alt.Chart(compare89).mark_bar().encode(x=alt.X("County:N",title=None),y=alt.Y(measure89+":Q",scale=alt.Scale(zero=True)),color=alt.Color("County:N",legend=None),tooltip=["County:N",alt.Tooltip(measure89+":Q",format=".1f")]).properties(height=190),use_container_width=True)
+                st.altair_chart(alt.Chart(compare89).mark_bar().encode(x=alt.X("County:N",title=None),y=alt.Y(measure89+":Q",scale=alt.Scale(zero=True)),color=alt.Color("County:N",scale=alt.Scale(domain=["Orange","Dutchess"],range=["#C65D17","#2474A6"]),legend=None),tooltip=["County:N",alt.Tooltip(measure89+":Q",format=".1f")]).properties(height=190),use_container_width=True)
         st.write("Orange had higher tick density at its sampled site. Dutchess had a higher reported Lyme rate among residents. These measures describe different things.")
         with st.expander("Comparison sources and limits"):
             show_readable_table(compare89,hide_index=True)
             st.write("NYSDOH 2024. One tick site was visited in each county. Site sampling does not represent every county location; cases describe residents, not necessarily where they were exposed. No causal link is inferred. State maps keep their own sampling-year labels.")
             st.markdown("[Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Reported cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [Official rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
+        st.markdown("#### Language context")
+        language94=pd.DataFrame([
+            {"County":"Orange","Language other than English at home (%)":30.2},
+            {"County":"Dutchess","Language other than English at home (%)":16.2},
+        ])
+        st.altair_chart(alt.Chart(language94).mark_bar().encode(x=alt.X("County:N",title=None),y=alt.Y("Language other than English at home (%):Q",scale=alt.Scale(zero=True)),color=alt.Color("County:N",scale=alt.Scale(domain=["Orange","Dutchess"],range=["#C65D17","#2474A6"]),legend=None),tooltip=["County:N",alt.Tooltip("Language other than English at home (%):Q",format=".1f")]).properties(height=170),use_container_width=True)
+        st.write("Census ACS 2020–2024, residents age 5+. Language spoken at home does not establish English proficiency or interpreter needs.")
+        with st.expander("Language comparison sources"):
+            st.markdown("[Orange QuickFacts](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess QuickFacts](https://www.census.gov/quickfacts/dutchesscountynewyork)")
         st.markdown("### 4. Focus on Dutchess burden and support")
         st.write("Surveillance cannot tell us what a family paid before diagnosis or how much work they missed. Patient reports add that perspective.")
     else:
@@ -191,23 +205,31 @@ def policy89():
         if places is not None and not places.empty:
             st.write("CDC PLACES: modeled adult community context, separate from patient reports and Census under-65 measures.")
             show_readable_table(places,hide_index=True)
-    st.markdown("### Choose one support action to test")
-    st.write("Select a planning question. This is a proposed action, not an automatic finding that the county needs the service.")
-    barrier=st.selectbox("Planning focus",list(SUPPORT89),key="policy89_focus")
+    st.markdown("### Local support")
+    barrier=st.selectbox("What help is needed?",list(SUPPORT89),key="policy89_focus")
     item=SUPPORT89[barrier]
-    st.markdown("**Action:** "+item[4])
-    st.write("**Potential owner:** "+item[3])
-    st.write("**What to measure:** "+item[5])
-    support89(county,barrier)
+    if barrier == "Transportation / distance":
+        st.write("**Need a ride to care?** Dutchess older adults without Medicaid can call **845-486-2555** to ask about GoGo registration and ride availability. Medicaid members can check the state transportation service; other residents can contact 211.")
+        st.markdown("[Dutchess transport options](https://www.dutchessny.gov/Departments/Aging/Transportation-for-Seniors.htm) · [Medicaid transport](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [211](https://www.211.org/)")
+    elif barrier == "Cost / insurance coverage":
+        st.write("**Help with coverage or bills:** Dutchess Community and Family Services lists Medicaid assistance at **845-486-3340** and temporary assistance at **845-486-3190**.")
+        st.markdown("[Coverage and assistance]("+item[2]+")")
+    elif barrier == "Appointment / referral access":
+        st.write("**Find a care option:** contact a health center to confirm services, coverage and appointments. Bring your PathwayAI visit summary.")
+        st.markdown("[HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
+    else:
+        st.write("**Ask about support or accommodations:** Dutchess NY Connects can discuss available options at **845-475-3511**.")
+        st.markdown("[NY Connects](https://www.dutchessny.gov/Departments/Aging/OFA-NY-Connects.htm)")
+    st.write("Eligibility and availability vary.")
     brief=["PathwayAI | Dutchess support planning brief","Proposed support pilot. No county adoption or measured effect.","","QUESTION",barrier,"ACTION",item[4],"POTENTIAL OWNER",item[3],"EXISTING RESOURCE",item[1],item[2],"MEASURES",item[5],"Compare the same reporting period at baseline and 90-day follow-up. Record missing answers. Change alone does not establish causality or ROI.","","EVIDENCE STATUS","National GreenAcorn survey themes and published research inform questions. Local Community Voice contributions are voluntary and require privacy thresholds. No county prevalence or local intervention effect is inferred.","NYSDOH: 1,060 reported Lyme cases in 2024.","Census ACS 2020–2024: poverty 8.4%; uninsured under 65 4.9%; disability under 65 9.2%. All-cause context.","HRSA capacity depends on the loaded file; no official shortage designation or wait time is inferred.","","SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
-    with st.expander("Illustrative published-cost context"):
+    with st.expander("Published-cost illustration"):
         rows=reference_cost_rows("Dutchess",1060)
         show_readable_table([{"Perspective":r["perspective"],"Calculation":f"1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,}","Dollar year":r["dollar_year"]} for r in rows],hide_index=True)
         st.write(COST_CONTEXT_CAVEAT)
         st.markdown(f"[Yu]({YU_COST_URL}) · [Hook]({HOOK_COST_URL})")
         for r in rows: brief.append(f"Illustrative {r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
         brief.append(COST_CONTEXT_CAVEAT)
-    st.download_button("Download this support planning brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_SupportPlan.txt",mime="text/plain",key="policy89_download")
+    st.download_button("Download community support brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_SupportPlan.txt",mime="text/plain",key="policy89_download")
     if st.session_state.get("admin_authenticated"):
       with st.expander("Deployment and evaluation notes"):
           st.write("Proposed outreach: invite patient advocates and clinics to test the appointment summary, and a county/community team to review the planning brief. Participation and partnerships must be confirmed.")

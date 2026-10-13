@@ -2721,7 +2721,15 @@ if not st.session_state.get("pathway_open", False):
     st.write("PathwayAI connects public-health data, research, and AI to help people understand tick-borne disease risks, "
              "find care and support, and explore the costs of illness. It helps communities turn evidence into questions and possible actions.")
     st.write("**For:** residents, travelers, patients, caregivers, clinicians, researchers, community groups, and public-health leaders.")
-    st.markdown("#### Explore prevention, care, and community needs")
+    st.markdown("#### What would you like to do?")
+    for start in range(0, len(paths), 2):
+        cols = st.columns(2)
+        for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
+            with col:
+                st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
+                st.caption(detail)
+    st.markdown("---")
+    st.markdown("#### Lyme disease: facts and costs")
     st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
     st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
     lyme74, reported79 = st.columns(2)
@@ -2738,28 +2746,23 @@ if not st.session_state.get("pathway_open", False):
     with cost102:
         st.metric("Published U.S. societal cost / year", "$345–968M")
         st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")
-    with st.expander("Sources and scope of these burden figures"):
-        st.markdown("[MyLymeData 2025 Chartbook · printed pages 22–23](https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf)")
-        st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
-        st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
-        st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
     with st.expander("Explore costs and daily-life effects"):
         st.write("See medical bills, other expenses, missed work, and daily-life impacts in the burden views.")
     with st.expander("A quick tour for first-time visitors"):
         st.write("Start with Learn & Prevent for outdoor safety; Care & Support for help finding care; "
                  "or Community Burden & Action to explore costs, local reports, and AI-assisted planning.")
-    for start in range(0, len(paths), 2):
-        cols = st.columns(2)
-        for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
-            with col:
-                st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
-                st.caption(detail)
     with st.expander("Why does this matter?"):
         st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
         st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")
     with st.expander("Other tick-related conditions · alpha-gal"):
         st.write("Some tick bites can lead to alpha-gal syndrome, an allergy to products from mammals. This is a separate condition from Lyme disease.")
         st.markdown("[CDC alpha-gal information](https://www.cdc.gov/alpha-gal-syndrome/about/index.html)")
+    st.markdown("#### Sources and other evidence")
+    with st.expander("Sources and scope of these burden figures"):
+        st.markdown("[MyLymeData 2025 Chartbook · printed pages 22–23](https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf)")
+        st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
+        st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+        st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
     st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
     st.caption("¹ [CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html) · [Forest photo source and rights](https://npgallery.nps.gov/AssetDetail/cc3b6242-5cfe-4754-a632-00be104abe5c). No agency endorsement is implied.")
     st.stop()

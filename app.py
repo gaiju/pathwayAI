@@ -295,10 +295,10 @@ def policy_ai105():
     st.markdown("### Ask AI about community burden")
     st.write("Explore what published research and public county indicators suggest for planning. The AI cannot estimate local savings, diagnose patients, or choose a county budget.")
     questions = [
-        "Which economic burden categories should Dutchess County investigate first?",
+        "Which burden categories might warrant further investigation in this public-data example?",
         "What can published studies tell us about diagnostic delay and disability-related costs?",
-        "Which access barriers might justify a local pilot, and how would we measure it?",
-        "What evidence is missing before we can estimate county-level Stage 0 costs?",
+        "Which access barriers could a community assess, and how might they be measured?",
+        "What evidence is missing before estimating local Stage 0 costs?",
     ]
     question = st.selectbox("Policy question", questions, key="policy_ai105_question")
     st.caption("Only the selected question and the fixed public evidence summary below are sent to the configured AI service. No Patient Voice records or patient stories are included.")
@@ -311,7 +311,7 @@ def policy_ai105():
             st.warning(message)
             return
         evidence = {
-            "county": "Dutchess County, New York",
+            "county": "Dutchess County, New York (independent public-data demonstration; no county endorsement)",
             "surveillance": "NYSDOH 2024: 1,060 reported Lyme cases, rate 355.5 per 100,000; counts are by residence, not exposure.",
             "published_costs": [
                 "Hook et al. 2022, Table 5: societal mean $2,032, median $690 per participant in 2016 USD; includes medical, nonmedical, and productivity costs; not Stage 0.",
@@ -319,7 +319,7 @@ def policy_ai105():
             ],
             "survey": "PathwayAI voluntary national snapshot, October 3 2026, n=33 self-reported diagnosed respondents: 14 reported >=$10,000 OOP, 18 >100 days lost, 20 >5 years to diagnosis. Not a Dutchess estimate; periods and denominators need verification.",
             "county_context": "Census QuickFacts ACS 2020-2024: 8.4% poverty, 4.9% uninsured under 65, 9.2% disability under 65; all-cause context, not Lyme-attributable.",
-            "limits": "No county-specific Stage 0 unit cost, verified local patient sample, intervention effect, causal savings, or validated Bayesian estimate is available.",
+            "limits": "No county partnership or endorsement, county-specific Stage 0 unit cost, verified local patient sample, intervention effect, causal savings, or validated Bayesian estimate is available.",
             "sources": [HOOK_COST_URL, YU_COST_URL, "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf", "https://www.census.gov/quickfacts/dutchesscountynewyork"],
         }
         system = ("You are PathwayAI's public-health policy evidence assistant. Use ONLY the supplied curated evidence. "
@@ -340,7 +340,7 @@ def policy_ai105():
         st.markdown(st.session_state["policy_ai105_answer"])
         st.caption("AI-generated interpretation, not validated economic modeling or an official HHS recommendation. Verify sources before policy use.")
         note = "\n".join([
-            "PathwayAI | AI Community Burden Analyst | v106",
+            "PathwayAI | AI Community Burden Analyst | v107",
             "Generated: " + pd.Timestamp.utcnow().isoformat(),
             "Question: " + question,
             "Evidence snapshot: NYSDOH 2024; Census ACS 2020–2024; PathwayAI voluntary survey snapshot October 3, 2026; Hook 2022; Yu 2026.",
@@ -348,27 +348,45 @@ def policy_ai105():
             "Source URLs:", HOOK_COST_URL, YU_COST_URL,
             "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf",
             "https://www.census.gov/quickfacts/dutchesscountynewyork",
-            "Limitations: No validated county Stage 0 estimate, intervention savings, causal inference, or Bayesian posterior.",
+            "Limitations: Independent demonstration, not county-endorsed; no validated county Stage 0 estimate, intervention savings, causal inference, or Bayesian posterior.",
             "", "AI-GENERATED INTERPRETATION", st.session_state["policy_ai105_answer"]
         ])
-        st.download_button("Download AI planning note with sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v106.txt", mime="text/plain", key="policy_ai105_download")
+        st.download_button("Download AI planning note with sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v107.txt", mime="text/plain", key="policy_ai105_download")
+
+
+def public_value107():
+    """Explain the practical use of the independent prototype without implying endorsement."""
+    st.markdown("### What can residents and public-health teams do with PathwayAI?")
+    st.write("**Residents and visitors:** review tick-exposure information, prepare questions for timely care, and find support resources. "
+             "**Patients and caregivers:** organize their experiences and track expenses, missed work, and functional impacts. "
+             "**Public-health teams:** review cited county indicators, examine published economic evidence, and identify questions for local needs assessment.")
+    st.info("**Independent research demonstration — not affiliated with, endorsed by, or validated by Dutchess County.** "
+            "County information is public context; published costs are not local Stage 0 estimates. "
+            "AI planning suggestions are hypotheses for discussion, not budget recommendations or proven savings.")
+    with st.expander("What a county partner could gain — and what we would need to validate"):
+        st.write("**Potential value:** a concise, sourced starting point for outreach planning; visibility into travel, work, financial and caregiver barriers; "
+                 "a repeatable way to identify evidence gaps and frame evaluation questions. "
+                 "**Validation needed:** local stakeholder feedback, data quality review, privacy review, and evaluation of whether suggested actions improve access or outcomes. "
+                 "No partnership, funding commitment, local cost estimate, or impact has been established.")
 
 
 def policy89():
     st.header("Community burden & action")
-    st.write("Explore a county, see the burden behind its case count, and download a brief for a planning discussion.")
+    st.write("Explore public-health evidence, patient and community needs, and possible next steps. This is an independent prototype, not an official county service.")
+    public_value107()
     with st.expander("Change community"):
         county=county_selector88("policy89")
     if county == "Not selected": county="Dutchess County, New York"
     if county != "Dutchess County, New York":
         community_voice88(county)
-        st.write("The complete public-data pathway currently focuses on Dutchess.")
+        st.info("The detailed evidence demonstration below uses Dutchess County public data as an example. "
+                "Do not interpret its figures or AI responses as estimates for the selected community.")
         return
-    st.markdown("### Dutchess County · evidence snapshot")
+    st.markdown("### Public-data example: Dutchess County · evidence snapshot")
     a106, b106 = st.columns(2)
     a106.metric("Reported Lyme cases · 2024", "1,060")
     b106.metric("Reported rate · per 100,000", "355.5")
-    st.caption("NYSDOH 2024 county surveillance; reported cases by residence, not county of exposure. Not a Stage 0 cost estimate.")
+    st.caption("NYSDOH 2024 county surveillance; cases by residence, not exposure. Public-data demonstration only; no county endorsement or Stage 0 cost estimate.")
     policy_ai105()
     st.markdown("### Explore published-cost scenarios")
     scenario_notes101 = planning_scenario101()
@@ -2717,7 +2735,7 @@ if not st.session_state.get("pathway_open", False):
         st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
         st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
     st.write("Explore medical bills, other spending, work loss and daily-life effects separately in the burden views.")
-    st.info("**60-second reviewer path:** Select **I want to explore community needs** → ask the AI Community Burden Analyst a policy question → adjust the published-cost planning scenario → review the burden chart and download a county brief. For the patient journey, select **I found a tick or need care and support** and try the fictional story example.")
+    st.info("**Explore PathwayAI in 60 seconds:** Select **I want to explore community needs** → ask the AI Community Burden Analyst a policy question → adjust the published-cost planning scenario → review the burden chart and download a county brief. For the patient journey, select **I found a tick or need care and support** and try the fictional story example.")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
     st.caption("Travelers: Learn & Prevent. Patients and caregivers: Care & Support. Providers: open Care & Support, then choose the provider option. Policymakers and county teams: Community Burden & Action.")
     for start in range(0, len(paths), 2):

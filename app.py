@@ -1,4 +1,4 @@
-# PathwayAI v101 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v102 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -151,12 +151,13 @@ def larger_evidence101():
         {"Source":"Yu 2026","Population":"70,531 cases; 10,962 with recorded OOP","Contribution":"Localized/disseminated medical and OOP episode references","Limit":"2022 USD; excludes pharmacy; not a Stage 0 unit cost"},
         {"Source":"Lyme Disease Biobank, Horn 2025","Population":"253 returning participants","Contribution":"Symptoms and care at follow-up","Limit":"Selected follow-up group; no cost valuation"},
     ],hide_index=True)
-    st.write("MyLymeData's chartbook reports that 62% reduced work hours and 30% stopped work currently or in the past among the persistent-illness participants discussed. These may overlap and are not amounts of money or rates for all Lyme patients.")
+    st.write("MyLymeData’s chartbook reports 35% with disabled employment status, 62% reducing work hours and 30% stopping work currently or in the past among the persistent-illness participants discussed. Work categories may overlap; these are not rates for all Lyme patients or dollar costs.")
     st.markdown("[MyLymeData Chartbook · work section, printed pages 22–23]("+MYLYME_CHARTBOOK101+") · [Hook patient cost Table 3](https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t3)")
     st.write("Use external studies as separate reference populations. They do not fill individual missing survey answers, confirm your survey's reporting period, or establish local prevalence. Unpaid caregiver valuation and pre-diagnosis-only spending remain gaps.")
 
 def planning_scenario101():
     st.markdown("#### Explore an illustrative group cost")
+    st.write("Choose the cost perspective: medical spending, patient medical OOP, or societal burden including nonmedical and productivity costs. The historical annual national illustration on the landing page is a separate published calculation.")
     st.write("Choose a hypothetical group and one published benchmark. This is a planning reference, not a Dutchess estimate or a prediction.")
     n=st.number_input("Hypothetical number of people",min_value=1,max_value=100000,value=100,key="n101")
     references={
@@ -2533,6 +2534,19 @@ if not st.session_state.get("pathway_open", False):
     with reported79:
         st.metric("Lyme · reported each year", "80,000+")
         st.caption("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
+    disability102, cost102 = st.columns(2)
+    with disability102:
+        st.metric("Disabled employment status · study group", "35%")
+        st.write("Self-reported by persistent-illness participants described in MyLymeData’s 2025 Chartbook. Not a rate for all Lyme patients.")
+    with cost102:
+        st.metric("Published U.S. societal cost / year", "$345–968M")
+        st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")
+    with st.expander("Sources and scope of these burden figures"):
+        st.markdown("[MyLymeData 2025 Chartbook · printed pages 22–23](https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf)")
+        st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
+        st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+        st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
+    st.write("Explore medical bills, other spending, work loss and daily-life effects separately in the burden views.")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
     st.caption("Travelers: Learn & Prevent. Patients and caregivers: Care & Support. Providers: open Care & Support, then choose the provider option. Policymakers and county teams: Community Burden & Action.")
     for start in range(0, len(paths), 2):

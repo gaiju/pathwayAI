@@ -1,4 +1,4 @@
-# PathwayAI v97 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v99 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -142,32 +142,13 @@ def support89(county, barrier):
 
 def policy89():
     st.header("Community burden & action")
-    st.write("For county public-health and community teams. Connect reported financial and access barriers to existing support, and leave with a downloadable community brief. Explore New York, compare Dutchess and Orange, then examine the patient burden behind the numbers.")
+    with st.container(border=True):
+        st.markdown("**Understand the burden behind the case count**")
+        st.write("For county public-health and community teams. PathwayAI brings patient-reported spending and work loss alongside published costs and county evidence. Use the combined view to identify a support question and download a community brief. The current county view focuses on Dutchess; shared patient collection is not active by default.")
+    st.write("**Your outcome:** a sourced burden view and a downloadable brief for a local support discussion.")
     with st.expander("Select your community"):
         county=county_selector88("policy89")
     if county == "Not selected": county="Dutchess County, New York"
-    if county == "Dutchess County, New York":
-        st.markdown("### Local support")
-        barrier=st.selectbox("What help is needed?",list(SUPPORT89),key="policy89_focus")
-        item=SUPPORT89[barrier]
-        if barrier == "Transportation / distance":
-            st.write("**Need a ride to care?** Dutchess older adults without Medicaid can call **845-486-2555** to ask about GoGo registration and ride availability. Medicaid members can check the state transportation service; other residents can contact 211.")
-            st.markdown("[Dutchess transport options](https://www.dutchessny.gov/Departments/Aging/Transportation-for-Seniors.htm) · [Medicaid transport](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [211](https://www.211.org/)")
-        elif barrier == "Cost / insurance coverage":
-            st.write("**Help with coverage or bills:** Dutchess Community and Family Services lists Medicaid assistance at **845-486-3340** and temporary assistance at **845-486-3190**.")
-            st.markdown("[Coverage and assistance]("+item[2]+")")
-        elif barrier == "Appointment / referral access":
-            st.write("**Find a care option:** contact a health center to confirm services, coverage and appointments. Bring your PathwayAI visit summary.")
-            st.markdown("[HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
-        else:
-            st.write("**Ask about support or accommodations:** Dutchess NY Connects can discuss available options at **845-475-3511**.")
-            st.markdown("[NY Connects](https://www.dutchessny.gov/Departments/Aging/OFA-NY-Connects.htm)")
-        st.write("Eligibility and availability vary.")
-        brief=["PathwayAI | Dutchess support planning brief","Proposed support pilot. No county adoption or measured effect.","","QUESTION",barrier,"ACTION",item[4],"POTENTIAL OWNER",item[3],"EXISTING RESOURCE",item[1],item[2],"MEASURES",item[5],"Compare the same reporting period at baseline and 90-day follow-up. Record missing answers. Change alone does not establish causality or ROI.","","EVIDENCE STATUS","National PathwayAI survey themes and published research inform questions. Local Community Voice contributions are voluntary and require privacy thresholds. No county prevalence or local intervention effect is inferred.","NYSDOH: 1,060 reported Lyme cases in 2024.","Census ACS 2020–2024: poverty 8.4%; uninsured under 65 4.9%; disability under 65 9.2%. All-cause context.","HRSA capacity depends on the loaded file; no official shortage designation or wait time is inferred.","","SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
-        rows=reference_cost_rows("Dutchess",1060)
-        for r in rows: brief.append(f"Illustrative {r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
-        brief.append(COST_CONTEXT_CAVEAT)
-        st.download_button("Download community support brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_SupportPlan.txt",mime="text/plain",key="policy89_download")
     if county == "Dutchess County, New York":
         st.markdown("### 1. Start with New York")
         st.write("Explore observed tick surveillance across the state, then examine two neighboring counties.")
@@ -237,6 +218,29 @@ def policy89():
         if places is not None and not places.empty:
             st.write("CDC PLACES: modeled adult community context, separate from patient reports and Census under-65 measures.")
             show_readable_table(places,hide_index=True)
+    st.markdown("**Take this evidence into a planning discussion:** open the community brief below to choose a support focus and download its action and measures.")
+    with st.expander("Community brief and support resources"):
+        st.markdown("### Local support")
+        barrier=st.selectbox("What help is needed?",list(SUPPORT89),key="policy89_focus")
+        item=SUPPORT89[barrier]
+        if barrier == "Transportation / distance":
+            st.write("**Need a ride to care?** Dutchess older adults without Medicaid can call **845-486-2555** to ask about GoGo registration and ride availability. Medicaid members can check the state transportation service; other residents can contact 211.")
+            st.markdown("[Dutchess transport options](https://www.dutchessny.gov/Departments/Aging/Transportation-for-Seniors.htm) · [Medicaid transport](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [211](https://www.211.org/)")
+        elif barrier == "Cost / insurance coverage":
+            st.write("**Help with coverage or bills:** Dutchess Community and Family Services lists Medicaid assistance at **845-486-3340** and temporary assistance at **845-486-3190**.")
+            st.markdown("[Coverage and assistance]("+item[2]+")")
+        elif barrier == "Appointment / referral access":
+            st.write("**Find a care option:** contact a health center to confirm services, coverage and appointments. Bring your PathwayAI visit summary.")
+            st.markdown("[HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
+        else:
+            st.write("**Ask about support or accommodations:** Dutchess NY Connects can discuss available options at **845-475-3511**.")
+            st.markdown("[NY Connects](https://www.dutchessny.gov/Departments/Aging/OFA-NY-Connects.htm)")
+        st.write("Eligibility and availability vary.")
+        brief=["PathwayAI | Dutchess support planning brief","Proposed support pilot. No county adoption or measured effect.","","QUESTION",barrier,"ACTION",item[4],"POTENTIAL OWNER",item[3],"EXISTING RESOURCE",item[1],item[2],"MEASURES",item[5],"Compare the same reporting period at baseline and 90-day follow-up. Record missing answers. Change alone does not establish causality or ROI.","","EVIDENCE STATUS","National PathwayAI survey themes and published research inform questions. Local Community Voice contributions are voluntary and require privacy thresholds. No county prevalence or local intervention effect is inferred.","NYSDOH: 1,060 reported Lyme cases in 2024.","Census ACS 2020–2024: poverty 8.4%; uninsured under 65 4.9%; disability under 65 9.2%. All-cause context.","HRSA capacity depends on the loaded file; no official shortage designation or wait time is inferred.","","SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
+        rows=reference_cost_rows("Dutchess",1060)
+        for r in rows: brief.append(f"Illustrative {r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
+        brief.append(COST_CONTEXT_CAVEAT)
+        st.download_button("Download community support brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_SupportPlan.txt",mime="text/plain",key="policy89_download")
     with st.expander("Published-cost illustration"):
         rows=reference_cost_rows("Dutchess",1060)
         show_readable_table([{"Perspective":r["perspective"],"Calculation":f"1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,}","Dollar year":r["dollar_year"]} for r in rows],hide_index=True)
@@ -349,7 +353,7 @@ def compact_care88(quick, story):
     with st.expander("Caregiver time and optional work-loss calculation"):
         caregiver=st.number_input("Unpaid caregiver hours in this period",min_value=0.0,value=None,step=1.0,key="caregiver88")
         dayvalue=st.number_input("Your chosen value per missed workday ($)",min_value=0.0,value=None,step=25.0,key="dayvalue88")
-        st.caption("Workdays must cover the same period. The multiplication is a separate model, not a medical bill or measured income loss. This dollar model is not saved to Community Voice.")
+        st.write("Work loss = days missed × your chosen daily value. Keep the same period; this is a modeled value, separate from bills.")
     modeled=workdays*dayvalue if workdays is not None and dayvalue is not None else None
     cards=st.columns(3)
     for col,label,value in zip(cards,["Medical OOP","Other OOP","Modeled work loss"],[medical,other,modeled]):
@@ -2504,7 +2508,7 @@ if not st.session_state.get("pathway_open", False):
 
 st.button("← Back to start", key="change_path", on_click=return_to_path_choices)
 
-st.caption("PathwayAI · " + view)
+
 page_purpose75 = {
     "🛡️ Learn & Prevent": "Learn how to prevent bites and prepare for an outdoor visit. Illness can bring medical bills and time away from work.",
     "🧭 Care & Support": "Prepare your story for care. Track money and time, and find help with transport, benefits and language needs.",
@@ -3342,7 +3346,9 @@ if view == "📊 Community Burden & Action":
     st.stop()
 
 st.header("Care & support")
-st.write("For patients and caregivers preparing for a Lyme-related visit. Organize your story, keep a cost-and-time record, and leave with a reviewed appointment summary and a support contact. Community Voice contribution is optional when available.")
+with st.container(border=True):
+    st.markdown("**Leave with a visit summary and a clearer burden record**")
+    st.write("For patients and caregivers preparing for a Lyme-related visit. Organize your story and record money paid and time lost. Download a summary to share, then find a contact for your support needs. Community Voice sharing is optional and currently unavailable unless collection is enabled.")
 with st.expander("About this tool"):
     st.write("Working prototype for feedback. PathwayAI helps with preparation and support information; clinicians determine diagnosis and care. Planned access channels include clinic handouts and patient-advocate groups.")
 # QUICK START — STORY FIRST
@@ -3410,7 +3416,7 @@ if st.session_state.get("story_organized", False):
     if method == "LLM structured extraction":
         st.caption("Organized with AI. Review every detail for errors.")
     else:
-        st.caption('Organized with local rules. Review for errors.')
+        st.write("Review the organized details for accuracy.")
 
 
 
@@ -3421,26 +3427,13 @@ else:
     quick = rule_quick
 
 if quick_story.strip() and st.session_state.get("story_organized", False):
-    st.markdown("#### Your Journey Record")
-    r1, r2 = st.columns(2)
-    with r1:
-        st.write("**Possible exposure:** " + (quick.get("exposure_location") or "Not reported"))
-        st.write("**Exposure month:** " + (quick.get("month") or "Not reported"))
-        st.write("**Tick exposure:** " + (quick.get("tick") or "Not reported"))
-        st.write("**Symptoms:** " + (", ".join(quick.get("symptoms", [])) if quick.get("symptoms") else "Not reported"))
-    with r2:
-        st.write("**Current/home location:** " + (quick.get("current_location") or quick.get("zip") or "Not reported"))
-        st.write("**Duration:** " + (quick.get("duration_text") or "Not reported"))
-        st.write("**Work/function:** " + ((quick.get("work_impact") if quick.get("work_impact") != "Not reported" else None) or (", ".join(quick.get("function", [])) if quick.get("function") else "Not reported")))
-        st.write("**Healthcare professionals:** " + (str(quick.get("providers_seen")) if quick.get("providers_seen") is not None else "Not reported"))
-    st.caption("Review the record and correct anything PathwayAI misunderstood. Missing information stays missing.")
-    show_immediate_support_from_story(quick)
+    st.success("Your story is organized. Review and download your summary below.")
 elif quick_story.strip():
-    st.info('Click **Organize My Story** to view your record.')
-else:
-    st.caption("Prefer structured questions? You can skip the story box and use the optional details below.")
+    st.write("Select Organize My Story to organize the details, or continue with your own words.")
 
-if not st.checkbox("Open the detailed journey form · optional", key="details88"):
+with st.expander("Additional history questions · optional"):
+    detailed_form = st.checkbox("Use the detailed journey form", key="details88")
+if not detailed_form:
     compact_care88(quick, quick_story)
     st.stop()
 

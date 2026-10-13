@@ -19,6 +19,55 @@ from io import BytesIO
 from pathlib import Path
 from urllib.parse import quote_plus, urlencode
 
+# Submission cost references: separate perspectives and published dollar years.
+HOOK_COST_URL = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t5"
+YU_COST_URL = "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880"
+COST_CONTEXT_CAVEAT = (
+    "Illustrative arithmetic only: published unit costs × official reported cases. "
+    "Not a county-specific cost estimate, expected cost, Stage 0 estimate or savings estimate. "
+    "No adjustment for underreporting, local case mix, inflation or diagnostic delay. "
+    "Yu covers direct medical episode costs; Hook includes medical, nonmedical and productivity costs. "
+    "The two perspectives and dollar years differ: do not add the totals or treat them as a range."
+)
+
+def reference_cost_rows(county, cases):
+    """No missing-as-zero substitution; keep source year and price year separate."""
+    if cases is None or not math.isfinite(float(cases)) or float(cases) < 0:
+        return []
+    return [
+        {"county": county, "case_year": 2024, "reported_cases": int(cases),
+         "perspective": perspective, "unit_cost_usd": unit, "dollar_year": year,
+         "illustrative_total_usd": int(cases) * unit, "source": source,
+         "source_url": url, "case_source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf",
+         "evidence_type": "Illustrative published-cost multiplication", "interpretation": COST_CONTEXT_CAVEAT}
+        for perspective, unit, year, source, url in [
+            ("Direct medical episode", 2227, 2022, "Yu et al. 2026, Table 2; overall mean", YU_COST_URL),
+            ("Societal per participant", 2032, 2016, "Hook et al. 2022, Table 5; overall mean", HOOK_COST_URL),
+        ]
+    ]
+
+def published_reference_text():
+    return [
+        "PUBLISHED POPULATION BENCHMARKS — NOT YOUR EXPECTED COST",
+        "Yu et al. 2026, Table 2 (2022 USD): direct medical episode mean $2,227; localized $695; disseminated $6,833. These are total medical costs, not patient OOP.",
+        "Yu: patient OOP episode mean $188 (95% CI $177–$200), among patients with recorded OOP; excludes pharmacy costs. Not a personal prediction.",
+        "Hook et al. 2022, Table 5 (2016 USD): societal mean $2,032; median $690. Includes medical, nonmedical and productivity costs. Mean and median are not range endpoints.",
+        "Your entries may cover a different period and cost scope. No percentile, expected cost, savings or diagnosis is inferred. Do not sum the benchmarks.",
+        "Yu: " + YU_COST_URL, "Hook: " + HOOK_COST_URL,
+    ]
+
+def show_sample_burden_card():
+    with st.expander("View sample burden card — synthetic demonstration"):
+        st.caption("Invented example; not a patient record, survey result or county baseline. No entries are saved.")
+        a, b, c = st.columns(3)
+        a.metric("Medical OOP", "$400")
+        b.metric("Other OOP", "$100")
+        c.metric("Modeled work loss", "$600")
+        st.write("Example period: past 30 days, before diagnosis. Medical $300 + specialist $100; travel $75 + supplies $25; work loss 3 days × $200/day. Partial entered spending $500; separate modeled work loss $600.")
+        st.caption("These invented entries have a different scope and period from published episode benchmarks; no direct expected-cost comparison is made.")
+        for line in published_reference_text():
+            st.write(line)
+
 def show_lyme_learning78():
     """Source-based education, separate from diagnosis and personal-risk estimates."""
     st.markdown("### What is Lyme disease?")
@@ -2115,6 +2164,7 @@ if not st.session_state.get("pathway_open", False):
             with col:
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
+    show_sample_burden_card()
     with st.expander("Why does this matter?"):
         st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
         st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")
@@ -2438,6 +2488,11 @@ if view == "📊 Community Burden & Action":
     cm = county_ids[policy_place]
     fips = cm["fips"]
 
+    st.info("**What this supports:** compare public evidence, identify access questions, and choose a local pilot action. County teams can share one sourced brief with clinics and community partners. Decision quality, coordination, time saved and ROI have not yet been measured.")
+    st.markdown("**Data sources used in this view**")
+    st.caption("Federal: CDC Lyme cases (2019–2022 historical context), HRSA AHRF (2023 capacity fields), Census QuickFacts (field-specific years), CDC PLACES (modeled adult context). State: NYSDOH Lyme cases/rates (2024) and tick observations (labeled sampling years). Literature and consented Patient Voice are separate evidence layers. Missing local files remain unavailable.")
+
+
     # U.S. Census Bureau QuickFacts snapshot for Dutchess County (FIPS 36027).
     # Kept local for contest reliability: no Census API/network call is required at runtime.
     # Population is context only; the annualized Lyme rate below continues to use the
@@ -2488,6 +2543,24 @@ if view == "📊 Community Burden & Action":
         "Published Biobank follow-up evidence; local effect untested",
         "Proposed measurement protocol; no intervention effect claimed",
     ]
+    county_cost_context = reference_cost_rows("Dutchess", 1060) + reference_cost_rows("Orange", 964)
+    with st.expander("Illustrative published-cost context · Dutchess", expanded=True):
+        st.write("Official NYSDOH reported Lyme cases, 2024 × published overall mean unit costs. Separate reference calculations, not a cost range.")
+        display_costs = []
+        for row in county_cost_context:
+            display_costs.append({"County": row["county"], "2024 reported cases": row["reported_cases"], "Published perspective": row["perspective"], "Unit cost / dollar year": f"${row['unit_cost_usd']:,} / {row['dollar_year']} USD", "Visible arithmetic": f"{row['reported_cases']:,} × ${row['unit_cost_usd']:,} = ${row['illustrative_total_usd']:,}"})
+        show_readable_table(display_costs, hide_index=True)
+        st.caption(COST_CONTEXT_CAVEAT)
+        st.write("Stage 0 remains a separate measurement gap: pre-diagnosis visits, OOP spending, missed work and caregiver time must be collected with a stated period.")
+        st.markdown(f"[NYSDOH 2024 cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [Yu medical costs]({YU_COST_URL}) · [Hook societal costs]({HOOK_COST_URL})")
+        st.download_button("Download illustrative cost context and assumptions", pd.DataFrame(county_cost_context).to_csv(index=False).encode("utf-8-sig"), file_name="CountyCostContext.csv", mime="text/csv", key="county_cost_context_download")
+    st.markdown("**Proposed 90-day pilot measures — effects not yet measured**")
+    st.write("Track referral completion, days to appointment, summary completion, patient-paid spending, missed workdays, caregiver hours and daily function. Use the same stated period at baseline and follow-up; report missing answers. No savings are estimated without baseline and follow-up; paired change alone does not establish causality or ROI.")
+    with st.expander("Current pilot limitations and next steps"):
+        st.write("Streamlit/Python MVP using federal and state open data, published literature and separately labeled patient inputs. Source code availability and license should be confirmed before describing it as open source.")
+        st.write("No patient identifiers are stored by default. Optional AI story processing sends the submitted text to the configured AI service; users should omit identifiers. Patient Voice storage requires explicit consent and reviewed structured fields; displayed aggregates require at least five usable responses per field.")
+        st.write("Local pilot files and rate-limit tracking are not durable across redeployments or multiple servers. Next steps: confirm deployment/privacy controls, private durable storage and retention, refresh source snapshots, test additional county FIPS packs, and recruit a willing county/clinic partner for baseline and follow-up measurement.")
+        st.write("Validation status: patient-reported needs inform the prototype. App task completion, usability, care outcomes and ROI require documented user testing; no new validation results are claimed here.")
     st.markdown("## Our pilot starts in New York")
     st.caption("Figure 1 · Tick observations across New York. Orange and Dutchess are outlined.")
     show_nys_tick_density_map()
@@ -2712,6 +2785,10 @@ if view == "📊 Community Burden & Action":
                 lines82.extend(["", "LOCAL ASSESSMENT ALIGNMENT", "Dutchess CHA 2025–2030, executive summary (PDF page 4): access, transport, health-literacy barriers and rural/disability disparities. PathwayAI proposes navigation measures aligned with these broader needs; county adoption and Lyme-specific benefit are not established.", "https://www.dutchessny.gov/Departments/DBCH/Docs/DCCHA2025.pdf"])
             else:
                 lines82.extend(["", "LOCAL ASSESSMENT SOURCE", "Orange's current assessment priorities require local review; no priorities are assigned from Dutchess.", "https://www.orangecountyny.gov/2325/Reports-Assessments"])
+            lines82.extend(["", "ILLUSTRATIVE PUBLISHED-COST CONTEXT"])
+            for cost_row in reference_cost_rows(county82, int(surveillance82["Reported Lyme cases"])):
+                lines82.append(f"{cost_row['perspective']}: {cost_row['reported_cases']:,} reported cases (2024) × ${cost_row['unit_cost_usd']:,} = ${cost_row['illustrative_total_usd']:,} ({cost_row['dollar_year']} USD). {cost_row['source']}. {cost_row['source_url']}")
+            lines82.append(COST_CONTEXT_CAVEAT)
             text82 = "\n".join(lines82)
             st.download_button(f"Download {county82} planning brief", text82.encode("utf-8"), file_name=f"{county82}Brief.txt", mime="text/plain", key="brief82_"+fips82)
             with st.expander(f"Read {county82} brief"):
@@ -2774,7 +2851,7 @@ if view == "📊 Community Burden & Action":
             show_readable_table(pd.DataFrame(baseline_rows, columns=["Measure","Current baseline","n"]), hide_index=True, width="stretch")
             st.caption("Consented, de-identified Dutchess Patient Voice. Measures are displayed only when at least 5 usable responses are available for that field.")
 
-    with st.expander("Plan a 90-day county pilot", expanded=False):
+    with st.expander("Plan a 90-day county pilot — proposed, effects unmeasured", expanded=True):
         st.subheader("Actions and 90-day measures")
         st.caption("Proposed plan; confirm feasibility with county and clinical partners. Effects are unmeasured.")
         # Show one action at a time rather than a six-column wall of text.
@@ -2810,7 +2887,7 @@ if view == "📊 Community Burden & Action":
             ["Localized episode", "$695"],
             ["Disseminated episode", "$6,833"],
             ["Overall mean episode", "$2,227"],
-            ["Mean attributable patient OOP across methods (where recorded)", "$188–$399"],
+            ["Mean patient medical OOP per episode (recorded OOP subset)", "$188 mean episode OOP (95% CI $177–$200)"],
         ], columns=["Yu et al., 2026", "Published cost (2022 USD)"])
         show_readable_table(yu, hide_index=True, width="stretch")
         st.caption("Medical-cost evidence, not the cost of diagnostic delay, a personal forecast or predicted county savings. OOP is reported separately, not added to episode costs. Hook and Yu differ in population, perspective and dollar year: do not sum them or interpret the gap as intervention savings.")
@@ -2915,6 +2992,11 @@ if view == "📊 Community Burden & Action":
         "Derived public-data measure": "Approximate derived measure; source periods differ; not personal risk or predicted savings",
         "Public county context / surveillance": "County context; no inference of individual risk or Lyme-attributable cost",
     })
+    cost_brief = pd.DataFrame([
+        {"county": policy_place, "fips": fips, "metric": "illustrative_" + row["perspective"].lower().replace(" ", "_") + "_total_usd", "value": row["illustrative_total_usd"], "source": row["source"], "year": "2024 cases", "dollar_year": row["dollar_year"], "unit_cost_usd": row["unit_cost_usd"], "reported_cases": row["reported_cases"], "source_url": row["source_url"], "case_source_url": row["case_source_url"], "evidence_type": row["evidence_type"], "interpretation": COST_CONTEXT_CAVEAT}
+        for row in county_cost_context if row["county"] == "Dutchess"
+    ])
+    brief = pd.concat([brief, cost_brief], ignore_index=True)
     st.download_button("Download Dutchess evidence brief", brief.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_county_brief_{fips}.csv", mime="text/csv")
     st.download_button("Download County Action Plan", actions.to_csv(index=False).encode("utf-8"), file_name=f"pathwayai_action_plan_{fips}.csv", mime="text/csv")
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
@@ -3090,7 +3172,7 @@ if st.session_state.get("appointment_seed63") != summary_seed:
     st.session_state["appointment_seed63"] = summary_seed
 with st.expander("Review and download your appointment summary"):
     appointment_text = st.text_area("Correct the summary before sharing", key="appointment_edit63", height=280, max_chars=8000)
-    st.download_button("Download appointment summary", appointment_text.encode("utf-8"), file_name="MyJourney.txt", mime="text/plain", key="appointment_download63")
+    st.download_button("Download story summary (full cost download below)", appointment_text.encode("utf-8"), file_name="MyJourney.txt", mime="text/plain", key="appointment_download63")
 
 # OPTIONAL LOCAL SUPPORT — ask only after the story/AI value exchange.
 st.markdown("### 📍 Find Support Near You *(Optional)*")
@@ -3425,6 +3507,8 @@ support_needs = st.multiselect(
 
 if quick["cost_amount"] is not None:
     st.info(f"From your story: approximately ${quick['cost_amount']:,.0f} in patient-reported illness-related cost. This is kept separate unless you choose to break it into categories below.")
+st.info("**What this supports:** organize spending and daily-life effects for appointment preparation and support conversations. You can review and share a summary. Improved care coordination, time saved and reduced burden are intended benefits; effects have not been measured.")
+show_sample_burden_card()
 st.markdown("#### Optional transparent cost inputs")
 cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
 burden_phase81 = st.selectbox("Which part of your journey do these amounts cover?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="burden_phase81")
@@ -3721,6 +3805,19 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     cost_cards81[1].metric("Other out-of-pocket subtotal", f"${sum(other_paid81):,.0f}" if other_paid81 else "Not reported")
     cost_cards81[2].metric("Modeled work-loss value", f"${productivity_loss:,.0f}" if productivity_entered else "Not reported")
     st.caption("Medical out-of-pocket includes the separate medical, second-opinion and testing entries. Other out-of-pocket includes travel/lodging and self-care supplies. These are partial subtotals of your entries. Do not count a payment twice. Insurer payments and total healthcare spending are not collected here. Work-loss value is days × your entered value per day, not a medical bill.")
+    st.write("This is a summary of what you entered, for your records and appointment preparation. It is not a prediction.")
+    st.markdown("**Published population benchmarks — not your expected cost**")
+    show_readable_table([
+        {"Reference": "Yu 2026: direct medical episode", "Published benchmark": "$2,227 mean; $695 localized / $6,833 disseminated", "Scope": "2022 USD; total direct medical costs, not your OOP"},
+        {"Reference": "Yu 2026: patient medical OOP episode", "Published benchmark": "$188 mean (95% CI $177–$200)", "Scope": "2022 USD; OOP-recorded subset; excludes pharmacy"},
+        {"Reference": "Hook 2022: societal per participant", "Published benchmark": "$2,032 mean; $690 median", "Scope": "2016 USD; medical + nonmedical + productivity; not a range"},
+    ], hide_index=True)
+    if entered_costs:
+        show_readable_table([
+            {"Your entries": "Medical OOP", "Your partial subtotal": f"${sum(medical_paid81):,.0f}" if medical_paid81 else "Not reported", "Reference": "Yu patient OOP mean $188 (2022 USD)", "Comparison limit": "Your stated period and included costs may differ; no expected-cost difference is calculated"},
+            {"Your entries": "Other OOP", "Your partial subtotal": f"${sum(other_paid81):,.0f}" if other_paid81 else "Not reported", "Reference": "Hook societal mean $2,032 (2016 USD)", "Comparison limit": "Societal costs include other components; not a like-for-like comparison"},
+        ], hide_index=True)
+    st.markdown(f"[Yu study]({YU_COST_URL}) · [Hook Table 5]({HOOK_COST_URL})")
     burden_table = pd.DataFrame({
         "Burden component": ["Medical / healthcare", "Second opinion / specialist evaluation", "Repeat / duplicative testing or fragmented care", "Transportation / lodging", "Self-paid supportive care / supplies", "Productivity loss"],
         "Amount entered / modeled ($)": [medical_cost, second_opinion_cost, repeat_testing_cost, transport_cost, self_care_cost, productivity_loss],
@@ -3728,6 +3825,21 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         "Provenance": ["Patient-entered", "Patient-entered", "Patient-entered", "Patient-entered", "Patient-entered", "Modeled from patient-entered days × value/day"],
     })
     show_readable_table(burden_table, hide_index=True, width="stretch")
+    full_cost_summary = ["", "COST BREAKDOWN — USER-ENTERED, NOT A PREDICTION", "Period: " + cost_period75, "Journey phase: " + burden_phase81]
+    for _, cost_item in burden_table.iterrows():
+        amount = cost_item["Amount entered / modeled ($)"]
+        shown = "Not reported" if pd.isna(amount) else f"${amount:,.2f}"
+        full_cost_summary.append(f"{cost_item['Burden component']}: {shown} | {cost_item['Provenance']}")
+    full_cost_summary.extend([
+        f"Medical OOP partial subtotal: {'Not reported' if not medical_paid81 else '$' + format(sum(medical_paid81), ',.2f')}",
+        f"Other OOP partial subtotal: {'Not reported' if not other_paid81 else '$' + format(sum(other_paid81), ',.2f')}",
+        "Work-loss formula: days missed × user-entered value/day; separate modeled value, not a bill.",
+        "Count each payment once. Missing remains missing. These entries do not assign causality to Lyme disease.", "",
+    ] + published_reference_text())
+    full_appointment_summary = appointment_text + "\n" + "\n".join(full_cost_summary)
+    with st.expander("Review appointment summary with costs and published references", expanded=False):
+        st.text(full_appointment_summary)
+        st.download_button("Download full appointment summary with costs", full_appointment_summary.encode("utf-8"), file_name="MyJourneyWithCosts.txt", mime="text/plain", key="full_appointment_cost_download")
     if entered_costs or productivity_entered:
         st.metric("Known / modeled burden subtotal", f"${known_total:,.0f}")
         st.caption("This subtotal includes only the dollar components entered above. It is not a full cost-of-illness estimate and does not assign causality to Lyme disease.")
@@ -3762,8 +3874,8 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     st.markdown("#### 📚 Published Cost Context — Not a Personal Forecast")
     st.caption('Published averages are reference points, not your future bill.')
     published_costs = pd.DataFrame({
-        "Published measure": ["Mean Lyme-specific medical cost per episode", "Localized disease — mean episode cost", "Disseminated disease — mean episode cost", "Adjusted 6-month excess direct healthcare cost vs controls", "Lyme-attributable patient OOP cost"],
-        "Estimate": ["$2,227", "$695", "$6,833", "$5,571", "$188–$399"],
+        "Published measure": ["Mean Lyme-specific medical cost per episode", "Localized disease — mean episode cost", "Disseminated disease — mean episode cost", "Adjusted 6-month excess direct healthcare cost vs controls", "Patient medical OOP per episode (recorded subset)"],
+        "Estimate": ["$2,227", "$695", "$6,833", "$5,571", "$188 mean episode OOP (95% CI $177–$200)"],
         "Evidence": ["Yu et al., 70,531 U.S. patients", "Yu et al.", "Yu et al.", "Yu et al.", "Yu et al.; OOP subset"],
         "How PathwayAI uses it": ["Population benchmark", "Population benchmark", "Population benchmark", "Population benchmark", "Population benchmark — not your expected OOP"],
     })

@@ -1,4 +1,4 @@
-# PathwayAI v102 — concise care flow, consented Community Voice, submission-ready cost context
+# PathwayAI v103 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -77,7 +77,7 @@ SUPPORT89 = {
     "Finding appropriate support": ("Connect with a support navigator", "Call 211 for local assistance. Dutchess NY Connects can discuss long-term support needs at 845-475-3511. Ask about options for caregiving, meals, transport or help with applications.", "https://www.dutchessny.gov/Departments/Aging/OFA-NY-Connects.htm", "Community navigator", "Offer a support referral based on the person's stated priority.", "Support connections completed; unmet needs at follow-up"),
 }
 
-def evidence89():
+def evidence89(include_survey=True):
     st.markdown("### What others experienced · published cost references")
     st.write("Localized and disseminated Lyme disease had different average costs in published studies. These are study classifications, not a diagnosis or a prediction of your bill.")
     show_readable_table([
@@ -85,18 +85,21 @@ def evidence89():
         {"Study group":"Disseminated","Medical episode mean · Yu":"$6,833","Patient medical OOP mean · Yu":"$401","Societal mean · Hook":"$3,251"},
     ],hide_index=True)
     st.write("Yu: 2022 USD, medical episode costs. Hook: 2016 USD, medical + nonmedical + productivity costs. Do not add these columns. Your insurance, care and reporting period may differ.")
-    cards=st.columns(2)
-    with cards[0]:
-        st.markdown("🌱 **PathwayAI patient survey**")
-        st.markdown("**Early snapshot · October 3, 2026**")
-        st.metric("Reported at least $10,000 out of pocket", "14 of 33", help="Previously supplied PathwayAI survey summary; self-reported diagnosed-Lyme respondents. Not a monthly or annual estimate.")
-        st.write("18 of 33 reported more than 100 days lost; 20 of 33 reported more than five years to diagnosis; 16 of 33 reported seeing more than ten clinicians.")
-        with st.expander("Survey source and scope"):
-            st.write("Source: PathwayAI survey, early summary supplied by the project lead, October 3, 2026; 33 respondents reported a Lyme diagnosis. Counts are reproduced from that supplied snapshot, not recalculated from a current response export.")
-            st.write("Voluntary convenience sample, not county prevalence or a personal prediction. Exact question wording, missing-response denominators and cost/time reporting periods require confirmation against the export. Spending is not assigned to Stage 0, a monthly/annual period, or medical/travel categories.")
-    with cards[1]:
-        st.markdown("🧬 **Lyme Disease Biobank research**")
-        st.write("Among 253 participants returning for follow-up, 55 (22%) reported ongoing symptoms; 19 of those 55 (35%) had seen a provider about them. This selected study group provides follow-up context, not a personal prognosis or dollar estimate.")
+    if include_survey:
+        cards=st.columns(2)
+        with cards[0]:
+            st.markdown("🌱 **PathwayAI patient survey**")
+            st.markdown("**Early snapshot · October 3, 2026**")
+            st.metric("Reported at least $10,000 out of pocket", "14 of 33", help="Previously supplied PathwayAI survey summary; self-reported diagnosed-Lyme respondents. Not a monthly or annual estimate.")
+            st.write("18 of 33 reported more than 100 days lost; 20 of 33 reported more than five years to diagnosis; 16 of 33 reported seeing more than ten clinicians.")
+            with st.expander("Survey source and scope"):
+                st.write("Source: PathwayAI survey, early summary supplied by the project lead, October 3, 2026; 33 respondents reported a Lyme diagnosis. Counts are reproduced from that supplied snapshot, not recalculated from a current response export.")
+                st.write("Voluntary convenience sample, not county prevalence or a personal prediction. Exact question wording, missing-response denominators and cost/time reporting periods require confirmation against the export. Spending is not assigned to Stage 0, a monthly/annual period, or medical/travel categories.")
+        with cards[1]:
+            st.markdown("🧬 **Lyme Disease Biobank research**")
+            st.write("Among 253 participants returning for follow-up, 55 (22%) reported ongoing symptoms; 19 of those 55 (35%) had seen a provider about them. This selected study group provides follow-up context, not a personal prognosis or dollar estimate.")
+    else:
+        st.write("Biobank follow-up: 55 of 253 returning participants reported ongoing symptoms; 19 of those 55 had seen a provider about them. This selected study group supplies follow-up context, not a cost estimate.")
     with st.expander("Patient journey · where costs and time can accumulate"):
         show_readable_table([
             {"Journey period":"Before diagnosis (Stage 0)","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":"PathwayAI survey themes motivate collection; no published Stage 0 unit cost is assigned"},
@@ -234,18 +237,21 @@ def policy89():
         st.write("Tick observations describe sampled sites; cases describe residents, not necessarily exposure location. Language spoken at home does not establish interpreter need. These separate measures do not establish a causal relationship.")
         st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [NYSDOH rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf) · [Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork)")
     st.markdown("### 3. Explore broader burden evidence")
-    st.write("**Evidence from outside this county:** your PathwayAI survey and external studies provide reference context across locations. They are not Dutchess findings.")
+    st.write("Survey and literature references across locations, separate from Dutchess data.")
     with st.expander("PathwayAI survey · small sample across locations"):
         c1,c2,c3=st.columns(3)
         c1.metric("At least $10,000 OOP", "14 of 33")
         c2.metric("More than 100 days lost", "18 of 33")
         c3.metric("More than 5 years to diagnosis", "20 of 33")
-        st.write("Early October 3, 2026 summary supplied by the project lead. Voluntary, self-reported experiences. Counts, question wording and reporting periods need confirmation against the current export; no average spending or pre-diagnosis cost is inferred.")
+        st.write("PathwayAI survey · early October 3, 2026 supplied snapshot, 33 self-reported diagnosed respondents. Small voluntary sample across locations; not county estimates.")
+        with st.expander("Survey methods"):
+            st.write("Counts are from the project lead’s supplied summary, not recalculated from the current export. Confirm question wording, missing-response denominators and reporting periods; no spending average or Stage 0 cost attribution is inferred.")
     with st.expander("Larger surveys and study populations"):
         larger_evidence101()
     with st.expander("Published evidence & methods"):
-        evidence89()
-    scenario_notes101=planning_scenario101()
+        evidence89(include_survey=False)
+    with st.expander("Reference calculation · hypothetical group"):
+        scenario_notes101=planning_scenario101()
     with st.expander("Available local patient experiences"):
         community_voice88(county)
     st.markdown("### 4. Choose a planning question")
@@ -809,7 +815,7 @@ def show_nys_tick_density_map(zoom=False):
             return
         if zoom:
             geojson = {**geojson, "features": [f for f in geojson["features"] if str(f.get("id", "")).zfill(5) in ["36027", "36071"]]}
-        st.caption("Orange = orange outline · Dutchess = blue outline. Map shading shows sampled tick density.")
+
         width, height = 760, 420
         bounds = (-74.85, 41.05, -73.45, 42.15) if zoom else (-79.9, 40.35, -71.7, 45.15)
         parts = [f'<svg role="img" aria-label="New York observed tick surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Observed tick density by New York county; missing observations are gray</title>',
@@ -873,15 +879,16 @@ def show_nys_tick_density_map(zoom=False):
                 radius = math.sqrt(rate) * 0.7
                 symbols.append(f'<span style="display:inline-flex;align-items:center;gap:5px;margin-right:18px"><span aria-hidden="true" style="width:{radius*2:.2f}px;height:{radius*2:.2f}px;display:inline-block;border-radius:50%;background:rgba(23,75,115,0.25);border:1px solid #174b73;box-sizing:content-box"></span>{rate}</span>')
             st.markdown('<strong>Approximate annualized reported Lyme rate</strong><br><span>Cases per 100,000 residents · circle area</span><br>' + ''.join(symbols), unsafe_allow_html=True)
-            st.caption("Circles: CDC reported cases, 2019–2022 total ÷ 4 ÷ HRSA 2023 population × 100,000. Approximate annualized rate, not year-specific incidence. Cases reflect residence, not necessarily exposure location; reporting changed in 2022.")
-            with st.expander("County Lyme rates in text"):
+            with st.expander("Map sources, methods and county values"):
+                st.write("Circles: CDC 2019–2022 cases ÷ 4 ÷ HRSA 2023 population × 100,000. Approximate annualized rate, not year-specific incidence. Cases reflect residence; reporting changed in 2022.")
                 table = []
                 for feature in geojson["features"]:
                     item = NY_LYME_RATE_SNAPSHOT.get(str(feature.get("id", "")).zfill(5))
                     table.append({"County": feature["properties"].get("county_label"), "Tick density / 1,000 m²": feature["properties"].get("density_label"), "Reported Lyme cases · 2019–2022": item["cases"] if item else None, "Population · 2023": item["population"] if item else None, "Approx. annual rate / 100,000": item["rate"] if item else None})
                 st.dataframe(pd.DataFrame(table).sort_values("County"), hide_index=True, use_container_width=True)
-        st.caption(f"NYSDOH • {latest_year} observations • Snapshot checked October 7, 2026. Hover for county values; a text table is available below.")
-        st.caption("Darker colors mean more ticks observed at sampled sites, not a person's infection risk. Gray does not mean no ticks.")
+        st.write(f"NYSDOH tick observations · {latest_year}. County outlines: Orange in orange, Dutchess in blue.")
+        with st.expander("Tick map interpretation"):
+            st.write("Darker shading means higher sampled tick density, not personal infection risk. Gray means no observation available, not no ticks. Snapshot checked October 7, 2026.")
     except Exception:
         st.warning("The statewide map could not load. The two-county comparison remains available above.")
 

@@ -2097,17 +2097,16 @@ if not st.session_state.get("pathway_open", False):
     st.markdown("### Prevention → Care → Support → Action")
     st.caption("Our goal: less burden from tick-borne illness.")
     st.markdown("#### A small tick bite can have a big impact.")
-    st.markdown('<svg viewBox="0 0 1000 140" role="img" aria-label="Decorative mountain and forest illustration; not an exposure map" xmlns="http://www.w3.org/2000/svg"><rect width="1000" height="140" fill="#e8f3f0"/><path d="M0 140 L180 20 L330 140 L500 5 L670 140 L810 35 L1000 140" fill="#98b8ac"/><path d="M0 140 L120 65 L230 140 L370 50 L500 140 L650 60 L820 140 L930 55 L1000 140" fill="#447a68"/><path d="M80 140 L110 70 L140 140 M235 140 L265 55 L295 140 M700 140 L730 65 L760 140 M860 140 L890 55 L920 140" fill="#194f42"/></svg>', unsafe_allow_html=True)
-    st.caption("Enjoy the outdoors. Plan for ticks in wooded, brushy and grassy places. Illustration only—not a local risk map.")
-    st.write("Ticks can spread Lyme disease and can trigger alpha-gal syndrome, a serious allergy to red meat and other products from mammals.")
-    st.markdown("- **More than 80,000** Lyme cases are reported to CDC each year.¹\n- **About 476,000** people are estimated to be diagnosed and treated each year in the U.S.¹\n- Reported cases and insurance-based treatment estimates are different measures—not numbers to add together.")
-    lyme74, ags74 = st.columns(2)
+    st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)
+    st.caption("Delaware Water Gap, Pennsylvania / New Jersey · Photo: NPS staff, public domain. Scenic reference—not a measurement of tick activity at this site.")
+    st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
+    lyme74, reported79 = st.columns(2)
     with lyme74:
         st.metric("Lyme · estimated each year", "476,000")
         st.caption("People diagnosed and treated in the U.S. Estimate based on insurance claims from 2010–2018.¹")
-    with ags74:
-        st.metric("Alpha-gal · suspected cases", "110,000+")
-        st.caption("Identified in the U.S. during 2010–2022. A total over several years, not an annual count.²")
+    with reported79:
+        st.metric("Lyme · reported each year", "80,000+")
+        st.caption("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
     st.write("PathwayAI helps people prevent tick bites, prepare for care, and find support. It helps counties understand local needs and plan action.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
@@ -2116,11 +2115,13 @@ if not st.session_state.get("pathway_open", False):
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
     with st.expander("Why does this matter?"):
-        st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Alpha-gal suspected cases are not all confirmed disease. Not every tick bite causes illness.")
-        st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html) · [2026 CDC alpha-gal research](https://www.cdc.gov/mmwr/volumes/75/wr/mm7525a1.htm)")
-        st.caption("The 2026 study measured allergy antibodies among blood donors in 10 states. A positive antibody test does not by itself show alpha-gal illness.")
+        st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
+        st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")
+    with st.expander("Other tick-related conditions · alpha-gal"):
+        st.write("Some tick bites can lead to alpha-gal syndrome, an allergy to products from mammals. This is a separate condition from Lyme disease.")
+        st.markdown("[CDC alpha-gal information](https://www.cdc.gov/alpha-gal-syndrome/about/index.html)")
     st.caption('Information and help finding care only. PathwayAI does not diagnose illness or calculate your personal chance of infection.')
-    st.caption("¹ [CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html) · ² [CDC alpha-gal facts](https://www.cdc.gov/alpha-gal-syndrome/about/index.html). Different measures and years; do not add these figures. Sources checked October 8, 2026.")
+    st.caption("¹ [CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html) · [Forest photo source and rights](https://npgallery.nps.gov/AssetDetail/cc3b6242-5cfe-4754-a632-00be104abe5c). No agency endorsement is implied.")
     st.stop()
 
 st.button("← Back to start", key="change_path", on_click=return_to_path_choices)

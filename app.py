@@ -2703,11 +2703,12 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("I want to learn or plan an outdoor visit", "Learn about ticks and prepare for travel or outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
-    ("I want health information or support", "Find care information, support services, and tools for personal records.", "🧭 Care & Support", "ongoing"),
-    ("I want to understand community needs", "Explore reported cases, economic burden, and possible community actions.", "📊 Community Burden & Action", "county"),
-    ("I want to share feedback or help", "Tell us what works and what needs improvement.", "💬 Share Feedback", "contribute"),
+    ("I want to prevent tick bites", "Learn about tick risks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
+    ("I've been bitten by a tick", "Find out what to do after a tick bite and when to seek care.", "🛡️ Learn & Prevent", "bite"),
+    ("I need care & support", "Find health information, services, and optional tools to prepare for care.", "🧭 Care & Support", "ongoing"),
+    ("I want to understand community burden", "Explore costs, local reports, and possible community actions.", "📊 Community Burden & Action", "county"),
 ]
+
 available_views = ["🛡️ Learn & Prevent", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
@@ -2728,6 +2729,14 @@ if not st.session_state.get("pathway_open", False):
             with col:
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
+    with st.expander("Reviewing PathwayAI for HHS TOPx? Start here (90 seconds)", expanded=False):
+        st.write("**1. Community Burden & Action (40 seconds):** Review published costs, try the group-cost example, and ask AI about community needs.")
+        st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
+        st.write("**2. Care & Support (25 seconds):** See how people can organize information and find support.")
+        st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+        st.write("**3. Prevention and tick bites (25 seconds):** Explore local prevention information and next steps after a bite.")
+        st.button("Go to Prevention →", key="review113_prevent", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "outdoors"), use_container_width=True)
+        st.caption("Published costs are research references, not local predictions. The AI may make mistakes; check cited sources.")
     st.markdown("---")
     st.markdown("#### Lyme disease: facts and costs")
     st.markdown('<div style="border-radius:16px;overflow:hidden;margin:12px 0"><img src="https://npgallery.nps.gov/GetAsset/cc3b6242-5cfe-4754-a632-00be104abe5c/proxyhires.jpg" alt="Sunlit forest undergrowth at Delaware Water Gap National Recreation Area" style="width:100%;height:clamp(180px,26vw,300px);object-fit:cover;object-position:center" /></div>', unsafe_allow_html=True)

@@ -127,13 +127,6 @@ def show_county_burden_comparison(note):
     st.dataframe(display, hide_index=True, use_container_width=True)
     st.download_button("Download two-county burden comparison", categories.to_csv(index=False).encode("utf-8-sig"),
                        file_name="Dutchess_Orange_Societal_Burden_Illustration.csv", mime="text/csv", key="county_burden_comparison_csv")
-    st.markdown("#### What patients reported · survey across locations")
-    st.write("The supplied PathwayAI survey summary adds experiences of financial pressure, time lost and long waits for diagnosis.")
-    survey = st.columns(3)
-    survey[0].metric("Reported paying at least $10,000", "14 of 33")
-    survey[1].metric("Reported more than 100 days lost", "18 of 33")
-    survey[2].metric("Reported over 5 years to diagnosis", "20 of 33")
-    st.write("Use the county illustration to understand scale, and these patient experiences to choose what local support needs to measure.")
     note(f"Main county illustration: verified NYSDOH 2024 case counts (Dutchess 1,060; Orange 964), cases PDF p. 5; "
          f"rates 355.5 and 237.0 per 100,000, rates PDF p. 5. Hook mean $2,032 was checked against supplied article Results; "
          f"2016 dollars, not current local prices or observed county spending. Total $4,112,768 combines these two illustrative totals only. "

@@ -559,6 +559,11 @@ def policy89():
     </svg>""",unsafe_allow_html=True)
     show_county_rate_trend(page_note)
     show_county_burden_comparison(page_note)
+    st.markdown("#### Make your experience visible")
+    st.write("Keep a record of money paid, work missed and help you needed. Use it to prepare for care and help shape future community reporting.")
+    st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Add my costs and time →",
+              key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+    page_note("The invitation opens the existing Care & Support record, reusing session entries. Personal entries stay private in this session and are not automatically submitted to a survey or county dataset. Secure shared reporting is a future pilot phase and requires explicit consent.")
     st.markdown("### Costs and time lost")
     st.write("Illness can bring medical bills, travel expenses, missed work and unpaid care.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
@@ -744,7 +749,7 @@ def policy89():
 
     st.markdown("### More research on the burden")
     st.write("Survey and literature references from participants across locations.")
-    with st.expander("PathwayAI survey · small sample across locations"):
+    with st.expander("See patient survey findings · across locations"):
         c1,c2,c3=st.columns(3)
         c1.metric("At least $10,000 out-of-pocket", "14 of 33")
         c2.metric("More than 100 days lost", "18 of 33")

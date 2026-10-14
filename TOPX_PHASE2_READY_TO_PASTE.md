@@ -23,21 +23,23 @@ can remain off during review.
 
 ## Results for the American People
 
-**193 words / 250 maximum. Copy only the answer below.**
+**189 words / 250 maximum. Copy only the answer below.**
 
-PathwayAI serves people affected by Lyme disease, caregivers, and community teams working on prevention and support.
+PathwayAI serves people planning time outdoors, people concerned about tick exposure, patients, caregivers, and community teams.
 
-For patients, the workflow starts with a practical need: plan an outdoor visit, respond to a tick bite, or prepare for care. In Care & Support, people can organize their story, record medical and other payments over one reporting period, and track missed work and unpaid help. They review and download a personal visit-and-cost card. Entries carry across pages, reducing repeated effort. Lyme testing education and copyable support requests help users prepare for conversations about appointments, prices and assistance.
+For the public, the workflow starts before illness: plan an outdoor visit, explore tick and Lyme information, learn how to prevent bites, and understand when to seek care after possible exposure.
 
-For community teams, the workflow starts with New York surveillance and a Dutchess–Orange comparison. Teams can inspect reported Lyme rates, a 2022–2024 rate series, and a downloadable cost illustration split into medical costs and other expenses plus lost productivity. Published study findings and existing patient survey experiences add context while remaining separate evidence layers.
+For people experiencing illness, Care & Support helps organize their story, record medical and other payments over one reporting period, and track missed work and unpaid help. They can review and download a personal visit-and-cost card. Entries carry across pages, reducing repeated effort. Lyme testing education and ready-to-use support requests help people prepare for conversations about appointments, prices and assistance.
 
-The immediate benefit is a usable personal record for care and a traceable starting point for community discussions. The MVP does not diagnose illness or automatically pool patient cards into county estimates. A consent-based reporting pilot is the next step toward stronger local evidence.
+For community teams, the workflow starts with New York surveillance and a Dutchess–Orange comparison. Teams can inspect reported Lyme rates, a 2022–2024 rate series, and a downloadable cost illustration covering medical costs, other expenses and lost productivity. Published research and patient survey experiences provide separate layers of evidence.
+
+The immediate benefits are practical prevention information, a personal record for care, and transparent evidence for community planning. The next step is a consent-based reporting pilot that reuses reviewed records to strengthen local evidence.
 
 ## Data, Tech & Evidence Driven Approach
 
-**243 words / 300 maximum. Copy only the answer below.**
+**253 words / 300 maximum. Copy only the answer below.**
 
-PathwayAI combines federal open data, state surveillance, published research and patient-reported experience. Federal inputs include CDC tick-distribution and historical county tick-borne case files, Census community context, and HRSA health-workforce capacity data. NYSDOH reported Lyme counts/rates and sampled tick observations provide state evidence; the Mid-Hudson community health assessment adds regional context.
+PathwayAI combines federal open data, state surveillance, published research and patient-reported experience to support outdoor planning, prevention, care preparation and community decisions. Federal inputs include CDC tick-distribution and historical county tick-borne case files, Census community context, and HRSA health-workforce capacity data. NYSDOH reported Lyme counts/rates and sampled tick observations provide state evidence; the Mid-Hudson community health assessment adds regional context.
 
 The primary county cost illustration uses verified 2024 reported cases: Dutchess 1,060 and Orange 964. Applying Hook et al.'s weighted mean societal cost of $2,032 per participant gives $2.15 million and $1.96 million in 2016 dollars. The medical reference is $1,333; the $699 remainder combines other expenses and lost productivity. These deterministic calculations illustrate transferred study costs, rather than measured county spending. They retain source, dollar-year and assumption metadata in downloads.
 
@@ -51,9 +53,9 @@ Source links: https://www.health.ny.gov/statistics/diseases/communicable/2024/ a
 
 ## Execution, Efficiency & Delivery
 
-**211 words / 250 maximum. Copy only the answer below.**
+**215 words / 250 maximum. Copy only the answer below.**
 
-PathwayAI is a working web MVP with four public pathways, downloadable personal records, Lyme testing education, tailored support requests and community evidence views.
+PathwayAI is a working web MVP for the public, patients, caregivers and community teams. Its four pathways cover outdoor planning, tick-bite guidance, care preparation and community evidence.
 
 It turns scattered information into outputs people can use: a reviewed card for a visit, a request for an itemized clinic estimate or appointment, and a county comparison with downloadable assumptions. Reusing existing entries reduces repeated form filling. Short and detailed reading options support different information needs.
 
@@ -65,9 +67,9 @@ These results establish technical functionality and concrete deliverables. Struc
 
 ## Scalability, Reuse & Societal Impact
 
-**232 words / 250 maximum. Copy only the answer below.**
+**247 words / 250 maximum. Copy only the answer below.**
 
-PathwayAI is deployed on Streamlit from GitHub. Modular code separates geography, evidence retrieval, testing education and cost calculations. Additional counties can reuse the workflow when compatible counts, rates, population context and reviewed cost assumptions are available. Broader disease coverage requires disease-specific evidence rather than transferring Lyme costs unchanged.
+PathwayAI is deployed on Streamlit from GitHub for people planning outdoor activities, people seeking care, caregivers and community teams. Modular code separates geography, evidence retrieval, testing education and cost calculations. Additional counties can reuse the workflow when compatible counts, rates, population context and reviewed cost assumptions are available. Broader disease coverage requires disease-specific evidence rather than transferring Lyme costs unchanged.
 
 Personal entries are processed in server-side session memory. Shared collection is disabled by default. Entries are reused within the session and are not automatically submitted to community reports, the external survey or public evidence AI. Users review their card before downloading or sharing it; external story AI requires opt-in.
 
@@ -75,7 +77,7 @@ We are seeking clinics, community organizations and public-health partners for a
 
 Key assumptions include transferring historical study costs to reported county cases, comparable cost categories and periods, and the limited representativeness of voluntary survey participants. Persistent, suspected and undiagnosed illness require additional evidence. The model is not a complete lifetime burden estimate.
 
-Next steps are partner-led usability testing, fuller accessibility review, additional source verification and evaluation of completed support connections. The intended societal benefit is better visibility of financial pressure and practical support needs, helping communities target prevention and care resources. Outcomes, adoption and sustainable operating arrangements will be evaluated with pilot partners.
+Next steps are partner-led usability testing, fuller accessibility review, additional source verification and evaluation of completed support connections. The intended societal benefits are informed outdoor preparation and better visibility of financial pressure and support needs, helping communities target prevention and care resources. Outcomes, adoption and sustainable operating arrangements will be evaluated with pilot partners.
 
 ## Final checks — do not paste as a form answer
 

@@ -1,5 +1,9 @@
 # PathwayAI — submission draft
 
+The actual form mockup has now been supplied. Use
+[TOPX_PHASE2_READY_TO_PASTE.md](TOPX_PHASE2_READY_TO_PASTE.md) for the four exact
+questions and verified word limits. This earlier draft is background material.
+
 Prepared October 14, 2026. Field names below are provisional until the actual
 submission questions and word limits are supplied. Team names, eligibility,
 contact information and declarations must be completed by the entrant.

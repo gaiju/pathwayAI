@@ -3048,8 +3048,15 @@ st.radio("How much information would you like?", ["Short and simple", "More deta
          help="Choose what works for you today. You can switch any time; your entries stay the same.")
 
 if not st.session_state.get("pathway_open", False):
-    st.markdown("### Make the invisible burden visible.")
+    st.markdown("### A small tick bite can have a big impact.")
     show_photo116("lake", "Golden sunlight filtering through a forest")
+    st.write("Lyme disease can affect health, work, family time and spending. Not every tick bite causes illness.")
+    estimated, reported = st.columns(2)
+    estimated.metric("Estimated diagnoses and treatment per year · U.S.", "476,000")
+    reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
+    st.write("CDC estimates and reported case counts measure different things; do not add them.")
+    page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
+    st.markdown("#### Make the invisible burden visible.")
     st.write(reading_copy(
         "Create a personal card with the money you paid, time you missed from work and help you needed. Review it, download it and use it to prepare for care.",
         "Create a downloadable visit and burden card from patient-paid costs, missed work, unpaid caregiving and care barriers. Explore public-health context and published cost references separately."))
@@ -3095,13 +3102,6 @@ if not st.session_state.get("pathway_open", False):
     with st.expander("Published Lyme disease facts and costs"):
 
         st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
-        lyme74, reported79 = st.columns(2)
-        with lyme74:
-            st.metric("Lyme · estimated each year", "476,000")
-            page_note("People diagnosed and treated in the U.S. Estimate based on insurance claims from 2010–2018.¹")
-        with reported79:
-            st.metric("Lyme · reported each year", "80,000+")
-            page_note("Cases reported to CDC. This surveillance count differs from the treatment estimate; do not add them.¹")
         disability102, cost102 = st.columns(2)
         with disability102:
             st.metric("Disabled employment status · study group", "35%")

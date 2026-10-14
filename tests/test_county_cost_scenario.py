@@ -1,9 +1,21 @@
 import unittest
 
-from county_cost_scenario import county_scenario
+from county_cost_scenario import county_scenario, burden_paths
 
 
 class CountyScenarioTests(unittest.TestCase):
+    def test_paths_share_baseline_and_do_not_claim_observed_history(self):
+        paths = burden_paths("Dutchess", 2227)
+        self.assertEqual(len(paths), 18)
+        baseline = [row for row in paths if row["Scenario year"] == 0]
+        self.assertEqual({row["Assumed reported cases"] for row in baseline}, {1060})
+        unchanged = next(row for row in paths if row["Scenario year"] == 5 and row["Annual change assumption"] == 0)
+        higher = next(row for row in paths if row["Scenario year"] == 5 and row["Annual change assumption"] > 0)
+        lower = next(row for row in paths if row["Scenario year"] == 5 and row["Annual change assumption"] < 0)
+        self.assertLess(lower["Assumed reported cases"], unchanged["Assumed reported cases"])
+        self.assertGreater(higher["Assumed reported cases"], unchanged["Assumed reported cases"])
+        self.assertTrue(all(row["evidence_type"] == "hypothetical_projection_not_forecast" for row in paths))
+
     def test_overall_mean_and_population_rate_scaling(self):
         rows = county_scenario()
         self.assertEqual(rows[0]["Illustrative medical amount · 2022 USD"], 1060 * 2227)

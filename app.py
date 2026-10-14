@@ -577,7 +577,7 @@ def policy89():
         larger_evidence101()
     with st.expander("Published evidence & methods"):
         evidence89(include_survey=False)
-    with st.expander("Available local patient experiences"):
+    with st.expander("Community Voice: how experiences could help"):
         community_voice88(county)
 
 # v88: concise patient flow and consented county burden summaries.
@@ -617,7 +617,15 @@ def county_selector88(key):
     return st.selectbox("County of residence", ["Not selected"] + list(VOICE88_COUNTIES) + ["Another county / unsure"], key=key + "_county")
 
 def community_voice88(county):
-    st.markdown("### Community Voice · reported financial and access needs")
+    st.markdown("#### Community Voice: how experiences could help")
+    st.write("Public health reports cannot show every expense, missed workday, or difficulty finding care. Community Voice is designed to help communities understand these experiences.")
+    st.markdown("**What happens next?**")
+    st.write("**1. Collect experiences:** With permission, gather a few details about costs, time lost, and barriers to care.")
+    st.write("**2. Find common needs:** Summarize comparable reports while protecting individual privacy.")
+    st.write("**3. Support local planning:** Help researchers and community teams identify questions to investigate and services to evaluate.")
+    if not PATIENT_VOICE_STORAGE_ENABLED:
+        st.info("Community Voice is not accepting contributions through this app yet. You can still download your appointment and cost summary. Participation may become available after privacy and data safeguards are in place.")
+        return
     fips = VOICE88_COUNTIES.get(county)
     if not fips:
         st.info("Select a supported county to view available local summaries. Additional county coverage is planned.")
@@ -710,23 +718,24 @@ def compact_care88(quick, story):
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
         larger_evidence101()
-    with st.expander("See available Community Voice summaries"):
+    with st.expander("Community Voice: how experiences could help"):
         community_voice88(county)
-    with st.expander("Help community teams understand reported needs · optional"):
-        payload={"fips":VOICE88_COUNTIES.get(county),"phase":phase,"period":period,"medical_oop_band":cost_band88(medical),"other_oop_band":cost_band88(other),"workdays":workdays,"caregiver_hours":caregiver,"barrier":barrier}
-        show_readable_table([{"Field":k,"Value":v if v is not None else "Not reported"} for k,v in payload.items()],hide_index=True)
-        st.caption("Only these fields and a consent timestamp are saved. No ZIP, raw story, exact dollar amounts or appointment edits are included. Small categories are withheld. Records are voluntary contributions, not verified unique people.")
-        if not PATIENT_VOICE_STORAGE_ENABLED:
-            st.info("Community contributions are currently unavailable. Your appointment and cost summary is available to download.")
-        checked=st.checkbox("I reviewed these fields and consent to their use in aggregated Community Voice summaries.",key="consent88",disabled=not PATIENT_VOICE_STORAGE_ENABLED)
-        eligible=payload["fips"] is not None and period != "Not reported" and phase != "Not reported" and any(v is not None for v in [medical,other,workdays,caregiver])
-        if st.button("Contribute reviewed fields",key="save88",disabled=not (PATIENT_VOICE_STORAGE_ENABLED and checked and eligible) or st.session_state.get("voice88_saved",False)):
-            if save_voice88({**payload,"consent_time":pd.Timestamp.utcnow().isoformat()}):
-                st.session_state["voice88_saved"]=True
-                st.success("Contribution saved. Public summaries appear only when privacy and comparability thresholds are met.")
-            else:
-                st.error("Contribution could not be saved. Your summary is still available to download.")
-        if not eligible: st.caption("To contribute, confirm a supported county, period and journey phase, and enter at least one cost or time measure.")
+    if PATIENT_VOICE_STORAGE_ENABLED:
+        with st.expander("Help community teams understand reported needs · optional"):
+            payload={"fips":VOICE88_COUNTIES.get(county),"phase":phase,"period":period,"medical_oop_band":cost_band88(medical),"other_oop_band":cost_band88(other),"workdays":workdays,"caregiver_hours":caregiver,"barrier":barrier}
+            show_readable_table([{"Field":k,"Value":v if v is not None else "Not reported"} for k,v in payload.items()],hide_index=True)
+            st.caption("Only these fields and a consent timestamp are saved. No ZIP, raw story, exact dollar amounts or appointment edits are included. Small categories are withheld. Records are voluntary contributions, not verified unique people.")
+            if not PATIENT_VOICE_STORAGE_ENABLED:
+                st.info("Community contributions are currently unavailable. Your appointment and cost summary is available to download.")
+            checked=st.checkbox("I reviewed these fields and consent to their use in aggregated Community Voice summaries.",key="consent88",disabled=not PATIENT_VOICE_STORAGE_ENABLED)
+            eligible=payload["fips"] is not None and period != "Not reported" and phase != "Not reported" and any(v is not None for v in [medical,other,workdays,caregiver])
+            if st.button("Contribute reviewed fields",key="save88",disabled=not (PATIENT_VOICE_STORAGE_ENABLED and checked and eligible) or st.session_state.get("voice88_saved",False)):
+                if save_voice88({**payload,"consent_time":pd.Timestamp.utcnow().isoformat()}):
+                    st.session_state["voice88_saved"]=True
+                    st.success("Contribution saved. Public summaries appear only when privacy and comparability thresholds are met.")
+                else:
+                    st.error("Contribution could not be saved. Your summary is still available to download.")
+            if not eligible: st.caption("To contribute, confirm a supported county, period and journey phase, and enter at least one cost or time measure.")
 
 
 def show_lyme_learning78():
@@ -3979,12 +3988,12 @@ if quick_story.strip() and st.session_state.get("story_organized", False):
         st.markdown("**From your story, we heard:** " + " • ".join(heard))
     else:
         st.write("PathwayAI can still organize your journey; you do not need to contribute anything to Patient Voice.")
-    accurate = st.checkbox("This is an accurate reflection of the themes I want to share.", key="pv_review")
+    accurate = st.checkbox("This is an accurate reflection of the themes I want to share.", key="pv_review") if PATIENT_VOICE_STORAGE_ENABLED else False
     consent = st.checkbox(
         "I agree that these reviewed structured themes may contribute to aggregated PathwayAI Patient Voice.",
         key="pv_consent",
-        disabled=(not accurate or not PATIENT_VOICE_STORAGE_ENABLED),
-    )
+        disabled=not accurate,
+    ) if PATIENT_VOICE_STORAGE_ENABLED else False
     if accurate and consent:
         st.success("✓ Your voice can contribute to aggregated Patient Voice after you review the structured fields below.")
         st.selectbox("County for aggregation (optional)", ["Not selected", "Dutchess County, New York", "Chester County, Pennsylvania", "Carroll County, Maryland"], key="pv_county_choice")

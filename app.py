@@ -138,7 +138,7 @@ def evidence89(include_survey=True):
         st.write("Biobank follow-up: 55 of 253 returning participants reported ongoing symptoms; 19 of those 55 had seen a provider about them. This selected study group supplies follow-up context, not a cost estimate.")
     with st.expander("Patient journey · where costs and time can accumulate"):
         show_readable_table([
-            {"Journey period":"Before diagnosis (Stage 0)","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":"PathwayAI survey themes motivate collection; no published Stage 0 unit cost is assigned"},
+            {"Journey period":"Before diagnosis","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":"PathwayAI survey themes motivate collection; no published Stage 0 unit cost is assigned"},
             {"Journey period":"Diagnosis and care episode","What to record":"Medical out-of-pocket separately from insurer payments and other spending","Evidence role":"Yu localized/disseminated episode benchmarks; does not imply all patients progress through both groups"},
             {"Journey period":"Follow-up and daily life","What to record":"Continuing symptoms, follow-up access, function, work and caregiver time","Evidence role":"Biobank follow-up findings; continuing symptoms do not automatically establish ongoing infection or future costs"},
         ],hide_index=True)
@@ -293,9 +293,9 @@ def show_burden_evidence_panel104():
         {"Burden or gap": "Work and disability-related impact",
          "What to measure": "Missed days, functional limitations, same reporting period",
          "Possible response": "Workplace accommodations and disability navigation"},
-        {"Burden or gap": "Diagnostic delay (Stage 0)",
-         "What to measure": "Time to diagnosis, repeated visits, pre-diagnosis costs",
-         "Possible response": "Clinician education and care coordination"},
+        {"Burden or gap": "Costs and time before diagnosis",
+         "What to measure": "Visits, spending, travel, missed work and caregiver time before diagnosis",
+         "Possible response": "Improve access to care and referral coordination"},
         {"Burden or gap": "Unpaid caregiving",
          "What to measure": "Caregiver hours and unmet support needs",
          "Possible response": "Caregiver services and community support"},
@@ -449,7 +449,7 @@ def show_session_burden():
         return
     st.markdown("#### Your earlier entries · private session preview")
     st.write('Here are your earlier entries. You do not need to enter them again.')
-    st.write(f"Period: {record['period']} · Phase: {record['phase']} · Residence: {record['county']}")
+    st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (Stage 0)', '')} · Residence: {record['county']}")
     cols = st.columns(2)
     for col, key, label in zip(cols, ("medical", "other"), ("Money paid for care", "Other money paid")):
         value = record[key]
@@ -774,7 +774,7 @@ def compact_care88(quick, story):
     st.write('Record money you paid and time you lost. Use one period.')
     st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
     period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
-    phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88")
+    phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
     st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
     a,b=st.columns(2)
     with a:
@@ -800,7 +800,7 @@ def compact_care88(quick, story):
                "When found: " + (encounter["when"] or "Not reported"),
                "Where found: " + (encounter["exposure"] or "Not reported"),
                "Current care location: " + (encounter["current"] or "Not reported")]
-    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase]
+    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase.replace(" (Stage 0)", "")]
     for label,value in [("Medical out-of-pocket",medical),("Other out-of-pocket",other),("Modeled work-loss value",modeled)]:
         record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
     paid = medical + other if medical is not None and other is not None else None

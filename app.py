@@ -469,11 +469,12 @@ def show_session_burden():
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
-    st.write("Prevent tick bites. Help people reach care in time. Reduce the disruption illness brings to work and family life.")
-    st.write("These are shared community goals. Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI helps people prepare and find support; its health benefits and savings have not yet been measured.")
+    st.write("Prevent tick bites. Find timely care. Support work and family life.")
+    st.write("PathwayAI brings local health information and Lyme burden evidence together to help communities plan support.")
+    page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")
     st.markdown("#### Hudson Valley community focus")
     st.write("Start with New York. Explore our pilot comparison of Dutchess and Orange counties.")
-    st.write("The comparison helps communities learn from local context. It is not a scorecard of county performance.")
+    page_note("The pilot comparison supports community learning. It does not rank county performance or represent a county partnership.")
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"

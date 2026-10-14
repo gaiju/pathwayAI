@@ -3054,14 +3054,14 @@ if not st.session_state.get("pathway_open", False):
     estimated, reported = st.columns(2)
     estimated.metric("Estimated diagnoses and treatment per year · U.S.", "476,000")
     reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
-    st.write("CDC estimates and reported case counts measure different things; do not add them.")
+    page_note("CDC estimates and reported case counts measure different things; do not add them.")
     page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
-    st.markdown("#### Make the invisible burden visible.")
-    st.write(reading_copy(
-        "Create a personal card with the money you paid, time you missed from work and help you needed. Review it, download it and use it to prepare for care.",
-        "Create a downloadable visit and burden card from patient-paid costs, missed work, unpaid caregiving and care barriers. Explore public-health context and published cost references separately."))
-    st.write("Enter once. Reuse your card for a visit and to explore community needs. Sharing is optional; secure shared reporting is the next pilot phase.")
-    st.write("**For people and caregivers:** prepare for care and find support. **For community teams:** understand needs and plan a response.")
+    st.markdown("#### Prevent. Find timely care. Make the burden visible.")
+    st.write("PathwayAI helps you prepare for time outdoors, find care and support when you need it, and understand the money and time illness can cost.")
+    st.write("**1. Prevent:** plan a safer outdoor visit and learn what to do after a tick bite.")
+    st.write("**2. Find timely care and support:** prepare for a visit, find services and record costs once—so you can make informed choices about care and spending.")
+    st.write("**3. Turn community evidence into action:** explore county comparisons, published costs and care barriers to help communities consider where support is needed.")
+    page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
     st.markdown("#### What would you like to do?")
     st.write("Choose what you want to do today.")
     for start in range(0, len(paths), 2):

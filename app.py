@@ -3043,9 +3043,11 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-st.radio("How much information would you like?", ["Short and simple", "More detail"],
-         key="reading_mode", horizontal=True,
-         help="Choose what works for you today. You can switch any time; your entries stay the same.")
+if st.session_state.get("pathway_open", False):
+    st.radio("How much information would you like?", ["Short and simple", "More detail"],
+             key="reading_mode", horizontal=True,
+             help="Choose what works for you today. You can switch any time; your entries stay the same.")
+
 
 if not st.session_state.get("pathway_open", False):
     st.markdown("### A small tick bite can have a big impact.")
@@ -3069,6 +3071,9 @@ if not st.session_state.get("pathway_open", False):
             with col:
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.write(detail)
+    st.radio("How much information would you like?", ["Short and simple", "More detail"],
+             key="reading_mode", horizontal=True,
+             help="Choose what works for you today. You can switch any time; your entries stay the same.")
     with st.expander("Reviewing PathwayAI for HHS TOPx? Start here (90 seconds)", expanded=False):
         st.write("**1. Community Burden & Action (40 seconds):** New York map → county comparison → costs → AI evidence questions.")
         st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)

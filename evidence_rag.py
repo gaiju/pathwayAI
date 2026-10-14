@@ -1,7 +1,8 @@
 """Small, public-only evidence retriever; no network, secrets or patient files.
 
-The initial passages are editorial summaries migrated from app.py, not quotes
-from independently verified publications. See RAG_EVIDENCE.md before extending.
+Passages are editorial summaries, not source quotations. Hook 2022 was checked
+against user-supplied article text; other sources retain individual verification
+statuses. See RAG_EVIDENCE.md before extending.
 """
 
 import math
@@ -10,15 +11,17 @@ from collections import Counter
 
 
 def _passage(source_id, title, url, year, section, text, limitation,
-             perspective=None, dollar_year=None, evidence_type="public evidence"):
+             perspective=None, dollar_year=None, evidence_type="public evidence",
+             verification_status="Existing application summary; primary source verification pending",
+             source_checked_on=None):
     return {
         "source_id": source_id, "source": title, "url": url,
         "publication_year": year, "section": section, "passage": text,
         "limitation": limitation, "cost_perspective": perspective,
         "dollar_year": dollar_year, "evidence_type": evidence_type,
         "content_type": "editorial summary, not a verbatim source excerpt",
-        "verification_status": "Existing application summary; primary source verification pending",
-        "source_checked_on": None,
+        "verification_status": verification_status,
+        "source_checked_on": source_checked_on,
     }
 
 
@@ -40,15 +43,27 @@ PASSAGES = (
              "Distribution, density, pathogen findings and human cases are different measures."),
     _passage("HOOK-2022", "Hook et al., Emerging Infectious Diseases 2022",
              "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article",
-             2022, "Table 5: societal cost perspective",
-             "Lyme disease economic burden research in high-incidence areas includes "
-             "medical, nonmedical and productivity costs. Patient medical spending "
+             2022, "Methods; Results (Tables 3–5); Discussion",
+             "Prospective Lyme disease economic burden research recruited reported confirmed "
+             "and probable cases in Connecticut, Maryland, Minnesota and New York in 2014–2016. "
+             "Weighted societal costs include medical, nonmedical and productivity costs: "
+             "mean $2,032 and median $690 per participant (613 participants; 2016 USD). "
+             "Societal means were $1,307 for confirmed localized, $3,251 for confirmed "
+             "disseminated and $2,620 for probable disease. Patient cost mean $1,252 and "
+             "median $244 (901 participants) include lost productivity and are not simply "
+             "out-of-pocket payments. Patient medical spending "
              "is already part of societal cost, not an additional amount to add. "
              "Localized and disseminated study groups are observational comparisons.",
-             "Not a Dutchess County estimate, pre-diagnosis-only cost, personal prediction "
-             "or evidence of savings caused by earlier diagnosis. Verify the original table "
-             "before using numerical estimates.", "societal", 2016,
-             "published research reference"),
+             "Not a county estimate, pre-diagnosis-only cost, personal prediction or evidence "
+             "of savings caused by earlier diagnosis. Costs exclude suspected, undiagnosed "
+             "and nonacute disease; long-term symptom costs are outside this study. "
+             "Non-English speakers were excluded. Quota sampling, recall and national "
+             "extrapolation limit generalizability. National $345–968 million is a "
+             "median-based versus mean-based illustration, not a confidence interval.",
+             "societal; patient burden including productivity separately", 2016,
+             "published research reference",
+             verification_status="Checked against user-supplied public article text, Methods, Results and Discussion; live website unavailable",
+             source_checked_on="2026-10-14"),
     _passage("YU-2026", "Yu et al., JAMA Network Open 2026 (application reference)",
              "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880",
              2026, "Table 2: medical episode and recorded patient OOP",

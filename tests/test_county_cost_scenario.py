@@ -4,6 +4,17 @@ from county_cost_scenario import county_scenario, burden_paths
 
 
 class CountyScenarioTests(unittest.TestCase):
+    def test_societal_reference_keeps_perspective_and_price_year(self):
+        rows = county_scenario(perspective="societal")
+        self.assertEqual(rows[0]["Illustrative societal amount · 2016 USD"], 2153920)
+        self.assertEqual(rows[1]["Illustrative societal amount · 2016 USD"], 1958848)
+        self.assertEqual(rows[1]["Illustrative amount per 100,000 · 2016 USD"], 481584)
+        self.assertEqual(rows[0]["dollar_year"], 2016)
+        self.assertNotIn("Illustrative medical amount · 2022 USD", rows[0])
+        self.assertIn("still requires verification", rows[0]["case_count_verification"])
+        with self.assertRaises(ValueError):
+            county_scenario(.5, perspective="societal")
+
     def test_paths_share_baseline_and_do_not_claim_observed_history(self):
         paths = burden_paths("Dutchess", 2227)
         self.assertEqual(len(paths), 18)

@@ -13,6 +13,19 @@
 | Fictional example | Six authored cards in `burden_demo.py` | Synthetic, not collected; never combined with actual patient files |
 | Survey archive | Previously supplied project-lead summary and Beta comparisons | Not independently recalculated from a current export; not headline evidence |
 
+Hook 2022 numerical results were checked against the user-supplied public article
+text on October 14, 2026 (Methods, Results and Discussion; linked tables were not
+separately retrieved). Societal mean $2,032 and median $690 describe 613
+participants in 2016 dollars. The patient-cost mean $1,252 and median $244
+describe 901 participants and include productivity losses, rather than only
+out-of-pocket payments. Suspected, undiagnosed and nonacute disease costs were
+excluded. Details and source-text hash are in
+`data/hook_2022_article_verification.json`. The county calculator defaults to
+this societal reference; Yu medical mode remains separate. County case counts
+and original Yu tables still need verification. Project survey spending
+thresholds and time-loss counts are a separate evidence layer, not additional
+dollar amounts to sum with these references.
+
 ## Cost and time fields
 
 | Field | Meaning | Missing handling |

@@ -5,13 +5,16 @@ is unchanged. No hosted index, embedding service, API key, or new dependency
 is required. The local corpus is retrieved on every strategy request; existing
 planner-selected tools and optional live research remain available.
 
-The initial corpus migrates existing application summaries. It is **not a
-collection of verified primary-source quotations**. Source access was blocked
-by the environment's network proxy during implementation. Clinical testing
-guidance and numerical cost estimates are intentionally absent. URLs, years,
-and table references inherited from the application need independent review,
-particularly the Yu 2026 reference. Retrieval never updates patient guidance
-or application calculations.
+The corpus consists of editorial summaries, **not verbatim quotations**.
+On October 14, 2026, Hook 2022 Methods, Results and Discussion were checked
+against the user-supplied public article text. Its bounded summary now includes
+the checked societal and patient-burden figures, their separate denominators,
+2016 dollar year and limitations. Linked tables were not separately retrieved.
+Verification metadata is recorded in `data/hook_2022_article_verification.json`.
+Other sources retain their own pending verification status; in particular,
+the Yu 2026 reference still requires original-table review. Live source access
+was blocked by the network proxy. Clinical testing guidance remains absent.
+Retrieval never updates patient guidance or application calculations.
 
 To expand the collection, inspect the authoritative source first. Add bounded
 public passages with a stable source ID, title, canonical URL, publication or

@@ -1,0 +1,37 @@
+{
+  "source": "Hook et al. (2022), Economic Burden of Reported Lyme Disease in High-Incidence Areas, United States, 2014\u20132016",
+  "source_url": "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article",
+  "verification": "Checked user-supplied public article text: Methods, Results and Discussion. Linked tables not separately retrieved. Live website blocked.",
+  "source_checked_on": "2026-10-14",
+  "uploaded_text_sha256": "caff036c5d74678b8260f7804625876e87a01ad84dafcf1e3fbc2e0ee39ab643",
+  "publication_year": 2022,
+  "dollar_year": 2016,
+  "patient_analysis_n": 901,
+  "societal_analysis_n": 613,
+  "societal_mean": 2032,
+  "societal_median": 690,
+  "societal_group_means": {
+    "confirmed_localized": 1307,
+    "confirmed_disseminated": 3251,
+    "probable": 2620
+  },
+  "patient_burden_mean_including_productivity": 1252,
+  "patient_burden_median_including_productivity": 244,
+  "societal_medical_mean": 1333,
+  "societal_medical_median": 478,
+  "national_illustrations_usd": {
+    "median_based": 345000000,
+    "mean_based": 968000000
+  },
+  "limitations": [
+    "Quota-sampled reported confirmed/probable cases in four high-incidence states; recruitment September 2014\u2013January 2016",
+    "Patient costs include productivity losses; not synonymous with out-of-pocket payments",
+    "Societal total includes medical, nonmedical and productivity costs; do not add them again",
+    "Excluded non-English speakers; 94% of study participants were white; not a population risk estimate",
+    "Excluded suspected, undiagnosed and nonacute disease; does not value persistent long-term symptoms",
+    "Monthly surveys ended after two without expenses or a maximum of twelve; not a lifetime total",
+    "Recall, billing attribution and surveillance weighting may bias costs",
+    "Different disease groups do not prove effects of diagnostic delay or intervention savings",
+    "National mean/median illustrations are not a confidence interval; local extrapolation requires explicit assumptions"
+  ]
+}

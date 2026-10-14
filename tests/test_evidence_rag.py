@@ -18,6 +18,16 @@ class EvidenceTests(unittest.TestCase):
         self.assertIn("verification pending", items["YU-2026"]["verification_status"])
         self.assertIn("not an additional amount", items["HOOK-2022"]["passage"])
 
+    def test_checked_hook_costs_keep_denominators_and_scope(self):
+        hook = next(item for item in search_evidence("Hook societal patient productivity cost")["items"]
+                    if item["source_id"] == "HOOK-2022")
+        self.assertIn("613 participants", hook["passage"])
+        self.assertIn("901 participants", hook["passage"])
+        self.assertIn("not simply out-of-pocket", hook["passage"])
+        self.assertIn("nonacute", hook["limitation"])
+        self.assertIn("user-supplied", hook["verification_status"])
+        self.assertEqual(hook["source_checked_on"], "2026-10-14")
+
     def test_surveillance_limitations(self):
         items = search_evidence("county surveillance residence exposure risk")["items"]
         cdc = next(item for item in items if item["source_id"] == "CDC-SURVEILLANCE")

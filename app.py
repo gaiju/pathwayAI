@@ -58,6 +58,7 @@ def reading_copy(simple, detailed):
 
 # Submission cost references: separate perspectives and published dollar years.
 HOOK_COST_URL = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t5"
+HOOK_ARTICLE_URL = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
 YU_COST_URL = "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880"
 COST_CONTEXT_CAVEAT = (
     'Illustrative arithmetic only: published unit costs × official reported cases. Not a county-specific cost estimate, expected cost, before-diagnosis estimate or savings estimate. No adjustment for underreporting, local case mix, inflation or diagnostic delay. Yu covers direct medical episode costs; Hook includes medical, nonmedical and productivity costs. The two perspectives and dollar years differ: do not add the totals or treat them as a range.'
@@ -84,7 +85,7 @@ def published_reference_text():
         "PUBLISHED POPULATION BENCHMARKS — NOT YOUR EXPECTED COST",
         "Yu et al. 2026, Table 2 (2022 USD): direct medical episode mean $2,227; localized $695; disseminated $6,833. Patient medical out-of-pocket means: localized $107; disseminated $401. out-of-pocket is a separate perspective, not an amount to add to total medical costs.",
         "Yu: patient out-of-pocket episode mean $188 (95% CI $177–$200), among patients with recorded out-of-pocket; excludes pharmacy costs. Not a personal prediction.",
-        "Hook et al. 2022, Table 5 (2016 USD): societal mean $2,032; median $690. Confirmed localized mean $1,307; confirmed disseminated mean $3,251. Includes medical, nonmedical and productivity costs. Mean and median are not range endpoints.",
+        "Hook et al. 2022, Results (2016 USD; checked against supplied article text): societal mean $2,032; median $690; 613 participants. Patient burden mean $1,252 and median $244 includes lost productivity (901 participants), rather than only money paid. Confirmed localized mean $1,307; confirmed disseminated mean $3,251. Includes medical, nonmedical and productivity costs. Mean and median are not range endpoints.",
         "Your entries may cover a different period and cost scope. No percentile, expected cost, savings or diagnosis is inferred. Do not sum the benchmarks.",
         "Yu: " + YU_COST_URL, "Hook: " + HOOK_COST_URL,
     ]
@@ -260,8 +261,25 @@ def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
     st.markdown("### What Lyme disease can cost")
     st.write('Out-of-pocket means money a person paid. Total medical spending also includes what the insurer paid.')
-    st.write('Published study averages · costs per participant or medical episode.')
-    page_note('Published study populations and dollar years differ. These references are not measured county costs or a prediction of your bill. Original cost tables remain pending verification in this release.')
+    st.write('Published study findings · costs per participant or medical episode.')
+    hook = json.loads((BASE_DIR / "data" / "hook_2022_article_verification.json").read_text())
+    st.markdown("#### Beyond medical bills: the Hook study")
+    st.write("The study followed reported Lyme disease cases in four high-incidence states, including New York. It counted medical care, other expenses and lost productivity.")
+    average, middle = st.columns(2)
+    average.metric("Societal cost · average per participant", f"${hook['societal_mean']:,}")
+    middle.metric("Societal cost · median per participant", f"${hook['societal_median']:,}")
+    st.write("2016 dollars · 613 participants in the societal-cost analysis. The median is the middle value; higher-cost cases raise the average.")
+    groups = pd.DataFrame([
+        {"Reported disease group": "Confirmed localized", "Mean societal cost · 2016 USD": hook["societal_group_means"]["confirmed_localized"]},
+        {"Reported disease group": "Confirmed disseminated", "Mean societal cost · 2016 USD": hook["societal_group_means"]["confirmed_disseminated"]},
+        {"Reported disease group": "Probable", "Mean societal cost · 2016 USD": hook["societal_group_means"]["probable"]},
+    ])
+    st.bar_chart(groups.set_index("Reported disease group"), horizontal=True)
+    st.write("Average costs varied across the reported disease groups. The findings support examining prevention and timely care alongside financial support.")
+    st.markdown(f"[Read the study · Hook et al., 2022]({HOOK_ARTICLE_URL})")
+    page_note("Hook figures were checked against the user-supplied public article text, Methods, Results and Discussion, on October 14, 2026; linked tables were not separately retrieved. Recruitment was in 2014–2016. These are weighted study costs in 2016 dollars, not current prices or measured Dutchess/Orange spending. Societal costs include medical, nonmedical and productivity costs; do not add those categories again. Costs exclude suspected, undiagnosed and nonacute illness, including long-term symptom costs. Group differences do not prove savings from earlier diagnosis or from PathwayAI. Quota sampling, recall, billing attribution and extrapolation limit generalizability; non-English speakers were excluded.")
+    st.markdown("#### Cost references by perspective")
+    page_note('Published study populations and dollar years differ. Hook article figures are checked against the supplied text; the original Yu cost table remains pending verification. These references are not measured county costs or a prediction of your bill.')
 
     published = pd.DataFrame([
         {"Measure": "Societal cost, mean per participant",
@@ -277,8 +295,9 @@ def show_burden_evidence_panel104():
          "Value": "$188", "Scope": "2022 USD; pharmacy excluded; subset only",
          "Evidence": "Published: Yu et al. (2026), Table 2"},
     ])
-    show_readable_table(published, hide_index=True)
-    st.markdown(f"[Hook et al. — CDC]({HOOK_COST_URL}) · [Yu et al. — JAMA]({YU_COST_URL})")
+    with st.expander("Published cost table and medical-only reference"):
+        show_readable_table(published, hide_index=True)
+        st.markdown(f"[Hook et al. — CDC]({HOOK_ARTICLE_URL}) · [Yu et al. — JAMA]({YU_COST_URL})")
 
 
     with st.expander("Cost categories and support options"):

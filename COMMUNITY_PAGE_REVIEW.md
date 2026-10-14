@@ -3,7 +3,7 @@
 The main view now follows one sequence: New York surveillance map, Dutchess–Orange comparison, costs and time lost, community actions, and a downloadable brief.
 
 - The 2024 reported Lyme rates (Dutchess 355.5, Orange 237.0, statewide 109.8 per 100,000) were checked against the uploaded NYSDOH rates PDF, page 5.
-- The existing published cost references and conceptual cost-category image remain. Original cost tables and inherited county case counts still require verification. They are not independently verified local cost measurements.
+- Hook cost figures were subsequently checked against the user-supplied public article text (Methods, Results and Discussion). The conceptual cost-category image remains. Original Yu cost tables and inherited county case counts still require verification. Published study references are not measured local costs.
 - Hypothetical county calculations, future paths, group calculator, planning tables and AI remain available in collapsed sections.
 - Methodological exclusions, development status and limitations appear in bottom notes. Short positive labels still distinguish study references, private records and illustrative calculations.
 - Community action cards link to CDC tick prevention, HRSA health-center search and New York health coverage. Private records, consent, API configuration and production remain unchanged.
@@ -29,3 +29,13 @@ The two-county view gives a coherent community audience without requiring a coun
 The supplied timeline lists Phase 2 closing October 15, 2026, 11:59 p.m. Eastern and demo showcase closing October 22, 2026, 11:59 p.m. Eastern, subject to organizer changes. Detailed judging criteria require the remaining page text.
 
 Validation: all 20 existing tests passed, including first-click navigation. AppTest also exercised verified rate cards, both-county calculation tables, the separately labeled Dutchess plan, future-path controls, Community Voice county selection and downloads.
+
+## Hook study evidence update
+
+The Community page now shows the checked societal mean ($2,032), median ($690) and disease-group means ($1,307 localized; $3,251 disseminated; $2,620 probable), in 2016 dollars. The societal analysis included 613 participants. The patient-cost mean ($1,252) and median ($244), from 901 participants, include productivity losses and are not synonymous with money paid out of pocket.
+
+The county calculator now defaults to a Hook-based societal illustration; its existing Yu medical-cost and case-mix modes remain available. Using the inherited 2024 case-count inputs gives Dutchess $2,153,920 and Orange $1,958,848 in 2016 dollars. These are reference-cost multiplications, with case-count verification still outstanding. Hypothetical path charts and exports retain the selected cost perspective and dollar year.
+
+The RAG corpus includes a bounded public summary of the checked Hook methods, results and limitations, with verification metadata. It excludes the raw upload and all private patient records. The study's limitations are included: quota sampling, recall, excluded non-English speakers and excluded suspected, undiagnosed and nonacute disease. Neither diagnostic-delay savings nor county-representative patient burden follows from these results. The supplied project survey remains a separate evidence layer; threshold percentages do not establish an average dollar cost.
+
+Validation for this update: 22 tests passed. AppTest exercised the checked cost metrics, both-county societal amounts, chart controls, preserved medical case-mix mode, switching perspectives and downloads.

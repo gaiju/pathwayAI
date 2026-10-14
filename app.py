@@ -506,11 +506,11 @@ def policy89():
     show_burden_evidence_panel104()
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
-    st.markdown("### Apply the evidence to Dutchess · proposed pilot")
-    st.write("Dutchess is the planning example. The studies above are not Dutchess patient records. A local pilot would need consented local contributions and partner review.")
-    st.markdown("#### What support could the county consider?")
+    st.markdown("### How communities could use this evidence")
+    st.write("County comparisons provide local context. Published studies describe their own participants. With consent, reviewed patient records could help communities identify needs and plan support.")
+    st.markdown("#### What support could a community consider?")
     st.write("Choose a cost area. See a response the community could consider, then download a brief for discussion.")
-    focus=st.selectbox("Which cost area should the community focus on?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
+    focus=st.selectbox("Which cost area should a community focus on?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Help people access coverage and financial assistance. Use existing cost records to understand needs without asking for repeat entry.","People connected with assistance; money paid for care and other expenses over the same period"),
         "Work and caregiver time":("How does illness disrupt work and unpaid caregiving?","Record workdays and caregiver hours for a fixed period; ask which support is needed.","Workdays missed; caregiver hours; reported unmet needs"),
@@ -518,19 +518,19 @@ def policy89():
         "Reaching care":("Which barriers prevent a completed visit?","Ask about transport, cost, referral and communication barriers; connect participants to relevant services.","Reported barrier; referral completion; appointments attended"),
     }
     question,action,measures=plans[focus]
-    st.write("**Question for the county:** " + question)
+    st.write("**Community planning question:** " + question)
     st.write("**Response to consider:** " + action)
     st.write("**What to check:** " + measures)
-    st.write("**Next:** download the planning brief and discuss the response with county, clinic or community partners.")
-    page_note("This is a proposed county planning workflow. Actual needs, feasibility and benefits require participant and partner review. Personal support contacts are available on Care & Support.")
+    st.write("**Next:** download the planning brief and discuss the response with public-health, clinic or community partners.")
+    page_note("This is a community planning example, not a county partnership or adopted program. Actual needs and benefits require review. Personal support contacts are on Care & Support.")
     st.button("Need personal help? Open Care & Support →", key="county_to_personal_support",
               on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
     rows=reference_cost_rows("Dutchess",1060)
-    brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a before-diagnosis unit cost.',"NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
+    brief=["PathwayAI | Community burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a before-diagnosis unit cost.',"NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
-    st.download_button("Download county planning brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
+    st.download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     policy_ai105()
     st.markdown("### Sources, methods and project status")
     st.write("Open the details below for study limitations, calculations and current coverage.")

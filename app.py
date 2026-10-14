@@ -22,7 +22,7 @@ from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
-from county_cost_scenario import show_county_cost_scenario
+from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 from county_trends import show_county_rate_trend
 
@@ -279,13 +279,14 @@ def show_burden_evidence_panel104():
                            ("probable", "Probable"))
     ])
     st.write("Medical bills paid by patients are one part of out-of-pocket spending. Compare these study averages with the broader societal cost.")
+    st.write("**Localized:** confirmed Lyme with the characteristic rash. **Disseminated:** confirmed Lyme with joint, nerve or heart involvement. **Probable:** a clinician diagnosed Lyme and there was laboratory evidence, but the reported symptoms fell outside the confirmed-case criteria used in this study.")
     import altair as alt
     plot = groups.rename(columns={"Mean societal cost · 2016 USD": "Societal cost",
                                  "Mean medical bills paid by patient · 2016 USD": "Medical bills paid by patient"}).melt(
                                      id_vars="Reported disease group", var_name="Cost perspective", value_name="Mean cost")
     chart = alt.Chart(plot).mark_bar().encode(
         x=alt.X("Mean cost:Q", title="Mean per participant · 2016 USD", axis=alt.Axis(format="$,.0f")),
-        y=alt.Y("Reported disease group:N", title=None, sort=["Confirmed localized", "Confirmed disseminated", "Probable"]),
+        y=alt.Y("Reported disease group:N", title=None, sort=["Confirmed localized", "Confirmed disseminated", "Probable"], axis=alt.Axis(labelLimit=250)),
         yOffset="Cost perspective:N",
         color=alt.Color("Cost perspective:N", title=None,
                         scale=alt.Scale(domain=["Societal cost", "Medical bills paid by patient"],
@@ -557,6 +558,7 @@ def policy89():
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
     show_county_rate_trend(page_note)
+    show_county_burden_comparison(page_note)
     st.markdown("### Costs and time lost")
     st.write("Illness can bring medical bills, travel expenses, missed work and unpaid care.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
@@ -602,7 +604,7 @@ def policy89():
     with st.expander("Group-cost calculator"):
         scenario_notes101 = planning_scenario101()
     rows=reference_cost_rows("Dutchess",1060) + reference_cost_rows("Orange",964)
-    brief=["PathwayAI | Dutchess and Orange community burden brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not county prevalence, a quantified local burden or a before-diagnosis unit cost.',"Verified NYSDOH 2024 reported rates per 100,000: Dutchess 355.5; Orange 237.0; statewide 109.8. County case counts and original cost tables used in illustrations remain pending verification.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
+    brief=["PathwayAI | Dutchess and Orange community burden brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not county prevalence, a quantified local burden or a before-diagnosis unit cost.',"Verified NYSDOH 2024 reported rates per 100,000: Dutchess 355.5; Orange 237.0; statewide 109.8. County case counts were checked against the supplied NYSDOH 2024 cases PDF, page 5. Original Yu cost tables remain pending verification.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['county']} · {r['perspective']}: {r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
     brief.extend(["", "DUTCHESS HEALTH PLAN CONTEXT (GENERAL HEALTH; SOURCE COVERS DUTCHESS ONLY)",
@@ -623,6 +625,12 @@ def policy89():
     with st.expander("Ask AI about the public evidence"):
         policy_ai105()
     st.markdown("### Sources and methods")
+    with st.expander("Other survey and cost resources to review"):
+        st.markdown("[AHRQ Medical Expenditure Panel Survey](https://meps.ahrq.gov/mepsweb/) · medical spending and patient-payment benchmarks")
+        st.markdown("[CDC National Health Interview Survey](https://www.cdc.gov/nchs/nhis/index.html) · work and daily-function context")
+        st.markdown("[MyLymeData](https://www.lymedisease.org/mylymedata/) · selected Lyme patient experiences")
+        st.markdown("[BLS county wage data](https://www.bls.gov/cew/) · possible productivity-value assumptions")
+        st.write("These are candidate resources for further review. Live access was blocked in this environment; no new numbers from them are included in the county model. General federal benchmarks need a justified connection to Lyme disease, and voluntary Lyme surveys need sampling and reporting-period review.")
     with st.expander("How to interpret cost figures and examples"):
         st.write("Published Hook and Yu figures are study-population references. Multiplying a study mean by reported cases is illustrative arithmetic, not a measured county cost, expected bill or savings estimate.")
         st.write("Study populations, cost perspectives and dollar years differ. Do not add the published estimates or label them pre-diagnosis costs. A reliable county pre-diagnosis cost has not been calculated.")

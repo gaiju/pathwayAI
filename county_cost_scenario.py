@@ -1,6 +1,8 @@
 """Transparent scenario arithmetic; no fitted model or survey-derived mean."""
 
 import math
+import json
+from pathlib import Path
 
 CASE_SOURCE = "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf"
 RATE_SOURCE = "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"
@@ -10,6 +12,25 @@ COUNTIES = (
     ("Dutchess", 1060, 355.5),
     ("Orange", 964, 237.0),
 )
+
+
+def county_cost_categories():
+    """Decompose the same societal mean; do not add overlapping patient costs."""
+    hook = json.loads((Path(__file__).resolve().parent / "data" / "hook_2022_article_verification.json").read_text())
+    medical = hook["societal_medical_mean"]
+    other_and_productivity = hook["societal_mean"] - medical
+    return [{"County": county, "Reported cases · 2024": cases,
+             "Reported cases per 100,000 · 2024": rate,
+             "Medical costs · 2016 USD": cases * medical,
+             "Other expenses and lost productivity · 2016 USD": cases * other_and_productivity,
+             "Estimated societal total · 2016 USD": cases * hook["societal_mean"],
+             "source_url": HOOK_SOURCE, "case_source_url": CASE_SOURCE,
+             "medical_reference_per_participant": medical,
+             "other_and_productivity_reference_per_participant": other_and_productivity,
+             "dollar_year": 2016, "evidence_type": "study_based_county_illustration",
+             "method": "Reported cases times weighted societal reference; other expenses plus productivity is societal mean minus medical mean, not a separately reported average",
+             "scope": "Assumed transfer of study experience to reported county cases; not measured county spending. Other expenses and productivity cannot be separately valued from supplied overall results. Survey findings are contextual, not added as dollar amounts."}
+            for county, cases, rate in COUNTIES]
 
 
 def county_scenario(disseminated_share=None, perspective="medical"):
@@ -69,6 +90,65 @@ def burden_paths(county, unit_cost, annual_change=.05, years=5):
                           "evidence_type": "hypothetical_projection_not_forecast",
                           "baseline_case_year": 2024})
     return paths
+
+
+def show_county_burden_comparison(note):
+    """Main two-county illustration with separate, unextrapolated survey context."""
+    import altair as alt
+    import pandas as pd
+    import streamlit as st
+
+    st.markdown("### Estimated community cost: Dutchess and Orange")
+    st.write("Study-based societal illustration · 2024 reported cases × $2,032 per participant · 2016 dollars.")
+    st.write("The study reference includes medical care, other expenses and lost productivity.")
+    frame = pd.DataFrame(county_scenario(perspective="societal"))
+    amount = "Illustrative societal amount · 2016 USD"
+    cols = st.columns(3)
+    for col, (_, row) in zip(cols, frame.iterrows()):
+        col.metric(row["County"] + " · societal illustration", f"${row[amount] / 1_000_000:.2f}M")
+    cols[2].metric("Both counties · societal illustration", f"${frame[amount].sum() / 1_000_000:.2f}M")
+    categories = pd.DataFrame(county_cost_categories())
+    plot = categories.rename(columns={"Medical costs · 2016 USD": "Medical costs",
+                                      "Other expenses and lost productivity · 2016 USD": "Other costs + time lost"}).melt(
+                                          id_vars="County", value_vars=["Medical costs", "Other costs + time lost"],
+                                          var_name="Cost category", value_name="Estimated amount")
+    chart = alt.Chart(plot).mark_bar().encode(
+        x=alt.X("County:N", title=None),
+        y=alt.Y("Estimated amount:Q", title="Estimated societal burden · 2016 USD", axis=alt.Axis(format="$~s"), stack="zero"),
+        color=alt.Color("Cost category:N", title=None, scale=alt.Scale(domain=["Medical costs", "Other costs + time lost"], range=["#2474A6", "#C65D17"]), legend=alt.Legend(orient="bottom")),
+        tooltip=["County:N", "Cost category:N", alt.Tooltip("Estimated amount:Q", format="$,.0f")],
+    ).properties(height=260)
+    st.altair_chart(chart, use_container_width=True)
+    display = categories[["County", "Reported cases · 2024", "Reported cases per 100,000 · 2024",
+                          "Medical costs · 2016 USD", "Other expenses and lost productivity · 2016 USD",
+                          "Estimated societal total · 2016 USD"]].copy()
+    for column in ("Medical costs · 2016 USD", "Other expenses and lost productivity · 2016 USD", "Estimated societal total · 2016 USD"):
+        display[column] = display[column].map(lambda value: f"${value:,.0f}")
+    st.dataframe(display, hide_index=True, use_container_width=True)
+    st.download_button("Download two-county burden comparison", categories.to_csv(index=False).encode("utf-8-sig"),
+                       file_name="Dutchess_Orange_Societal_Burden_Illustration.csv", mime="text/csv", key="county_burden_comparison_csv")
+    st.markdown("#### What patients reported · survey across locations")
+    st.write("The supplied PathwayAI survey summary adds experiences of financial pressure, time lost and long waits for diagnosis.")
+    survey = st.columns(3)
+    survey[0].metric("Reported paying at least $10,000", "14 of 33")
+    survey[1].metric("Reported more than 100 days lost", "18 of 33")
+    survey[2].metric("Reported over 5 years to diagnosis", "20 of 33")
+    st.write("Use the county illustration to understand scale, and these patient experiences to choose what local support needs to measure.")
+    note(f"Main county illustration: verified NYSDOH 2024 case counts (Dutchess 1,060; Orange 964), cases PDF p. 5; "
+         f"rates 355.5 and 237.0 per 100,000, rates PDF p. 5. Hook mean $2,032 was checked against supplied article Results; "
+         f"2016 dollars, not current local prices or observed county spending. Total $4,112,768 combines these two illustrative totals only. "
+         f"Societal cost already includes medical, nonmedical and productivity; patient payments and survey spending are not added again. "
+         f"Reported cases do not include all infections; transferring the study mean to counties assumes a comparable case mix and cost experience. "
+         f"Hook excludes suspected, undiagnosed and nonacute illness. [Case counts]({CASE_SOURCE}) · [Rates]({RATE_SOURCE}) · [Hook study]({HOOK_SOURCE})")
+    note("Survey context: project lead's supplied October 3, 2026 summary of 33 self-reported diagnosed respondents across locations, "
+         "not independently recalculated from raw records. Spending thresholds are not average dollar costs; days lost are not monetized. "
+         "Reporting periods, question wording and denominators require confirmation. A small voluntary survey cannot be treated as representative of Dutchess or Orange. "
+         "Survey percentages are not multiplied by county case counts or added to the societal illustration. Broader county burden requires consented, locally representative evidence with comparable periods.")
+    note("Category breakdown: Hook's societal mean $2,032 and societal medical mean $1,333 describe the societal analysis. "
+         "The remaining $699 is calculated as their difference and combines nonmedical expenses with lost productivity; it is not a separately reported component mean. "
+         "The supplied article text does not provide overall means that separate those two components. Patient medical-bill means use a different analysis denominator, "
+         "so they cannot be subtracted from societal totals. The survey's $10,000 threshold does not establish a medical, travel, work-loss or caregiver average; "
+         "further category estimates require reported amounts and common periods, or explicitly selected scenario assumptions.")
 
 
 def show_burden_paths(frame, note):

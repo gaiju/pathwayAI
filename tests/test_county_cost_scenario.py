@@ -1,9 +1,19 @@
 import unittest
 
-from county_cost_scenario import county_scenario, burden_paths
+from county_cost_scenario import county_scenario, burden_paths, county_cost_categories
 
 
 class CountyScenarioTests(unittest.TestCase):
+    def test_categories_reconcile_without_adding_patient_costs(self):
+        rows = county_cost_categories()
+        self.assertEqual(rows[0]["Medical costs · 2016 USD"], 1412980)
+        self.assertEqual(rows[1]["Other expenses and lost productivity · 2016 USD"], 673836)
+        for row in rows:
+            self.assertEqual(row["Medical costs · 2016 USD"] + row["Other expenses and lost productivity · 2016 USD"],
+                             row["Estimated societal total · 2016 USD"])
+            self.assertIn("not a separately reported average", row["method"])
+        self.assertEqual(sum(row["Estimated societal total · 2016 USD"] for row in rows), 4112768)
+
     def test_societal_reference_keeps_perspective_and_price_year(self):
         rows = county_scenario(perspective="societal")
         self.assertEqual(rows[0]["Illustrative societal amount · 2016 USD"], 2153920)

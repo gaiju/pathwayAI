@@ -784,9 +784,14 @@ def policy89():
         larger_evidence101()
     with st.expander("Published evidence & methods"):
         evidence89(include_survey=False)
-    with st.expander("Community Voice · future updates"):
-        county = st.selectbox("County for consented community reports", ["Dutchess County, New York", "Orange County, New York"], key="voice_community_county")
-        community_voice88(county)
+    with st.expander("Partner with PathwayAI for healthier communities"):
+        st.write("We’re seeking community groups, clinics and public-health partners to pilot consent-based reporting. Together, we can understand local costs and care barriers, identify support needs and test practical responses.")
+        st.markdown("[Discuss a community pilot](mailto:pathwyai.feedback@gmail.com?subject=PathwayAI%20community%20pilot)")
+        st.write("Use this email for pilot enquiries and general feedback. Keep personal health cards in the agreed private reporting process.")
+        with st.expander("Community reporting details"):
+            county = st.selectbox("County for consented community reports", ["Dutchess County, New York", "Orange County, New York"], key="voice_community_county")
+            community_voice88(county)
+        page_note("Shared patient reporting is separate from the working personal-record and public-data tools. A community pilot needs participant consent, private storage, access and retention rules, duplicate checks, consistent periods, and privacy-reviewed aggregate release. These arrangements are still to be established with willing partners. The pilot enquiry email does not automatically ingest patient cards or update county estimates; a secure submission process must be agreed before collecting identifiable health records.")
     with st.expander("Individual cost calculator · invented example"):
         show_synthetic_cost_example()
 

@@ -472,7 +472,8 @@ def policy89():
     st.write("Prevent tick bites. Help people reach care in time. Reduce the disruption illness brings to work and family life.")
     st.write("These are shared community goals. Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI helps people prepare and find support; its health benefits and savings have not yet been measured.")
     st.markdown("#### Hudson Valley community focus")
-    st.write("Start with New York. Our current local comparison covers Dutchess and Orange—not the whole Hudson Valley.")
+    st.write("Start with New York. Explore our pilot comparison of Dutchess and Orange counties.")
+    st.write("The comparison helps communities learn from local context. It is not a scorecard of county performance.")
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"
@@ -508,13 +509,13 @@ def policy89():
     show_burden_evidence_panel104()
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
-    st.markdown("### How communities could use this evidence")
+    st.markdown("### For the community: turn evidence into shared action")
     show_combined_planning_evidence()
     st.write("Protecting residents from tick bites and helping them reach appropriate care can support community health. Reviewed reports of costs, work lost and care barriers could help local teams decide where prevention and support are needed.")
     st.write("Use the county comparisons, published Lyme research and local health plan together. Shared patient evidence requires permission and secure collection.")
-    st.markdown("#### What support could a community consider?")
-    st.write("Choose a cost area. See a response the community could consider, then download a brief for discussion.")
-    focus=st.selectbox("Which cost area should a community focus on?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
+    st.markdown("#### What could residents and local partners explore together?")
+    st.write("Choose a topic. Explore a possible response together. Download a brief to support the conversation.")
+    focus=st.selectbox("Which topic would help your community?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Help people access coverage and financial assistance. Use existing cost records to understand needs without asking for repeat entry.","People connected with assistance; money paid for care and other expenses over the same period"),
         "Work and caregiver time":("How does illness disrupt work and unpaid caregiving?","Record workdays and caregiver hours for a fixed period; ask which support is needed.","Workdays missed; caregiver hours; reported unmet needs"),
@@ -522,9 +523,9 @@ def policy89():
         "Reaching care":("Which barriers prevent a completed visit?","Ask about transport, cost, referral and communication barriers; connect participants to relevant services.","Reported barrier; referral completion; appointments attended"),
     }
     question,action,measures=plans[focus]
-    st.write("**Community planning question:** " + question)
-    st.write("**Response to consider:** " + action)
-    st.write("**What to check:** " + measures)
+    st.write("**Question to explore together:** " + question)
+    st.write("**Idea for community discussion:** " + action)
+    st.write("**What we could learn:** " + measures)
     st.write("**Next:** download the planning brief and discuss the response with public-health, clinic or community partners.")
     page_note("This is a community planning example, not a county partnership or adopted program. Actual needs and benefits require review. Personal support contacts are on Care & Support.")
     st.button("Need personal help? Open Care & Support →", key="county_to_personal_support",

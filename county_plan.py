@@ -29,7 +29,7 @@ def show_combined_planning_evidence():
     import streamlit as st
 
     st.markdown("#### Connect Lyme evidence with local priorities")
-    st.write("Use the Lyme findings above and the county plan together to choose a question "
+    st.write("Use the Lyme findings above and the county plan to explore shared priorities and a question "
              "worth acting on. The table gives responses to evaluate, not proven solutions.")
     st.table(combined_planning_rows())
     st.write("The county plan does not measure Lyme costs. The connections here are "
@@ -67,8 +67,8 @@ PLAN_CONTEXT = {
 def show_county_plan_context(note):
     import streamlit as st
 
-    st.markdown("### What Dutchess says about access to care")
-    st.write("The county’s 2025–2030 health plan describes gaps in access across "
+    st.markdown("### What the local health plan tells us")
+    st.write("The county’s 2025–2030 health plan identifies access needs across "
              "communities. Insurance coverage and care access were also leading "
              "topics in resident priority voting.")
     st.write("This is general county health context, not a measurement of Lyme costs.")

@@ -14,13 +14,14 @@ def show_tick_encounter(existing=None):
     for field, key, label, suggested in fields:
         if key not in st.session_state:
             st.session_state[key] = saved.get(field, suggested) or ""
-    with st.expander("Tick encounter details · enter once"):
-        st.write('Keep the details from your story. Add only what is missing. Where you found a tick may differ from where you are now.')
+    with st.expander("Tick encounter details · Lyme prevention"):
+        st.write('Record when and where you found the tick. We reuse details from your story. The place you found it may differ from where you live or need care.')
+        st.write('Your experience can help communities understand where tick-bite prevention and support are needed. You choose what to share.')
         for field, key, label, suggested in fields:
             st.text_input(label, key=key, max_chars=120,
                           help="A date or approximate month is fine; 'not sure' is also fine."
                           if field == "when" else "ZIP or county and state only; no street address needed.")
-        st.write('These details stay in your session and summary. They are not shared automatically. Finding a tick does not confirm Lyme disease.')
+        st.write('These details stay in your personal record. Review them before sharing.')
     record = {field: st.session_state[key].strip() for field, key, _, _ in fields}
     record["evidence_type"] = "Patient-reported, unverified tick observation"
     st.session_state["tick_encounter_record"] = record

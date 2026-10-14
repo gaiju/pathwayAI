@@ -893,6 +893,7 @@ def compact_care88(quick, story):
         if key not in st.session_state:
             st.session_state[key] = value
     encounter = show_tick_encounter(quick)
+    page_note("Tick-found details remain private in this session and are not automatically sent to a community dataset. Finding a tick does not confirm Lyme disease or establish county infection risk. Secure community use needs participant consent, review, comparable location/time fields and privacy-reviewed summaries. Community decisions and support cannot be guaranteed from one report.")
     if encounter["current"]:
         st.markdown("[Find care near the location you already entered](" +
                     google_maps_search_url("primary care or infectious disease doctor near " + encounter["current"]) + ")")
@@ -3188,7 +3189,7 @@ if not st.session_state.get("pathway_open", False):
     reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
     societal, participant_cost = st.columns(2)
     societal.metric("Annual U.S. societal cost of diagnosed Lyme · 2016 dollars", "$345–968M")
-    participant_cost.metric("Average societal cost per study participant · 2016 dollars", "$2,032")
+    participant_cost.metric("Average societal cost per Lyme study participant · 2016 dollars", "$2,032")
     page_note("CDC estimates and reported case counts measure different things; do not add them.")
     page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
     page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
@@ -3300,6 +3301,7 @@ if view == "🩹 Tick Bite: What Next?":
     st.markdown("[CDC: What to Do After a Tick Bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html) · [CDC: Signs and Symptoms of Lyme Disease](https://www.cdc.gov/lyme/signs-symptoms/index.html)")
     st.info("Seek urgent medical attention for severe symptoms, such as trouble breathing, fainting, or new facial weakness. This app does not diagnose or recommend treatment.")
     show_tick_encounter(extract_quick_story(st.session_state.get("saved_story_text", "")))
+    page_note("Tick-found details stay in your private session and are not automatically shared. Finding a tick does not confirm Lyme disease or establish county infection risk. Community reporting requires consent, reviewed observations and privacy safeguards; it does not guarantee resource allocation or personal support.")
     show_lyme_testing(simple=simple_reading_view())
     st.button("Find care and support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     with st.expander("Learn more about Lyme disease, symptoms and rashes"):

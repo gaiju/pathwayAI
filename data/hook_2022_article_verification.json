@@ -33,5 +33,11 @@
     "Recall, billing attribution and surveillance weighting may bias costs",
     "Different disease groups do not prove effects of diagnostic delay or intervention savings",
     "National mean/median illustrations are not a confidence interval; local extrapolation requires explicit assumptions"
-  ]
+  ],
+  "patient_medical_bill_group_means": {
+    "confirmed_localized": 314,
+    "confirmed_disseminated": 628,
+    "probable": 389
+  },
+  "patient_medical_bill_scope": "Results, Figure 2 discussion: self-reported medical bills only; one component of patient-paid spending, separate from other expenses and productivity losses. Patient and societal analyses have different denominators."
 }

@@ -3,7 +3,7 @@
 The main view now follows one sequence: New York surveillance map, Dutchess–Orange comparison, costs and time lost, community actions, and a downloadable brief.
 
 - The 2024 reported Lyme rates (Dutchess 355.5, Orange 237.0, statewide 109.8 per 100,000) were checked against the uploaded NYSDOH rates PDF, page 5.
-- Hook cost figures were subsequently checked against the user-supplied public article text (Methods, Results and Discussion). The conceptual cost-category image remains. Original Yu cost tables and inherited county case counts still require verification. Published study references are not measured local costs.
+- Hook cost figures were subsequently checked against the user-supplied public article text (Methods, Results and Discussion). The conceptual cost-category image remains. County counts were then checked against the supplied NYSDOH 2024 cases PDF, page 5. Original Yu cost tables still require verification. Published study references are not measured local costs.
 - Hypothetical county calculations, future paths, group calculator, planning tables and AI remain available in collapsed sections.
 - Methodological exclusions, development status and limitations appear in bottom notes. Short positive labels still distinguish study references, private records and illustrative calculations.
 - Community action cards link to CDC tick prevention, HRSA health-center search and New York health coverage. Private records, consent, API configuration and production remain unchanged.
@@ -39,3 +39,15 @@ The county calculator now defaults to a Hook-based societal illustration; its ex
 The RAG corpus includes a bounded public summary of the checked Hook methods, results and limitations, with verification metadata. It excludes the raw upload and all private patient records. The study's limitations are included: quota sampling, recall, excluded non-English speakers and excluded suspected, undiagnosed and nonacute disease. Neither diagnostic-delay savings nor county-representative patient burden follows from these results. The supplied project survey remains a separate evidence layer; threshold percentages do not establish an average dollar cost.
 
 Validation for this update: 22 tests passed. AppTest exercised the checked cost metrics, both-county societal amounts, chart controls, preserved medical case-mix mode, switching perspectives and downloads.
+
+## Patient-paid medical bills comparison
+
+The study chart now uses matching blue and orange colors for separate societal and patient-paid medical-bill views, with an adjacent numeric table and source-tagged CSV. The medical-bill means are $314 (confirmed localized), $628 (confirmed disseminated) and $389 (probable), checked in the supplied article Results discussion of Figure 2. All amounts are in 2016 dollars. Medical bills represent one out-of-pocket category, not a total of all patient spending. Patient and societal analyses have different denominators; the bars are grouped, not stacked, and do not establish a patient-paid percentage or a county-specific out-of-pocket burden. These bounded public findings are also available to the RAG retriever.
+
+## Four landing numbers and checked local inputs
+
+All four existing headline figures now appear before the pathway choices: 476,000 estimated annual U.S. diagnoses/treatments; 62,551 reported U.S. cases in 2022; $345–968 million annual societal-cost illustrations in 2016 dollars; and 35% disabled work status in the selected persistent-illness study group. The study-group label stays beside the last figure; it is not general-population Lyme disability prevalence. The MyLymeData chartbook remains an inherited reference, not newly independently verified. Numbered source links and scope explanations are in a bottom footnote expander. Duplicate lower-page numeric cards were removed.
+
+The supplied NYSDOH case-count PDF, page 5, confirms Dutchess 1,060 and Orange 964 reported Lyme cases in 2024. Those inputs are now marked checked in county exports. The uploaded Mid-Hudson assessment has a Lyme section on pp. 218–219 with rate data, not a county economic-cost estimate in that section. Figure 147 confirms the two comparison counties' 2022–2023 rates. The Community page combines these with the previously checked 2024 rates in an observed-rate chart and source-tagged download. Pre-2022 data is excluded because the assessment describes a 2022 surveillance definition break. No forecasting is performed on this observed series; hypothetical cost paths remain separately labeled.
+
+Validation: all 23 tests passed. AppTest also verified exactly four landing metrics, bottom footnotes, patient-paid cost columns and downloads, the actual-rate trend, county selection and cost-perspective switching. Main, production, secrets, privacy controls and consent behavior were unchanged.

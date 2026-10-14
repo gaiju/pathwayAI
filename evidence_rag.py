@@ -51,7 +51,10 @@ PASSAGES = (
              "Societal means were $1,307 for confirmed localized, $3,251 for confirmed "
              "disseminated and $2,620 for probable disease. Patient cost mean $1,252 and "
              "median $244 (901 participants) include lost productivity and are not simply "
-             "out-of-pocket payments. Patient medical spending "
+             "out-of-pocket payments. Mean medical bills paid by patients were $314 "
+             "for confirmed localized, $628 for confirmed disseminated and $389 for probable "
+             "disease (2016 USD). Medical bills are one patient-paid category, not all "
+             "out-of-pocket spending; the patient and societal analyses have different denominators. Patient medical spending "
              "is already part of societal cost, not an additional amount to add. "
              "Localized and disseminated study groups are observational comparisons.",
              "Not a county estimate, pre-diagnosis-only cost, personal prediction or evidence "

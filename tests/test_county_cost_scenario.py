@@ -11,7 +11,7 @@ class CountyScenarioTests(unittest.TestCase):
         self.assertEqual(rows[1]["Illustrative amount per 100,000 · 2016 USD"], 481584)
         self.assertEqual(rows[0]["dollar_year"], 2016)
         self.assertNotIn("Illustrative medical amount · 2022 USD", rows[0])
-        self.assertIn("still requires verification", rows[0]["case_count_verification"])
+        self.assertIn("case-count PDF, page 5", rows[0]["case_count_verification"])
         with self.assertRaises(ValueError):
             county_scenario(.5, perspective="societal")
 

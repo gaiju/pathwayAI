@@ -22,9 +22,15 @@ out-of-pocket payments. Suspected, undiagnosed and nonacute disease costs were
 excluded. Details and source-text hash are in
 `data/hook_2022_article_verification.json`. The county calculator defaults to
 this societal reference; Yu medical mode remains separate. County case counts
-and original Yu tables still need verification. Project survey spending
+were checked against the supplied NYSDOH 2024 cases PDF, page 5 (Dutchess 1,060;
+Orange 964). Original Yu tables still need verification. Project survey spending
 thresholds and time-loss counts are a separate evidence layer, not additional
 dollar amounts to sum with these references.
+
+The observed county-rate chart uses Mid-Hudson CHA 2025 Figure 147, page 219,
+for 2022–2023 and the checked NYSDOH 2024 rates PDF, page 5, for 2024. It excludes
+pre-2022 rates because of the surveillance definition change described in the
+assessment. It remains separate from hypothetical future burden paths.
 
 ## Cost and time fields
 

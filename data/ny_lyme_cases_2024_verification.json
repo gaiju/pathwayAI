@@ -1,0 +1,13 @@
+{
+  "source": "NYSDOH Communicable Disease in New York State Cases Reported in 2024",
+  "source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf",
+  "source_checked_on": "2026-10-14",
+  "pdf_page": 5,
+  "uploaded_pdf_sha256": "e87c5b554fac5b62f76dba18adda9da7f6f5e9a7da40347ec4a8a4cb6a34ba56",
+  "verified_lyme_case_counts": {
+    "Dutchess": 1060,
+    "Orange": 964,
+    "New York State": 21632
+  },
+  "scope": "Matched Lyme disease column in supplied official county case-count PDF. Reported counts by residence; not all infections or exposure locations."
+}

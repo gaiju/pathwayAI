@@ -43,7 +43,7 @@ def county_scenario(disseminated_share=None, perspective="medical"):
         "case_source": CASE_SOURCE, "rate_source": RATE_SOURCE, "cost_source": HOOK_SOURCE if perspective == "societal" else COST_SOURCE,
         "cost_perspective": perspective, "dollar_year": dollar_year,
         "rate_verification": "Matched user-provided NYSDOH 2024 rates PDF, page 5",
-        "case_count_verification": "Inherited application count; case table still requires verification",
+        "case_count_verification": "Matched user-provided NYSDOH 2024 case-count PDF, page 5, on 2026-10-14",
         "cost_verification": "Hook Results checked against user-supplied article text on 2026-10-14" if perspective == "societal" else "Inherited publication reference; original table still requires verification",
         "formula": "reported cases * study cost reference",
         "per_100000_formula": "reported cases per 100000 * study cost reference",
@@ -151,5 +151,5 @@ def show_county_cost_scenario(note):
     show_burden_paths(frame, note)
     note(f"Scenario sources: [NYSDOH cases]({CASE_SOURCE}), [rates]({RATE_SOURCE}), "
          f"[Hook societal reference]({HOOK_SOURCE}), [Yu medical-cost reference]({COST_SOURCE}). Rates were matched to the user-provided NYSDOH 2024 PDF, page 5. Hook costs were checked against the supplied article text; "
-         "case counts and Yu costs remain pending original-table verification. Case year 2024; Hook dollar year 2016; Yu dollar year 2022. "
+         "case counts were checked against the supplied NYSDOH 2024 cases PDF, page 5. Yu costs remain pending original-table verification. Case year 2024; Hook dollar year 2016; Yu dollar year 2022. "
          "No delay-to-disease progression model, local price estimate, survey average or savings is inferred.")

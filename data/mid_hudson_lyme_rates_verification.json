@@ -1,0 +1,25 @@
+{
+  "source": "Mid-Hudson Region Community Health Assessment 2025",
+  "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf",
+  "source_checked_on": "2026-10-14",
+  "uploaded_pdf_sha256": "ec7f0e4639526d0bf9fd5a0d60f1ad275ae6af0b663d31049bb92b04d1315daa",
+  "pdf_pages": [
+    218,
+    219
+  ],
+  "figure": 147,
+  "unit": "Reported Lyme cases per 100000 residents",
+  "rates": {
+    "2022": {
+      "Dutchess": 394.6,
+      "Orange": 231.6,
+      "New York State": 81.9
+    },
+    "2023": {
+      "Dutchess": 358.9,
+      "Orange": 296.9,
+      "New York State": 109.1
+    }
+  },
+  "scope": "Read Lyme section and Figure 147 in supplied regional assessment. This is reported disease frequency, not an economic-cost estimate. Pre-2022 values excluded from trend due to case-definition change. Narrative has inconsistent Putnam year/value claims; only checked figure-table values for the two comparison counties and NYS are used."
+}

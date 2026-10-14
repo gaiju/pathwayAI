@@ -24,6 +24,7 @@ from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
 from county_cost_scenario import show_county_cost_scenario
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
+from county_trends import show_county_rate_trend
 
 PAGE_NOTES = []
 
@@ -270,13 +271,38 @@ def show_burden_evidence_panel104():
     middle.metric("Societal cost · median per participant", f"${hook['societal_median']:,}")
     st.write("2016 dollars · 613 participants in the societal-cost analysis. The median is the middle value; higher-cost cases raise the average.")
     groups = pd.DataFrame([
-        {"Reported disease group": "Confirmed localized", "Mean societal cost · 2016 USD": hook["societal_group_means"]["confirmed_localized"]},
-        {"Reported disease group": "Confirmed disseminated", "Mean societal cost · 2016 USD": hook["societal_group_means"]["confirmed_disseminated"]},
-        {"Reported disease group": "Probable", "Mean societal cost · 2016 USD": hook["societal_group_means"]["probable"]},
+        {"Reported disease group": label,
+         "Mean societal cost · 2016 USD": hook["societal_group_means"][key],
+         "Mean medical bills paid by patient · 2016 USD": hook["patient_medical_bill_group_means"][key]}
+        for key, label in (("confirmed_localized", "Confirmed localized"),
+                           ("confirmed_disseminated", "Confirmed disseminated"),
+                           ("probable", "Probable"))
     ])
-    st.bar_chart(groups.set_index("Reported disease group"), horizontal=True)
+    st.write("Medical bills paid by patients are one part of out-of-pocket spending. Compare these study averages with the broader societal cost.")
+    import altair as alt
+    plot = groups.rename(columns={"Mean societal cost · 2016 USD": "Societal cost",
+                                 "Mean medical bills paid by patient · 2016 USD": "Medical bills paid by patient"}).melt(
+                                     id_vars="Reported disease group", var_name="Cost perspective", value_name="Mean cost")
+    chart = alt.Chart(plot).mark_bar().encode(
+        x=alt.X("Mean cost:Q", title="Mean per participant · 2016 USD", axis=alt.Axis(format="$,.0f")),
+        y=alt.Y("Reported disease group:N", title=None, sort=["Confirmed localized", "Confirmed disseminated", "Probable"]),
+        yOffset="Cost perspective:N",
+        color=alt.Color("Cost perspective:N", title=None,
+                        scale=alt.Scale(domain=["Societal cost", "Medical bills paid by patient"],
+                                        range=["#2474A6", "#C65D17"]), legend=alt.Legend(orient="bottom")),
+        tooltip=["Reported disease group:N", "Cost perspective:N", alt.Tooltip("Mean cost:Q", format="$,.0f")],
+    ).properties(height=300)
+    st.altair_chart(chart, use_container_width=True)
+    show_readable_table(groups, hide_index=True)
+    with st.expander("Download study cost comparison"):
+        export = groups.assign(source=HOOK_ARTICLE_URL, publication_year=2022, dollar_year=2016,
+                               societal_analysis_total_n=613, patient_analysis_total_n=901,
+                               scope="Separate weighted study perspectives; medical bills are one patient-paid category; not county measurements or additive costs")
+        st.download_button("Download study averages and source", export.to_csv(index=False).encode("utf-8-sig"),
+                           file_name="Hook_2022_Study_Cost_Comparison.csv", mime="text/csv", key="hook_cost_comparison_csv")
+    page_note("Hook medical-bill means ($314 localized, $628 disseminated, $389 probable) were checked in the supplied article Results discussion of Figure 2. These are self-reported medical bills, not the complete medical/nonmedical out-of-pocket total. Patient analysis n=901 and societal analysis n=613; group means have different analysis denominators and cannot establish a patient-paid percentage of societal costs. These are separate perspectives, not stacked categories; do not add them. Figures are 2016 dollars and not county-specific payments or expected bills.")
     st.write("Average costs varied across the reported disease groups. The findings support examining prevention and timely care alongside financial support.")
-    st.markdown(f"[Read the study · Hook et al., 2022]({HOOK_ARTICLE_URL})")
+    page_note(f"Hook et al. (2022): [Read the economic burden study]({HOOK_ARTICLE_URL})")
     page_note("Hook figures were checked against the user-supplied public article text, Methods, Results and Discussion, on October 14, 2026; linked tables were not separately retrieved. Recruitment was in 2014–2016. These are weighted study costs in 2016 dollars, not current prices or measured Dutchess/Orange spending. Societal costs include medical, nonmedical and productivity costs; do not add those categories again. Costs exclude suspected, undiagnosed and nonacute illness, including long-term symptom costs. Group differences do not prove savings from earlier diagnosis or from PathwayAI. Quota sampling, recall, billing attribution and extrapolation limit generalizability; non-English speakers were excluded.")
     st.markdown("#### Cost references by perspective")
     page_note('Published study populations and dollar years differ. Hook article figures are checked against the supplied text; the original Yu cost table remains pending verification. These references are not measured county costs or a prediction of your bill.')
@@ -516,7 +542,7 @@ def policy89():
         metrics[1].metric("Orange · cases per 100,000", "237.0")
         metrics[2].metric("New York State · cases per 100,000", "109.8")
         st.write("Both counties reported higher Lyme rates than the statewide rate in 2024.")
-        st.markdown("[NYSDOH · 2024 county rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
+        page_note("County-rate source: [NYSDOH 2024 rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
     if measure == "Reported Lyme rate":
         page_note("Dutchess 355.5, Orange 237.0 and statewide 109.8 were checked against the user-provided NYSDOH 2024 rates PDF, page 5. These are reported case rates, not all infections or individual risk.")
     st.markdown(f"""<svg viewBox="0 0 760 160" width="100%" role="img" aria-label="{html.escape(label)}: Orange {orange}, Dutchess {dutchess}" xmlns="http://www.w3.org/2000/svg">
@@ -530,6 +556,7 @@ def policy89():
     <text x="120" y="155" fill="currentColor" font-size="13">0</text>
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
+    show_county_rate_trend(page_note)
     st.markdown("### Costs and time lost")
     st.write("Illness can bring medical bills, travel expenses, missed work and unpaid care.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
@@ -3110,8 +3137,11 @@ if not st.session_state.get("pathway_open", False):
     st.write("**PathwayAI: Prevent bites. Find timely care. Make hidden costs visible.**")
     page_note("Not every tick bite causes illness. Alpha-gal syndrome is distinct from Lyme disease. Sources: https://www.cdc.gov/alpha-gal-syndrome/about/index.html and https://www.cdc.gov/ticks/prevention/index.html")
     estimated, reported = st.columns(2)
-    estimated.metric("Estimated diagnoses and treatment per year · U.S.", "476,000")
-    reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
+    estimated.metric("Estimated diagnoses and treatment / year · U.S.¹", "476,000")
+    reported.metric("Reported Lyme cases · U.S., 2022²", "62,551")
+    societal, disability = st.columns(2)
+    societal.metric("Annual U.S. societal cost · 2016 dollars³", "$345–968M")
+    disability.metric("Disabled work status · selected study group⁴", "35%")
     page_note("CDC estimates and reported case counts measure different things; do not add them.")
     page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
     page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
@@ -3151,18 +3181,12 @@ if not st.session_state.get("pathway_open", False):
     with st.expander("What works now and what comes next"):
         st.write("This is a working pilot website. Visit summaries, cost-and-time records, support contacts and evidence downloads work now. Secure shared reporting and county use are the next pilot phase.")
         st.write("Public collection is off by default. A real reporting pilot needs consent, private storage and a privacy-reviewed release process. We have not measured improved health, reduced costs or county adoption.")
-    with st.expander("Published Lyme disease facts and costs"):
-
-        disability102, cost102 = st.columns(2)
-        with disability102:
-            st.metric("Reported disabled employment status · selected study group", "35%")
-            st.write("In this selected study group, 35% described their employment status as disabled. This is not a percentage for all people with Lyme disease.")
-        with cost102:
-            st.metric("Published U.S. societal cost / year", "$345–968M")
-            st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")
     st.markdown("#### Sources and other evidence")
-    with st.expander("Sources and scope of these burden figures"):
-        st.markdown("[MyLymeData 2025 Chartbook · printed pages 22–23](https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf)")
+    with st.expander("Footnotes for the four headline figures"):
+        st.caption("¹ CDC annual diagnoses/treatment estimate: 476,000, based on insurance claims from 2010–2018. https://www.cdc.gov/lyme/data-research/facts-stats/index.html")
+        st.caption("² CDC reported U.S. Lyme cases in 2022: 62,551. Surveillance counts and diagnoses/treatment estimates measure different things. https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
+        st.caption("³ Hook et al. (2022), annual diagnosed-Lyme societal-cost illustrations in 2016 dollars. https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article")
+        st.caption("⁴ MyLymeData 2025 Chartbook, printed pages 22–23, selected persistent-illness study group. Existing application reference; original chart was not independently checked in this update. https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf")
         st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
         st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
         st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")

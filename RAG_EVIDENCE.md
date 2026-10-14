@@ -1,0 +1,47 @@
+# Research & Strategy Agent evidence
+
+The lowercase `app.py` entrypoint uses `evidence_rag.py`. The legacy `APP.py`
+is unchanged. No hosted index, embedding service, API key, or new dependency
+is required. The local corpus is retrieved on every strategy request; existing
+planner-selected tools and optional live research remain available.
+
+The initial corpus migrates existing application summaries. It is **not a
+collection of verified primary-source quotations**. Source access was blocked
+by the environment's network proxy during implementation. Clinical testing
+guidance and numerical cost estimates are intentionally absent. URLs, years,
+and table references inherited from the application need independent review,
+particularly the Yu 2026 reference. Retrieval never updates patient guidance
+or application calculations.
+
+To expand the collection, inspect the authoritative source first. Add bounded
+public passages with a stable source ID, title, canonical URL, publication or
+update date, section/table, study population, cost perspective, dollar year,
+and limitations. Distinguish quotations from editorial summaries. Record the
+source check date and verification status only after inspecting the source.
+Recommended additions are CDC diagnosis/testing and prevention guidance,
+verified Hook Table 5 and Yu Table 2 passages and their methods/limitations.
+Do not import patient stories, Community Voice records, credentials, arbitrary
+uploads, or private HHS/project notes into this public evidence corpus.
+
+BM25 ranks authored passages locally. Generic or unmatched questions return
+`insufficient_evidence`; partial matches do not imply full question coverage.
+The answer prompt requires citations and evidence gaps. A runtime check rejects
+unknown curated citation IDs and answers omitting all curated citations, with
+no additional paid retry. It does not prove every claim is supported or detect
+every missing citation. Human source review remains required. A deterministic
+provenance list is appended to accepted answers. Live-web citations remain
+separate and provisional.
+
+Existing secret loading, admin access, story AI opt-in, `store=False`, quota
+reservations, patient-data handling, and consent rules are unchanged.
+
+Run the focused checks from the checkout:
+
+```sh
+python -m unittest discover -s tests -v
+```
+
+Before external use, review responses about surveillance versus personal risk,
+medical versus societal versus OOP cost, different dollar years, unsupported
+diagnostic-delay savings, missing clinical guidance, and irrelevant questions.
+Test live synthesis with the configured model, including citation failures.

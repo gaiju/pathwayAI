@@ -443,7 +443,7 @@ def show_session_burden():
         return
     st.markdown("#### Your earlier entries · private session preview")
     st.write('Here are your earlier entries. You do not need to enter them again.')
-    st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (before-diagnosis)', '')} · Residence: {record['county']}")
+    st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (Stage 0)', '')} · Residence: {record['county']}")
     cols = st.columns(2)
     for col, key, label in zip(cols, ("medical", "other"), ("Money paid for care", "Other money paid")):
         value = record[key]
@@ -794,7 +794,7 @@ def compact_care88(quick, story):
                "When found: " + (encounter["when"] or "Not reported"),
                "Where found: " + (encounter["exposure"] or "Not reported"),
                "Current care location: " + (encounter["current"] or "Not reported")]
-    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase.replace(' (before-diagnosis)', "")]
+    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase.replace(' (Stage 0)', "")]
     for label,value in [("Medical out-of-pocket",medical),("Other out-of-pocket",other),("Modeled work-loss value",modeled)]:
         record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
     paid = medical + other if medical is not None and other is not None else None

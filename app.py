@@ -21,6 +21,7 @@ from urllib.parse import quote_plus, urlencode
 from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
+from tick_encounter import show_tick_encounter
 
 PAGE_NOTES = []
 
@@ -436,7 +437,13 @@ def public_value107():
 
 def show_session_burden():
     record = st.session_state.get("burden_session_record")
-    if not record or not any(record.get(key) is not None for key in ("medical", "other", "workdays", "caregiver_hours")):
+    encounter_only = st.session_state.get("tick_encounter_record", {})
+    if not record and any(encounter_only.get(field) for field in ("when", "exposure", "current")):
+        record = dict(medical=None, other=None, workdays=None, caregiver_hours=None,
+                      modeled=None, period="Not reported", phase="Not reported",
+                      county="Not selected", barrier="Not reported", encounter=encounter_only)
+    if not record or not (any(record.get(key) is not None for key in ("medical", "other", "workdays", "caregiver_hours")) or
+                          any((record.get("encounter") or {}).get(field) for field in ("when", "exposure", "current"))):
         st.write("Reviewed cost and time entries from Care & Support appear here automatically in the same session.")
         return
     st.markdown("#### Your earlier entries · private session preview")
@@ -453,6 +460,13 @@ def show_session_burden():
     if record["modeled"] is not None:
         st.write(f"Separate work-loss estimate: ${record['modeled']:,.0f}. This is not added to money paid.")
     st.write(f"Care barrier: {record['barrier']}")
+    encounter = record.get("encounter") or {}
+    if any(encounter.get(field) for field in ("when", "exposure", "current")):
+        st.write("**Your tick observation · unverified, not a reported Lyme case**")
+        st.write("When: " + (encounter.get("when") or "Not reported") +
+                 " · Where found: " + (encounter.get("exposure") or "Not reported"))
+        st.write("Current care location: " + (encounter.get("current") or "Not reported"))
+        page_note("Encounter location, current care location and county of residence have different purposes. Tick observations cannot establish infection or tick density and would need separate review before public-health use.")
     st.write("This is your private record, not a county summary. Only separately reviewed and consented contributions can enter shared evidence.")
     page_note("The preview stays in this browser session, is not sent to public policy AI and does not automatically write to Community Voice. A secure reporting pilot is still needed for county use.")
 
@@ -741,6 +755,11 @@ def compact_care88(quick, story):
     for key, value in saved.items():
         if key not in st.session_state:
             st.session_state[key] = value
+    encounter = show_tick_encounter(quick)
+    if encounter["current"]:
+        st.markdown("[Find care near the location you already entered](" +
+                    google_maps_search_url("primary care or infectious disease doctor near " + encounter["current"]) + ")")
+        page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Record money and time · optional")
     st.write("Record what you paid and time you lost, using one period.")
@@ -765,8 +784,12 @@ def compact_care88(quick, story):
         col.metric(label,"Not reported" if value is None else f"${value:,.0f}")
     questions = st.text_input("Question for your clinician (optional)",key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
-    for label,value in [("Exposure",quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
+    for label,value in [("Exposure",encounter["exposure"] or quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
         record.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
+    record += ["", "OPTIONAL TICK OBSERVATION (PATIENT-REPORTED, UNVERIFIED)",
+               "When found: " + (encounter["when"] or "Not reported"),
+               "Where found: " + (encounter["exposure"] or "Not reported"),
+               "Current care location: " + (encounter["current"] or "Not reported")]
     record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase]
     for label,value in [("Medical OOP",medical),("Other OOP",other),("Modeled work-loss value",modeled)]:
         record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
@@ -785,7 +808,7 @@ def compact_care88(quick, story):
     st.session_state["burden_session_record"] = {
         "medical": medical, "other": other, "workdays": workdays,
         "caregiver_hours": caregiver, "modeled": modeled, "period": period,
-        "phase": phase, "county": county, "barrier": barrier,
+        "phase": phase, "county": county, "barrier": barrier, "encounter": dict(encounter),
     }
     form_keys = ("medical88", "other88", "workdays88", "caregiver88", "dayvalue88",
                  "period88", "phase88", "barrier88", "question96", "patient88_zip",
@@ -3135,6 +3158,7 @@ if view == "🩹 Tick Bite: What Next?":
     st.write("Contact a healthcare professional promptly if symptoms develop. After some high-risk bites, preventive antibiotics may be appropriate if started within 72 hours of tick removal; a clinician can assess whether this applies. Do not wait for symptoms if you need advice about prevention after a recent bite.")
     st.markdown("[CDC: What to Do After a Tick Bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html) · [CDC: Signs and Symptoms of Lyme Disease](https://www.cdc.gov/lyme/signs-symptoms/index.html)")
     st.info("Seek urgent medical attention for severe symptoms, such as trouble breathing, fainting, or new facial weakness. This app does not diagnose or recommend treatment.")
+    show_tick_encounter(extract_quick_story(st.session_state.get("saved_story_text", "")))
     show_lyme_testing(simple=simple_reading_view())
     st.button("Find care and support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     with st.expander("Learn more about Lyme disease, symptoms and rashes"):

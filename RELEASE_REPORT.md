@@ -70,3 +70,15 @@ story remain in the current private session and are removed by Clear session.
 Shared collection and consent rules are unchanged. A navigation check confirmed
 the map-first layout, reuse of entered values, and restoration when returning
 to Care & Support.
+
+## Optional tick observations
+
+The same record now includes when a tick was found (exact or approximate), where
+it was found (ZIP or county/state), and current care location. Locations remain
+separate from county of residence. Existing story locations are used as initial
+suggestions where available; entered details survive page changes and are reused
+in the personal download and private community preview. Current care location
+also generates a care-search link without requiring another location entry.
+Observations are labeled patient-reported and unverified. No new shared storage
+or surveillance case count was created; production tick reporting still requires
+reviewed consent and a secure pilot.

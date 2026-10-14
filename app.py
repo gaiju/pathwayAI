@@ -315,7 +315,7 @@ def show_burden_evidence_panel104():
 def policy_ai105():
     """Public, bounded policy Q&A; no patient narrative or private records sent."""
     st.markdown("#### Ask AI about the evidence")
-    st.write("Ask a question about the published costs, reported disease, or possible community needs. This example uses Dutchess County data.")
+    st.write("Explore questions about Lyme disease reports, costs, and access to care.")
     questions = [
         "Which burden categories might warrant further investigation in this public-data example?",
         "What can published studies tell us about diagnostic delay and disability-related costs?",
@@ -400,8 +400,8 @@ def public_value107():
 
 
 def policy89():
-    st.header("Community burden & action")
-    st.write("Explore where Lyme disease is reported, compare counties, understand its impact, and consider ways communities can help.")
+    st.header("Community Burden & Evidence")
+    st.write("Explore Lyme disease reports, costs, and possible responses to community needs.")
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"
@@ -503,8 +503,8 @@ def policy89():
         )
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
-    st.markdown("### 4. Explore community solutions")
-    st.write("Choose a need, review a possible response, and download a planning brief. You can also ask AI about the evidence.")
+    st.markdown("### 4. Explore possible responses")
+    st.write("Choose a topic to see a planning question, possible response, and evidence summary.")
     focus=st.selectbox("What burden do you want to investigate?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Record medical and other OOP separately, with one reporting period; review coverage and assistance needs.","Medical/other OOP bands; assistance connections completed"),
@@ -521,7 +521,7 @@ def policy89():
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
-    st.download_button("Download your burden discussion brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
+    st.download_button("Download evidence summary","\n".join(brief).encode("utf-8"),file_name="Dutchess_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     policy_ai105()
     with st.expander("Local support resources"):
         support_focus=st.selectbox("Support need",list(SUPPORT89),key="policy89_focus")
@@ -577,7 +577,7 @@ def policy89():
         larger_evidence101()
     with st.expander("Published evidence & methods"):
         evidence89(include_survey=False)
-    with st.expander("Community Voice: how experiences could help"):
+    with st.expander("Community Voice · future updates"):
         community_voice88(county)
 
 # v88: concise patient flow and consented county burden summaries.
@@ -617,14 +617,9 @@ def county_selector88(key):
     return st.selectbox("County of residence", ["Not selected"] + list(VOICE88_COUNTIES) + ["Another county / unsure"], key=key + "_county")
 
 def community_voice88(county):
-    st.markdown("#### Community Voice: how experiences could help")
-    st.write("Public health reports cannot show every expense, missed workday, or difficulty finding care. Community Voice is designed to help communities understand these experiences.")
-    st.markdown("**What happens next?**")
-    st.write("**1. Collect experiences:** With permission, gather a few details about costs, time lost, and barriers to care.")
-    st.write("**2. Find common needs:** Summarize comparable reports while protecting individual privacy.")
-    st.write("**3. Support local planning:** Help researchers and community teams identify questions to investigate and services to evaluate.")
+    st.write("Future voluntary reports of costs, missed work, caregiving, and care barriers could help communities understand needs not shown in public data.")
     if not PATIENT_VOICE_STORAGE_ENABLED:
-        st.info("Community Voice is not accepting contributions through this app yet. You can still download your appointment and cost summary. Participation may become available after privacy and data safeguards are in place.")
+        st.caption("New contributions are not being collected yet. See existing survey findings under Research and sources above.")
         return
     fips = VOICE88_COUNTIES.get(county)
     if not fips:
@@ -718,7 +713,7 @@ def compact_care88(quick, story):
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
         larger_evidence101()
-    with st.expander("Community Voice: how experiences could help"):
+    with st.expander("Community Voice · future updates"):
         community_voice88(county)
     if PATIENT_VOICE_STORAGE_ENABLED:
         with st.expander("Help community teams understand reported needs · optional"):
@@ -2857,7 +2852,7 @@ paths = [
     ("I want to prevent tick bites", "Learn about tick risks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
     ("I've been bitten by a tick", "Find out what to do after a tick bite and when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
     ("I need care & support", "Find health information, services, and optional tools to prepare for care.", "🧭 Care & Support", "ongoing"),
-    ("I want to understand community burden", "Explore costs, local reports, and possible community actions.", "📊 Community Burden & Action", "county"),
+    ("I want to explore community needs", "Explore reported cases, costs, and possible responses.", "📊 Community Burden & Action", "county"),
 ]
 
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
@@ -2871,13 +2866,13 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view"
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
-    st.markdown("### Prevent tick bites. Support timely care. Understand the burden. Guide community action.")
+    st.markdown("### Prevent tick bites. Find care. Understand the costs.")
     show_photo116("lake", "Golden sunlight filtering through a forest")
     st.write("PathwayAI connects public-health data, research, and AI to help people understand tick-borne disease risks, "
              "find care and support, and explore the costs of illness. It helps communities turn evidence into questions and possible actions.")
     st.write("**For:** residents, travelers, patients, caregivers, clinicians, researchers, community groups, and public-health leaders.")
     st.markdown("#### What would you like to do?")
-    st.info("**This is an interactive app, not just a webpage.** Click one of the four buttons below to try it. No download or installation is needed.")
+    st.write("**Choose a button below to explore the app.** No installation needed.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
         for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
@@ -2885,7 +2880,7 @@ if not st.session_state.get("pathway_open", False):
                 st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                 st.caption(detail)
     with st.expander("Reviewing PathwayAI for HHS TOPx? Start here (90 seconds)", expanded=False):
-        st.write("**1. Community Burden & Action (40 seconds):** New York map → compare counties → costs → AI and community action.")
+        st.write("**1. Community Burden & Action (40 seconds):** New York map → county comparison → costs → AI evidence questions.")
         st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
         st.write("**2. Care & Support (25 seconds):** See how people can organize information and find support.")
         st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)

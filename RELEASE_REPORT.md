@@ -58,3 +58,15 @@ and original source-table contents remain unverified in this environment. Public
 collection remains off by default; secure production aggregation is unfinished.
 The attached reports' suggested delay-to-savings engine, new diseases and FHIR
 integration were intentionally deferred rather than presented as implemented.
+
+## Follow-up: restore the preferred community workflow
+
+The Community page again starts with the New York map and Dutchess/Orange
+comparison (including language), then planning responses and cost breakdown.
+The fictional cohort is no longer shown as the primary workflow. A private
+session preview reuses earlier patient-entered costs, days lost and caregiver
+hours without repeat entry; it is not shared evidence. Input snapshots and the
+story remain in the current private session and are removed by Clear session.
+Shared collection and consent rules are unchanged. A navigation check confirmed
+the map-first layout, reuse of entered values, and restoration when returning
+to Care & Support.

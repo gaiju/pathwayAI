@@ -22,13 +22,9 @@ priorities. Secure shared reporting is the next pilot phase."
 5. Open the Lyme tests section. Show the preparation checklist, questions for a
    written price estimate and the distinction between individual antibody rows
    and the lab's overall result. Do not display a private patient report.
-6. Open **Community Burden & Action**. The six fictional cards are a separate
-   fixed cohort, not an automatic upload of the preceding personal record.
-   Explain cost bands, usable-response counts and the transport-support example.
-   The demo summary is visibly synthetic, including its CSV.
-7. Show the existing county comparison or evidence brief. Explain how a team
-   could evaluate transport navigation through completed appointments and
-   reported travel spending. No measured intervention effect is claimed.
+6. Open **Community Burden & Action**. Start with the New York map, Dutchess/Orange comparison and language context, then the improvement options and cost breakdown.
+7. The private session preview reuses the entries made in Care & Support. Return to that page to show that costs, time, the story and reviewed edits are retained. It is not a shared county summary or automatic contribution.
+8. Explain that county evidence requires separately reviewed consent and comparable contributions. Real secure shared reporting is the next pilot phase, not an operating live backend.
 
 ## Close
 

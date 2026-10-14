@@ -20,7 +20,6 @@ from pathlib import Path
 from urllib.parse import quote_plus, urlencode
 from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
-from burden_demo import show_burden_pathway_demo
 from lyme_testing import show_lyme_testing
 
 PAGE_NOTES = []
@@ -435,17 +434,36 @@ def public_value107():
                  "Suggested actions need local review and testing.")
 
 
+def show_session_burden():
+    record = st.session_state.get("burden_session_record")
+    if not record or not any(record.get(key) is not None for key in ("medical", "other", "workdays", "caregiver_hours")):
+        st.write("Reviewed cost and time entries from Care & Support appear here automatically in the same session.")
+        return
+    st.markdown("#### Your earlier entries · private session preview")
+    st.write("These are the entries you already made. No need to fill them in again.")
+    st.write(f"Period: {record['period']} · Phase: {record['phase']} · Residence: {record['county']}")
+    cols = st.columns(2)
+    for col, key, label in zip(cols, ("medical", "other"), ("Money paid for care", "Other money paid")):
+        value = record[key]
+        col.metric(label, "Not reported" if value is None else f"${value:,.0f}")
+    cols = st.columns(2)
+    for col, key, label in zip(cols, ("workdays", "caregiver_hours"), ("Missed workdays", "Unpaid caregiver hours")):
+        value = record[key]
+        col.metric(label, "Not reported" if value is None else str(value))
+    if record["modeled"] is not None:
+        st.write(f"Separate work-loss estimate: ${record['modeled']:,.0f}. This is not added to money paid.")
+    st.write(f"Care barrier: {record['barrier']}")
+    st.write("This is your private record, not a county summary. Only separately reviewed and consented contributions can enter shared evidence.")
+    page_note("The preview stays in this browser session, is not sent to public policy AI and does not automatically write to Community Voice. A secure reporting pilot is still needed for county use.")
+
+
 def policy89():
-    st.header("Make the invisible burden visible")
+    st.header("Community Burden & Evidence")
     st.write(reading_copy(
         "Illness can cost money, time at work and help from family. These needs are not shown by case counts alone.",
         "Patient-paid costs, missed work, unpaid caregiving and access barriers complement public surveillance when planning community support."))
     st.write("**For residents and caregivers:** prepare a visit summary and find transport, coverage and care resources. "
              "**For community teams:** compare county context, select a response and download an evidence brief.")
-    st.write("Use the example below to see how reviewed experiences could inform support. Real shared reporting is the next pilot phase.")
-    st.button("Record your costs and time →", key="community_record_costs",
-              on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
-    show_burden_pathway_demo(simple=simple_reading_view())
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"
@@ -473,8 +491,6 @@ def policy89():
     <text x="120" y="155" fill="currentColor" font-size="13">0</text>
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
-    with st.expander("Optional: explore group-cost scenarios"):
-        scenario_notes101 = planning_scenario101()
     st.markdown("### Take a practical next step")
     st.write("Choose a need, find a relevant service, and check whether the person reached support.")
     focus=st.selectbox("What burden do you want to investigate?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
@@ -488,6 +504,11 @@ def policy89():
     with st.container(border=True):
         st.write("**Planning question:** "+question)
         st.write("**Next step:** "+action)
+    st.markdown("### Cost breakdown and time lost")
+    show_session_burden()
+    show_burden_evidence_panel104()
+    with st.expander("Optional: explore group-cost scenarios"):
+        scenario_notes101 = planning_scenario101()
     rows=reference_cost_rows("Dutchess",1060)
     brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE","Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a Stage 0 unit cost.","NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
@@ -499,8 +520,6 @@ def policy89():
     support_focus=st.selectbox("Support need",list(SUPPORT89),key="policy89_focus")
     support89(county,support_focus)
     st.markdown("### Sources, methods and project status")
-    with st.expander("Published cost evidence and planning measures"):
-        show_burden_evidence_panel104()
     st.write("Open the details below for study limitations, calculations and current coverage.")
     with st.expander("How to interpret cost figures and examples"):
         st.write("The sample burden card and pie chart use invented amounts. Published Hook and Yu figures are study-population references. Multiplying a study mean by reported cases is illustrative arithmetic, not a measured county cost, expected bill or savings estimate.")
@@ -718,6 +737,10 @@ def community_voice88(county):
     st.download_button("Download displayed Community Voice summary",frame.to_csv(index=False).encode("utf-8-sig"),file_name="CommunityVoiceSummary.csv",mime="text/csv",key="voice88_export")
 
 def compact_care88(quick, story):
+    saved = st.session_state.get("saved_burden_form", {})
+    for key, value in saved.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Record money and time · optional")
     st.write("Record what you paid and time you lost, using one period.")
@@ -759,6 +782,19 @@ def compact_care88(quick, story):
         st.download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
     st.markdown("### 3. Find support and explore your community")
     county=county_selector88("patient88")
+    st.session_state["burden_session_record"] = {
+        "medical": medical, "other": other, "workdays": workdays,
+        "caregiver_hours": caregiver, "modeled": modeled, "period": period,
+        "phase": phase, "county": county, "barrier": barrier,
+    }
+    form_keys = ("medical88", "other88", "workdays88", "caregiver88", "dayvalue88",
+                 "period88", "phase88", "barrier88", "question96", "patient88_zip",
+                 "patient88_county", "summary88_text", "summary88_seed")
+    st.session_state["saved_burden_form"] = {
+        key: st.session_state[key] for key in form_keys if key in st.session_state
+    }
+    st.button("Explore community burden →", key="patient_to_community",
+              on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
     support89(county,barrier)
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
@@ -3927,7 +3963,7 @@ with st.expander("See a fictional story example"):
     st.write(STORY_SAMPLE)
 
 if "quick_story_value" not in st.session_state:
-    st.session_state.quick_story_value = ""
+    st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
 
 if st.button("Try this example", help="Copies the example into the story box so you can edit only the details that apply to you."):
     st.session_state.quick_story_value = STORY_SAMPLE
@@ -3944,6 +3980,7 @@ quick_story = st.text_area(
     height=180,
     max_chars=MAX_STORY_CHARS,
 )
+st.session_state["saved_story_text"] = quick_story
 
 organize_story = st.button("✨ Organize My Story", type="primary", use_container_width=True, disabled=not bool(quick_story.strip()))
 if organize_story:

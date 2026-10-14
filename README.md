@@ -27,7 +27,8 @@ rather than uploading `app.py` alone.
 - Reviewed, downloadable visit and cost/time summaries.
 - Lyme testing preparation, report vocabulary and cost-estimate questions.
 - Sourced public-data comparisons and illustrative scenario exports.
-- A separately labeled fictional burden-card and community-summary example.
+- A map-first Community page with comparisons, planning options and cost evidence.
+- Private reuse of earlier patient cost/time entries, without repeat questions.
 - Optional public evidence Q&A and an admin-only Research & Strategy Agent.
 
 ## What is not established

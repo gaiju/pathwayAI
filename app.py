@@ -22,7 +22,7 @@ from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
-from county_plan import show_county_plan_context, PLAN_CONTEXT
+from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 
 PAGE_NOTES = []
 
@@ -509,6 +509,7 @@ def policy89():
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
     st.markdown("### How communities could use this evidence")
+    show_combined_planning_evidence()
     st.write("County comparisons provide local context. Published studies describe their own participants. With consent, reviewed patient records could help communities identify needs and plan support.")
     st.markdown("#### What support could a community consider?")
     st.write("Choose a cost area. See a response the community could consider, then download a brief for discussion.")
@@ -538,7 +539,12 @@ def policy89():
         brief.append(f"{finding['finding']} [Printed p. {finding['printed_page']}; PDF p. {finding['pdf_page']}]")
         if finding.get("limitation"):
             brief.append("Limit: " + finding["limitation"])
-    brief.extend(["No county adoption or referral-platform partnership is claimed. Shared local patient reporting needs a secure, consent-based pilot."])
+    brief.extend(["No county adoption or referral-platform partnership is claimed. Shared local patient reporting needs a secure, consent-based pilot.", "", "COMBINED LYME EVIDENCE AND COUNTY CONTEXT"])
+    for row in combined_planning_rows():
+        for label, value in row.items():
+            brief.append(label + ": " + value)
+        brief.append("")
+    brief.append("Planning interpretations only: no county Lyme cost estimate, causal link, adopted program or measured benefit is established.")
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
     st.download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     policy_ai105()

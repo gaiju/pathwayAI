@@ -3,6 +3,34 @@
 CHIP_URL = "https://www.dutchessny.gov/Departments/DBCH/Docs/Dutchess-County-Community-Health-Improvement-Plan.pdf"
 CHA_URL = "https://www.dutchessny.gov/Departments/DBCH/Docs/DCCHA2025.pdf"
 
+
+def combined_planning_rows():
+    return [
+        {"Lyme evidence already shown": "NYSDOH 2024: Dutchess 355.5 reported cases per 100,000; Orange 237.0",
+         "County plan context": "Gaps in care across geographic areas and disability groups (printed p. 5)",
+         "Response to evaluate": "Ask local partners where Lyme referral and follow-up access needs attention",
+         "What to measure": "Time to a visit; completed referrals; reported unmet needs"},
+        {"Lyme evidence already shown": "Published medical and societal cost references; different study populations and dollar years",
+         "County plan context": "Insurance coverage and care access were leading resident-voted topics (printed p. 7)",
+         "Response to evaluate": "Review financial barriers among consenting Lyme participants; consider coverage navigation",
+         "What to measure": "Patient-paid costs over one period; assistance connections completed"},
+        {"Lyme evidence already shown": "Work and caregiver time are burden categories; local shared measurements are not yet available",
+         "County plan context": "Disability-related care disparities (printed p. 5)",
+         "Response to evaluate": "Review work, caregiver and access support needs with participants",
+         "What to measure": "Missed workdays; caregiver hours; support still needed"},
+    ]
+
+
+def show_combined_planning_evidence():
+    import streamlit as st
+
+    st.markdown("#### Connect Lyme evidence with local priorities")
+    st.write("Use the Lyme findings above and the county plan together to choose a question "
+             "worth acting on. The table gives responses to evaluate, not proven solutions.")
+    st.table(combined_planning_rows())
+    st.write("The county plan does not measure Lyme costs. The connections here are "
+             "PathwayAI planning interpretations, not county commitments or causal findings.")
+
 PLAN_CONTEXT = {
     "source": "Dutchess County Community Health Improvement Plan 2025–2030",
     "source_url": CHIP_URL,

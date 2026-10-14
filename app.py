@@ -560,7 +560,7 @@ def policy89():
     st.markdown("### Costs and time lost")
     st.write("Illness can bring medical bills, travel expenses, missed work and unpaid care.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
-    page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver hours stay separate from spending. Published cost references appear below.")
+    page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver time is recorded in hours and is not converted to a dollar cost in the current app. Published cost references appear below.")
     show_session_burden()
     show_burden_evidence_panel104()
     st.markdown("### Community action")

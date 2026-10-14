@@ -34,6 +34,16 @@ class EvidenceTests(unittest.TestCase):
         self.assertIn("not individual", cdc["passage"])
         self.assertTrue(cdc["url"].startswith("https://www.cdc.gov/"))
 
+    def test_biobank_denominators_and_limits_remain_distinct(self):
+        item = next(item for item in search_evidence("Biobank follow-up ongoing symptoms")["items"]
+                    if item["source_id"] == "HORN-2025")
+        self.assertIn("466", item["passage"])
+        self.assertIn("55 of 253", item["passage"])
+        self.assertIn("226", item["passage"])
+        self.assertIn("PTLDS", item["limitation"])
+        self.assertIn("No incremental follow-up cost", item["limitation"])
+        self.assertIn("full published PDF", item["verification_status"])
+
     def test_abstains_on_unrelated_empty_or_generic_query(self):
         for query in ("", "Lyme disease", "quantum computing zzzzz", "CDC diagnostic testing antibodies"):
             with self.subTest(query=query):

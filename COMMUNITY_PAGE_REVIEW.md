@@ -97,3 +97,13 @@ Patient feedback identified excessive choices and the risk of copying a fictiona
 Optional external AI, local organization, summary downloads, detailed history and record reuse remain available. The anecdotal treatment account in the feedback was not used as clinical evidence or added to patient guidance. Plain-language wording was simplified without asserting a formally verified eighth-grade reading level.
 
 Validation: all 27 tests passed, including a new regression check that examples do not prefill the story and that a person's own words survive a Community-page round trip.
+
+## Verified Biobank evidence and acknowledgements
+
+The full public Horn et al. paper was supplied and read. The bottom study-population section now identifies 253 returners from 466 enrolled cases, 55 reporting ongoing symptoms and 47 of 226 initially prescribed antibiotics reporting symptoms, with median follow-up 89 days. These public Table 5 findings are also in the bounded RAG summary, with verification metadata. The raw participant workbook and private analyses remain outside the repository, corpus and app.
+
+No county totals or medication-cost estimates were changed. The study measures an approximately three-month symptom outcome, not county PTLDS risk or economic costs. An additional-cost extension needs justified cohort transfer, a defined follow-up window, nonreturner sensitivity and compatible incremental-cost evidence. Prescription costs require a price crosswalk and avoidance of overlapping baseline medical costs. Observational treatment recommendations were not imported into clinical guidance.
+
+A bottom reading-list expander includes five relevant papers, with review status rather than claims about influence rankings or TOPx reviewer identities. Hook and Horn source contents were checked; Kugeler/Johnson citations were checked in Horn's bibliography but original contents still require review; Adrion remains a candidate original-paper review. A bottom acknowledgements expander credits patient/caregiver feedback and published Biobank/public-health research, without asserting endorsements or formal partnerships. Individual advisers are not named without confirmation and permission.
+
+Validation: all 28 tests passed, including a RAG denominator/scope regression. AppTest verified the public study summary, reference list, acknowledgements and unchanged county cost totals.

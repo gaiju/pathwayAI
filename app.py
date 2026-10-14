@@ -48,6 +48,11 @@ def render_page_notes():
             for number, note in enumerate(PAGE_NOTES, 1):
                 st.caption(f"{number}. {note}")
         PAGE_NOTES.clear()
+    with st.expander("Acknowledgements"):
+        st.write("We thank the patients, caregivers and community members whose feedback helped make PathwayAI clearer and easier to use.")
+        st.write("We acknowledge the Lyme Disease Biobank research by Elizabeth J. Horn and colleagues, and the public-health researchers whose published work informs our evidence review.")
+        st.markdown("[Horn et al. (2025) · Lyme Disease Biobank follow-up research](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) · [Hook et al. (2022) · economic burden research](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+        st.caption("These credits recognize feedback and published research. Formal pilot partnerships and endorsements require separate agreement. Individual feedback contributors will be named only with their permission.")
 
 
 def simple_reading_view():
@@ -790,6 +795,17 @@ def policy89():
             st.write('Counts are from the project lead’s supplied summary, not recalculated from the current export. Confirm question wording, missing-response denominators and reporting periods; no spending average or before-diagnosis cost attribution is inferred.')
     with st.expander("Larger surveys and study populations"):
         larger_evidence101()
+        st.markdown("#### Biobank follow-up · published study")
+        st.write("Horn and colleagues followed 253 of 466 enrolled cases. Of those returning, 55 reported ongoing symptoms. Among 226 initially prescribed antibiotics, 47 reported ongoing symptoms. Median follow-up was 89 days.")
+        st.write("This evidence supports examining follow-up access and daily-life effects alongside the cost model.")
+        page_note("Horn et al. (2025), Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023; published July 10, 2025. Full public PDF checked October 14, 2026: Methods/Results pp. 3 and 6, Table 5 p. 7, Limitations p. 8. The study's selected returners and three-month symptom outcome do not establish county long-Lyme/PTLDS risk or additional dollar costs. A Bayesian scenario would need justified cohort transfer, a defined follow-up period and separate incremental-cost evidence. Medication estimates should not be added again to a baseline that already includes medical costs. Observed antibiotic prescribing does not establish treatment effectiveness or change the app's clinical guidance. [Full study](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
+    with st.expander("Five relevant papers for the evidence review"):
+        st.markdown("[Hook et al. (2022) · societal economic burden](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+        st.markdown("[Horn et al. (2025) · Biobank follow-up](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
+        st.markdown("[Kugeler et al. (2021) · estimated U.S. diagnoses](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article)")
+        st.markdown("[Johnson et al. (2014) · quality-of-life survey](https://peerj.com/articles/322/)")
+        st.markdown("[Adrion et al. (2015) · healthcare costs and utilization](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0116767)")
+        st.write("Selected for relevance to costs, disease frequency, follow-up and lived experience. Hook and Horn were checked against supplied source texts; Kugeler and Johnson citations were checked in Horn's bibliography, while their original articles still require review. Adrion is discussed in Hook and remains a candidate for original-paper review. This is a reading list rather than a ranking or identification of challenge reviewers; only checked evidence supports numerical model inputs.")
     with st.expander("Published evidence & methods"):
         evidence89(include_survey=False)
     with st.expander("Partner with PathwayAI for healthier communities"):

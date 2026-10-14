@@ -1,0 +1,48 @@
+{
+  "title": "Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023",
+  "authors": [
+    "Elizabeth J. Horn",
+    "George Dempsey",
+    "Anna M. Schotthoefer",
+    "Matthew McArdle",
+    "Allison F. Weber",
+    "Cathy De Luca",
+    "Bobbi S. Pritt",
+    "Elizabeth L. Maloney"
+  ],
+  "publication_date": "2025-07-10",
+  "journal": "Frontiers in Medicine",
+  "volume": 12,
+  "article_number": 1577936,
+  "doi": "10.3389/fmed.2025.1577936",
+  "source_url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full",
+  "source_checked_on": "2026-10-14",
+  "uploaded_public_pdf_sha256": "634dae3edd34aae0b85d83deef36c1c524f9a29df043594e8d5ec7d9a3822c04",
+  "license": "CC BY, stated on PDF page 1",
+  "verified_source_pages": {
+    "enrolled_returned": 3,
+    "symptom_and_treatment_results": 6,
+    "tables_4_5": 7,
+    "limitations": 8
+  },
+  "enrolled_cases": 466,
+  "followup_participants": 253,
+  "ongoing_symptom_yes": 55,
+  "initial_antibiotic_group_n": 226,
+  "initial_antibiotic_ongoing_symptom_yes": 47,
+  "reported_provider_visit_n": 19,
+  "provider_visit_denominator": 55,
+  "median_followup_days": 89,
+  "mean_followup_days": 98,
+  "limits": [
+    "Selected returning participants: 253 of 466 cases; no outcome observed for nonreturners",
+    "Only Long Island NY and Central Wisconsin represented",
+    "Participants included confirmed, probable, suspected and symptomatic-no-lesion groups; some may not have early Lyme",
+    "Symptoms around three months are not a six-month PTLDS or persistent-infection diagnosis",
+    "Symptom causes may be unrelated to Lyme",
+    "No economic valuations, prices or patient payment amounts were reported",
+    "Different classification definitions from Hook study",
+    "Observational treatment patterns do not establish treatment effectiveness or justify medication recommendations"
+  ],
+  "provenance": "Only published paper facts are stored here; no workbook rows, IDs, comments or private aggregate analyses are copied."
+}

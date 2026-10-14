@@ -16,6 +16,16 @@ the Yu 2026 reference still requires original-table review. Live source access
 was blocked by the network proxy. Clinical testing guidance remains absent.
 Retrieval never updates patient guidance or application calculations.
 
+Horn 2025 was subsequently checked against the supplied full public paper PDF
+(Methods, Results, Table 5 and Limitations). Its summary distinguishes 466
+enrolled cases, 253 returners, 55 reporting ongoing symptoms and the treated
+subgroup (47 of 226). The selected approximately three-month outcome is not a
+county long-Lyme/PTLDS rate or an incremental-cost measurement. Verification
+metadata is in `data/horn_2025_publication_verification.json`. The participant
+workbook, IDs, comments and private analyses are not part of the corpus or
+public repository. Observational antibiotic patterns do not modify clinical
+guidance or get added to the baseline medical cost.
+
 To expand the collection, inspect the authoritative source first. Add bounded
 public passages with a stable source ID, title, canonical URL, publication or
 update date, section/table, study population, cost perspective, dollar year,

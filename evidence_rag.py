@@ -79,13 +79,23 @@ PASSAGES = (
              "with Hook societal costs in a different dollar year.",
              "direct medical episode; patient medical OOP separately", 2022,
              "published research reference"),
-    _passage("HORN-2025", "Horn et al., Frontiers in Medicine 2025",
+    _passage("HORN-2025", "Horn et al. (2025), Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023",
              "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full",
-             2025, "Lyme Disease Biobank follow-up",
-             "Selected Lyme Disease Biobank returning participants provide evidence "
-             "about continuing symptoms and follow-up care gaps, not a cost valuation.",
+             2025, "Methods/Results pp. 3, 6; Table 5 p. 7; Limitations p. 8",
+             "Of 466 enrolled early-Lyme case participants, 253 returned for a second draw. "
+             "Among returners, 55 of 253 (about 22%) reported ongoing symptoms. "
+             "Among 226 initially prescribed antibiotics, 47 (about 21%) reported ongoing "
+             "symptoms. Nineteen of the 55 with ongoing symptoms reported seeing a provider "
+             "about them. Median follow-up was 89 days. These selected participants provide "
+             "follow-up and support context, not an economic cost valuation.",
              "Selected follow-up participants do not establish county risk, personal "
-             "prognosis or ongoing infection.", evidence_type="published research reference"),
+             "prognosis or ongoing infection. Three-month symptoms do not establish PTLDS. "
+             "No incremental follow-up cost is measured. Do not multiply these percentages "
+             "into county costs without justified transportability and compatible additional-cost "
+             "assumptions; avoid double-counting baseline medical costs. Observational antibiotic "
+             "patterns are not treatment recommendations.", evidence_type="published research reference",
+             verification_status="Checked user-supplied full published PDF, Methods, Results, Table 5 and Limitations",
+             source_checked_on="2026-10-14"),
     _passage("NYSDOH-TICKS", "NYSDOH tick surveillance",
              "https://health.data.ny.gov/resource/kibp-u2ip.json",
              None, "County sampling observations",

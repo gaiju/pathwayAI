@@ -481,10 +481,9 @@ def policy89():
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"
-    st.markdown("### Where is Lyme disease reported? — New York")
-    st.write('Start with New York. Then compare Dutchess and Orange.')
+    st.markdown("### Where is Lyme disease reported in New York?")
     show_nys_tick_density_map(zoom=False, show_details=False)
-    st.markdown("### Compare Dutchess and Orange")
+    st.markdown("### Compare Dutchess and Orange counties")
     measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context"],horizontal=True,key="compare100")
     measures={
         "Reported Lyme rate":(237.0,355.5,"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),

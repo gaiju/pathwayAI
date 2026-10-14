@@ -3060,13 +3060,8 @@ if not st.session_state.get("pathway_open", False):
     reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
     page_note("CDC estimates and reported case counts measure different things; do not add them.")
     page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
-    st.markdown("#### Prevent. Find timely care. Make the burden visible.")
-    st.write('**1. Prevent:** prepare for time outdoors. Know what to do after a bite.')
-    st.write('**2. Find timely care and support:** prepare for your visit. Find help with care, travel and costs.')
-    st.write('**3. Guide community action:** show the costs and needs people face. Help communities plan support.')
     page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
     st.markdown("#### What would you like to do?")
-    st.write("Choose what you want to do today.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
         for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):

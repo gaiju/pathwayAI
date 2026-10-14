@@ -469,8 +469,7 @@ def show_session_burden():
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
-    st.write("Prevent tick bites. Find timely care. Support work and family life.")
-    st.write("PathwayAI brings local health information and Lyme burden evidence together to help communities plan support.")
+    st.write("See where illness costs money and time. Use local evidence to plan community support.")
     page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")
     st.markdown("#### Hudson Valley community focus")
     st.write("Start with New York. Explore our pilot comparison of Dutchess and Orange counties.")

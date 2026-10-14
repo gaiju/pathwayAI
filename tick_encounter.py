@@ -16,7 +16,7 @@ def show_tick_encounter(existing=None):
             st.session_state[key] = saved.get(field, suggested) or ""
     with st.expander("Tick encounter details · Lyme prevention"):
         st.write('Record when and where you found the tick. We reuse details from your story. The place you found it may differ from where you live or need care.')
-        st.write('Your experience can help communities understand where tick-bite prevention and support are needed. You choose what to share.')
+        st.write('Keep these details in your visit summary so you can explain the exposure and get help with your next step.')
         for field, key, label, suggested in fields:
             st.text_input(label, key=key, max_chars=120,
                           help="A date or approximate month is fine; 'not sure' is also fine."

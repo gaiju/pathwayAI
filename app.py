@@ -25,6 +25,7 @@ from tick_encounter import show_tick_encounter
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 from county_trends import show_county_rate_trend
+from county_maps import show_lyme_rate_map
 
 PAGE_NOTES = []
 
@@ -543,7 +544,11 @@ def policy89():
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     st.markdown("### Lyme disease and tick surveillance in New York")
-    show_nys_tick_density_map(zoom=False, show_details=False)
+    map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
+    if map_view == "Reported Lyme rates":
+        show_lyme_rate_map(NYS_MAP_BOUNDARIES, _geom_paths, _project_svg, page_note)
+    else:
+        show_nys_tick_density_map(zoom=False, show_details=False, show_case_overlay=False)
     st.markdown("### Compare Dutchess and Orange counties")
     measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context","Disability context"],horizontal=True,key="compare100")
     measures={
@@ -580,15 +585,10 @@ def policy89():
     </svg>""",unsafe_allow_html=True)
     show_county_rate_trend(page_note)
     show_county_burden_comparison(page_note)
-    st.markdown("#### Make your experience visible")
-    st.write("Choose what helps you: contribute through the survey, or keep a personal cost-and-time record for care.")
-    personal, contribution = st.columns(2)
-    with personal:
-        st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
-                  key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-    with contribution:
-        st.link_button("Contribute through the survey ↗", "https://docs.google.com/forms/d/e/1FAIpQLSd8r42DMiTEV8NBEHNpRLJq05GRicu_71X2hPYxPivAQYy6BQ/viewform", use_container_width=True)
-        st.write("Opens Google Forms. Review the form’s consent and privacy information before submitting.")
+    st.markdown("#### Keep a personal record for care")
+    st.write("Keep money paid, work missed and help needed in one card. Review it, download it and bring it to a visit.")
+    st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
+              key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     page_note("The invitation opens the existing Care & Support record, reusing session entries. Personal entries stay private in this session and are not automatically submitted to a survey or county dataset. Secure shared reporting is a future pilot phase and requires explicit consent.")
     page_note("The project lead supplied the external survey link; live form access was blocked during this update, so its questions, consent wording, email collection and access settings have not been verified. Opening the link does not send app records to Google Forms. Survey responses are separate from private app records and are not automatically added to county estimates. A future integrated contribution flow needs explicit permission, secure storage, access and retention rules, common reporting periods and privacy-reviewed aggregate release. Existing personal entries should be reused in that future flow rather than requested again.")
     st.markdown("### Costs and time lost")
@@ -779,6 +779,8 @@ def policy89():
     st.markdown("### More research on the burden")
     st.write("Survey and literature references from participants across locations.")
     with st.expander("See patient survey findings · across locations"):
+        st.link_button("Take part in the project survey ↗", "https://docs.google.com/forms/d/e/1FAIpQLSd8r42DMiTEV8NBEHNpRLJq05GRicu_71X2hPYxPivAQYy6BQ/viewform")
+        st.write("Opens Google Forms. Review its consent and privacy information before submitting. This project survey is separate from your private app record.")
         c1,c2,c3=st.columns(3)
         c1.metric("At least $10,000 out-of-pocket", "14 of 33")
         c2.metric("More than 100 days lost", "18 of 33")
@@ -1425,7 +1427,7 @@ def show_nys_map_details(geojson=None):
         st.dataframe(pd.DataFrame(table).sort_values("County"), hide_index=True, use_container_width=True)
 
 
-def show_nys_tick_density_map(zoom=False, show_details=True):
+def show_nys_tick_density_map(zoom=False, show_details=True, show_case_overlay=True):
     """Render NY surveillance on a guaranteed white SVG background (no map tiles)."""
     try:
         geojson, latest_year = build_nys_tick_density_geojson()
@@ -1450,7 +1452,7 @@ def show_nys_tick_density_map(zoom=False, show_details=True):
         # Overlay reported-case rates; circle AREA is proportional to the rate.
         for feature in geojson.get("features", []):
             fid = str(feature.get("id", "")).zfill(5)
-            item = None if zoom else NY_LYME_RATE_SNAPSHOT.get(fid)
+            item = None if zoom or not show_case_overlay else NY_LYME_RATE_SNAPSHOT.get(fid)
             center = _geometry_centroid(feature.get("geometry"))
             if not center:
                 continue
@@ -1492,7 +1494,7 @@ def show_nys_tick_density_map(zoom=False, show_details=True):
             'background:#bebebe;border:1px solid #6b7280"></span>No observation available</div></div>',
             unsafe_allow_html=True,
         )
-        if not zoom:
+        if not zoom and show_case_overlay:
             symbols = []
             for rate in (50, 150, 300):
                 radius = math.sqrt(rate) * 0.7

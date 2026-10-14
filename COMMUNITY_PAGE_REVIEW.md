@@ -77,3 +77,15 @@ The landing-page fourth figure is now the checked Hook societal mean of $2,032 p
 The county comparison adds disability context from the supplied Mid-Hudson assessment, Table 12, printed/PDF p. 34: Dutchess 12.2%, Orange 11.7%. These are any-disability, all-cause figures cited to Census ACS S1810, not the under-65 QuickFacts measure and not Lyme-attributable disability. The report heading says 2023 while the source line says 2020 ACS five-year estimates; the original Census vintage has not been resolved. Labels therefore identify the figures as reported in the 2025 assessment, with that limitation in the bottom notes, provenance JSON and export. This is a secondary-source check rather than independent current Census verification.
 
 AppTest verified the four revised landing values, absence of headline superscripts, the disability comparison and its bottom scope note.
+
+## Public-data demonstration and clear map measures
+
+The Community map now defaults to a single-measure 2024 reported Lyme rate map. Darker blue corresponds to higher reported human cases per 100,000 residents. All 57 county rows outside NYC were parsed from the supplied NYSDOH rates PDF, page 5, and matched to the existing New York boundary names. The source gives NYC as one aggregate, so the five borough counties are gray and that aggregate is not assigned to each borough. Essex has the largest rate in these 57 source rows; Dutchess is not labeled as statewide highest.
+
+Users can switch to sampled tick observations. This separate view suppresses the older case-circle overlay. Comparison values retain their own reporting years and sampling limitations. The original combined-map behavior remains available to legacy callers, while the active Community view separates the measures.
+
+The main contribution invitation now offers a private personal cost-and-time record for care. The external project survey link remains inside the bottom survey findings expander, with a Google Forms notice and consent/privacy review instruction. Tick details describe their immediate benefit in a visit summary instead of implying community collection is operational. Existing record reuse and the partner enquiry section remain intact.
+
+The cost image now describes four burden categories in plain sentences rather than giving measurement instructions. The unpaid-care card says “Time family and friends spend helping.” Measurement rules and source limitations stay in the bottom notes.
+
+Validation: 26 tests passed. AppTest exercised both map views, suppression of historical circles in the tick-only view, the bottom survey link, and the personal-record route. An additional geometry/source check confirmed all 57 county matches and the five separately reported NYC boroughs. The revised image was visually inspected for readable text and clipping.

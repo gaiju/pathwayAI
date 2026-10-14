@@ -3138,7 +3138,7 @@ page_purpose75 = {
 
 def show_brief_feedback():
     st.subheader("Help shape PathwayAI")
-    st.write('Try the app. Tell us what helped, what was hard, or how you would like to help.')
+    st.write("Help us make PathwayAI easier to use. Tell us what helped and what got in your way.")
     choices = [
         ("Explore prevention and travel", "🛡️ Learn & Prevent", "outdoors"),
         ("Explore patient journey and support", "🧭 Care & Support", "ongoing"),
@@ -3172,7 +3172,8 @@ if view == "🧠 Research & Strategy Agent":
 if view == "🩹 Tick Bite: What Next?":
     st.header("🩹 I've Been Bitten by a Tick — What Next?")
     show_photo116("tick_leaf", "Sunlight filtering through green forest trees")
-    st.write("A tick bite does not always cause illness. These steps can help you decide what to do next.")
+    st.write("Remove an attached tick. Record when and where you found it. Know when to seek care.")
+    page_note("A tick bite does not always cause illness. The steps below support prevention and care preparation.")
     st.subheader("1. Remove the tick")
     st.write("If the tick is attached, use clean, fine-tipped tweezers. Grasp it close to the skin and pull upward with steady pressure. Clean the bite area and your hands. Do not burn the tick or cover it with oil or petroleum jelly.")
     st.subheader("2. Note when and where it happened")
@@ -3193,11 +3194,10 @@ if view == "🩹 Tick Bite: What Next?":
 if view == "🛡️ Learn & Prevent":
     st.header("Plan a safer outdoor visit")
     show_photo116("forest", "Woodland walking trail in a green forest")
-    st.write("Ticks can spread Lyme disease and other illnesses. Learn how to prevent bites and prepare for outdoor activities.")
+    st.write("Choose where and when you are going. Build a tick-prevention plan for your time outdoors.")
     with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=False):
         show_lyme_learning78()
-    show_section_hero("travel", "Plan Your Outdoor Visit. Prepare for Ticks.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
-    st.subheader("Plan Your Outdoor Activities")
+    st.subheader("Your outdoor plan")
 
     travel_zip = st.text_input(
         "Where are you going? Enter any U.S. ZIP code",
@@ -3990,7 +3990,7 @@ if view == "📊 Community Burden & Action":
 
 st.header("Care & Support")
 show_photo116("river", "Peaceful lake surrounded by green trees")
-st.write("Prepare a visit summary. Find care and support. Keep a record of costs and time lost.")
+st.write("Turn your story into a visit summary. Keep costs and time in one record. Find support that fits your needs.")
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST

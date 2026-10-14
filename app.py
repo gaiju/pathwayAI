@@ -3051,8 +3051,9 @@ if not st.session_state.get("pathway_open", False):
     st.markdown("### Make the invisible burden visible.")
     show_photo116("lake", "Golden sunlight filtering through a forest")
     st.write(reading_copy(
-        "Track money you paid, time away from work and help you needed. Prepare for a visit, find support, or explore community needs.",
-        "PathwayAI organizes patient-paid costs, missed work, unpaid caregiving and barriers to care alongside public-health data and published research."))
+        "Create a personal card with the money you paid, time you missed from work and help you needed. Review it, download it and use it to prepare for care.",
+        "Create a downloadable visit and burden card from patient-paid costs, missed work, unpaid caregiving and care barriers. Explore public-health context and published cost references separately."))
+    st.write("Enter once. Reuse your card for a visit and to explore community needs. Sharing is optional; secure shared reporting is the next pilot phase.")
     st.write("**For people and caregivers:** prepare for care and find support. **For community teams:** understand needs and plan a response.")
     st.markdown("#### What would you like to do?")
     st.write("Choose what you want to do today.")

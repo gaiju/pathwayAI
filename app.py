@@ -305,7 +305,7 @@ def show_burden_evidence_panel104():
 
 
 def show_synthetic_cost_example():
-    st.markdown("#### Optional synthetic cost demonstration")
+    st.markdown("#### Synthetic cost demonstration")
     st.write("A pie chart is useful for an individual scenario with mutually exclusive categories. "
              "The published sources above do not establish a comparable, complete "
              "Stage 0 percentage breakdown.")
@@ -771,7 +771,7 @@ def compact_care88(quick, story):
                     google_maps_search_url("primary care or infectious disease doctor near " + encounter["current"]) + ")")
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
-    st.markdown("### 2. Record money and time · optional")
+    st.markdown("### 2. Record money and time")
     st.write('Record money you paid and time you lost. Use one period.')
     st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
     period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
@@ -1992,13 +1992,13 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
             st.info("The county could not be resolved from this ZIP lookup point and the available boundaries. No other county has been substituted.")
 
         if not tick_status:
-            st.warning("CDC tick surveillance file is missing or unreadable. Put cdc_ixodes_county_2025.xlsx in the same folder as this app.")
+            page_note("CDC tick surveillance is unavailable in this view. Use the linked official source. Missing observations do not mean ticks are absent.")
         elif visible_tick_count == 0:
             st.info("CDC tick surveillance loaded, but no established/reported county markers fall inside this regional view. This does not mean ticks are absent.")
         else:
             page_note(f"CDC tick surveillance loaded: {visible_tick_count} county markers are visible. Blue = Established; yellow = Reported.")
         if not lyme_cases:
-            st.warning("CDC county Lyme workbook is not available. For reliable offline demos, download CDC's ‘Reported Tickborne Disease Cases by County of Residence 2019-2022.xlsx’ and save it beside this app as cdc_tickborne_county_2019_2022.xlsx.")
+            page_note("County Lyme values are unavailable in this view. Use the linked CDC surveillance source. Missing values are not zero cases.")
 
         page_note("Human Lyme surveillance is reported by county of residence, not necessarily county of exposure. Surveillance can undercount disease and reporting practices vary. Tick status and human case counts are separate surveillance measures; neither is an individual infection probability.")
     except Exception as e:
@@ -3188,10 +3188,10 @@ if view == "🩹 Tick Bite: What Next?":
     st.stop()
 
 if view == "🛡️ Learn & Prevent":
-    st.header("🛡️ LEARN & PREVENT")
+    st.header("Plan a safer outdoor visit")
     show_photo116("forest", "Woodland walking trail in a green forest")
     st.write("Ticks can spread Lyme disease and other illnesses. Learn how to prevent bites and prepare for outdoor activities.")
-    with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=True):
+    with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=False):
         show_lyme_learning78()
     show_section_hero("travel", "Plan Your Outdoor Visit. Prepare for Ticks.", "Understand where and when exposure may occur, recognize what you found, and prepare after a possible bite.")
     st.subheader("Plan Your Outdoor Activities")
@@ -4126,7 +4126,7 @@ with st.expander("Review and download your appointment summary"):
     st.download_button("Download story summary (full cost download below)", appointment_text.encode("utf-8"), file_name="MyJourney.txt", mime="text/plain", key="appointment_download63")
 
 # OPTIONAL LOCAL SUPPORT — ask only after the story/AI value exchange.
-st.markdown("### 📍 Find Support Near You *(Optional)*")
+st.markdown("### Find support near you")
 st.write('Add a ZIP or county for local care and support resources.')
 page_note("ZIP or county only; no street address needed.")
 current_location_start = st.text_input(
@@ -4172,7 +4172,7 @@ page_note("Eligibility and availability vary. Peer groups provide support, not m
 
 # PATIENT VOICE — explicit review/permission; MVP demonstrates the consent loop without publishing raw narrative.
 if quick_story.strip() and st.session_state.get("story_organized", False):
-    st.markdown("### 🗣️ Make Your Experience Count *(Optional)*")
+    st.markdown("### Make your experience count")
     if PATIENT_VOICE_STORAGE_ENABLED:
         st.write('With your consent, reviewed structured fields can contribute to Patient Voice summaries.')
     else:
@@ -4211,12 +4211,12 @@ if current_location_start.strip():
     if not quick.get("current_location"):
         quick["current_location"] = loc_start
 
-st.markdown("### Want to tell us more? *(Optional)*")
+st.markdown("### More about your experience")
 page_note('Add details if useful. You can stop after organizing your story.')
 
 # 1. LOCATION & EXPOSURE CONTEXT
 
-st.subheader("1. Location & Exposure Context *(Optional)*")
+st.subheader("1. Where it happened and where you are now")
 st.write('Check your location for nearby care and support. This is optional.')
 
 top_zip = normalize_zip(current_location_start)
@@ -4460,7 +4460,7 @@ if quick["cost_amount"] is not None:
     st.info(f"From your story: approximately ${quick['cost_amount']:,.0f} in patient-reported illness-related cost. This is kept separate unless you choose to break it into categories below.")
 st.info("**What this supports:** organize spending and daily-life effects for appointment preparation and support conversations. You can review and share a summary. Improved care coordination, time saved and reduced burden are intended benefits; effects have not been measured.")
 show_sample_burden_card()
-st.markdown("#### Optional transparent cost inputs")
+st.markdown("#### Record your costs")
 cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
 burden_phase81 = st.selectbox("Which part of your journey do these amounts cover?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="burden_phase81")
 page_note("“Before diagnosis” means the time before a person learned they had Lyme disease. It is not a medical stage. If your costs cover both before and after diagnosis, we cannot separate them for you.")

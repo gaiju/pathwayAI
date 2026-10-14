@@ -14,7 +14,7 @@ def show_tick_encounter(existing=None):
     for field, key, label, suggested in fields:
         if key not in st.session_state:
             st.session_state[key] = saved.get(field, suggested) or ""
-    with st.expander("Tick encounter details · optional, enter once"):
+    with st.expander("Tick encounter details · enter once"):
         st.write('Keep the details from your story. Add only what is missing. Where you found a tick may differ from where you are now.')
         for field, key, label, suggested in fields:
             st.text_input(label, key=key, max_chars=120,

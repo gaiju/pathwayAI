@@ -261,8 +261,8 @@ def planning_scenario101():
 def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
     st.markdown("### Published cost references")
-    st.write("Patient out-of-pocket means money the person paid themselves. It is different from the total amount paid by the patient and insurer together.")
-    st.write("These figures describe study participants. They do not predict your bill or measure Dutchess County costs.")
+    st.write('Out-of-pocket means money a person paid. Total medical spending also includes what the insurer paid.')
+    st.write('These costs come from study participants. They do not predict your bill or show actual Dutchess County costs.')
 
     published = pd.DataFrame([
         {"Measure": "Societal cost, mean per participant",
@@ -448,7 +448,7 @@ def show_session_burden():
                           any((record.get("encounter") or {}).get(field) for field in ("when", "exposure", "current"))):
         return
     st.markdown("#### Your earlier entries · private session preview")
-    st.write("These are the entries you already made. No need to fill them in again.")
+    st.write('Here are your earlier entries. You do not need to enter them again.')
     st.write(f"Period: {record['period']} · Phase: {record['phase']} · Residence: {record['county']}")
     cols = st.columns(2)
     for col, key, label in zip(cols, ("medical", "other"), ("Money paid for care", "Other money paid")):
@@ -468,22 +468,21 @@ def show_session_burden():
                  " · Where found: " + (encounter.get("exposure") or "Not reported"))
         st.write("Current care location: " + (encounter.get("current") or "Not reported"))
         page_note("Encounter location, current care location and county of residence have different purposes. Tick observations cannot establish infection or tick density and would need separate review before public-health use.")
-    st.write("This is your private record, not a county summary. Only separately reviewed and consented contributions can enter shared evidence.")
+    st.write('This record is private. It is not a county summary. Shared evidence needs your review and permission.')
     page_note("The preview stays in this browser session, is not sent to public policy AI and does not automatically write to Community Voice. A secure reporting pilot is still needed for county use.")
 
 
 def policy89():
     st.header("Community Burden & Evidence")
     st.write(reading_copy(
-        "Illness can cost money, time at work and help from family. These needs are not shown by case counts alone.",
+        'Illness costs more than medical bills. People miss work. Families give time and help. Case counts do not show these burdens.',
         "Patient-paid costs, missed work, unpaid caregiving and access barriers complement public surveillance when planning community support."))
-    st.write("**For residents and caregivers:** compare cost categories with published references, prepare a visit summary and find support. "
-             "**For community teams:** compare county context, select a response and download an evidence brief.")
+    st.write('**For people and caregivers:** understand costs and prepare for care. **For community teams:** compare counties, review the evidence and plan support.')
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"
     st.markdown("### Where is Lyme disease reported? — New York")
-    st.write("Start with the New York Lyme disease and tick surveillance map. Then compare counties below.")
+    st.write('Start with New York. Then compare Dutchess and Orange.')
     show_nys_tick_density_map(zoom=False, show_details=False)
     st.markdown("### Compare Dutchess and Orange")
     measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context"],horizontal=True,key="compare100")
@@ -513,7 +512,7 @@ def policy89():
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
     st.markdown("### Find help for this need")
-    st.write("Choose a need to see a contact or service you can use. No new cost entry is needed.")
+    st.write('Choose a need. See a useful contact. Keep the costs you already entered.')
     focus=st.selectbox("What would you like help with?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Help people access coverage and financial assistance. Use existing cost records to understand needs without asking for repeat entry.","Medical/other out-of-pocket bands; assistance connections completed"),
@@ -536,7 +535,7 @@ def policy89():
         st.write("**Question to investigate:** " + question)
         st.write("**Response to consider:** " + action)
         st.write("**How to assess it:** " + measures)
-        st.write("Use comparable, consented participant records to inform support priorities. These are proposed actions, not measured outcomes.")
+        st.write('Use records people have agreed to share. Compare the same kinds of costs over the same period. These actions need testing; their effects have not been measured.')
     rows=reference_cost_rows("Dutchess",1060)
     brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE","Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a Stage 0 unit cost.","NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
@@ -773,11 +772,11 @@ def compact_care88(quick, story):
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Record money and time · optional")
-    st.write("Record what you paid and time you lost, using one period.")
+    st.write('Record money you paid and time you lost. Use one period.')
     st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
     period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
     phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88")
-    st.write("Use one period. Leave unknown amounts blank and count each payment once.")
+    st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
     a,b=st.columns(2)
     with a:
         medical=st.number_input("Money you paid for care ($)",min_value=0.0,value=None,step=50.0,key="medical88",help="Include your specialist and testing payments here once. Exclude insurer payments.")
@@ -788,7 +787,7 @@ def compact_care88(quick, story):
     with st.expander("Caregiver time and optional work-loss calculation"):
         caregiver=st.number_input("Unpaid caregiver hours in this period",min_value=0.0,value=None,step=1.0,key="caregiver88")
         dayvalue=st.number_input("Your chosen value per missed workday ($)",min_value=0.0,value=None,step=25.0,key="dayvalue88")
-        st.write("Work loss = days missed × your chosen daily value. Keep the same period; this is a modeled value, separate from bills.")
+        st.write('Multiply days missed by the value you choose for one day. This is an estimate. Keep it separate from bills.')
     modeled=workdays*dayvalue if workdays is not None and dayvalue is not None else None
     cards=st.columns(3)
     labels = ["Money paid for care", "Other money paid", "Work-loss estimate"] if simple_reading_view() else ["Medical out-of-pocket", "Other out-of-pocket", "Modeled work loss"]
@@ -3052,8 +3051,8 @@ if st.session_state.get("pathway_open", False):
 if not st.session_state.get("pathway_open", False):
     st.markdown("### A small tick bite can have a big impact.")
     show_photo116("lake", "Golden sunlight filtering through a forest")
-    st.write("Ticks can spread diseases such as Lyme disease. Certain tick bites can also lead to alpha-gal syndrome, a potentially serious allergy to red meat and other mammal-derived products.")
-    st.write("If you spend time outdoors, protect yourself from tick bites, check for ticks after outdoor activities, and know when to seek medical care.")
+    st.write('Ticks can spread Lyme disease and other illnesses. Some bites can trigger alpha-gal syndrome. This allergy can cause serious reactions to red meat and other products from mammals.')
+    st.write('Going outdoors? Protect yourself. Check for ticks afterward. Know when to seek care.')
     st.write("**PathwayAI: Prevent bites. Find timely care. Make hidden costs visible.**")
     page_note("Not every tick bite causes illness. Alpha-gal syndrome is distinct from Lyme disease. Sources: https://www.cdc.gov/alpha-gal-syndrome/about/index.html and https://www.cdc.gov/ticks/prevention/index.html")
     estimated, reported = st.columns(2)
@@ -3062,9 +3061,9 @@ if not st.session_state.get("pathway_open", False):
     page_note("CDC estimates and reported case counts measure different things; do not add them.")
     page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
     st.markdown("#### Prevent. Find timely care. Make the burden visible.")
-    st.write("**1. Prevent:** prepare for outdoor activities and know what to do after a bite.")
-    st.write("**2. Find timely care and support:** prepare for your visit and find help with care, travel and costs.")
-    st.write("**3. Guide community action:** make costs and unmet needs visible to help communities plan support.")
+    st.write('**1. Prevent:** prepare for time outdoors. Know what to do after a bite.')
+    st.write('**2. Find timely care and support:** prepare for your visit. Find help with care, travel and costs.')
+    st.write('**3. Guide community action:** show the costs and needs people face. Help communities plan support.')
     page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
     st.markdown("#### What would you like to do?")
     st.write("Choose what you want to do today.")
@@ -3141,7 +3140,7 @@ page_purpose75 = {
 
 def show_brief_feedback():
     st.subheader("Help shape PathwayAI")
-    st.write("Explore the tool, then tell us what could make it more useful—or how you’d like to help.")
+    st.write('Try the app. Tell us what helped, what was hard, or how you would like to help.')
     choices = [
         ("Explore prevention and travel", "🛡️ Learn & Prevent", "outdoors"),
         ("Explore patient journey and support", "🧭 Care & Support", "ongoing"),
@@ -3150,7 +3149,7 @@ def show_brief_feedback():
     for label, target, intent in choices:
         st.button(label, key="contributor_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
     st.markdown("#### Ready to share an idea?")
-    st.write("What helped, what was confusing, or what would you like us to add? A sentence or two is enough. You can also tell us how you would like to help.")
+    st.write('What helped? What was confusing? What is missing? A sentence or two is enough.')
     page_note("Please leave out personal medical details. Your message will go privately to the project inbox, not appear on this website.")
     address = "pathwayai.feedback@gmail.com"
     st.markdown("[**Email feedback or offer to help**](mailto:" + address + "?" + urlencode({"subject": "PathwayAI Feedback"}, quote_via=quote_plus) + ")")
@@ -3995,7 +3994,7 @@ st.header("Timely Care & Community Support")
 show_photo116("river", "Peaceful lake surrounded by green trees")
 with st.container(border=True):
     st.markdown("**Find information, prepare for care, and connect with support**")
-    st.write("Explore reliable information about Lyme disease, prepare for medical care, and find healthcare and community resources. You can also record how illness affects your health, work, and daily life.")
+    st.write('Prepare for a visit. Find care and support. Record what illness has cost you in money and time.')
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST

@@ -3985,11 +3985,9 @@ if view == "📊 Community Burden & Action":
     render_page_notes()
     st.stop()
 
-st.header("Timely Care & Community Support")
+st.header("Care & Support")
 show_photo116("river", "Peaceful lake surrounded by green trees")
-with st.container(border=True):
-    st.markdown("**Find information, prepare for care, and connect with support**")
-    st.write('Prepare for a visit. Find care and support. Record what illness has cost you in money and time.')
+st.write("Prepare a visit summary. Find care and support. Keep a record of costs and time lost.")
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST
@@ -3998,8 +3996,9 @@ page_note("Sharing your experiences with Community Voice is optional. Collection
 # This keeps the opening experience supportive rather than feeling like data collection.
 current_location_start = st.session_state.get("current_location_start", "")
 
-st.markdown("### Optional: Prepare for a medical visit")
-st.write("One or two sentences are enough. Review the summary before sharing it.")
+st.markdown("### Tell us what happened")
+st.write("A sentence or two is enough. We’ll help you make a summary you can review and take to your visit.")
+st.write("You can also leave the story blank and use the care, cost and support tools below.")
 st.write("Please leave out names, contact details and other identifying information.")
 
 STORY_SAMPLE = 'I visited Maryland in June and had a tick bite. A few days later I developed a rash and became extremely tired and dizzy. I have felt this way for about two weeks. I had a Lyme blood test last week and was told it was negative. I have seen two doctors, missed five days of work, and spent about $600. I am now back home in Boston.'

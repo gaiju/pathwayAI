@@ -82,3 +82,11 @@ also generates a care-search link without requiring another location entry.
 Observations are labeled patient-reported and unverified. No new shared storage
 or surveillance case count was created; production tick reporting still requires
 reviewed consent and a secure pilot.
+
+## Navigation and vocabulary check
+
+All four main routes and their Back to start controls passed rendering/navigation
+checks. Both cost-exploration buttons open their intended pages. OOP abbreviations
+in app displays/downloads are expanded to out-of-pocket, with a definition in
+the personal form and published-reference panels: money the person paid, not
+insurer payments. Existing records are reused; references do not predict bills.

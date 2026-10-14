@@ -19,6 +19,7 @@ from io import BytesIO
 from pathlib import Path
 from urllib.parse import quote_plus, urlencode
 from evidence_rag import search_evidence, validate_answer_citations, source_list
+from county_geography import containing_county
 
 # Submission cost references: separate perspectives and published dollar years.
 HOOK_COST_URL = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t5"
@@ -1029,7 +1030,17 @@ def load_nys_nymph_surveillance():
 
 @st.cache_data
 def load_us_county_geojson():
-    """Drawing geometry only; no patient or health values in the boundaries."""
+    """National reference boundaries; no patient or health values in this file."""
+    path = BASE_DIR / "us_county_boundaries.geojson"
+    if path.exists():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if data.get("type") == "FeatureCollection" and data.get("features"):
+                return data
+        except (OSError, ValueError):
+            pass
+    # County matching still requires containment: NY-only fallback cannot assign
+    # Richmond, NY to an out-of-state destination.
     return json.loads(json.dumps(NYS_MAP_BOUNDARIES))
 
 
@@ -1086,7 +1097,7 @@ def build_nys_tick_density_geojson():
             "intensity": intensity,
         }
 
-    geo = load_us_county_geojson()
+    geo = json.loads(json.dumps(NYS_MAP_BOUNDARIES))
     features = []
     for feature in geo.get("features", []):
         # NY county FIPS begins with state FIPS 36.
@@ -1703,9 +1714,11 @@ def _cdc_lyme_cases_by_fips():
 
 
 def _destination_county_context(destination_geo, geo, tick_status, lyme_cases=None, max_nearby=8):
-    """Approximate destination county from county centroids; return nearby county comparison."""
-    if not destination_geo or destination_geo.get("lat") is None or destination_geo.get("lon") is None:
+    """County containing the ZIP lookup point; centers rank comparisons only."""
+    matched = containing_county(destination_geo, geo)
+    if matched is None:
         return None, []
+    matched_fips = str(matched.get("id", "")).zfill(5)
     lyme_cases = lyme_cases or {}
     dlat, dlon = float(destination_geo["lat"]), float(destination_geo["lon"])
     rows = []
@@ -1725,7 +1738,9 @@ def _destination_county_context(destination_geo, geo, tick_status, lyme_cases=No
             "dist2": dist2,
         })
     rows.sort(key=lambda x: x["dist2"])
-    return (rows[0] if rows else None), rows[1:max_nearby+1]
+    destination = next((row for row in rows if row["fips"] == matched_fips), None)
+    nearby = [row for row in rows if row["fips"] != matched_fips][:max_nearby]
+    return destination, nearby
 
 
 def _lyme_fill(cases):
@@ -1759,7 +1774,7 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
         else:
             bounds = (-84.0, 34.5, -69.0, 45.5)
 
-        parts = [f'<svg role="img" aria-label="New York observed tick surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Observed tick density by New York county; missing observations are gray</title>',
+        parts = [f'<svg role="img" aria-label="Regional tick and Lyme surveillance by county" viewBox="0 0 {width} {height}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><title>Regional tick presence and reported Lyme cases; missing values are gray</title>',
                  '<rect width="100%" height="100%" fill="#ffffff"/>']
         tick_markers = []
         visible_tick_count = 0
@@ -1828,11 +1843,11 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
             dest_cases = dest_county["lyme_cases"]
             st.markdown("### Destination Comparison")
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("Approximate county", dest_county["county"])
+            c1.metric("County at ZIP lookup point", dest_county["county"])
             c2.metric("Blacklegged tick", dest_county["tick"])
             c3.markdown(f"**Nearby tick surveillance**\n\n{nearby_est} counties: established population\n\n{nearby_rep} counties: reported-only presence")
             c4.metric("Reported cases, 2019–2022", f"{dest_cases:,}" if dest_cases is not None else "Data not loaded")
-            st.caption("County assignment uses the closest county center and is approximate. Nearby counties are the nearest county centers, not necessarily bordering counties. Case totals cover 2019–2022 and describe residents; they do not predict your travel infection risk.")
+            st.caption("County is matched to the boundary containing the ZIP lookup point. ZIP codes can span counties; confirm the county of your actual destination. Nearby comparisons use county centers, not necessarily bordering counties. Cases cover residents in 2019–2022, not your travel infection risk.")
             if dest_cases is not None and nearby_values:
                 med = sorted(nearby_values)[len(nearby_values)//2]
                 if dest_cases > med:
@@ -1852,6 +1867,9 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
                 st.caption(f"The destination county's 2019–2022 reported case count is {comp} the median of nearby counties shown ({med:,}). Counts are useful for burden context but are **not incidence rates** because county population sizes differ. PathwayAI therefore does not label this as personal risk.")
             else:
                 st.info('County Lyme case data are unavailable.')
+
+        if destination_geo and dest_county is None:
+            st.info("The county could not be resolved from this ZIP lookup point and the available boundaries. No other county has been substituted.")
 
         if not tick_status:
             st.warning("CDC tick surveillance file is missing or unreadable. Put cdc_ixodes_county_2025.xlsx in the same folder as this app.")

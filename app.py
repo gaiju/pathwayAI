@@ -22,6 +22,7 @@ from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
+from county_cost_scenario import show_county_cost_scenario
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 
 PAGE_NOTES = []
@@ -507,6 +508,7 @@ def policy89():
     page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver hours stay separate from spending. Published cost references appear below.")
     show_session_burden()
     show_burden_evidence_panel104()
+    show_county_cost_scenario(page_note)
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
     st.markdown("### For the community: turn evidence into shared action")

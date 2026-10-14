@@ -256,9 +256,9 @@ def planning_scenario101():
 
 def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
-    st.markdown("### Published cost references")
+    st.markdown("### What published studies found · not Dutchess measurements")
     st.write('Out-of-pocket means money a person paid. Total medical spending also includes what the insurer paid.')
-    st.write('These costs come from study participants. They do not predict your bill or show actual Dutchess County costs.')
+    st.write('These figures come from external study populations. Use them to understand cost categories, not to predict your bill or estimate Dutchess County costs.')
 
     published = pd.DataFrame([
         {"Measure": "Societal cost, mean per participant",
@@ -498,15 +498,17 @@ def policy89():
     <text x="120" y="155" fill="currentColor" font-size="13">0</text>
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
-    st.markdown("### Focus on Dutchess · demonstration county for a proposed pilot")
-    st.markdown("### Cost breakdown and time lost")
+    st.markdown("### Understand costs and time lost")
+    st.write("Your record shows what you paid, work you missed and help you needed. With your review and permission, comparable records could help communities identify support needs. Your record is not automatically shared.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
     page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver hours stay separate from spending. Published cost references appear below.")
     show_session_burden()
     show_burden_evidence_panel104()
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
-    st.markdown("### What could Dutchess do about these costs?")
+    st.markdown("### Apply the evidence to Dutchess · proposed pilot")
+    st.write("Dutchess is the planning example. The studies above are not Dutchess patient records. A local pilot would need consented local contributions and partner review.")
+    st.markdown("#### What support could the county consider?")
     st.write("Choose a cost area. See a response the community could consider, then download a brief for discussion.")
     focus=st.selectbox("Which cost area should the community focus on?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={

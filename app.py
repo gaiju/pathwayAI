@@ -166,7 +166,7 @@ def support89(county, barrier):
         elif barrier == "Cost / insurance coverage":
             st.write("**Call 845-486-3340** for Medicaid assistance or **845-486-3190** for temporary-assistance information.")
         elif barrier == "Appointment / referral access":
-            st.write("**Contact a health center** to ask about services, coverage and appointment availability. Bring your visit summary.")
+            st.write("Find a health center and use the appointment request below. Bring your existing visit summary.")
         else:
             st.write("**Call NY Connects at 845-475-3511** to discuss local support and access needs.")
         st.markdown("[Open the resource]("+item[2]+")")
@@ -175,8 +175,25 @@ def support89(county, barrier):
             st.markdown("[Medicaid transport information](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [Local help — 211](https://www.211.org/)")
             st.write("Confirm eligibility and availability. PathwayAI provides information; it does not book rides or appointments. Official Dutchess pages checked October 13, 2026.")
     else:
-        st.write("**Contact 211** for local assistance, or use HRSA to find a health center. Ask the clinic about coverage, fees, appointments and accommodations.")
-        st.markdown("[211](https://www.211.org/) · [HRSA health-center locator](https://findahealthcenter.hrsa.gov/)")
+        if barrier == "Transportation / distance":
+            st.write("Find local ride assistance through 211. Use the request below to check eligibility and arrange the next step.")
+            st.link_button("Find local transportation help ↗", "https://www.211.org/")
+        else:
+            st.write("Find a nearby health center, then copy or download the request below to get a clear answer in one contact.")
+            st.link_button("Find a nearby health center ↗", "https://findahealthcenter.hrsa.gov/")
+            st.markdown("[Find other local assistance through 211](https://www.211.org/)")
+    requests = {
+        "Cost / insurance coverage": "I need an appointment and want to understand what I will pay. Please give me a written estimate that separates the visit, blood draw and any laboratory tests. Please tell me whether my insurance is accepted and whether reduced fees, financial assistance or a payment plan are available. What should I bring to apply?",
+        "Appointment / referral access": "I need an appointment for symptoms after possible tick exposure. What is the earliest available appointment? Can I join a cancellation list? Is a referral required? I have a short visit summary ready; how can I provide it securely?",
+        "Transportation / distance": "I need help getting to a medical appointment. What ride services cover my area, who is eligible, and how far ahead should I book? Please tell me the cost and how to arrange the return trip.",
+        "Language / accessibility": "I need help accessing a medical visit. How can I arrange an interpreter or accessibility support? Please tell me how to request it and whether any charge applies.",
+    }
+    request = requests.get(barrier, "I need a medical appointment and have a short visit summary ready. What is the earliest appointment, what will I pay, and how can I apply for reduced fees if needed? Please tell me what records to bring and how to send them securely.")
+    st.markdown("#### A request you can use now")
+    st.code(request, language=None, wrap_lines=True)
+    st.download_button("Download my support request", request.encode("utf-8"),
+                       file_name="PathwayAI_Support_Request.txt", mime="text/plain", key="support_request89")
+    page_note("Support requests are templates based on your selected need. Nothing is sent automatically. Confirm services, eligibility, prices and appointment availability with the provider; resource directories do not verify Lyme expertise or guarantee access. Your existing cost-and-time record remains separate and can be reviewed before sharing.")
 
 
 # Reference-only scenario: never infer a county's case mix from a voluntary survey.
@@ -560,10 +577,16 @@ def policy89():
     show_county_rate_trend(page_note)
     show_county_burden_comparison(page_note)
     st.markdown("#### Make your experience visible")
-    st.write("Keep a record of money paid, work missed and help you needed. Use it to prepare for care and help shape future community reporting.")
-    st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Add my costs and time →",
-              key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+    st.write("Choose what helps you: contribute through the survey, or keep a personal cost-and-time record for care.")
+    personal, contribution = st.columns(2)
+    with personal:
+        st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
+                  key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+    with contribution:
+        st.link_button("Contribute through the survey ↗", "https://docs.google.com/forms/d/e/1FAIpQLSd8r42DMiTEV8NBEHNpRLJq05GRicu_71X2hPYxPivAQYy6BQ/viewform", use_container_width=True)
+        st.write("Opens Google Forms. Review the form’s consent and privacy information before submitting.")
     page_note("The invitation opens the existing Care & Support record, reusing session entries. Personal entries stay private in this session and are not automatically submitted to a survey or county dataset. Secure shared reporting is a future pilot phase and requires explicit consent.")
+    page_note("The project lead supplied the external survey link; live form access was blocked during this update, so its questions, consent wording, email collection and access settings have not been verified. Opening the link does not send app records to Google Forms. Survey responses are separate from private app records and are not automatically added to county estimates. A future integrated contribution flow needs explicit permission, secure storage, access and retention rules, common reporting periods and privacy-reviewed aggregate release. Existing personal entries should be reused in that future flow rather than requested again.")
     st.markdown("### Costs and time lost")
     st.write("Illness can bring medical bills, travel expenses, missed work and unpaid care.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)

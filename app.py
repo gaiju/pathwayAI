@@ -2902,7 +2902,7 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("I want to prevent tick bites", "Learn about tick risks and prepare for outdoor activities.", "🛡️ Learn & Prevent", "outdoors"),
+    ("I want to plan a safer outdoor visit", "Explore tick exposure information and prepare for time outdoors.", "🛡️ Learn & Prevent", "outdoors"),
     ("I've been bitten by a tick", "Find out what to do after a tick bite and when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
     ("I need care & support", "Find health information, services, and optional tools to prepare for care.", "🧭 Care & Support", "ongoing"),
     ("I want to explore community needs", "Explore reported cases, costs, and possible responses.", "📊 Community Burden & Action", "county"),

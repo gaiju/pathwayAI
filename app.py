@@ -3179,7 +3179,7 @@ if st.session_state.get("pathway_open", False):
 if not st.session_state.get("pathway_open", False):
     st.markdown("### A small tick bite can have a big impact.")
     show_photo116("lake", "Golden sunlight filtering through a forest")
-    st.write('Ticks can spread Lyme disease and other illnesses. Some bites can trigger alpha-gal syndrome. This allergy can cause serious reactions to red meat and other products from mammals.')
+    st.write('Ticks can spread Lyme disease and other illnesses. Some bites also trigger alpha-gal syndrome, an allergy that may cause serious reactions to red meat and other mammal products.')
     st.write('Enjoy the outdoors. Prepare for ticks. Find care when you need it.')
     st.write("**PathwayAI: Prevent bites. Find timely care. Make hidden costs visible.**")
     page_note("Not every tick bite causes illness. Alpha-gal syndrome is distinct from Lyme disease. Sources: https://www.cdc.gov/alpha-gal-syndrome/about/index.html and https://www.cdc.gov/ticks/prevention/index.html")

@@ -74,6 +74,18 @@ def show_lyme_testing(simple=True):
                      "Keep a quoted price separate from a payment. PathwayAI does not have a "
                      "verified live lab-price service or estimate your insurance benefits.")
         with read:
+            st.markdown("#### Practice with a fictional report")
+            st.write("**Invented learning example — not the uploaded patient report or a diagnosis.**")
+            st.table([
+                {"Report item": "Overall interpretation", "Example result": "Negative"},
+                {"Report item": "An individual antibody band", "Example result": "Present"},
+                {"Report item": "Other antibody bands", "Example result": "Absent"},
+                {"Report item": "Laboratory comment", "Example result": "See the full testing process and clinical history"},
+            ])
+            st.write("**How to read this example:** one row says ‘Present,’ but the "
+                     "laboratory's overall interpretation is ‘Negative.’ That row alone "
+                     "does not change the final result to positive. The example does not "
+                     "show enough information to check the lab's criteria yourself.")
             st.write("**Look at the overall result first.** ‘Present’ on one antibody band "
                      "does not by itself mean that the overall test is positive.")
             st.markdown("- **Negative:** the completed test did not meet its positive criteria. "
@@ -89,6 +101,13 @@ def show_lyme_testing(simple=True):
                      "show whether someone is cured.")
             st.write("Ask: ‘Was the full recommended testing process done, and how does "
                      "this result fit my symptoms and their timing?’")
+            st.markdown("#### Prepare for the next conversation")
+            st.markdown("1. Bring the complete original report, including lab comments.\n"
+                        "2. Note when symptoms started, when the blood was drawn and any antibiotics taken.\n"
+                        "3. Ask what the result means for your current concern and what follow-up is appropriate.")
+            st.write("Do not order another test or change treatment just because one row "
+                     "says ‘Present.’ A clinician should decide whether examination, "
+                     "further testing or another explanation needs attention.")
             if not simple:
                 st.write("CDC recommends a two-step antibody testing process using "
                          "FDA-cleared tests. A positive or equivocal first step proceeds to "

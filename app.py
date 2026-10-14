@@ -468,11 +468,11 @@ def show_session_burden():
 
 
 def policy89():
-    st.header("Community Burden & Evidence")
-    st.write(reading_copy(
-        'Illness costs more than medical bills. People miss work. Families give time and help. Case counts do not show these burdens.',
-        "Patient-paid costs, missed work, unpaid caregiving and access barriers complement public surveillance when planning community support."))
-    st.write('**For people and caregivers:** understand costs and prepare for care. **For community teams:** compare counties, review the evidence and plan support.')
+    st.header("Healthier people. Stronger communities.")
+    st.write("Prevent tick bites. Help people reach care in time. Reduce the disruption illness brings to work and family life.")
+    st.write("These are shared community goals. Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI helps people prepare and find support; its health benefits and savings have not yet been measured.")
+    st.markdown("#### Hudson Valley community focus")
+    st.write("Start with New York. Our current local comparison covers Dutchess and Orange—not the whole Hudson Valley.")
     # New York is the only loaded state demonstration for this page.
     # Do not ask for a ZIP or county before displaying the statewide map.
     county = "Dutchess County, New York"
@@ -510,7 +510,8 @@ def policy89():
         scenario_notes101 = planning_scenario101()
     st.markdown("### How communities could use this evidence")
     show_combined_planning_evidence()
-    st.write("County comparisons provide local context. Published studies describe their own participants. With consent, reviewed patient records could help communities identify needs and plan support.")
+    st.write("Protecting residents from tick bites and helping them reach appropriate care can support community health. Reviewed reports of costs, work lost and care barriers could help local teams decide where prevention and support are needed.")
+    st.write("Use the county comparisons, published Lyme research and local health plan together. Shared patient evidence requires permission and secure collection.")
     st.markdown("#### What support could a community consider?")
     st.write("Choose a cost area. See a response the community could consider, then download a brief for discussion.")
     focus=st.selectbox("Which cost area should a community focus on?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")

@@ -6,6 +6,10 @@ CHA_URL = "https://www.dutchessny.gov/Departments/DBCH/Docs/DCCHA2025.pdf"
 
 def combined_planning_rows():
     return [
+        {"Lyme evidence already shown": "Tick exposure context and prevention guidance; no measured PathwayAI prevention effect",
+         "County plan context": "General disparities in access across geographic areas (printed p. 5)",
+         "Response to evaluate": "Discuss accessible tick-prevention education and routes to appropriate clinical care",
+         "What to measure": "Reach of prevention information; reported barriers; time to appropriate care"},
         {"Lyme evidence already shown": "NYSDOH 2024: Dutchess 355.5 reported cases per 100,000; Orange 237.0",
          "County plan context": "Gaps in care across geographic areas and disability groups (printed p. 5)",
          "Response to evaluate": "Ask local partners where Lyme referral and follow-up access needs attention",

@@ -59,13 +59,13 @@ def burden_paths(county, unit_cost, annual_change=.05, years=5):
     return paths
 
 
-def show_burden_paths(frame):
+def show_burden_paths(frame, note):
     import altair as alt
     import pandas as pd
     import streamlit as st
 
     with st.expander("Explore how community burden could change"):
-        st.write("**Hypothetical paths—not a validated prediction or observed time trend.**")
+        st.write("**Illustrative future paths · selected assumptions**")
         county = st.selectbox("County for the scenario chart", [name for name, _, _ in COUNTIES], key="burden_path_county")
         change = st.slider("Assumed annual change in reported cases (%)", 0, 20, 5, key="burden_path_change")
         unit = float(frame.loc[frame["County"] == county, "Medical reference per episode · 2022 USD"].iloc[0])
@@ -79,10 +79,9 @@ def show_burden_paths(frame):
                      alt.Tooltip("Illustrative medical amount · 2022 USD:Q", format=",.0f")],
         ).properties(height=300)
         st.altair_chart(chart, use_container_width=True)
-        st.write("Year 0 uses the 2024 case input. Years 1–5 are model steps, not recorded calendar-year results. "
-                 "The medical reference stays fixed; no inflation or intervention effect is estimated.")
-        st.write("Lower reported counts could reflect changes in disease, diagnosis or reporting. "
-                 "The gap between lines is not savings caused by PathwayAI.")
+        st.write("Year 0 uses the 2024 case input. Years 1–5 apply your selected annual change and a fixed medical-cost reference.")
+        note("Future paths are hypothetical, not a validated prediction or recorded time trend. No inflation or intervention effect is estimated. "
+             "Lower reported counts could reflect disease, diagnosis or reporting changes. The gap between lines is not PathwayAI savings.")
         st.download_button("Download hypothetical paths and assumptions", paths.to_csv(index=False).encode("utf-8-sig"),
                            file_name="PathwayAI_Hypothetical_BurdenPaths.csv", mime="text/csv", key="burden_path_csv")
 
@@ -91,15 +90,16 @@ def show_county_cost_scenario(note):
     import pandas as pd
     import streamlit as st
 
-    st.markdown("### Explore a county Lyme burden scenario")
+    st.markdown("#### County medical-cost scenarios")
     st.write("Start with reported cases. Apply one published medical-cost reference. "
              "Compare the result across counties using the same assumptions.")
-    st.write("**Illustrative scenario—not measured county spending or predicted savings.**")
+    st.write("**Illustrative calculation · reported cases × study cost reference**")
+    note("County cost scenarios are illustrative arithmetic, not measured county spending, predicted bills or savings.")
     basis = st.radio("Medical-cost assumption", ["Published overall mean", "Assumed localized/disseminated mix"],
                      key="county_cost_basis", horizontal=True)
     share = None
     if basis == "Assumed localized/disseminated mix":
-        percent = st.selectbox("Assumed disseminated share · choose a scenario, not a diagnosis",
+        percent = st.selectbox("Assumed share of disseminated cases",
                                ["Choose an assumption", 0, 25, 50, 75, 100], key="county_cost_share",
                                format_func=lambda value: value if isinstance(value, str) else f"{value}%")
         st.write("Localized reference: $695. Disseminated reference: $6,833. "
@@ -112,19 +112,17 @@ def show_county_cost_scenario(note):
     columns = [key for key in frame.columns if not key[0].islower()]
     st.dataframe(frame[columns], hide_index=True, use_container_width=True)
     st.bar_chart(frame.set_index("County")[["Illustrative medical amount · 2022 USD"]])
-    st.write("The total follows reported case counts. The per-100,000 figure follows reported rates. "
-             "Neither shows differences in actual local prices or spending.")
+    st.write("Compare totals and amounts per 100,000 residents using the same cost reference.")
     st.write("**Patient-paid medical references:** Yu reports an overall mean of $188 "
              "among records with out-of-pocket information; localized $107 and disseminated $401. "
-             "These are published study references, not PathwayAI survey averages. "
+             "These are published study references. "
              "Patient payments are already included in total medical spending.")
     with st.expander("Survey benchmark and local reporting"):
-        st.write("The supplied survey summary does not support a mean payment amount. "
-                 "An average needs payment amounts, matching periods, missing-answer rules "
-                 "and duplicate checks. Secure, consent-based local reporting is in development.")
+        st.write("Local averages require reviewed payment amounts over matching periods, with duplicate checks and secure, consent-based reporting.")
+    note("Published patient-paid costs are not PathwayAI survey averages. The supplied survey summary does not support a mean payment amount. Secure shared collection remains in development.")
     st.download_button("Download county burden scenario and sources", frame.to_csv(index=False).encode("utf-8-sig"),
                        file_name="PathwayAI_Illustrative_CountyBurden.csv", mime="text/csv", key="county_burden_csv")
-    show_burden_paths(frame)
+    show_burden_paths(frame, note)
     note(f"Scenario sources: [NYSDOH cases]({CASE_SOURCE}), [rates]({RATE_SOURCE}), "
          f"[Yu medical-cost reference]({COST_SOURCE}). Rates were matched to the user-provided NYSDOH 2024 PDF, page 5. Case counts and cost values inherit existing application references; "
          "original table verification remains required. Case year 2024; cost dollar year 2022. "

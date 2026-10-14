@@ -29,11 +29,8 @@ def show_combined_planning_evidence():
     import streamlit as st
 
     st.markdown("#### Connect Lyme evidence with local priorities")
-    st.write("Use the Lyme findings above and the county plan to explore shared priorities and a question "
-             "worth acting on. The table gives responses to evaluate, not proven solutions.")
+    st.write("Connect Lyme findings with the county health plan. Use the suggested actions and measures in partner discussions.")
     st.table(combined_planning_rows())
-    st.write("The county plan does not measure Lyme costs. The connections here are "
-             "PathwayAI planning interpretations, not county commitments or causal findings.")
 
 PLAN_CONTEXT = {
     "source": "Dutchess County Community Health Improvement Plan 2025–2030",
@@ -67,11 +64,11 @@ PLAN_CONTEXT = {
 def show_county_plan_context(note):
     import streamlit as st
 
-    st.markdown("### What the local health plan tells us")
-    st.write("The county’s 2025–2030 health plan identifies access needs across "
-             "communities. Insurance coverage and care access were also leading "
-             "topics in resident priority voting.")
-    st.write("This is general county health context, not a measurement of Lyme costs.")
+    st.markdown("#### Local priorities: access and coverage")
+    st.write("Dutchess County’s 2025–2030 health plan describes geographic and disability-related gaps in care. "
+             "Insurance coverage and care access were leading topics in resident priority voting.")
+    st.markdown(f"[Read the Dutchess health plan]({CHIP_URL}) · [Community health assessment]({CHA_URL})")
+    note("The county plan describes general health needs, not Lyme-specific costs or an adopted Lyme program.")
     with st.expander("Connect county priorities with the burden people report"):
         st.table([
             {"County plan finding": "Geographic and disability-related gaps in care",

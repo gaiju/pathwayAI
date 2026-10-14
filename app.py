@@ -545,15 +545,19 @@ def policy89():
     st.markdown("### Lyme disease and tick surveillance in New York")
     show_nys_tick_density_map(zoom=False, show_details=False)
     st.markdown("### Compare Dutchess and Orange counties")
-    measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context"],horizontal=True,key="compare100")
+    measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context","Disability context"],horizontal=True,key="compare100")
     measures={
         "Reported Lyme rate":(237.0,355.5,"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),
         "Sampled tick density":(43.2,28.8,"Nymphs per 1,000 m² · NYSDOH 2024; one sampled site in each county",50),
         "Language context":(30.2,16.2,"Language other than English at home, age 5+ · Census ACS 2020–2024",35),
+        "Disability context":(11.7,12.2,"Any disability, all causes · Census-based figures reported in the 2025 regional assessment",15),
     }
     orange,dutchess,label,maximum=measures[measure]
-    suffix="%" if measure=="Language context" else ""
+    suffix="%" if measure in ("Language context", "Disability context") else ""
     st.write(label)
+    if measure == "Disability context":
+        st.write("Use this community context to plan accessible information and support.")
+        page_note("Disability comparison: Dutchess 12.2%, Orange 11.7%, checked in the supplied Mid-Hudson CHA 2025, Table 12, printed/PDF p. 34. The table cites Census ACS S1810 and reports any disability, not an under-65 measure or Lyme-attributable disability. The heading says 2023 but its source line says 2020 ACS five-year estimates; the underlying Census vintage has not been resolved. Values are displayed as reported by the assessment, not as independently verified current Census figures. Disability-type percentages use different eligible populations and should not be added. [Regional assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf) · [Census disability table S1810](https://data.census.gov/table?q=S1810)")
     if measure == "Reported Lyme rate":
         metrics = st.columns(3)
         metrics[0].metric("Dutchess · cases per 100,000", "355.5")
@@ -677,6 +681,8 @@ def policy89():
             {"county": "Dutchess", "measure": "Sampled tick density", "value": 28.8, "unit": "nymphs per 1,000 square meters; one sampled site", "year": "2024", "source": "NYSDOH tick observations", "source_url": "https://health.data.ny.gov/d/kibp-u2ip"},
             {"county": "Orange", "measure": "Language other than English at home", "value": 30.2, "unit": "percent of population age 5+", "year": "ACS 2020–2024", "source": "US Census QuickFacts", "source_url": "https://www.census.gov/quickfacts/orangecountynewyork"},
             {"county": "Dutchess", "measure": "Language other than English at home", "value": 16.2, "unit": "percent of population age 5+", "year": "ACS 2020–2024", "source": "US Census QuickFacts", "source_url": "https://www.census.gov/quickfacts/dutchesscountynewyork"},
+            {"county": "Orange", "measure": "Any disability, all causes", "value": 11.7, "unit": "percent; assessment-cited ACS S1810", "year": "Vintage unresolved: report heading 2023, citation 2020", "source": "Mid-Hudson CHA 2025, Table 12, p. 34; cites Census", "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf"},
+            {"county": "Dutchess", "measure": "Any disability, all causes", "value": 12.2, "unit": "percent; assessment-cited ACS S1810", "year": "Vintage unresolved: report heading 2023, citation 2020", "source": "Mid-Hudson CHA 2025, Table 12, p. 34; cites Census", "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf"},
         ])
         st.write("These are the same comparison figures shown above, with reporting years and source links. Tick sites are not countywide tick density estimates.")
         show_readable_table(county_rows, hide_index=True)
@@ -3178,11 +3184,11 @@ if not st.session_state.get("pathway_open", False):
     st.write("**PathwayAI: Prevent bites. Find timely care. Make hidden costs visible.**")
     page_note("Not every tick bite causes illness. Alpha-gal syndrome is distinct from Lyme disease. Sources: https://www.cdc.gov/alpha-gal-syndrome/about/index.html and https://www.cdc.gov/ticks/prevention/index.html")
     estimated, reported = st.columns(2)
-    estimated.metric("Estimated diagnoses and treatment / year · U.S.¹", "476,000")
-    reported.metric("Reported Lyme cases · U.S., 2022²", "62,551")
-    societal, disability = st.columns(2)
-    societal.metric("Annual U.S. societal cost · 2016 dollars³", "$345–968M")
-    disability.metric("Disabled work status · selected study group⁴", "35%")
+    estimated.metric("Estimated diagnoses and treatment / year · U.S.", "476,000")
+    reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
+    societal, participant_cost = st.columns(2)
+    societal.metric("Annual U.S. societal cost of diagnosed Lyme · 2016 dollars", "$345–968M")
+    participant_cost.metric("Average societal cost per study participant · 2016 dollars", "$2,032")
     page_note("CDC estimates and reported case counts measure different things; do not add them.")
     page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
     page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
@@ -3223,16 +3229,15 @@ if not st.session_state.get("pathway_open", False):
         st.write("This is a working pilot website. Visit summaries, cost-and-time records, support contacts and evidence downloads work now. Secure shared reporting and county use are the next pilot phase.")
         st.write("Public collection is off by default. A real reporting pilot needs consent, private storage and a privacy-reviewed release process. We have not measured improved health, reduced costs or county adoption.")
     st.markdown("#### Sources and other evidence")
-    with st.expander("Footnotes for the four headline figures"):
+    with st.expander("Sources and notes for the four headline figures"):
         st.caption("¹ CDC annual diagnoses/treatment estimate: 476,000, based on insurance claims from 2010–2018. https://www.cdc.gov/lyme/data-research/facts-stats/index.html")
         st.caption("² CDC reported U.S. Lyme cases in 2022: 62,551. Surveillance counts and diagnoses/treatment estimates measure different things. https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
         st.caption("³ Hook et al. (2022), annual diagnosed-Lyme societal-cost illustrations in 2016 dollars. https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article")
-        st.caption("⁴ MyLymeData 2025 Chartbook, printed pages 22–23, selected persistent-illness study group. Existing application reference; original chart was not independently checked in this update. https://www.lymedisease.org/assets/MLD-2025-chartbook.pdf")
-        st.write("35% describes disabled employment status in the selected persistent-illness study group presented in the chartbook. It is self-reported, not a verified disability-benefit determination or a nationally representative Lyme-attributable disability estimate. The chartbook cites a March 21, 2023 dataset and other sources; enrollment overall is not the denominator for this chart.")
+        st.caption("⁴ Hook et al. (2022): weighted mean societal cost $2,032 per participant in 2016 dollars; 613 participants in the societal-cost analysis. Includes medical, nonmedical and lost-productivity costs. Checked against the supplied article Results; study references are not personal bills or measured county costs.")
         st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
         st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
     st.write("Information and help finding care; not a diagnosis or a personal infection-risk estimate.")
-    page_note("¹ [CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html). Photos supplied for PathwayAI; no agency endorsement is implied.")
+    page_note("[CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html). Photos supplied for PathwayAI; no agency endorsement is implied.")
     render_page_notes()
     st.stop()
 

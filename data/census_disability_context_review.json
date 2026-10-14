@@ -1,0 +1,14 @@
+{
+  "source": "Mid-Hudson Region Community Health Assessment 2025, Table 12",
+  "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf",
+  "cited_primary_source": "U.S. Census Bureau ACS S1810",
+  "primary_source_url": "https://data.census.gov/table?q=S1810",
+  "checked_on": "2026-10-14",
+  "pdf_page": 34,
+  "reported_percent_any_disability": {
+    "Dutchess": 12.2,
+    "Orange": 11.7
+  },
+  "scope": "Checked supplied assessment table; any disability, not under-65 or Lyme-attributable. Original Census table not independently accessed.",
+  "vintage_status": "Unresolved: report table heading says 2023; source citation says 2020 ACS five-year estimates. Displayed as assessment-cited context, not current verified Census values."
+}

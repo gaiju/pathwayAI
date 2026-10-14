@@ -262,7 +262,7 @@ def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
     st.markdown("### Published cost references")
     st.write("Patient out-of-pocket means money the person paid themselves. It is different from the total amount paid by the patient and insurer together.")
-    st.write("Study-population costs, not measured Dutchess County costs.")
+    st.write("These figures describe study participants. They do not predict your bill or measure Dutchess County costs.")
 
     published = pd.DataFrame([
         {"Measure": "Societal cost, mean per participant",
@@ -446,7 +446,6 @@ def show_session_burden():
                       county="Not selected", barrier="Not reported", encounter=encounter_only)
     if not record or not (any(record.get(key) is not None for key in ("medical", "other", "workdays", "caregiver_hours")) or
                           any((record.get("encounter") or {}).get(field) for field in ("when", "exposure", "current"))):
-        st.write("Reviewed cost and time entries from Care & Support appear here automatically in the same session.")
         return
     st.markdown("#### Your earlier entries · private session preview")
     st.write("These are the entries you already made. No need to fill them in again.")
@@ -507,24 +506,26 @@ def policy89():
     <text x="120" y="155" fill="currentColor" font-size="13">0</text>
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
+    st.markdown("### Focus on Dutchess · demonstration county for a proposed pilot")
+    st.markdown("### Cost breakdown and time lost")
+    show_session_burden()
+    show_burden_evidence_panel104()
+    with st.expander("Optional: explore group-cost scenarios"):
+        scenario_notes101 = planning_scenario101()
     st.markdown("### Take a practical next step")
-    st.write("Choose a need, find a relevant service, and check whether the person reached support.")
+    st.write("Choose a burden, consider a response, and decide what to track.")
     focus=st.selectbox("What burden do you want to investigate?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
-        "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Record medical and other out-of-pocket separately, with one reporting period; review coverage and assistance needs.","Medical/other out-of-pocket bands; assistance connections completed"),
+        "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Help people access coverage and financial assistance. Use existing cost records to understand needs without asking for repeat entry.","Medical/other out-of-pocket bands; assistance connections completed"),
         "Work and caregiver time":("How does illness disrupt work and unpaid caregiving?","Record workdays and caregiver hours for a fixed period; ask which support is needed.","Workdays missed; caregiver hours; reported unmet needs"),
         "The diagnostic journey":("Where do patients report repeated visits or long waits?","Collect diagnosis-delay bands and encounter history; review access and referral barriers with clinical partners.","Delay bands; encounters; referral completion; time to appointment"),
         "Reaching care":("Which barriers prevent a completed visit?","Ask about transport, cost, referral and communication barriers; connect participants to relevant services.","Reported barrier; referral completion; appointments attended"),
     }
     question,action,measures=plans[focus]
     with st.container(border=True):
-        st.write("**Planning question:** "+question)
-        st.write("**Next step:** "+action)
-    st.markdown("### Cost breakdown and time lost")
-    show_session_burden()
-    show_burden_evidence_panel104()
-    with st.expander("Optional: explore group-cost scenarios"):
-        scenario_notes101 = planning_scenario101()
+        st.write("**What needs attention?** "+question)
+        st.write("**Possible response:** "+action)
+        st.write("**What to track:** "+measures)
     rows=reference_cost_rows("Dutchess",1060)
     brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE","Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a Stage 0 unit cost.","NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")

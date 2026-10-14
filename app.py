@@ -50,6 +50,8 @@ def render_page_notes():
         PAGE_NOTES.clear()
     with st.expander("Acknowledgements"):
         st.write("We thank the patients, caregivers and community members whose feedback helped make PathwayAI clearer and easier to use.")
+        st.write("We also thank the organizations that helped share the PathwayAI patient survey and bring more patient voices into the conversation:")
+        st.markdown("- Colorado Tick-Borne Disease Awareness Association\n- Lyme Treatment Foundation\n- Lyme Disease Resource Center, Inc.")
         st.write("We acknowledge the Lyme Disease Biobank research by Elizabeth J. Horn and colleagues, and the public-health researchers whose published work informs our evidence review.")
         st.markdown("[Horn et al. (2025) · Lyme Disease Biobank follow-up research](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) · [Hook et al. (2022) · economic burden research](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
         st.caption("These credits recognize feedback and published research. Formal pilot partnerships and endorsements require separate agreement. Individual feedback contributors will be named only with their permission.")

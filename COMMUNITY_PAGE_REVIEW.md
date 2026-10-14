@@ -89,3 +89,11 @@ The main contribution invitation now offers a private personal cost-and-time rec
 The cost image now describes four burden categories in plain sentences rather than giving measurement instructions. The unpaid-care card says “Time family and friends spend helping.” Measurement rules and source limitations stay in the bottom notes.
 
 Validation: 26 tests passed. AppTest exercised both map views, suppression of historical circles in the tick-only view, the bottom survey link, and the personal-record route. An additional geometry/source check confirmed all 57 county matches and the five separately reported NYC boroughs. The revised image was visually inspected for readable text and clipping.
+
+## Simplified personal-story guidance
+
+Patient feedback identified excessive choices and the risk of copying a fictional story into a personal account. Care & Support now leads with one story box and three short prompts: place/time, symptoms/duration, and care so far/help needed. It requests two or three sentences, permits skipping the story and retains the instruction to omit identifiers. AI assistance and a short read-only made-up example are collapsed after the box. The example autofill button was removed; no example is silently inserted into a personal record. The clear-session control remains available in the sidebar.
+
+Optional external AI, local organization, summary downloads, detailed history and record reuse remain available. The anecdotal treatment account in the feedback was not used as clinical evidence or added to patient guidance. Plain-language wording was simplified without asserting a formally verified eighth-grade reading level.
+
+Validation: all 27 tests passed, including a new regression check that examples do not prefill the story and that a person's own words survive a Community-page round trip.

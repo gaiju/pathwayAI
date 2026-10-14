@@ -4121,35 +4121,37 @@ page_note("Sharing your experiences with Community Voice is optional. Collection
 current_location_start = st.session_state.get("current_location_start", "")
 
 st.markdown("### Tell us what happened")
-st.write("A sentence or two is enough. We’ll help you make a summary you can review and take to your visit.")
-st.write("You can also leave the story blank and use the care, cost and support tools below.")
+st.write("In two or three sentences, tell us:")
+st.markdown("1. Where and when you found a tick or first felt unwell.\n2. What symptoms you have and how long they have lasted.\n3. Any care or tests you have had, and what help you need now.")
+st.write("Write what you remember. You can leave the story blank and use the tools below.")
 st.write("Please leave out names, contact details and other identifying information.")
-
-STORY_SAMPLE = 'I visited Maryland in June and had a tick bite. A few days later I developed a rash and became extremely tired and dizzy. I have felt this way for about two weeks. I had a Lyme blood test last week and was told it was negative. I have seen two doctors, missed five days of work, and spent about $600. I am now back home in Boston.'
-with st.expander("See a fictional story example"):
-    st.write(STORY_SAMPLE)
 
 if "quick_story_value" not in st.session_state:
     st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
 
-if st.button("Try this example", help="Copies the example into the story box so you can edit only the details that apply to you."):
-    st.session_state.quick_story_value = STORY_SAMPLE
-
-page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
-use_story_ai = st.checkbox("Use optional external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")
-if use_story_ai:
-    page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
-st.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
 quick_story = st.text_area(
-    "Tell us what happened in your own words",
+    "Your story, in your own words",
     key="quick_story_value",
-    placeholder="Start anywhere — even one or two sentences are enough.",
-    height=180,
+    placeholder="Place and time. Symptoms and how long. Care so far and help needed.",
+    height=140,
     max_chars=MAX_STORY_CHARS,
 )
 st.session_state["saved_story_text"] = quick_story
 
+with st.expander("AI assistance and privacy"):
+    use_story_ai = st.checkbox("Use external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")
+    st.write("You can organize your story with the app’s local rules or choose external AI. Review the result before sharing.")
+page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
+if use_story_ai:
+    page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
+st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
 organize_story = st.button("✨ Organize My Story", type="primary", use_container_width=True, disabled=not bool(quick_story.strip()))
+
+STORY_SAMPLE = 'I found a tick after walking in Maryland in June. I have had a rash and felt tired for two weeks. I had a Lyme test last week and would like help preparing for a visit.'
+with st.expander("Read a made-up example"):
+    st.write("This example is for learning. Write your own experience in the story box.")
+    st.write(STORY_SAMPLE)
+
 if organize_story:
     st.session_state["story_organized"] = True
     # Use the configured LLM only after an explicit click and within the pilot call limit.

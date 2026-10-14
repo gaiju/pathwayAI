@@ -3025,6 +3025,7 @@ def select_public_pathway(target, intent):
 
 def return_to_path_choices():
     st.session_state["pathway_open"] = False
+    st.session_state["pathway_view"] = None
 
 def clear_session_and_return():
     """Remove this browser session's PathwayAI inputs and return to the start screen."""
@@ -3047,10 +3048,10 @@ paths = [
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
-if st.session_state.get("pathway_view") not in available_views:
-    st.session_state["pathway_view"] = "📊 Community Burden & Action"
+if not st.session_state.get("pathway_open", False) or st.session_state.get("pathway_view") not in available_views:
+    st.session_state["pathway_view"] = None
 st.sidebar.markdown("### 🧭 Choose a section")
-view = st.sidebar.radio("Explore PathwayAI", available_views, key="pathway_view", on_change=open_sidebar_view)
+view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="pathway_view", on_change=open_sidebar_view)
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")

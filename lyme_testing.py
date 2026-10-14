@@ -76,6 +76,7 @@ def show_lyme_testing(simple=True):
         with read:
             st.markdown("#### Practice with a fictional report")
             st.write("**Invented learning example — not the uploaded patient report or a diagnosis.**")
+            st.write("Fictional patient: **John Smith** · Fictional date of birth: **January 1, 1980**")
             st.table([
                 {"Report item": "Overall interpretation", "Example result": "Negative"},
                 {"Report item": "An individual antibody band", "Example result": "Present"},

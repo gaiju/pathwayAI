@@ -512,9 +512,9 @@ def policy89():
     show_burden_evidence_panel104()
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
-    st.markdown("### Take a practical next step")
-    st.write("Choose a burden, consider a response, and decide what to track.")
-    focus=st.selectbox("What burden do you want to investigate?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
+    st.markdown("### Find help for this need")
+    st.write("Choose a need to see a contact or service you can use. No new cost entry is needed.")
+    focus=st.selectbox("What would you like help with?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Help people access coverage and financial assistance. Use existing cost records to understand needs without asking for repeat entry.","Medical/other out-of-pocket bands; assistance connections completed"),
         "Work and caregiver time":("How does illness disrupt work and unpaid caregiving?","Record workdays and caregiver hours for a fixed period; ask which support is needed.","Workdays missed; caregiver hours; reported unmet needs"),
@@ -522,10 +522,21 @@ def policy89():
         "Reaching care":("Which barriers prevent a completed visit?","Ask about transport, cost, referral and communication barriers; connect participants to relevant services.","Reported barrier; referral completion; appointments attended"),
     }
     question,action,measures=plans[focus]
-    with st.container(border=True):
-        st.write("**What needs attention?** "+question)
-        st.write("**Possible response:** "+action)
-        st.write("**What to track:** "+measures)
+    routes = {
+        "Patient-paid costs": ("Cost / insurance coverage", "Find out whether coverage or financial assistance is available for you."),
+        "Work and caregiver time": ("Finding appropriate support", "Find someone to help you explore caregiving and daily-life support."),
+        "The diagnostic journey": ("Appointment / referral access", "Find a care contact and ask about evaluation, coverage and appointment availability."),
+        "Reaching care": ("Transportation / distance", "Ask about a ride so you can attend a medical appointment."),
+    }
+    support_need, benefit = routes[focus]
+    st.write("**What this can help you do:** " + benefit)
+    st.write("**Contacts below are for the Dutchess demonstration county.**")
+    support89(county, support_need)
+    with st.expander("For community teams: response and evaluation"):
+        st.write("**Question to investigate:** " + question)
+        st.write("**Response to consider:** " + action)
+        st.write("**How to assess it:** " + measures)
+        st.write("Use comparable, consented participant records to inform support priorities. These are proposed actions, not measured outcomes.")
     rows=reference_cost_rows("Dutchess",1060)
     brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE","Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a Stage 0 unit cost.","NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
@@ -533,9 +544,6 @@ def policy89():
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
     st.download_button("Download evidence summary","\n".join(brief).encode("utf-8"),file_name="Dutchess_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     policy_ai105()
-    st.markdown("#### Find support in Dutchess")
-    support_focus=st.selectbox("Support need",list(SUPPORT89),key="policy89_focus")
-    support89(county,support_focus)
     st.markdown("### Sources, methods and project status")
     st.write("Open the details below for study limitations, calculations and current coverage.")
     with st.expander("How to interpret cost figures and examples"):

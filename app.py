@@ -3058,8 +3058,12 @@ if not st.session_state.get("pathway_open", False):
         st.write("**3. Prevention and tick bites (25 seconds):** Explore local prevention information and next steps after a bite.")
         st.button("Go to Prevention →", key="review113_prevent", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "outdoors"), use_container_width=True)
         page_note("Published costs are research references, not local predictions. The AI may make mistakes; check cited sources.")
-    with st.expander("Explore costs and daily-life effects"):
-        st.write("See medical bills, other expenses, missed work, and daily-life impacts in the burden views.")
+    with st.expander("How has illness affected your money, time or daily life?"):
+        st.write("Record what you paid, time away from work and help from family. Use your entries to prepare a visit summary or explore how communities could respond to these needs.")
+        st.button("Record my costs and time →", key="landing_costs_to_care",
+                  on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+        st.button("Explore community costs and support →", key="landing_costs_to_community",
+                  on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
     with st.expander("How to try PathwayAI"):
         st.write("Click one of the four large buttons at the top of this page. Each opens a different tool. "
                  "Use 'Back to start' to try another. You do not need to install anything or sign in.")

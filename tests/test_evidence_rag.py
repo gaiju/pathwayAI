@@ -52,6 +52,7 @@ class EvidenceTests(unittest.TestCase):
                 return (json.dumps({"tools": ["search_pathwayai"], "reason": "test"})
                         if len(calls) == 1 else answer), None
             namespace = dict(re=re, json=json, _openai_text_request=request,
+                             simple_reading_view=lambda: True,
                              validate_answer_citations=validate_answer_citations,
                              source_list=source_list,
                              AGENT_TOOL_MAP={"search_pathwayai": lambda q: {"current_app": {}},
@@ -60,6 +61,7 @@ class EvidenceTests(unittest.TestCase):
             output, meta = namespace["run_strategy_agent"]("societal productivity costs")
             self.assertEqual(meta["state"], expected)
             self.assertEqual(len(calls), 2)
+            self.assertIn("Use familiar words", calls[1][0])
             self.assertIn("search_evidence", meta["selected_tools"])
             bundle = json.loads(calls[1][1])
             self.assertIn("HOOK-2022", str(bundle["tool_results"]))

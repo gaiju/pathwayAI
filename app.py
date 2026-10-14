@@ -500,6 +500,8 @@ def policy89():
     </svg>""",unsafe_allow_html=True)
     st.markdown("### Focus on Dutchess · demonstration county for a proposed pilot")
     st.markdown("### Cost breakdown and time lost")
+    st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
+    page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver hours stay separate from spending. Published cost references appear below.")
     show_session_burden()
     show_burden_evidence_panel104()
     with st.expander("Optional: explore group-cost scenarios"):

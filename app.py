@@ -4143,8 +4143,8 @@ current_location_start = st.session_state.get("current_location_start", "")
 
 st.markdown("### Tell us what happened")
 st.write("In two or three sentences, tell us:")
-st.markdown("1. Where and when you found a tick or first felt unwell.\n2. What symptoms you have and how long they have lasted.\n3. Any care or tests you have had, and what help you need now.")
-st.write("Write what you remember. You can leave the story blank and use the tools below.")
+st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
+st.write("Short notes are fine. Write what you remember. You can skip any question or continue to the tools below.")
 st.write("Please leave out names, contact details and other identifying information.")
 
 if "quick_story_value" not in st.session_state:

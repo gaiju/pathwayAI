@@ -1,0 +1,15 @@
+{
+  "document_title": "Communicable Disease in New York State: Rate per 100,000 Population of Cases Reported in 2024",
+  "source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf",
+  "uploaded_pdf_sha256": "f45f3e94ab379fd8ccac39b1860b51701c8eb9f4e6067f800b54afef5d0bc8bd",
+  "verified_on": "2026-10-14",
+  "pdf_page": 5,
+  "metric": "reported Lyme disease cases per 100000 population",
+  "year": 2024,
+  "verified_rates": {
+    "Dutchess": 355.5,
+    "Orange": 237.0,
+    "NYS TOTAL": 109.8
+  },
+  "verification_scope": "Checked text and rendered table in user-provided PDF. Does not verify case counts, population denominators separately, cost references or observed county costs."
+}

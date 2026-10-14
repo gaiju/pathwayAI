@@ -30,6 +30,9 @@ def county_scenario(disseminated_share=None):
         "scenario_type": "illustrative_not_measured_county_cost",
         "basis": basis, "assumed_disseminated_share": disseminated_share,
         "case_source": CASE_SOURCE, "rate_source": RATE_SOURCE, "cost_source": COST_SOURCE,
+        "rate_verification": "Matched user-provided NYSDOH 2024 rates PDF, page 5",
+        "case_count_verification": "Inherited application count; case table still requires verification",
+        "cost_verification": "Inherited publication reference; original table still requires verification",
         "formula": "reported cases * medical episode reference",
         "per_100000_formula": "reported cases per 100000 * medical episode reference",
         "limits": "Published reference population differs; no inflation, local case-mix, underreporting, pharmacy, causal delay or savings adjustment; OOP not added to medical cost",
@@ -74,6 +77,6 @@ def show_county_cost_scenario(note):
     st.download_button("Download county burden scenario and sources", frame.to_csv(index=False).encode("utf-8-sig"),
                        file_name="PathwayAI_Illustrative_CountyBurden.csv", mime="text/csv", key="county_burden_csv")
     note(f"Scenario sources: [NYSDOH cases]({CASE_SOURCE}), [rates]({RATE_SOURCE}), "
-         f"[Yu medical-cost reference]({COST_SOURCE}). Values inherit the existing application references; "
+         f"[Yu medical-cost reference]({COST_SOURCE}). Rates were matched to the user-provided NYSDOH 2024 PDF, page 5. Case counts and cost values inherit existing application references; "
          "original table verification remains required. Case year 2024; cost dollar year 2022. "
          "No delay-to-disease progression model, local price estimate, survey average or savings is inferred.")

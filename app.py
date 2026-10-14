@@ -490,6 +490,9 @@ def policy89():
     orange,dutchess,label,maximum=measures[measure]
     suffix="%" if measure=="Language context" else ""
     st.write(label)
+    if measure == "Reported Lyme rate":
+        st.write("New York State reported rate: 109.8 cases per 100,000 residents in 2024.")
+        page_note("Dutchess 355.5, Orange 237.0 and statewide 109.8 were checked against the user-provided NYSDOH 2024 rates PDF, page 5. These are reported case rates, not all infections or individual risk.")
     st.markdown(f"""<svg viewBox="0 0 760 160" width="100%" role="img" aria-label="{html.escape(label)}: Orange {orange}, Dutchess {dutchess}" xmlns="http://www.w3.org/2000/svg">
     <text x="8" y="42" fill="currentColor" font-size="18">Orange</text>
     <rect x="120" y="18" width="{orange/maximum*500:.1f}" height="36" rx="4" fill="#C65D17"/>

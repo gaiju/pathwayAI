@@ -22,6 +22,7 @@ from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
+from county_plan import show_county_plan_context, PLAN_CONTEXT
 
 PAGE_NOTES = []
 
@@ -498,6 +499,7 @@ def policy89():
     <text x="120" y="155" fill="currentColor" font-size="13">0</text>
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
+    show_county_plan_context(page_note)
     st.markdown("### Understand costs and time lost")
     st.write("Your record shows what you paid, work you missed and help you needed. With your review and permission, comparable records could help communities identify support needs. Your record is not automatically shared.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
@@ -529,6 +531,14 @@ def policy89():
     brief=["PathwayAI | Community burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a before-diagnosis unit cost.',"NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
+    brief.extend(["", "COUNTY HEALTH PLAN CONTEXT (GENERAL HEALTH; NOT LYME COST MEASUREMENTS)",
+                  PLAN_CONTEXT["source"], PLAN_CONTEXT["source_url"],
+                  "Selected priorities: " + "; ".join(PLAN_CONTEXT["priorities"])])
+    for finding in PLAN_CONTEXT["findings"]:
+        brief.append(f"{finding['finding']} [Printed p. {finding['printed_page']}; PDF p. {finding['pdf_page']}]")
+        if finding.get("limitation"):
+            brief.append("Limit: " + finding["limitation"])
+    brief.extend(["No county adoption or referral-platform partnership is claimed. Shared local patient reporting needs a secure, consent-based pilot."])
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
     st.download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     policy_ai105()

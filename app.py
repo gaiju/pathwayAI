@@ -314,8 +314,8 @@ def show_burden_evidence_panel104():
 
 def policy_ai105():
     """Public, bounded policy Q&A; no patient narrative or private records sent."""
-    st.markdown("### Ask AI about community burden")
-    st.write("Explore what published research and public county indicators suggest for planning. The AI cannot estimate local savings, diagnose patients, or choose a county budget.")
+    st.markdown("#### Ask AI about the evidence")
+    st.write("Ask a question about the published costs, reported disease, or possible community needs. This example uses Dutchess County data.")
     questions = [
         "Which burden categories might warrant further investigation in this public-data example?",
         "What can published studies tell us about diagnostic delay and disability-related costs?",
@@ -373,7 +373,7 @@ def policy_ai105():
             "Limitations: Independent demonstration, not county-endorsed; no validated county Stage 0 estimate, intervention savings, causal inference, or Bayesian posterior.",
             "", "AI-GENERATED INTERPRETATION", st.session_state["policy_ai105_answer"]
         ])
-        st.download_button("Download AI summary and sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v108.txt", mime="text/plain", key="policy_ai105_download")
+        st.download_button("Download AI summary and sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v126.txt", mime="text/plain", key="policy_ai105_download")
 
 
 def plain_language_help108():
@@ -467,6 +467,7 @@ def policy89():
     ])
     st.bar_chart(delay_comparison.set_index("Time to diagnosis"), horizontal=True)
     st.write("**67% versus 43%** — a difference of **24 percentage points** in this small survey comparison.")
+    st.caption("Previously reported exploratory survey figures. They are not independently verified from individual responses, and do not measure additional costs caused by delay.")
     with st.expander("Other reported effects and how to interpret these findings"):
         st.write("**More than 10 healthcare professionals:** 65% with >5-year delay versus 43% with ≤5-year delay.")
         st.write("**More than 100 work or school days lost:** 77% with >5-year delay versus 67% with ≤5-year delay.")
@@ -502,11 +503,8 @@ def policy89():
         )
     with st.expander("Optional: explore group-cost scenarios"):
         scenario_notes101 = planning_scenario101()
-    st.markdown("### 4. What can communities do?")
-    st.write("Choose a community need, see a possible next step, and ask AI to explain the evidence.")
-    st.markdown("#### Ask AI about community needs")
-    policy_ai105()
-    st.markdown("#### Plan a community response")
+    st.markdown("### 4. Explore community solutions")
+    st.write("Choose a need, review a possible response, and download a planning brief. You can also ask AI about the evidence.")
     focus=st.selectbox("What burden do you want to investigate?",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
     plans={
         "Patient-paid costs":("Which payments create financial pressure before diagnosis?","Record medical and other OOP separately, with one reporting period; review coverage and assistance needs.","Medical/other OOP bands; assistance connections completed"),
@@ -524,6 +522,7 @@ def policy89():
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
     st.download_button("Download your burden discussion brief","\n".join(brief).encode("utf-8"),file_name="Dutchess_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
+    policy_ai105()
     with st.expander("Local support resources"):
         support_focus=st.selectbox("Support need",list(SUPPORT89),key="policy89_focus")
         support89(county,support_focus)
@@ -2869,6 +2868,7 @@ if not st.session_state.get("pathway_open", False):
              "find care and support, and explore the costs of illness. It helps communities turn evidence into questions and possible actions.")
     st.write("**For:** residents, travelers, patients, caregivers, clinicians, researchers, community groups, and public-health leaders.")
     st.markdown("#### What would you like to do?")
+    st.info("**This is an interactive app, not just a webpage.** Click one of the four buttons below to try it. No download or installation is needed.")
     for start in range(0, len(paths), 2):
         cols = st.columns(2)
         for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
@@ -2903,9 +2903,9 @@ if not st.session_state.get("pathway_open", False):
         st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")
     with st.expander("Explore costs and daily-life effects"):
         st.write("See medical bills, other expenses, missed work, and daily-life impacts in the burden views.")
-    with st.expander("A quick tour for first-time visitors"):
-        st.write("Start with Learn & Prevent for outdoor safety; Care & Support for help finding care; "
-                 "or Community Burden & Action to explore costs, local reports, and AI-assisted planning.")
+    with st.expander("How to try PathwayAI"):
+        st.write("Click one of the four large buttons at the top of this page. Each opens a different tool. "
+                 "Use 'Back to start' to try another. You do not need to install anything or sign in.")
     with st.expander("Why does this matter?"):
         st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
         st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")

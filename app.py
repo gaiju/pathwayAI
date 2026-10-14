@@ -3087,9 +3087,6 @@ if not st.session_state.get("pathway_open", False):
                   on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
         st.button("Explore others’ experiences and cost references →", key="landing_costs_to_community",
                   on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
-    with st.expander("How to try PathwayAI"):
-        st.write("Click one of the four large buttons at the top of this page. Each opens a different tool. "
-                 "Use 'Back to start' to try another. You do not need to install anything or sign in.")
     with st.expander("Why does this matter?"):
         st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
         st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")
@@ -3102,11 +3099,10 @@ if not st.session_state.get("pathway_open", False):
         st.write("Public collection is off by default. A real reporting pilot needs consent, private storage and a privacy-reviewed release process. We have not measured improved health, reduced costs or county adoption.")
     with st.expander("Published Lyme disease facts and costs"):
 
-        st.write("Enjoy the outdoors. Prepare for ticks. PathwayAI focuses on Lyme disease and the hidden costs people face while seeking care and support.")
         disability102, cost102 = st.columns(2)
         with disability102:
-            st.metric("Disabled employment status · study group", "35%")
-            st.write("Self-reported by persistent-illness participants described in MyLymeData’s 2025 Chartbook. Not a rate for all Lyme patients.")
+            st.metric("Reported disabled employment status · selected study group", "35%")
+            st.write("In this selected study group, 35% described their employment status as disabled. This is not a percentage for all people with Lyme disease.")
         with cost102:
             st.metric("Published U.S. societal cost / year", "$345–968M")
             st.write("Hook et al. 2022 estimate for diagnosed Lyme disease, in 2016 dollars. Medical, nonmedical and productivity costs.")

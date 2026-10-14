@@ -58,11 +58,7 @@ def reading_copy(simple, detailed):
 HOOK_COST_URL = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335-t5"
 YU_COST_URL = "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880"
 COST_CONTEXT_CAVEAT = (
-    "Illustrative arithmetic only: published unit costs × official reported cases. "
-    "Not a county-specific cost estimate, expected cost, Stage 0 estimate or savings estimate. "
-    "No adjustment for underreporting, local case mix, inflation or diagnostic delay. "
-    "Yu covers direct medical episode costs; Hook includes medical, nonmedical and productivity costs. "
-    "The two perspectives and dollar years differ: do not add the totals or treat them as a range."
+    'Illustrative arithmetic only: published unit costs × official reported cases. Not a county-specific cost estimate, expected cost, before-diagnosis estimate or savings estimate. No adjustment for underreporting, local case mix, inflation or diagnostic delay. Yu covers direct medical episode costs; Hook includes medical, nonmedical and productivity costs. The two perspectives and dollar years differ: do not add the totals or treat them as a range.'
 )
 
 def reference_cost_rows(county, cases):
@@ -130,7 +126,7 @@ def evidence89(include_survey=True):
             st.write("18 of 33 reported more than 100 days lost; 20 of 33 reported more than five years to diagnosis; 16 of 33 reported seeing more than ten clinicians.")
             with st.expander("Survey source and scope"):
                 st.write("Source: PathwayAI survey, early summary supplied by the project lead, October 3, 2026; 33 respondents reported a Lyme diagnosis. Counts are reproduced from that supplied snapshot, not recalculated from a current response export.")
-                st.write("Voluntary convenience sample, not county prevalence or a personal prediction. Exact question wording, missing-response denominators and cost/time reporting periods require confirmation against the export. Spending is not assigned to Stage 0, a monthly/annual period, or medical/travel categories.")
+                st.write('Voluntary convenience sample, not county prevalence or a personal prediction. Exact question wording, missing-response denominators and cost/time reporting periods require confirmation against the export. Spending is not assigned to before-diagnosis, a monthly/annual period, or medical/travel categories.')
         with cards[1]:
             st.markdown("🧬 **Lyme Disease Biobank research**")
             st.write("Among 253 participants returning for follow-up, 55 (22%) reported ongoing symptoms; 19 of those 55 (35%) had seen a provider about them. This selected study group provides follow-up context, not a personal prognosis or dollar estimate.")
@@ -138,7 +134,7 @@ def evidence89(include_survey=True):
         st.write("Biobank follow-up: 55 of 253 returning participants reported ongoing symptoms; 19 of those 55 had seen a provider about them. This selected study group supplies follow-up context, not a cost estimate.")
     with st.expander("Patient journey · where costs and time can accumulate"):
         show_readable_table([
-            {"Journey period":"Before diagnosis","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":"PathwayAI survey themes motivate collection; no published Stage 0 unit cost is assigned"},
+            {"Journey period":"Before diagnosis","What to record":"Visits, patient-paid tests/care, travel, missed work, caregiver time","Evidence role":'PathwayAI survey themes motivate collection; no published before-diagnosis unit cost is assigned'},
             {"Journey period":"Diagnosis and care episode","What to record":"Medical out-of-pocket separately from insurer payments and other spending","Evidence role":"Yu localized/disseminated episode benchmarks; does not imply all patients progress through both groups"},
             {"Journey period":"Follow-up and daily life","What to record":"Continuing symptoms, follow-up access, function, work and caregiver time","Evidence role":"Biobank follow-up findings; continuing symptoms do not automatically establish ongoing infection or future costs"},
         ],hide_index=True)
@@ -187,7 +183,7 @@ def larger_evidence101():
         {"Source":"PathwayAI survey","Population":"Small voluntary sample across locations","Contribution":"Spending, diagnosis delay and days lost","Limit":"Early supplied snapshot; not county prevalence or a spending average"},
         {"Source":"MyLymeData 2025 Chartbook","Population":"19,000+ enrolled overall; chart-specific subsets","Contribution":"Persistent-illness access, work and disability context","Limit":"Registry enrollment is not the denominator for every chart; not a random population sample"},
         {"Source":"Hook / TickNET 2022","Population":"901 in patient-perspective analysis; high-incidence areas, 2014–2016","Contribution":"Medical, nonmedical and productivity components","Limit":"2016 USD; patient total includes work-loss value, not just out-of-pocket"},
-        {"Source":"Yu 2026","Population":"70,531 cases; 10,962 with recorded out-of-pocket","Contribution":"Localized/disseminated medical and out-of-pocket episode references","Limit":"2022 USD; excludes pharmacy; not a Stage 0 unit cost"},
+        {"Source":"Yu 2026","Population":"70,531 cases; 10,962 with recorded out-of-pocket","Contribution":"Localized/disseminated medical and out-of-pocket episode references","Limit":'2022 USD; excludes pharmacy; not a before-diagnosis unit cost'},
         {"Source":"Lyme Disease Biobank, Horn 2025","Population":"253 returning participants","Contribution":"Symptoms and care at follow-up","Limit":"Selected follow-up group; no cost valuation"},
     ],hide_index=True)
     st.write("MyLymeData’s chartbook reports 35% with disabled employment status, 62% reducing work hours and 30% stopping work currently or in the past among the persistent-illness participants discussed. Work categories may overlap; these are not rates for all Lyme patients or dollar costs.")
@@ -231,7 +227,7 @@ def planning_scenario101():
         "scenario_total_usd": amount,
         "formula": "hypothetical_people * published_unit_cost_usd",
         "source_url": url,
-        "limitation": "Not a county estimate, Stage 0 estimate, savings, or patient prediction",
+        "limitation": 'Not a county estimate, before-diagnosis estimate, savings, or patient prediction',
     }])
     st.download_button(
         "Download this scenario as CSV (with source and assumptions)",
@@ -241,7 +237,7 @@ def planning_scenario101():
         key="scenario_v120_csv",
     )
 
-    notes=["PathwayAI | Illustrative planning scenario","Not a county estimate, personal prediction, survey-derived average, savings or Stage 0 estimate.",f"Hypothetical people: {n}","Perspective: "+choice,"Study group: "+group,f"Published unit cost: USD {unit}; dollar year {year}",f"Calculation: {n} × USD {unit} = USD {amount}","Cost scope: "+scope,"Reference horizon: "+horizon,"Source: "+url,"Assumption: each hypothetical person is assigned the selected published study-group mean. No observed local case mix or disease classification is inferred. No inflation or underreporting adjustment."]
+    notes=["PathwayAI | Illustrative planning scenario",'Not a county estimate, personal prediction, survey-derived average, savings or before-diagnosis estimate.',f"Hypothetical people: {n}","Perspective: "+choice,"Study group: "+group,f"Published unit cost: USD {unit}; dollar year {year}",f"Calculation: {n} × USD {unit} = USD {amount}","Cost scope: "+scope,"Reference horizon: "+horizon,"Source: "+url,"Assumption: each hypothetical person is assigned the selected published study-group mean. No observed local case mix or disease classification is inferred. No inflation or underreporting adjustment."]
     with st.expander("Optional work-loss assumption · kept separate"):
         period=st.selectbox("Assumed work-loss reporting period",["Choose a period","30 days","90 days","One year","A care episode"],key="workperiod101")
         days=st.number_input("Assumed missed workdays per person",min_value=0.0,max_value=3650.0,value=None,step=1.0,key="days101")
@@ -306,9 +302,7 @@ def show_burden_evidence_panel104():
 
 def show_synthetic_cost_example():
     st.markdown("#### Synthetic cost demonstration")
-    st.write("A pie chart is useful for an individual scenario with mutually exclusive categories. "
-             "The published sources above do not establish a comparable, complete "
-             "Stage 0 percentage breakdown.")
+    st.write('A pie chart is useful for an individual scenario with mutually exclusive categories. The published sources above do not establish a comparable, complete before-diagnosis percentage breakdown.')
     with st.expander("Invented example: pie chart and cost table", expanded=False):
         st.write("**Synthetic example — invented amounts, not measured patient or county costs.**")
         c1, c2, c3 = st.columns(3)
@@ -356,7 +350,7 @@ def policy_ai105():
         "Which burden categories might warrant further investigation in this public-data example?",
         "What can published studies tell us about diagnostic delay and disability-related costs?",
         "Which access barriers could a community assess, and how might they be measured?",
-        "What evidence is missing before estimating local Stage 0 costs?",
+        'What evidence is missing before estimating local before-diagnosis costs?',
     ]
     question = st.selectbox("What would you like to understand?", questions, key="policy_ai105_question")
     page_note("Optional AI uses this public evidence summary and your selected question, not patient stories or Community Voice records.")
@@ -372,12 +366,12 @@ def policy_ai105():
             "county": "Dutchess County, New York (independent public-data demonstration; no county endorsement)",
             "surveillance": "NYSDOH 2024: 1,060 reported Lyme cases, rate 355.5 per 100,000; counts are by residence, not exposure.",
             "published_costs": [
-                "Hook et al. 2022, Table 5: societal mean $2,032, median $690 per participant in 2016 USD; includes medical, nonmedical, and productivity costs; not Stage 0.",
+                'Hook et al. 2022, Table 5: societal mean $2,032, median $690 per participant in 2016 USD; includes medical, nonmedical, and productivity costs; not before-diagnosis.',
                 "Yu et al. 2026, Table 2: direct medical episode mean $2,227 in 2022 USD; distinct population and perspective; not additive to Hook.",
             ],
             "survey": "Previously supplied voluntary survey summaries suggest spending, time lost and diagnosis-delay burdens to investigate. Current denominators and reporting periods have not been independently verified. Do not report survey percentages or infer Dutchess prevalence.",
             "county_context": "Census QuickFacts ACS 2020-2024: 8.4% poverty, 4.9% uninsured under 65, 9.2% disability under 65; all-cause context, not Lyme-attributable.",
-            "limits": "No county partnership or endorsement, county-specific Stage 0 unit cost, verified local patient sample, intervention effect, causal savings, or validated Bayesian estimate is available.",
+            "limits": 'No county partnership or endorsement, county-specific before-diagnosis unit cost, verified local patient sample, intervention effect, causal savings, or validated Bayesian estimate is available.',
             "sources": [HOOK_COST_URL, YU_COST_URL, "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf", "https://www.census.gov/quickfacts/dutchesscountynewyork"],
         }
         system = ("You are PathwayAI's public-health policy evidence assistant. Use ONLY the supplied curated evidence. "
@@ -408,7 +402,7 @@ def policy_ai105():
             "Source URLs:", HOOK_COST_URL, YU_COST_URL,
             "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf",
             "https://www.census.gov/quickfacts/dutchesscountynewyork",
-            "Limitations: Independent demonstration, not county-endorsed; no validated county Stage 0 estimate, intervention savings, causal inference, or Bayesian posterior.",
+            'Limitations: Independent demonstration, not county-endorsed; no validated county before-diagnosis estimate, intervention savings, causal inference, or Bayesian posterior.',
             "", "AI-GENERATED INTERPRETATION", st.session_state["policy_ai105_answer"]
         ])
         st.download_button("Download AI summary and sources", note.encode("utf-8"), file_name="PathwayAI_AI_PolicyNote_v126.txt", mime="text/plain", key="policy_ai105_download")
@@ -449,7 +443,7 @@ def show_session_burden():
         return
     st.markdown("#### Your earlier entries · private session preview")
     st.write('Here are your earlier entries. You do not need to enter them again.')
-    st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (Stage 0)', '')} · Residence: {record['county']}")
+    st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (before-diagnosis)', '')} · Residence: {record['county']}")
     cols = st.columns(2)
     for col, key, label in zip(cols, ("medical", "other"), ("Money paid for care", "Other money paid")):
         value = record[key]
@@ -536,7 +530,7 @@ def policy89():
         st.write("**How to assess it:** " + measures)
         st.write('Use records people have agreed to share. Compare the same kinds of costs over the same period. These actions need testing; their effects have not been measured.')
     rows=reference_cost_rows("Dutchess",1060)
-    brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE","Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a Stage 0 unit cost.","NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
+    brief=["PathwayAI | Dutchess burden discussion brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not Dutchess prevalence, a quantified county burden or a before-diagnosis unit cost.',"NYSDOH Dutchess 2024: 1,060 reported Lyme cases, rate 355.5/100,000. Orange rate 237.0/100,000.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['perspective']}: 1,060 × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
@@ -628,7 +622,7 @@ def policy89():
 
     with st.expander("Public county context and sources"):
         show_readable_table([
-            {"Source":"NYSDOH, 2024","Measure":"Reported Lyme cases","Value":"1,060","Use":"Reported illness context; not exposure location or Stage 0 cost"},
+            {"Source":"NYSDOH, 2024","Measure":"Reported Lyme cases","Value":"1,060","Use":'Reported illness context; not exposure location or before-diagnosis cost'},
             {"Source":"Census QuickFacts, ACS 2020–2024","Measure":"Poverty / uninsured under 65 / disability under 65","Value":"8.4% / 4.9% / 9.2%","Use":"All-cause community context; not Lyme-attributable"},
         ],hide_index=True)
         ahrf=load_ahrf_county("36027")
@@ -664,7 +658,7 @@ def policy89():
         c3.metric("More than 5 years to diagnosis", "20 of 33")
         st.write("PathwayAI survey · early October 3, 2026 supplied snapshot, 33 self-reported diagnosed respondents. Small voluntary sample across locations; not county estimates.")
         with st.expander("Survey methods"):
-            st.write("Counts are from the project lead’s supplied summary, not recalculated from the current export. Confirm question wording, missing-response denominators and reporting periods; no spending average or Stage 0 cost attribution is inferred.")
+            st.write('Counts are from the project lead’s supplied summary, not recalculated from the current export. Confirm question wording, missing-response denominators and reporting periods; no spending average or before-diagnosis cost attribution is inferred.')
     with st.expander("Larger surveys and study populations"):
         larger_evidence101()
     with st.expander("Published evidence & methods"):
@@ -800,7 +794,7 @@ def compact_care88(quick, story):
                "When found: " + (encounter["when"] or "Not reported"),
                "Where found: " + (encounter["exposure"] or "Not reported"),
                "Current care location: " + (encounter["current"] or "Not reported")]
-    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase.replace(" (Stage 0)", "")]
+    record += ["", "QUESTION FOR MY CLINICIAN",questions or "Not reported", "", "BURDEN", "Period: " + period,"Phase: " + phase.replace(' (before-diagnosis)', "")]
     for label,value in [("Medical out-of-pocket",medical),("Other out-of-pocket",other),("Modeled work-loss value",modeled)]:
         record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
     paid = medical + other if medical is not None and other is not None else None
@@ -3528,7 +3522,7 @@ if view == "📊 Community Burden & Action":
             display_costs.append({"County": row["county"], "2024 reported cases": row["reported_cases"], "Published perspective": row["perspective"], "Unit cost / dollar year": f"${row['unit_cost_usd']:,} / {row['dollar_year']} USD", "Visible arithmetic": f"{row['reported_cases']:,} × ${row['unit_cost_usd']:,} = ${row['illustrative_total_usd']:,}"})
         show_readable_table(display_costs, hide_index=True)
         page_note(COST_CONTEXT_CAVEAT)
-        st.write("Stage 0 remains a separate measurement gap: pre-diagnosis visits, out-of-pocket spending, missed work and caregiver time must be collected with a stated period.")
+        st.write('before-diagnosis remains a separate measurement gap: pre-diagnosis visits, out-of-pocket spending, missed work and caregiver time must be collected with a stated period.')
         st.markdown(f"[NYSDOH 2024 cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [Yu medical costs]({YU_COST_URL}) · [Hook societal costs]({HOOK_COST_URL})")
         st.download_button("Download illustrative cost context and assumptions", pd.DataFrame(county_cost_context).to_csv(index=False).encode("utf-8-sig"), file_name="CountyCostContext.csv", mime="text/csv", key="county_cost_context_download")
     st.markdown("**Proposed 90-day pilot measures — effects not yet measured**")
@@ -3745,7 +3739,7 @@ if view == "📊 Community Burden & Action":
                 "", "PROPOSED COUNTY ACTION",
                 "Test referral-navigation help with a willing clinic and community partner. Offer language, telephone, disability-access and transport help based on the person's stated need.",
                 "Ask each participant whether a referral was offered, whether care was completed, time to appointment, and why care was difficult to obtain.",
-                "Record one period for patient-paid medical costs, other out-of-pocket costs, missed work, caregiver time and daily function. Label before-diagnosis (Stage 0) separately from after-diagnosis amounts.",
+                'Record one period for patient-paid medical costs, other out-of-pocket costs, missed work, caregiver time and daily function. Label before-diagnosis (before-diagnosis) separately from after-diagnosis amounts.',
                 "Use the same questions at baseline and follow-up. Report usable answers and missing data separately. No benefit or savings is established yet.",
                 "", "WHAT THIS BRIEF DOES NOT ESTIMATE",
                 "No local patient burden baseline, insurer spending, Lyme-attributable disability, prevented illness or county savings is inferred from these public measures.",

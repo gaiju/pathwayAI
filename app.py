@@ -75,6 +75,8 @@ def show_sources_and_acknowledgements():
 - **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank
 - **Allison Weber** — Biobank data guidance
 - **Helen Zhang** — Senior Biostatistician, Johns Hopkins University
+- **Livia Santiago-Rosado, MD, MPH, FACEP** — Commissioner, Dutchess County Department of Health
+- **Richard S. Ostfeld, PhD** — Distinguished Senior Scientist, Cary Institute of Ecosystem Studies
 - [Cynthia Adinig](https://www.linkedin.com/in/cynthiaadinig/) — CYNAERA and BIPOC Equity Agency
 - [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Lyme Treatment Foundation
 - [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Lyme Disease Resource Center, Inc.

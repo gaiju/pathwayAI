@@ -90,6 +90,7 @@ PASSAGES = (
              "follow-up and support context, not an economic cost valuation.",
              "Selected follow-up participants do not establish county risk, personal "
              "prognosis or ongoing infection. Three-month symptoms do not establish PTLDS. "
+             "This early-care cohort does not represent the costs or full care journey of people diagnosed late. "
              "No incremental follow-up cost is measured. Do not multiply these percentages "
              "into county costs without justified transportability and compatible additional-cost "
              "assumptions; avoid double-counting baseline medical costs. Observational antibiotic "

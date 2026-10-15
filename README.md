@@ -21,6 +21,9 @@ rather than uploading `app.py` alone.
 
 ## What works now
 
+- Optional benefits-conversation checklists reuse selected personal-record facts;
+  they do not submit applications or determine eligibility.
+- Central evidence scope notes show study counts, populations, periods and limits.
 - Short-and-simple or more-detailed reading views.
 - Outdoor planning and county context at the ZIP lookup point.
 - Visit preparation, optional local story organization and burden recording.

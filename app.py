@@ -24,6 +24,8 @@ from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
 from story_prefill import story_burden_defaults88, apply_story_burden_defaults88
 from caregiver_record import REPORTERS, show_reporter, show_daily_life, reporting_lines
+from benefits_preparation import show_benefits_preparation
+from evidence_scope import EVIDENCE_SCOPE
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
@@ -62,6 +64,8 @@ def show_sources_and_acknowledgements():
             for note in notes:
                 st.caption(note)
     with st.expander("Sources and methods", expanded=True):
+        st.markdown("**Who and what the evidence covers**")
+        show_readable_table(EVIDENCE_SCOPE, hide_index=True)
         st.markdown("**Research references**")
         st.markdown("**Federal data:** [Census ACS](https://data.census.gov/) · [HRSA Area Health Resources Files](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf) · [CDC PLACES](https://www.cdc.gov/places/)")
         st.markdown("- **Census:** [Dutchess QuickFacts](https://www.census.gov/quickfacts/dutchesscountynewyork) · [Orange QuickFacts](https://www.census.gov/quickfacts/orangecountynewyork). Language context uses ACS 2020–2024. Disability comparison comes through the [2025 regional assessment, Table 12](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf); its Census year labels conflict and need verification.\n- **HRSA:** AHRF 2024–2025 release, 2023 fields: primary-care physicians, hospitals and beds for both counties. General healthcare context.\n- **CDC PLACES:** Loaded 2025 county release; modeled adult health context in the supporting Dutchess details. Separate from Census disability measures.\n- **NYSDOH:** [2024 cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [2024 rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf). State surveillance supports county Lyme counts and comparisons.")
@@ -1058,6 +1062,7 @@ def compact_care88(quick, story):
         key: st.session_state[key] for key in form_keys if key in st.session_state
     }
     support89(county,barrier)
+    show_benefits_preparation(st.session_state["burden_session_record"])
     st.button("Explore community burden →", key="patient_to_community",
               on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
     with st.expander("What others reported · cost and journey evidence"):
@@ -3281,7 +3286,7 @@ if view == "🌱 What’s next":
     st.header("What’s next for PathwayAI")
     st.write("We’re seeking patients, caregivers, community groups and care teams to help shape the next pilot.")
     st.markdown("""
-- **Prepare for benefits conversations:** reuse personal records to organize information about daily activities, work and support needs. Develop separate guidance for disability benefits and food assistance with qualified advisers.
+- **Prepare for benefits conversations:** a basic checklist is available in Care & Support. Next, develop and review separate guidance for disability benefits and food assistance with qualified advisers.
 - **Strengthen local evidence:** develop secure, consent-based reporting to help communities understand barriers and plan resources.
 - **Make participation easier:** test simpler, more accessible ways for people and caregivers to contribute.
 - **Improve cost estimates:** verify medication prices and study how costs differ across communities.

@@ -61,6 +61,8 @@ def show_sources_and_acknowledgements():
                 st.caption(note)
     with st.expander("Sources and methods", expanded=True):
         st.markdown("**Research references**")
+        st.markdown("**Federal data:** [Census ACS](https://data.census.gov/) · [HRSA Area Health Resources Files](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf) · [CDC PLACES](https://www.cdc.gov/places/)")
+        st.markdown("- **Census:** [Dutchess QuickFacts](https://www.census.gov/quickfacts/dutchesscountynewyork) · [Orange QuickFacts](https://www.census.gov/quickfacts/orangecountynewyork). Language context uses ACS 2020–2024. Disability comparison comes through the [2025 regional assessment, Table 12](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf); its Census year labels conflict and need verification.\n- **HRSA:** AHRF 2024–2025 release, 2023 fields: primary-care physicians, hospitals and beds for both counties. General healthcare context.\n- **CDC PLACES:** Loaded 2025 county release; modeled adult health context in the supporting Dutchess details. Separate from Census disability measures.\n- **NYSDOH:** [2024 cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [2024 rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf). State surveillance supports county Lyme counts and comparisons.")
         st.markdown("""
 - [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) — Main basis for the county cost illustrations; 2016 dollars.
 - [Yu et al. (2026)](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) — Medical episode costs and patient payments; original tables awaiting verification.
@@ -631,6 +633,20 @@ def policy89():
     show_burden_evidence_panel104()
     st.markdown("### Community action")
     st.write("Use the county findings to focus prevention, care access and financial support.")
+    st.markdown("#### Local care resources · HRSA")
+    capacity = []
+    for county_name, county_fips in (("Dutchess", "36027"), ("Orange", "36071")):
+        county_capacity = load_ahrf_county(county_fips)
+        if county_capacity:
+            row = {"County": county_name}
+            for field, field_label in (("pcp", "Primary-care physicians"), ("hosp", "Hospitals"), ("beds", "Hospital beds")):
+                value = county_capacity.get(field)
+                row[field_label] = int(value) if pd.notna(value) else "Unknown"
+            capacity.append(row)
+    if capacity:
+        show_readable_table(capacity, hide_index=True)
+        st.caption("HRSA AHRF 2024–2025 release · 2023 fields. Census-based language and disability context are available in the county comparison above.")
+    page_note("HRSA AHRF county resource counts cover general healthcare, not Lyme specialists, appointment availability or confirmed shortages. Fields: phys_nf_prim_care_pc_exc_rsdt_23, hosp_23, hosp_beds_23. [HRSA source](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Census language figures use ACS 2020–2024 QuickFacts; disability figures are reproduced from the regional assessment with unresolved Census vintage, as described in the comparison notes.")
     with st.expander("Local health-plan context · Dutchess source"):
         show_county_plan_context(page_note)
     actions = st.columns(3)

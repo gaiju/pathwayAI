@@ -44,17 +44,21 @@ def page_note(text):
 
 
 def render_page_notes():
+    """Keep supporting notes on the dedicated page, without repeated footers."""
     if PAGE_NOTES:
-        with st.expander("Page notes"):
-            for note in PAGE_NOTES:
-                st.caption(note)
+        section = st.session_state.get("pathway_view") or "Start page"
+        notes = dict(st.session_state.get("source_notes_by_section", {}))
+        notes[section] = list(PAGE_NOTES)
+        st.session_state["source_notes_by_section"] = notes
         PAGE_NOTES.clear()
-    st.button("Sources and acknowledgements →", key="sources_footer_link",
-              on_click=select_public_pathway, args=("📚 Sources & Acknowledgements", "sources"))
 
 
 def show_sources_and_acknowledgements():
     st.header("Sources and acknowledgements")
+    for section, notes in st.session_state.get("source_notes_by_section", {}).items():
+        with st.expander(f"Notes · {section}"):
+            for note in notes:
+                st.caption(note)
     with st.expander("Sources and methods", expanded=True):
         st.markdown("**Research references**")
         st.markdown("""

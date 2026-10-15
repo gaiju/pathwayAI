@@ -63,7 +63,14 @@ def render_page_notes():
 - **Lun-Hsiang Yuan, MD, PhD** — National Taiwan University Hospital, Yunlin Branch
 """)
         st.write("With thanks to Colorado Tick-Borne Disease Awareness Association, Lyme Treatment Foundation, and Lyme Disease Resource Center, Inc.")
-        st.markdown("Research: [Horn et al. (2025)](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) · [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+    with st.expander("Sources and methods"):
+        st.markdown("""
+- [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) — Main basis for the county cost illustrations; 2016 dollars.
+- [Yu et al. (2026)](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) — Medical episode costs and patient payments; original tables awaiting verification.
+- [Horn et al. (2025)](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) — Follow-up symptoms and prescriptions; supports future modeling.
+- [Kugeler et al. (2021)](https://doi.org/10.3201/eid2702.202731) — National estimate of Lyme diagnoses and treatment.
+""")
+        st.caption("County illustrations multiply reported cases by published study costs. Cost perspectives, study populations and dollar years differ. Biobank findings have not been added to county cost totals. Additional references and calculation details appear beside the relevant evidence views.")
 
 
 def simple_reading_view():

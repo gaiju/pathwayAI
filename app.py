@@ -74,6 +74,7 @@ def show_sources_and_acknowledgements():
         st.markdown("""
 - **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank
 - **Allison Weber** — Biobank data guidance
+- **Helen Zhang** — Senior Biostatistician, Johns Hopkins University
 - [Cynthia Adinig](https://www.linkedin.com/in/cynthiaadinig/) — CYNAERA and BIPOC Equity Agency
 - [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Lyme Treatment Foundation
 - [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Lyme Disease Resource Center, Inc.

@@ -50,7 +50,7 @@ def render_page_notes():
         PAGE_NOTES.clear()
     with st.expander("Acknowledgements"):
         st.write("Thank you to the individuals who offered guidance, shared the survey and helped amplify patient voices:")
-        st.markdown("- **Allison Weber** — Thank you for guidance on using Lyme Disease Biobank data to study persistent symptoms and estimate medication costs.")
+        st.markdown("- **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank; lead author of the 2025 follow-up study.\n- **Allison Weber** — Thank you for guidance on using Lyme Disease Biobank data to study persistent symptoms and estimate medication costs.")
         st.markdown("- [Cynthia Adinig](https://www.linkedin.com/in/cynthiaadinig/) — Founder, CYNAERA and BIPOC Equity Agency; Federal Policy Advisor, Researcher and Author.\n- [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Founder and Executive Director; Chair of the Research Board, Lyme Treatment Foundation.\n- [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Founder and Executive Director, Lyme Disease Resource Center, Inc.\n- [Bernadette Clavier](https://www.linkedin.com/in/bernadetteclavier) — Owner at Clos Clavier.\n- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Physician focusing on mental and behavioral health, weight management and inflammatory conditions.")
         st.markdown("We also thank **Dr. Minghui Chou** and **Lun-Hsiang Yuan, MD, PhD**. Dr. Yuan is Deputy Director, Department of Urology, National Taiwan University Hospital, Yunlin Branch.")
         st.write("We thank the patients, caregivers and community members whose feedback helped make PathwayAI clearer and easier to use.")

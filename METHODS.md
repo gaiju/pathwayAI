@@ -77,3 +77,19 @@ network proxy during development. Published costs, population denominators,
 survey summaries and clinical content require a final source/clinical review.
 File presence is not proof that every source row is current or independently
 verified. Source years and scopes remain attached to displays and exports.
+# Caregiver-assisted personal records
+
+Care & Support identifies whether a record is completed by the person, with help,
+or by a caregiver on their behalf. Optional daily-life selections describe the
+person receiving care; a separate text field captures the caregiver's own words.
+The downloaded card labels these sources. This is a personal-record aid, not a
+validated proxy outcome measure or a clinical assessment.
+
+These optional fields remain in session memory and the personal download. They
+are not added to story-AI requests or community aggregates. Automatic burden
+prefilling is disabled for caregiver-on-behalf records to avoid interpreting a
+caregiver's first-person spending or work loss as the patient's. Existing shared
+patient-report storage rejects caregiver-on-behalf entries pending a separately
+designed, consent-based reporting pilot. No ME prevalence or local clinician
+availability claims were added.
+

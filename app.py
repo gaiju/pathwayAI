@@ -23,6 +23,7 @@ from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
 from story_prefill import story_burden_defaults88, apply_story_burden_defaults88
+from caregiver_record import REPORTERS, show_reporter, show_daily_life, reporting_lines
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
@@ -548,6 +549,8 @@ def show_session_burden():
         return
     st.markdown("#### Your cost and time record")
     st.write('Your entries from Care & Support appear here automatically. Only you can see this session record.')
+    if record.get("reported_by"):
+        st.caption("Reported by: " + record["reported_by"])
     st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (Stage 0)', '')} · Residence: {record['county']}")
     cols = st.columns(2)
     for col, key, label in zip(cols, ("medical", "other"), ("Money paid for care", "Other money paid")):
@@ -877,7 +880,7 @@ def voice_path88():
 
 def save_voice88(row):
     # Separate schema leaves all legacy records intact. No ZIP, narrative or exact costs.
-    if not PATIENT_VOICE_STORAGE_ENABLED:
+    if not PATIENT_VOICE_STORAGE_ENABLED or st.session_state.get("reporter_role") == REPORTERS[2]:
         return False
     path = voice_path88()
     if path.exists():
@@ -956,7 +959,9 @@ def compact_care88(quick, story):
         if key not in st.session_state:
             st.session_state[key] = value
     # Run before creating widgets. Never classify a generic story dollar amount as medical.
-    if st.session_state.get("story_organized") and st.session_state.get("organized_story_source") == story:
+    role = st.session_state.get("reporter_role", REPORTERS[0])
+    if (role != REPORTERS[2] and st.session_state.get("story_organized")
+            and st.session_state.get("organized_story_source") == story):
         defaults, notes = story_burden_defaults88(story)
         copied = apply_story_burden_defaults88(st.session_state, defaults)
         st.session_state["story_burden_notes88"] = notes
@@ -986,15 +991,18 @@ def compact_care88(quick, story):
     with st.expander("See where costs arise in the care journey", expanded=not simple_reading_view()):
         st.image(str(Path(__file__).parent / "images" / "lyme_care_cost_journey.png"), caption="Care may include visits, testing, treatment and follow-up, with costs and time across the journey.", use_container_width=True)
     with st.expander("Review or add costs and time", expanded=bool(copied or notes) or not simple_reading_view()):
-        st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
+        if role == REPORTERS[2]:
+            st.write("Out-of-pocket means money the person receiving care paid, separate from insurer payments. Keep the caregiver's own losses separate.")
+        else:
+            st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
         period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
         phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
         st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
         a,b=st.columns(2)
         with a:
-            medical=st.number_input("Money you paid for care ($)",min_value=0.0,value=None,step=50.0,key="medical88",help="Include your specialist and testing payments here once. Exclude insurer payments.")
+            medical=st.number_input("Money the person paid for care ($)" if role == REPORTERS[2] else "Money you paid for care ($)",min_value=0.0,value=None,step=50.0,key="medical88",help="Include specialist and testing payments here once. Exclude insurer payments.")
         with b:
-            other=st.number_input("Other money you paid ($)",min_value=0.0,value=None,step=25.0,key="other88",help="For example, transport, lodging and supplies. Exclude payments counted as medical costs.")
+            other=st.number_input("Other money the person paid ($)" if role == REPORTERS[2] else "Other money you paid ($)",min_value=0.0,value=None,step=25.0,key="other88",help="For example, transport, lodging and supplies. Exclude payments counted as medical costs.")
         workdays=st.number_input("Workdays missed in this period",min_value=0,max_value=3650,value=None,key="workdays88")
         caregiver=st.number_input("Unpaid caregiver hours in this period",min_value=0.0,value=None,step=1.0,key="caregiver88")
         st.caption("Optional work-loss estimate: enter a daily value only if you want this calculation.")
@@ -1007,8 +1015,11 @@ def compact_care88(quick, story):
         entered = [(label, value) for label, value in zip(labels, [medical, other, modeled]) if value is not None]
         for col, (label, value) in zip(st.columns(len(entered)), entered):
             col.metric(label, f"${value:,.0f}")
+    daily_context = show_daily_life()
     questions = st.text_input("Question for your clinician (optional)",key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
+    record[1] = "Personal record for review; not a diagnosis or prediction."
+    record[2:2] = reporting_lines(role, daily_context)
     for label,value in [("Exposure",encounter["exposure"] or quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
         record.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
     record += ["", "OPTIONAL TICK OBSERVATION (PATIENT-REPORTED, UNVERIFIED)",
@@ -1038,6 +1049,7 @@ def compact_care88(quick, story):
         "medical": medical, "other": other, "workdays": workdays,
         "caregiver_hours": caregiver, "modeled": modeled, "period": period,
         "phase": phase, "county": county, "barrier": barrier, "encounter": dict(encounter),
+        "reported_by": role, "daily_life_context": daily_context,
     }
     form_keys = ("medical88", "other88", "workdays88", "caregiver88", "dayvalue88",
                  "period88", "phase88", "barrier88", "question96", "patient88_zip",
@@ -4216,8 +4228,12 @@ page_note("Sharing your experiences with Community Voice is optional. Collection
 current_location_start = st.session_state.get("current_location_start", "")
 
 st.markdown("### Tell us what happened")
+reporter_role = show_reporter()
 st.write("In two or three sentences, tell us:")
-st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
+if reporter_role == REPORTERS[2]:
+    st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
+else:
+    st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
 st.write("Short notes are fine. Write what you remember. You can skip any question or continue to the tools below.")
 st.write("Please leave out names, contact details and other identifying information.")
 
@@ -4325,7 +4341,7 @@ if daily_areas:
         st.write("Include sleep changes in your appointment questions.")
     page_note("Resource navigation; services and eligibility must be confirmed with the program.")
 
-summary_lines = ["PATHWAYAI · APPOINTMENT SUMMARY", "Patient-reported and editable; no diagnosis or test interpretation.", "", "YOUR EXPERIENCE"]
+summary_lines = ["PATHWAYAI · APPOINTMENT SUMMARY", "Personal record for review; no diagnosis or test interpretation.", *reporting_lines(reporter_role), "", "YOUR EXPERIENCE"]
 for label, value in [
     ("Possible exposure location", quick.get("exposure_location")),
     ("Exposure month", quick.get("month")),

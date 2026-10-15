@@ -1021,9 +1021,9 @@ def compact_care88(quick, story):
     st.session_state["saved_burden_form"] = {
         key: st.session_state[key] for key in form_keys if key in st.session_state
     }
+    support89(county,barrier)
     st.button("Explore community burden →", key="patient_to_community",
               on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
-    support89(county,barrier)
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
         larger_evidence101()
@@ -3629,9 +3629,11 @@ if view == "🛡️ Learn & Prevent":
         with after:
             st.write("• Keep your exposure history with your travel record.")
             st.write("• Monitor for new or changing symptoms after possible exposure.")
-            st.write("• If symptoms or concerns develop, use **My Journey** to organize exposure, testing, function, and burden information for discussion with a healthcare professional.")
+            st.write("• If symptoms or concerns develop, use **Care & Support** to prepare your story and questions for a healthcare professional.")
         page_note("Travel-plan guidance supports prevention and documentation; it is not a diagnosis or treatment recommendation.")
 
+    st.button("Found a tick? See what to do →", key="outdoors_to_bite", on_click=select_public_pathway, args=("🩹 Tick Bite: What Next?", "bite"))
+    st.button("Prepare for care or find support →", key="outdoors_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     render_page_notes()
     st.stop()

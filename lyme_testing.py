@@ -85,15 +85,13 @@ def show_lyme_testing(simple=True):
                         "- **IgM and IgG:** types of antibodies, not stages of disease.\n"
                         "- **Present / absent:** detected / not detected on that row.")
             st.write('A test can be negative early, before antibodies develop. Antibodies can remain after treatment. An antibody test does not show whether someone is cured.')
-            st.write("Ask: ‘Was the full recommended testing process done, and how does "
-                     "this result fit my symptoms and their timing?’")
             st.markdown("#### Still have questions about your result?")
-            st.write("Ask your clinician to explain it alongside your symptoms and when they began. If questions remain, consider a second opinion from another qualified clinician. Bring the full test report and your visit summary.")
+            st.write("Ask your clinician how the result fits your symptoms and their timing. If questions remain, consider a second opinion from another qualified clinician.")
             st.caption(f"[CDC guidance]({CDC_ABOUT_URL}) explains why symptoms, exposure and timing matter when interpreting tests. A second opinion is an option for unresolved questions, rather than a CDC recommendation for everyone.")
             st.markdown("#### Prepare for the next conversation")
-            st.markdown("1. Bring the complete original report, including lab comments.\n"
+            st.markdown("1. Bring the complete report, including lab comments, and your visit summary.\n"
                         "2. Note when symptoms started, when the blood was drawn and any antibiotics taken.\n"
-                        "3. Ask what the result means for your current concern and what follow-up is appropriate.")
+                        "3. Ask whether the full testing process was completed and what follow-up is appropriate.")
             st.write('One “Present” row is not a reason to change treatment or order another test on your own. Ask your clinician what needs checking next.')
             if not simple:
                 st.write("CDC recommends a two-step antibody testing process using "

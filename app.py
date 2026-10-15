@@ -309,12 +309,10 @@ def planning_scenario101():
 
 def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
-    st.markdown("### What Lyme disease can cost")
+    st.markdown("#### Published Lyme cost findings")
     st.write('Out-of-pocket means money a person paid. Total medical spending also includes what the insurer paid.')
-    st.write('Published study findings · costs per participant or medical episode.')
     hook = json.loads((BASE_DIR / "data" / "hook_2022_article_verification.json").read_text())
-    st.markdown("#### Beyond medical bills: the Hook study")
-    st.write("The study followed reported Lyme disease cases in four high-incidence states, including New York. It counted medical care, other expenses and lost productivity.")
+    st.write("Hook’s study measured medical care, other expenses and lost productivity in four states, including New York.")
     average, middle = st.columns(2)
     average.metric("Societal cost · average per participant", f"${hook['societal_mean']:,}")
     middle.metric("Societal cost · median per participant", f"${hook['societal_median']:,}")
@@ -327,7 +325,6 @@ def show_burden_evidence_panel104():
                            ("confirmed_disseminated", "Confirmed disseminated"),
                            ("probable", "Probable"))
     ])
-    st.write("Medical bills paid by patients are one part of out-of-pocket spending. Compare these study averages with the broader societal cost.")
     st.write("**Localized:** confirmed Lyme with the characteristic rash. **Disseminated:** confirmed Lyme with joint, nerve or heart involvement. **Probable:** a clinician diagnosed Lyme and there was laboratory evidence, but the reported symptoms fell outside the confirmed-case criteria used in this study.")
     import altair as alt
     plot = groups.rename(columns={"Mean societal cost · 2016 USD": "Societal cost",
@@ -351,10 +348,8 @@ def show_burden_evidence_panel104():
         st.download_button("Download study averages and source", export.to_csv(index=False).encode("utf-8-sig"),
                            file_name="Hook_2022_Study_Cost_Comparison.csv", mime="text/csv", key="hook_cost_comparison_csv")
     page_note("Hook medical-bill means ($314 localized, $628 disseminated, $389 probable) were checked in the supplied article Results discussion of Figure 2. These are self-reported medical bills, not the complete medical/nonmedical out-of-pocket total. Patient analysis n=901 and societal analysis n=613; group means have different analysis denominators and cannot establish a patient-paid percentage of societal costs. These are separate perspectives, not stacked categories; do not add them. Figures are 2016 dollars and not county-specific payments or expected bills.")
-    st.write("Average costs varied across the reported disease groups. The findings support examining prevention and timely care alongside financial support.")
     page_note(f"Hook et al. (2022): [Read the economic burden study]({HOOK_ARTICLE_URL})")
     page_note("Hook figures were checked against the user-supplied public article text, Methods, Results and Discussion, on October 14, 2026; linked tables were not separately retrieved. Recruitment was in 2014–2016. These are weighted study costs in 2016 dollars, not current prices or measured Dutchess/Orange spending. Societal costs include medical, nonmedical and productivity costs; do not add those categories again. Costs exclude suspected, undiagnosed and nonacute illness, including long-term symptom costs. Group differences do not prove savings from earlier diagnosis or from PathwayAI. Quota sampling, recall, billing attribution and extrapolation limit generalizability; non-English speakers were excluded.")
-    st.markdown("#### Cost references by perspective")
     page_note('Published study populations and dollar years differ. Hook article figures are checked against the supplied text; the original Yu cost table remains pending verification. These references are not measured county costs or a prediction of your bill.')
 
     published = pd.DataFrame([
@@ -622,7 +617,7 @@ def policy89():
               key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     page_note("The invitation opens the existing Care & Support record, reusing session entries. Personal entries stay private in this session and are not automatically submitted to a survey or county dataset. Secure shared reporting is a future pilot phase and requires explicit consent.")
     page_note("The project lead supplied the external survey link; live form access was blocked during this update, so its questions, consent wording, email collection and access settings have not been verified. Opening the link does not send app records to Google Forms. Survey responses are separate from private app records and are not automatically added to county estimates. A future integrated contribution flow needs explicit permission, secure storage, access and retention rules, common reporting periods and privacy-reviewed aggregate release. Existing personal entries should be reused in that future flow rather than requested again.")
-    st.markdown("### Costs and time lost")
+    st.markdown("### What makes up the cost?")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
     page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver time is recorded in hours and is not converted to a dollar cost in the current app. Published cost references appear below.")
     show_session_burden()
@@ -942,7 +937,7 @@ def compact_care88(quick, story):
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Record money and time")
-    st.write('Record money you paid and time you lost. Use one period.')
+    st.write('Record money you paid and time you lost.')
     with st.expander("See where costs arise in the care journey"):
         st.image(str(Path(__file__).parent / "images" / "lyme_care_cost_journey.png"), caption="Care may include visits, testing, treatment and follow-up, with costs and time across the journey.", use_container_width=True)
     st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
@@ -1008,7 +1003,7 @@ def compact_care88(quick, story):
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
         larger_evidence101()
-    with st.expander("Community Voice · future updates"):
+    with st.expander("About community reporting"):
         community_voice88(county)
     if PATIENT_VOICE_STORAGE_ENABLED:
         with st.expander("Help community teams understand reported needs · optional"):

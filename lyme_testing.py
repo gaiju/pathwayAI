@@ -76,8 +76,6 @@ def show_lyme_testing(simple=True):
                 {"Report item": "Laboratory comment", "Example result": "See the full testing process and clinical history"},
             ])
             st.write('**Read the overall result first.** One row says “Present.” The final result says “Negative.” That row alone does not make the test positive. This short example is not enough to check the lab’s criteria.')
-            st.write("**Look at the overall result first.** ‘Present’ on one antibody band "
-                     "does not by itself mean that the overall test is positive.")
             st.markdown("- **Negative:** the completed test did not meet its positive criteria. "
                         "Timing and the full clinical assessment still matter.\n"
                         "- **Positive:** the test met its criteria; your clinician interprets "
@@ -89,6 +87,9 @@ def show_lyme_testing(simple=True):
             st.write('A test can be negative early, before antibodies develop. Antibodies can remain after treatment. An antibody test does not show whether someone is cured.')
             st.write("Ask: ‘Was the full recommended testing process done, and how does "
                      "this result fit my symptoms and their timing?’")
+            st.markdown("#### Still have questions about your result?")
+            st.write("Ask your clinician to explain it alongside your symptoms and when they began. If questions remain, consider a second opinion from another qualified clinician. Bring the full test report and your visit summary.")
+            st.caption(f"[CDC guidance]({CDC_ABOUT_URL}) explains why symptoms, exposure and timing matter when interpreting tests. A second opinion is an option for unresolved questions, rather than a CDC recommendation for everyone.")
             st.markdown("#### Prepare for the next conversation")
             st.markdown("1. Bring the complete original report, including lab comments.\n"
                         "2. Note when symptoms started, when the blood was drawn and any antibiotics taken.\n"

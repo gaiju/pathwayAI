@@ -73,7 +73,7 @@ def show_sources_and_acknowledgements():
         st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
         st.markdown("""
 - **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank
-- **Allison Weber** — Biobank data guidance
+- [Allison Weber](https://www.linkedin.com/in/allison-weber-aw1/) — Data Scientist, Bay Area Lyme Foundation
 - **Helen Zhang** — Senior Biostatistician, Johns Hopkins University
 - **Livia Santiago-Rosado, MD, MPH, FACEP** — Commissioner, Dutchess County Department of Health
 - **Richard S. Ostfeld, PhD** — Distinguished Senior Scientist, Cary Institute of Ecosystem Studies

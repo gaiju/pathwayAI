@@ -44,11 +44,18 @@ def page_note(text):
 
 
 def render_page_notes():
-    with st.expander("Sources and methods"):
-        if PAGE_NOTES:
-            for number, note in enumerate(PAGE_NOTES, 1):
-                st.caption(f"{number}. {note}")
-            PAGE_NOTES.clear()
+    if PAGE_NOTES:
+        with st.expander("Page notes"):
+            for note in PAGE_NOTES:
+                st.caption(note)
+        PAGE_NOTES.clear()
+    st.button("Sources and acknowledgements →", key="sources_footer_link",
+              on_click=select_public_pathway, args=("📚 Sources & Acknowledgements", "sources"))
+
+
+def show_sources_and_acknowledgements():
+    st.header("Sources and acknowledgements")
+    with st.expander("Sources and methods", expanded=True):
         st.markdown("**Research references**")
         st.markdown("""
 - [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) — Main basis for the county cost illustrations; 2016 dollars.
@@ -58,7 +65,7 @@ def render_page_notes():
 """)
         st.caption("County illustrations multiply reported cases by published study costs. Cost perspectives, study populations and dollar years differ. Biobank findings have not been added to county cost totals. Additional references and calculation details appear beside the relevant evidence views.")
 
-    with st.expander("Acknowledgements"):
+    with st.expander("Acknowledgements", expanded=True):
         st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
         st.markdown("""
 - **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank
@@ -3199,7 +3206,7 @@ paths = [
     ("I want to explore community needs", "See costs, time lost and ways communities could help.", "📊 Community Burden & Action", "county"),
 ]
 
-available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback"]
+available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if not st.session_state.get("pathway_open", False) or st.session_state.get("pathway_view") not in available_views:
@@ -3213,6 +3220,12 @@ if st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
              help="Choose what works for you today. You can switch any time; your entries stay the same.")
+
+
+if view == "📚 Sources & Acknowledgements":
+    show_sources_and_acknowledgements()
+    st.button("← Back to start", key="sources_back", on_click=return_to_path_choices)
+    st.stop()
 
 
 if not st.session_state.get("pathway_open", False):

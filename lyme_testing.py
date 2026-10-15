@@ -42,7 +42,7 @@ CDC testing guidance:
 def show_lyme_testing(simple=True):
     import streamlit as st
 
-    with st.expander("Lyme tests: prepare, ask about cost, understand the words"):
+    with st.expander("Lyme tests: prepare, ask about cost, understand the words", expanded=not simple):
         st.write('**Start with your clinician.** A blood test is one part of the picture. Your symptoms, exposure and timing matter too.')
         st.write('If something seems attached to your skin, have it examined. Do the same for a lasting or changing skin mark. Ticks usually feed for days, not months. An old blood test may not explain a new concern.')
         st.write("Seek urgent care for severe symptoms such as fainting, trouble breathing "

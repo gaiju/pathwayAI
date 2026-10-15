@@ -1,0 +1,29 @@
+import unittest
+from pathlib import Path
+
+try:
+    from streamlit.testing.v1 import AppTest
+except ImportError:
+    AppTest = None
+
+
+@unittest.skipIf(AppTest is None, "Streamlit is required")
+class ReadingModeTests(unittest.TestCase):
+    def test_details_open_and_patient_entries_survive_switch(self):
+        at = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=60).run()
+        at.button(key="route_ongoing").click().run()
+        at.number_input(key="medical88").set_value(120).run()
+        label = "See where costs arise in the care journey"
+        self.assertFalse(next(x for x in at.expander if x.label == label).proto.expanded)
+        at.radio(key="reading_mode").set_value("More detail").run()
+        self.assertFalse(list(at.exception))
+        self.assertTrue(next(x for x in at.expander if x.label == label).proto.expanded)
+        self.assertEqual(at.number_input(key="medical88").value, 120)
+        at.button(key="patient_to_community").click().run()
+        label = "Data details, downloads and supporting research"
+        self.assertTrue(next(x for x in at.expander if x.label == label).proto.expanded)
+        at.radio(key="reading_mode").set_value("Short and simple").run()
+        self.assertFalse(list(at.exception))
+        self.assertFalse(next(x for x in at.expander if x.label == label).proto.expanded)
+        at.button(key="community_cost_record").click().run()
+        self.assertEqual(at.number_input(key="medical88").value, 120)

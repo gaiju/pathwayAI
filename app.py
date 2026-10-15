@@ -334,7 +334,8 @@ def show_burden_evidence_panel104():
                            ("confirmed_disseminated", "Confirmed disseminated"),
                            ("probable", "Probable"))
     ])
-    st.write("**Localized:** confirmed Lyme with the characteristic rash. **Disseminated:** confirmed Lyme with joint, nerve or heart involvement. **Probable:** a clinician diagnosed Lyme and there was laboratory evidence, but the reported symptoms fell outside the confirmed-case criteria used in this study.")
+    with st.expander("What do the study groups mean?", expanded=not simple_reading_view()):
+        st.write("**Localized:** confirmed Lyme with the characteristic rash. **Disseminated:** confirmed Lyme with joint, nerve or heart involvement. **Probable:** a clinician diagnosed Lyme and there was laboratory evidence, but the reported symptoms fell outside the confirmed-case criteria used in this study.")
     import altair as alt
     plot = groups.rename(columns={"Mean societal cost · 2016 USD": "Societal cost",
                                  "Mean medical bills paid by patient · 2016 USD": "Medical bills paid by patient"}).melt(
@@ -375,12 +376,12 @@ def show_burden_evidence_panel104():
          "Value": "$188", "Scope": "2022 USD; pharmacy excluded; subset only",
          "Evidence": "Published: Yu et al. (2026), Table 2"},
     ])
-    with st.expander("Published cost table and medical-only reference"):
+    with st.expander("Published cost table and medical-only reference", expanded=not simple_reading_view()):
         show_readable_table(published, hide_index=True)
         st.markdown(f"[Hook et al. — CDC]({HOOK_ARTICLE_URL}) · [Yu et al. — JAMA]({YU_COST_URL})")
 
 
-    with st.expander("Cost categories and support options"):
+    with st.expander("Cost categories and support options", expanded=not simple_reading_view()):
         st.markdown("#### From burden to resource planning")
         planning = [
             {"Burden or gap": "Medical bills and insurance barriers",
@@ -571,7 +572,7 @@ def show_session_burden():
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
-    st.write("Compare Lyme disease reports. Understand costs and time lost. Find resources for community action.")
+    st.write(reading_copy("Compare Lyme reports and costs. Find a community action.", "Compare reported Lyme rates, study-based cost illustrations and local care resources. Review the assumptions and evidence to prepare a community discussion."))
     page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")
     st.markdown("#### Hudson Valley community focus")
     st.write("Start with New York. Compare Dutchess and Orange in our Hudson Valley pilot view.")
@@ -703,7 +704,7 @@ def policy89():
     st.download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     with st.expander("Ask AI about the public evidence"):
         policy_ai105()
-    with st.expander("Data details, downloads and supporting research"):
+    with st.expander("Data details, downloads and supporting research", expanded=not simple_reading_view()):
         with st.expander("Other survey and cost resources to review"):
             st.markdown("[AHRQ Medical Expenditure Panel Survey](https://meps.ahrq.gov/mepsweb/) · medical spending and patient-payment benchmarks")
             st.markdown("[CDC National Health Interview Survey](https://www.cdc.gov/nchs/nhis/index.html) · work and daily-function context")
@@ -961,7 +962,7 @@ def compact_care88(quick, story):
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Record money and time")
     st.write('Record money you paid and time you lost.')
-    with st.expander("See where costs arise in the care journey"):
+    with st.expander("See where costs arise in the care journey", expanded=not simple_reading_view()):
         st.image(str(Path(__file__).parent / "images" / "lyme_care_cost_journey.png"), caption="Care may include visits, testing, treatment and follow-up, with costs and time across the journey.", use_container_width=True)
     st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
     period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
@@ -1044,9 +1045,9 @@ def compact_care88(quick, story):
                 else:
                     st.error("Contribution could not be saved. Your summary is still available to download.")
             if not eligible: page_note("To contribute, confirm a supported county, period and journey phase, and enter at least one cost or time measure.")
-    with st.expander("About your record and calculations"):
+    with st.expander("About your record and calculations", expanded=not simple_reading_view()):
         st.write("Entries describe your experience; they do not establish costs caused by Lyme disease or predict future bills. Work-loss value is days × your chosen value/day, separate from medical spending.")
-    with st.expander("How community evidence could be used"):
+    with st.expander("How community evidence could be used", expanded=not simple_reading_view()):
         st.write("With reviewed consent, comparable cost bands, missed workdays, caregiver hours and care barriers could inform county support priorities. Real shared reporting needs a secure pilot and privacy-reviewed publication.")
         st.write("Before diagnosis is a recording phase, not a clinical stage. Unknown amounts stay unknown. Voluntary reports do not establish county prevalence or savings.")
 
@@ -3371,7 +3372,7 @@ if view == "🩹 Tick Bite: What Next?":
     page_note("Tick-found details stay in your private session and are not automatically shared. Finding a tick does not confirm Lyme disease or establish county infection risk. Community reporting requires consent, reviewed observations and privacy safeguards; it does not guarantee resource allocation or personal support.")
     show_lyme_testing(simple=simple_reading_view())
     st.button("Find care and support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-    with st.expander("Learn more about Lyme disease, symptoms and rashes"):
+    with st.expander("Learn more about Lyme disease, symptoms and rashes", expanded=not simple_reading_view()):
         show_lyme_learning78()
     st.button("← Back to choices", key="bite118_back", on_click=return_to_path_choices)
     render_page_notes()

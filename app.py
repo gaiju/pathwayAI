@@ -76,8 +76,8 @@ def show_sources_and_acknowledgements():
     with st.expander("Acknowledgements", expanded=True):
         st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
         st.markdown("""
-- **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank
-- [Allison Weber](https://www.linkedin.com/in/allison-weber-aw1/) — Data Scientist, Bay Area Lyme Foundation
+- **Elizabeth J. (Liz) Horn** — Principal Investigator, Lyme Disease Biobank
+- [Allison Weber](https://www.linkedin.com/in/allison-weber-aw1/) — Lyme Disease Biobank
 - **Helen Zhang** — Senior Biostatistician, Johns Hopkins University
 - **Livia Santiago-Rosado, MD, MPH, FACEP** — Commissioner, Dutchess County Department of Health
 - **Richard S. Ostfeld, PhD** — Distinguished Senior Scientist, Cary Institute of Ecosystem Studies
@@ -3261,7 +3261,7 @@ paths = [
     ("I want to explore community needs", "See costs, time lost and ways communities could help.", "📊 Community Burden & Action", "county"),
 ]
 
-available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements"]
+available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements", "🌱 What’s next"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
 if not st.session_state.get("pathway_open", False) or st.session_state.get("pathway_view") not in available_views:
@@ -3275,6 +3275,21 @@ if st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
              help="Choose what works for you today. You can switch any time; your entries stay the same.")
+
+
+if view == "🌱 What’s next":
+    st.header("What’s next for PathwayAI")
+    st.write("We’re seeking patients, caregivers, community groups and care teams to help shape the next pilot.")
+    st.markdown("""
+- **Prepare for benefits conversations:** reuse personal records to organize information about daily activities, work and support needs. Develop separate guidance for disability benefits and food assistance with qualified advisers.
+- **Strengthen local evidence:** develop secure, consent-based reporting to help communities understand barriers and plan resources.
+- **Make participation easier:** test simpler, more accessible ways for people and caregivers to contribute.
+- **Improve cost estimates:** verify medication prices and study how costs differ across communities.
+""")
+    st.caption("These are development priorities, not a benefits application service. Eligibility, approval and access to services are determined by the relevant programs.")
+    st.button("Share feedback or discuss a pilot →", key="next_to_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"))
+    st.button("← Back to start", key="next_back", on_click=return_to_path_choices)
+    st.stop()
 
 
 if view == "📚 Sources & Acknowledgements":

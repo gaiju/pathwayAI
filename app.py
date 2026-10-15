@@ -22,6 +22,7 @@ from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
+from story_prefill import story_burden_defaults88, apply_story_burden_defaults88
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
@@ -887,8 +888,8 @@ def save_voice88(row):
             return False
     return append_csv_row_locked(path, {c: row.get(c) for c in VOICE88_COLUMNS})
 
-def county_selector88(key):
-    z = st.text_input("ZIP code (optional)", max_chars=5, key=key + "_zip", placeholder="Example: 12601")
+def county_selector88(key, include_zip=True):
+    z = st.text_input("ZIP code (optional)", max_chars=5, key=key + "_zip", placeholder="Example: 12601") if include_zip else ""
     if z and (len(z) != 5 or not z.isdigit()):
         page_note("Enter five digits or leave ZIP blank. Confirm your county below.")
     # ZIPs can span counties. Never assign residence from a prefix or city centroid.
@@ -899,9 +900,10 @@ def county_selector88(key):
     return st.selectbox("County of residence", ["Not selected"] + list(VOICE88_COUNTIES) + ["Another county / unsure"], key=key + "_county")
 
 def community_voice88(county):
-    st.write("Future voluntary reports of costs, missed work, caregiving, and care barriers could help communities understand needs not shown in public data.")
+    st.write("A future Community Voice pilot would build on tick-encounter reporting by following the patient journey: care, costs, missed work, caregiving and support needs.")
+    page_note("Existing tools include [SUNY Upstate tickMAP](https://tickmap.org/) and [URI TickSpotters](https://web.uri.edu/tickencounter/tickspotters/). Future PathwayAI reporting would complement these tools and official surveillance. It is not a live community reporting service today.")
     if not PATIENT_VOICE_STORAGE_ENABLED:
-        page_note("New contributions are not being collected yet. See existing survey findings under Research and sources above.")
+        st.write("Community collection is not open. You can still review and download your personal record. A future contribution would reuse your reviewed entries, with separate permission; no second questionnaire is intended.")
         return
     fips = VOICE88_COUNTIES.get(county)
     if not fips:
@@ -953,6 +955,15 @@ def compact_care88(quick, story):
     for key, value in saved.items():
         if key not in st.session_state:
             st.session_state[key] = value
+    # Run before creating widgets. Never classify a generic story dollar amount as medical.
+    if st.session_state.get("story_organized") and st.session_state.get("organized_story_source") == story:
+        defaults, notes = story_burden_defaults88(story)
+        copied = apply_story_burden_defaults88(st.session_state, defaults)
+        st.session_state["story_burden_notes88"] = notes
+    else:
+        copied = apply_story_burden_defaults88(st.session_state, {})
+        st.session_state["story_burden_notes88"] = {}
+    notes = st.session_state.get("story_burden_notes88", {})
     encounter = show_tick_encounter(quick)
     page_note("Tick-found details remain private in this session and are not automatically sent to a community dataset. Finding a tick does not confirm Lyme disease or establish county infection risk. Secure community use needs participant consent, review, comparable location/time fields and privacy-reviewed summaries. Community decisions and support cannot be guaranteed from one report.")
     if encounter["current"]:
@@ -960,30 +971,42 @@ def compact_care88(quick, story):
                     google_maps_search_url("primary care or infectious disease doctor near " + encounter["current"]) + ")")
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
-    st.markdown("### 2. Record money and time")
-    st.write('Record money you paid and time you lost.')
+    st.markdown("### 2. Your costs, time and visit summary")
+    st.write("Add what you know. You can return to the rest later in this session. Review and download your card below.")
+    if copied or notes:
+        with st.container(border=True):
+            st.markdown("**From your story — please review**")
+            labels = {"medical88": "Money paid for care ($)", "other88": "Other money paid ($)",
+                      "workdays88": "Workdays missed", "caregiver88": "Unpaid caregiver hours"}
+            for key, value in copied.items():
+                st.write(f"{labels[key]}: {value:g}")
+            for key, reason in notes.items():
+                st.caption(f"{labels[key]}: {reason}")
+            st.caption("Check these values. Change or clear them, and choose the period they cover.")
     with st.expander("See where costs arise in the care journey", expanded=not simple_reading_view()):
         st.image(str(Path(__file__).parent / "images" / "lyme_care_cost_journey.png"), caption="Care may include visits, testing, treatment and follow-up, with costs and time across the journey.", use_container_width=True)
-    st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
-    period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
-    phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
-    st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
-    a,b=st.columns(2)
-    with a:
-        medical=st.number_input("Money you paid for care ($)",min_value=0.0,value=None,step=50.0,key="medical88",help="Include your specialist and testing payments here once. Exclude insurer payments.")
-    with b:
-        other=st.number_input("Other money you paid ($)",min_value=0.0,value=None,step=25.0,key="other88",help="For example, transport, lodging and supplies. Exclude payments counted as medical costs.")
-    workdays=st.number_input("Workdays missed in this period",min_value=0,max_value=3650,value=None,key="workdays88")
-    barrier=st.selectbox("Main barrier to getting care or support",["Not reported","No barrier reported","Transportation / distance","Cost / insurance coverage","Appointment / referral access","Language / accessibility","Finding appropriate support","Other / unsure"],key="barrier88")
-    with st.expander("Caregiver time and optional work-loss calculation"):
+    with st.expander("Review or add costs and time", expanded=bool(copied or notes) or not simple_reading_view()):
+        st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
+        period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
+        phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
+        st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
+        a,b=st.columns(2)
+        with a:
+            medical=st.number_input("Money you paid for care ($)",min_value=0.0,value=None,step=50.0,key="medical88",help="Include your specialist and testing payments here once. Exclude insurer payments.")
+        with b:
+            other=st.number_input("Other money you paid ($)",min_value=0.0,value=None,step=25.0,key="other88",help="For example, transport, lodging and supplies. Exclude payments counted as medical costs.")
+        workdays=st.number_input("Workdays missed in this period",min_value=0,max_value=3650,value=None,key="workdays88")
         caregiver=st.number_input("Unpaid caregiver hours in this period",min_value=0.0,value=None,step=1.0,key="caregiver88")
+        st.caption("Optional work-loss estimate: enter a daily value only if you want this calculation.")
         dayvalue=st.number_input("Your chosen value per missed workday ($)",min_value=0.0,value=None,step=25.0,key="dayvalue88")
         st.write('Multiply days missed by the value you choose for one day. This is an estimate. Keep it separate from bills.')
+    barrier=st.selectbox("Main barrier to getting care or support",["Not reported","No barrier reported","Transportation / distance","Cost / insurance coverage","Appointment / referral access","Language / accessibility","Finding appropriate support","Other / unsure"],key="barrier88")
     modeled=workdays*dayvalue if workdays is not None and dayvalue is not None else None
-    cards=st.columns(3)
-    labels = ["Money paid for care", "Other money paid", "Work-loss estimate"] if simple_reading_view() else ["Medical out-of-pocket", "Other out-of-pocket", "Modeled work loss"]
-    for col,label,value in zip(cards,labels,[medical,other,modeled]):
-        col.metric(label,"Not reported" if value is None else f"${value:,.0f}")
+    if any(value is not None for value in (medical, other, modeled)):
+        labels = ["Money paid for care", "Other money paid", "Work-loss estimate"] if simple_reading_view() else ["Medical out-of-pocket", "Other out-of-pocket", "Modeled work loss"]
+        entered = [(label, value) for label, value in zip(labels, [medical, other, modeled]) if value is not None]
+        for col, (label, value) in zip(st.columns(len(entered)), entered):
+            col.metric(label, f"${value:,.0f}")
     questions = st.text_input("Question for your clinician (optional)",key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
     for label,value in [("Exposure",encounter["exposure"] or quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
@@ -1003,13 +1026,14 @@ def compact_care88(quick, story):
         st.session_state["summary88_text"]=seed
         st.session_state["summary88_seed"]=seed
     with st.expander("Review and download your visit and burden card",expanded=True):
-        visual = personal_cost_svg(medical, other, workdays, caregiver, modeled, period)
-        st.markdown(visual, unsafe_allow_html=True)
-        st.download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
+        if any(value is not None for value in (medical, other, workdays, caregiver)):
+            visual = personal_cost_svg(medical, other, workdays, caregiver, modeled, period)
+            st.markdown(visual, unsafe_allow_html=True)
+            st.download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
         st.download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
     st.markdown("### 3. Find support and explore your community")
-    county=county_selector88("patient88")
+    county=county_selector88("patient88", include_zip=False)
     st.session_state["burden_session_record"] = {
         "medical": medical, "other": other, "workdays": workdays,
         "caregiver_hours": caregiver, "modeled": modeled, "period": period,

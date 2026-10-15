@@ -656,15 +656,15 @@ def policy89():
         show_county_plan_context(page_note)
     actions = st.columns(3)
     with actions[0]:
-        st.markdown("#### Prevent tick bites")
+        st.markdown("#### Prevent bites")
         st.write("Share tick-check and bite-prevention guidance through parks, schools and outdoor groups.")
         st.markdown("[CDC prevention guidance](https://www.cdc.gov/ticks/prevention/index.html)")
     with actions[1]:
-        st.markdown("#### Connect people with care")
+        st.markdown("#### Find care")
         st.write("Help residents locate care and prepare for a visit. Review travel and referral barriers.")
         st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/)")
     with actions[2]:
-        st.markdown("#### Address financial pressure")
+        st.markdown("#### Help with costs")
         st.write("Help residents check coverage and assistance. Keep medical payments separate from other expenses.")
         st.markdown("[New York health coverage](https://nystateofhealth.ny.gov/)")
     page_note("These are community action options, not measured PathwayAI benefits or county commitments. County comparisons do not establish which services are missing.")

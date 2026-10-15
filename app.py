@@ -44,11 +44,20 @@ def page_note(text):
 
 
 def render_page_notes():
-    if PAGE_NOTES:
-        with st.expander("Notes and sources"):
+    with st.expander("Sources and methods"):
+        if PAGE_NOTES:
             for number, note in enumerate(PAGE_NOTES, 1):
                 st.caption(f"{number}. {note}")
-        PAGE_NOTES.clear()
+            PAGE_NOTES.clear()
+        st.markdown("**Research references**")
+        st.markdown("""
+- [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) — Main basis for the county cost illustrations; 2016 dollars.
+- [Yu et al. (2026)](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) — Medical episode costs and patient payments; original tables awaiting verification.
+- [Horn et al. (2025)](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) — Follow-up symptoms and prescriptions; supports future modeling.
+- [Kugeler et al. (2021)](https://doi.org/10.3201/eid2702.202731) — National estimate of Lyme diagnoses and treatment.
+""")
+        st.caption("County illustrations multiply reported cases by published study costs. Cost perspectives, study populations and dollar years differ. Biobank findings have not been added to county cost totals. Additional references and calculation details appear beside the relevant evidence views.")
+
     with st.expander("Acknowledgements"):
         st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
         st.markdown("""
@@ -63,14 +72,6 @@ def render_page_notes():
 - **Lun-Hsiang Yuan, MD, PhD** — National Taiwan University Hospital, Yunlin Branch
 """)
         st.write("With thanks to Colorado Tick-Borne Disease Awareness Association, Lyme Treatment Foundation, and Lyme Disease Resource Center, Inc.")
-    with st.expander("Sources and methods"):
-        st.markdown("""
-- [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) — Main basis for the county cost illustrations; 2016 dollars.
-- [Yu et al. (2026)](https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) — Medical episode costs and patient payments; original tables awaiting verification.
-- [Horn et al. (2025)](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) — Follow-up symptoms and prescriptions; supports future modeling.
-- [Kugeler et al. (2021)](https://doi.org/10.3201/eid2702.202731) — National estimate of Lyme diagnoses and treatment.
-""")
-        st.caption("County illustrations multiply reported cases by published study costs. Cost perspectives, study populations and dollar years differ. Biobank findings have not been added to county cost totals. Additional references and calculation details appear beside the relevant evidence views.")
 
 
 def simple_reading_view():
@@ -615,14 +616,12 @@ def policy89():
     page_note("The invitation opens the existing Care & Support record, reusing session entries. Personal entries stay private in this session and are not automatically submitted to a survey or county dataset. Secure shared reporting is a future pilot phase and requires explicit consent.")
     page_note("The project lead supplied the external survey link; live form access was blocked during this update, so its questions, consent wording, email collection and access settings have not been verified. Opening the link does not send app records to Google Forms. Survey responses are separate from private app records and are not automatically added to county estimates. A future integrated contribution flow needs explicit permission, secure storage, access and retention rules, common reporting periods and privacy-reviewed aggregate release. Existing personal entries should be reused in that future flow rather than requested again.")
     st.markdown("### Costs and time lost")
-    st.write("Illness can bring medical bills, travel expenses, missed work and unpaid care.")
     st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
     page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver time is recorded in hours and is not converted to a dollar cost in the current app. Published cost references appear below.")
     show_session_burden()
     show_burden_evidence_panel104()
     st.markdown("### Community action")
     st.write("Use the county findings to focus prevention, care access and financial support.")
-    st.write("For Dutchess and Orange: connect the Lyme findings with prevention, care and support resources.")
     with st.expander("Local health-plan context · Dutchess source"):
         show_county_plan_context(page_note)
     actions = st.columns(3)
@@ -679,153 +678,153 @@ def policy89():
     st.download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     with st.expander("Ask AI about the public evidence"):
         policy_ai105()
-    st.markdown("### Sources and methods")
-    with st.expander("Other survey and cost resources to review"):
-        st.markdown("[AHRQ Medical Expenditure Panel Survey](https://meps.ahrq.gov/mepsweb/) · medical spending and patient-payment benchmarks")
-        st.markdown("[CDC National Health Interview Survey](https://www.cdc.gov/nchs/nhis/index.html) · work and daily-function context")
-        st.markdown("[MyLymeData](https://www.lymedisease.org/mylymedata/) · selected Lyme patient experiences")
-        st.markdown("[BLS county wage data](https://www.bls.gov/cew/) · possible productivity-value assumptions")
-        st.write("These are candidate resources for further review. Live access was blocked in this environment; no new numbers from them are included in the county model. General federal benchmarks need a justified connection to Lyme disease, and voluntary Lyme surveys need sampling and reporting-period review.")
-    with st.expander("How to interpret cost figures and examples"):
-        st.write("Published Hook and Yu figures are study-population references. Multiplying a study mean by reported cases is illustrative arithmetic, not a measured county cost, expected bill or savings estimate.")
-        st.write("Study populations, cost perspectives and dollar years differ. Do not add the published estimates or label them pre-diagnosis costs. A reliable county pre-diagnosis cost has not been calculated.")
-        st.write("Suggested responses are options to evaluate, not proven interventions or recommended funding shares. Before-and-after changes alone do not establish a causal benefit.")
-    show_nys_map_details()
-    with st.expander("Map interpretation"):
-        st.write("New York is the current mapped example. Cases describe residents, not necessarily exposure location. Sampled tick observations do not establish county-wide density or personal infection risk.")
-    with st.expander("Comparison sources and interpretation"):
-        st.write("Tick observations describe sampled sites; cases describe residents, not necessarily exposure location. Language spoken at home does not establish interpreter need. These separate measures do not establish a causal relationship.")
-        st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [NYSDOH rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf) · [Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork)")
-    with st.expander("Download county comparison data and sources"):
-        county_rows = pd.DataFrame([
-            {"county": "Orange", "measure": "Reported Lyme rate", "value": 237.0, "unit": "cases per 100,000", "year": "2024", "source": "NYSDOH county rates", "source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"},
-            {"county": "Dutchess", "measure": "Reported Lyme rate", "value": 355.5, "unit": "cases per 100,000", "year": "2024", "source": "NYSDOH county rates", "source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"},
-            {"county": "Orange", "measure": "Sampled tick density", "value": 43.2, "unit": "nymphs per 1,000 square meters; one sampled site", "year": "2024", "source": "NYSDOH tick observations", "source_url": "https://health.data.ny.gov/d/kibp-u2ip"},
-            {"county": "Dutchess", "measure": "Sampled tick density", "value": 28.8, "unit": "nymphs per 1,000 square meters; one sampled site", "year": "2024", "source": "NYSDOH tick observations", "source_url": "https://health.data.ny.gov/d/kibp-u2ip"},
-            {"county": "Orange", "measure": "Language other than English at home", "value": 30.2, "unit": "percent of population age 5+", "year": "ACS 2020–2024", "source": "US Census QuickFacts", "source_url": "https://www.census.gov/quickfacts/orangecountynewyork"},
-            {"county": "Dutchess", "measure": "Language other than English at home", "value": 16.2, "unit": "percent of population age 5+", "year": "ACS 2020–2024", "source": "US Census QuickFacts", "source_url": "https://www.census.gov/quickfacts/dutchesscountynewyork"},
-            {"county": "Orange", "measure": "Any disability, all causes", "value": 11.7, "unit": "percent; assessment-cited ACS S1810", "year": "Vintage unresolved: report heading 2023, citation 2020", "source": "Mid-Hudson CHA 2025, Table 12, p. 34; cites Census", "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf"},
-            {"county": "Dutchess", "measure": "Any disability, all causes", "value": 12.2, "unit": "percent; assessment-cited ACS S1810", "year": "Vintage unresolved: report heading 2023, citation 2020", "source": "Mid-Hudson CHA 2025, Table 12, p. 34; cites Census", "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf"},
-        ])
-        st.write("These are the same comparison figures shown above, with reporting years and source links. Tick sites are not countywide tick density estimates.")
-        show_readable_table(county_rows, hide_index=True)
-        st.download_button(
-            "Download comparison CSV",
-            county_rows.to_csv(index=False).encode("utf-8-sig"),
-            file_name="PathwayAI_NY_Comparison_v120.csv",
-            mime="text/csv",
-            key="county_comparison_v120_csv",
-        )
+    with st.expander("Data details, downloads and supporting research"):
+        with st.expander("Other survey and cost resources to review"):
+            st.markdown("[AHRQ Medical Expenditure Panel Survey](https://meps.ahrq.gov/mepsweb/) · medical spending and patient-payment benchmarks")
+            st.markdown("[CDC National Health Interview Survey](https://www.cdc.gov/nchs/nhis/index.html) · work and daily-function context")
+            st.markdown("[MyLymeData](https://www.lymedisease.org/mylymedata/) · selected Lyme patient experiences")
+            st.markdown("[BLS county wage data](https://www.bls.gov/cew/) · possible productivity-value assumptions")
+            st.write("These are candidate resources for further review. Live access was blocked in this environment; no new numbers from them are included in the county model. General federal benchmarks need a justified connection to Lyme disease, and voluntary Lyme surveys need sampling and reporting-period review.")
+        with st.expander("How to interpret cost figures and examples"):
+            st.write("Published Hook and Yu figures are study-population references. Multiplying a study mean by reported cases is illustrative arithmetic, not a measured county cost, expected bill or savings estimate.")
+            st.write("Study populations, cost perspectives and dollar years differ. Do not add the published estimates or label them pre-diagnosis costs. A reliable county pre-diagnosis cost has not been calculated.")
+            st.write("Suggested responses are options to evaluate, not proven interventions or recommended funding shares. Before-and-after changes alone do not establish a causal benefit.")
+        show_nys_map_details()
+        with st.expander("Map interpretation"):
+            st.write("New York is the current mapped example. Cases describe residents, not necessarily exposure location. Sampled tick observations do not establish county-wide density or personal infection risk.")
+        with st.expander("Comparison sources and interpretation"):
+            st.write("Tick observations describe sampled sites; cases describe residents, not necessarily exposure location. Language spoken at home does not establish interpreter need. These separate measures do not establish a causal relationship.")
+            st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [NYSDOH rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf) · [Tick observations](https://health.data.ny.gov/d/kibp-u2ip) · [Orange Census](https://www.census.gov/quickfacts/orangecountynewyork) · [Dutchess Census](https://www.census.gov/quickfacts/dutchesscountynewyork)")
+        with st.expander("Download county comparison data and sources"):
+            county_rows = pd.DataFrame([
+                {"county": "Orange", "measure": "Reported Lyme rate", "value": 237.0, "unit": "cases per 100,000", "year": "2024", "source": "NYSDOH county rates", "source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"},
+                {"county": "Dutchess", "measure": "Reported Lyme rate", "value": 355.5, "unit": "cases per 100,000", "year": "2024", "source": "NYSDOH county rates", "source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"},
+                {"county": "Orange", "measure": "Sampled tick density", "value": 43.2, "unit": "nymphs per 1,000 square meters; one sampled site", "year": "2024", "source": "NYSDOH tick observations", "source_url": "https://health.data.ny.gov/d/kibp-u2ip"},
+                {"county": "Dutchess", "measure": "Sampled tick density", "value": 28.8, "unit": "nymphs per 1,000 square meters; one sampled site", "year": "2024", "source": "NYSDOH tick observations", "source_url": "https://health.data.ny.gov/d/kibp-u2ip"},
+                {"county": "Orange", "measure": "Language other than English at home", "value": 30.2, "unit": "percent of population age 5+", "year": "ACS 2020–2024", "source": "US Census QuickFacts", "source_url": "https://www.census.gov/quickfacts/orangecountynewyork"},
+                {"county": "Dutchess", "measure": "Language other than English at home", "value": 16.2, "unit": "percent of population age 5+", "year": "ACS 2020–2024", "source": "US Census QuickFacts", "source_url": "https://www.census.gov/quickfacts/dutchesscountynewyork"},
+                {"county": "Orange", "measure": "Any disability, all causes", "value": 11.7, "unit": "percent; assessment-cited ACS S1810", "year": "Vintage unresolved: report heading 2023, citation 2020", "source": "Mid-Hudson CHA 2025, Table 12, p. 34; cites Census", "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf"},
+                {"county": "Dutchess", "measure": "Any disability, all causes", "value": 12.2, "unit": "percent; assessment-cited ACS S1810", "year": "Vintage unresolved: report heading 2023, citation 2020", "source": "Mid-Hudson CHA 2025, Table 12, p. 34; cites Census", "source_url": "https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf"},
+            ])
+            st.write("These are the same comparison figures shown above, with reporting years and source links. Tick sites are not countywide tick density estimates.")
+            show_readable_table(county_rows, hide_index=True)
+            st.download_button(
+                "Download comparison CSV",
+                county_rows.to_csv(index=False).encode("utf-8-sig"),
+                file_name="PathwayAI_NY_Comparison_v120.csv",
+                mime="text/csv",
+                key="county_comparison_v120_csv",
+            )
 
-    with st.expander("Other reported effects and how to interpret these findings"):
-        st.write("Previously supplied exploratory results — not independently recalculated from individual responses. Keep these separate from verified submission results.")
-        st.markdown("#### Does a longer wait for diagnosis come with greater costs?")
-        st.write(
-            "In an early PathwayAI survey comparison, people who reported waiting more than five years "
-            "for a Lyme diagnosis were more likely to report spending $10,000 or more than people "
-            "who reported shorter waits."
-        )
-        delay_comparison = pd.DataFrame([
-            {"Time to diagnosis": "More than 5 years", "Reported spending ≥$10,000 (%)": 67},
-            {"Time to diagnosis": "5 years or less", "Reported spending ≥$10,000 (%)": 43},
-        ])
-        st.bar_chart(delay_comparison.set_index("Time to diagnosis"), horizontal=True)
-        st.write("**67% versus 43%** — a difference of **24 percentage points** in this small survey comparison.")
-        st.write("Small voluntary survey comparison; association, not proof that delay caused the spending.")
-        st.write("**More than 10 healthcare professionals:** 65% with >5-year delay versus 43% with ≤5-year delay.")
-        st.write("**More than 100 work or school days lost:** 77% with >5-year delay versus 67% with ≤5-year delay.")
-        st.write(
-            "These exploratory comparisons come from the earlier PathwayAI Beta presentation, "
-            "not a new calculation from raw survey responses. The numbers of people answering each "
-            "question varied. We have not independently recalculated the groups or verified the "
-            "original individual records."
-        )
-        st.write(
-            "The survey was voluntary and small. It cannot show that diagnostic delay caused the "
-            "extra spending or lost days, or tell us the additional dollar cost of one year of delay. "
-            "The data provided here do not allow a >1-year versus ≤1-year comparison."
-        )
-        st.markdown(
-            "**Related published research:** [Yu et al., JAMA Network Open (2026)]"
-            "(https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) "
-            "reports higher medical episode costs for disseminated than localized Lyme disease. "
-            "[Hook et al., CDC (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) "
-            "examines medical, nonmedical and productivity costs. "
-            "Neither study establishes the additional costs caused by a specific diagnostic delay."
-        )
-        delay_csv = delay_comparison.copy()
-        delay_csv["evidence_type"] = "Previously reported exploratory survey comparison"
-        delay_csv["source"] = "PathwayAI Making the Invisible Lyme Disease Journey Visible, Beta presentation, slide 6"
-        delay_csv["limitation"] = "Not independently recomputed; varying denominators; not a causal cost estimate"
-        st.download_button(
-            "Download delay and spending comparison",
-            delay_csv.to_csv(index=False).encode("utf-8-sig"),
-            file_name="PathwayAI_Delay_Spending_Exploratory_v121.csv",
-            mime="text/csv",
-            key="delay_spending_v121_csv",
-        )
-    with st.expander("Published county cost context"):
-        show_readable_table([{"County":r["county"],"Perspective":r["perspective"],"Calculation":f"{r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,}","Dollar year":r["dollar_year"]} for r in rows],hide_index=True)
-        st.write(COST_CONTEXT_CAVEAT)
-    with st.expander("About access and contributions"):
-        st.write("This is a working pilot website, not a finished county service. Residents can use visit summaries and support contacts now; community teams can download discussion briefs. Real shared collection is off by default. Proposed ways to reach users are clinic handouts, patient advocates and county partners; these channels and partnerships are not yet established. Outcomes, adoption and savings have not been demonstrated.")
+        with st.expander("Other reported effects and how to interpret these findings"):
+            st.write("Previously supplied exploratory results — not independently recalculated from individual responses. Keep these separate from verified submission results.")
+            st.markdown("#### Does a longer wait for diagnosis come with greater costs?")
+            st.write(
+                "In an early PathwayAI survey comparison, people who reported waiting more than five years "
+                "for a Lyme diagnosis were more likely to report spending $10,000 or more than people "
+                "who reported shorter waits."
+            )
+            delay_comparison = pd.DataFrame([
+                {"Time to diagnosis": "More than 5 years", "Reported spending ≥$10,000 (%)": 67},
+                {"Time to diagnosis": "5 years or less", "Reported spending ≥$10,000 (%)": 43},
+            ])
+            st.bar_chart(delay_comparison.set_index("Time to diagnosis"), horizontal=True)
+            st.write("**67% versus 43%** — a difference of **24 percentage points** in this small survey comparison.")
+            st.write("Small voluntary survey comparison; association, not proof that delay caused the spending.")
+            st.write("**More than 10 healthcare professionals:** 65% with >5-year delay versus 43% with ≤5-year delay.")
+            st.write("**More than 100 work or school days lost:** 77% with >5-year delay versus 67% with ≤5-year delay.")
+            st.write(
+                "These exploratory comparisons come from the earlier PathwayAI Beta presentation, "
+                "not a new calculation from raw survey responses. The numbers of people answering each "
+                "question varied. We have not independently recalculated the groups or verified the "
+                "original individual records."
+            )
+            st.write(
+                "The survey was voluntary and small. It cannot show that diagnostic delay caused the "
+                "extra spending or lost days, or tell us the additional dollar cost of one year of delay. "
+                "The data provided here do not allow a >1-year versus ≤1-year comparison."
+            )
+            st.markdown(
+                "**Related published research:** [Yu et al., JAMA Network Open (2026)]"
+                "(https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880) "
+                "reports higher medical episode costs for disseminated than localized Lyme disease. "
+                "[Hook et al., CDC (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article) "
+                "examines medical, nonmedical and productivity costs. "
+                "Neither study establishes the additional costs caused by a specific diagnostic delay."
+            )
+            delay_csv = delay_comparison.copy()
+            delay_csv["evidence_type"] = "Previously reported exploratory survey comparison"
+            delay_csv["source"] = "PathwayAI Making the Invisible Lyme Disease Journey Visible, Beta presentation, slide 6"
+            delay_csv["limitation"] = "Not independently recomputed; varying denominators; not a causal cost estimate"
+            st.download_button(
+                "Download delay and spending comparison",
+                delay_csv.to_csv(index=False).encode("utf-8-sig"),
+                file_name="PathwayAI_Delay_Spending_Exploratory_v121.csv",
+                mime="text/csv",
+                key="delay_spending_v121_csv",
+            )
+        with st.expander("Published county cost context"):
+            show_readable_table([{"County":r["county"],"Perspective":r["perspective"],"Calculation":f"{r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,}","Dollar year":r["dollar_year"]} for r in rows],hide_index=True)
+            st.write(COST_CONTEXT_CAVEAT)
+        with st.expander("About access and contributions"):
+            st.write("This is a working pilot website, not a finished county service. Residents can use visit summaries and support contacts now; community teams can download discussion briefs. Real shared collection is off by default. Proposed ways to reach users are clinic handouts, patient advocates and county partners; these channels and partnerships are not yet established. Outcomes, adoption and savings have not been demonstrated.")
 
-    with st.expander("Additional local context · Dutchess sources"):
-        show_readable_table([
-            {"Source":"NYSDOH, 2024","Measure":"Reported Lyme cases","Value":"1,060","Use":'Reported illness context; not exposure location or before-diagnosis cost'},
-            {"Source":"Census QuickFacts, ACS 2020–2024","Measure":"Poverty / uninsured under 65 / disability under 65","Value":"8.4% / 4.9% / 9.2%","Use":"All-cause community context; not Lyme-attributable"},
-        ],hide_index=True)
-        ahrf=load_ahrf_county("36027")
-        if ahrf:
-            fields=[]
-            for key,label in [("pcp","Primary-care physicians"),("hosp","Hospitals"),("beds","Hospital beds")]:
-                if pd.notna(ahrf.get(key)): fields.append({"Measure":label,"Value":ahrf[key],"Source":"HRSA AHRF; 2023 fields"})
-            if fields: show_readable_table(fields,hide_index=True)
-        else: st.write("HRSA capacity file is unavailable in this deployment.")
-        st.write("Official HRSA shortage designations are not loaded. Physician counts do not establish a shortage or actual appointment waits.")
-        st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [Census](https://www.census.gov/quickfacts/dutchesscountynewyork) · [HRSA AHRF](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf) · [HRSA shortage finder](https://data.hrsa.gov/tools/shortage-area)")
-        cases=local_lyme_cases_for_fips("36027")
-        st.write("CDC historical county cases (2019–2022): " + (f"{cases:,}" if cases is not None else "Not available in the loaded files"))
-        st.markdown("[CDC Lyme surveillance](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
-        places=load_places_county("36027")
-        if places is not None and not places.empty:
-            st.write("CDC PLACES: modeled adult community context, separate from patient reports and Census under-65 measures.")
-            show_readable_table(places,hide_index=True)
+        with st.expander("Additional local context · Dutchess sources"):
+            show_readable_table([
+                {"Source":"NYSDOH, 2024","Measure":"Reported Lyme cases","Value":"1,060","Use":'Reported illness context; not exposure location or before-diagnosis cost'},
+                {"Source":"Census QuickFacts, ACS 2020–2024","Measure":"Poverty / uninsured under 65 / disability under 65","Value":"8.4% / 4.9% / 9.2%","Use":"All-cause community context; not Lyme-attributable"},
+            ],hide_index=True)
+            ahrf=load_ahrf_county("36027")
+            if ahrf:
+                fields=[]
+                for key,label in [("pcp","Primary-care physicians"),("hosp","Hospitals"),("beds","Hospital beds")]:
+                    if pd.notna(ahrf.get(key)): fields.append({"Measure":label,"Value":ahrf[key],"Source":"HRSA AHRF; 2023 fields"})
+                if fields: show_readable_table(fields,hide_index=True)
+            else: st.write("HRSA capacity file is unavailable in this deployment.")
+            st.write("Official HRSA shortage designations are not loaded. Physician counts do not establish a shortage or actual appointment waits.")
+            st.markdown("[NYSDOH cases](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf) · [Census](https://www.census.gov/quickfacts/dutchesscountynewyork) · [HRSA AHRF](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf) · [HRSA shortage finder](https://data.hrsa.gov/tools/shortage-area)")
+            cases=local_lyme_cases_for_fips("36027")
+            st.write("CDC historical county cases (2019–2022): " + (f"{cases:,}" if cases is not None else "Not available in the loaded files"))
+            st.markdown("[CDC Lyme surveillance](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
+            places=load_places_county("36027")
+            if places is not None and not places.empty:
+                st.write("CDC PLACES: modeled adult community context, separate from patient reports and Census under-65 measures.")
+                show_readable_table(places,hide_index=True)
 
-    with st.expander("How to check the results"):
-        st.write("**What is measured?** New York reported cases and rates, selected sampled tick observations, and Census community context.")
-        st.write("**What comes from research?** Published cost figures refer to the study population and its price year, not a specific New York county.")
-        st.write("**What is only an example?** The group-cost calculator multiplies a number you choose by a published study mean. It does not estimate actual county costs or savings.")
-        st.write("**What does AI do?** It explains supplied evidence and possible questions for community planning. It does not calculate the underlying cost numbers.")
-        st.write("**What is still needed?** More representative cost data, real-world user testing, and validation before using these figures for funding decisions.")
+        with st.expander("How to check the results"):
+            st.write("**What is measured?** New York reported cases and rates, selected sampled tick observations, and Census community context.")
+            st.write("**What comes from research?** Published cost figures refer to the study population and its price year, not a specific New York county.")
+            st.write("**What is only an example?** The group-cost calculator multiplies a number you choose by a published study mean. It does not estimate actual county costs or savings.")
+            st.write("**What does AI do?** It explains supplied evidence and possible questions for community planning. It does not calculate the underlying cost numbers.")
+            st.write("**What is still needed?** More representative cost data, real-world user testing, and validation before using these figures for funding decisions.")
 
-    st.markdown("### More research on the burden")
-    st.write("Survey and literature references from participants across locations.")
-    with st.expander("See patient survey findings · across locations"):
-        st.link_button("Take part in the project survey ↗", "https://docs.google.com/forms/d/e/1FAIpQLSd8r42DMiTEV8NBEHNpRLJq05GRicu_71X2hPYxPivAQYy6BQ/viewform")
-        st.write("Opens Google Forms. Review its consent and privacy information before submitting. This project survey is separate from your private app record.")
-        c1,c2,c3=st.columns(3)
-        c1.metric("At least $10,000 out-of-pocket", "14 of 33")
-        c2.metric("More than 100 days lost", "18 of 33")
-        c3.metric("More than 5 years to diagnosis", "20 of 33")
-        st.write("PathwayAI survey · early October 3, 2026 supplied snapshot, 33 self-reported diagnosed respondents. Small voluntary sample across locations; not county estimates.")
-        with st.expander("Survey methods"):
-            st.write('Counts are from the project lead’s supplied summary, not recalculated from the current export. Confirm question wording, missing-response denominators and reporting periods; no spending average or before-diagnosis cost attribution is inferred.')
-    with st.expander("Larger surveys and study populations"):
-        larger_evidence101()
-        st.markdown("#### Biobank follow-up · published study")
-        st.write("Horn and colleagues followed 253 of 466 enrolled cases. Of those returning, 55 reported ongoing symptoms. Among 226 initially prescribed antibiotics, 47 reported ongoing symptoms. Median follow-up was 89 days.")
-        st.write("This evidence supports examining follow-up access and daily-life effects alongside the cost model.")
-        page_note("Horn et al. (2025), Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023; published July 10, 2025. Full public PDF checked October 14, 2026: Methods/Results pp. 3 and 6, Table 5 p. 7, Limitations p. 8. The study's selected returners and three-month symptom outcome do not establish county long-Lyme/PTLDS risk or additional dollar costs. A Bayesian scenario would need justified cohort transfer, a defined follow-up period and separate incremental-cost evidence. Medication estimates should not be added again to a baseline that already includes medical costs. Observed antibiotic prescribing does not establish treatment effectiveness or change the app's clinical guidance. [Full study](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
-    with st.expander("Five relevant papers for the evidence review"):
-        st.markdown("[Hook et al. (2022) · societal economic burden](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
-        st.markdown("[Horn et al. (2025) · Biobank follow-up](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
-        st.markdown("[Kugeler et al. (2021) · estimated U.S. diagnoses](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article)")
-        st.markdown("[Johnson et al. (2014) · quality-of-life survey](https://peerj.com/articles/322/)")
-        st.markdown("[Adrion et al. (2015) · healthcare costs and utilization](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0116767)")
-        st.write("Selected for relevance to costs, disease frequency, follow-up and lived experience. Hook and Horn were checked against supplied source texts; Kugeler and Johnson citations were checked in Horn's bibliography, while their original articles still require review. Adrion is discussed in Hook and remains a candidate for original-paper review. This is a reading list rather than a ranking or identification of challenge reviewers; only checked evidence supports numerical model inputs.")
-    with st.expander("Published evidence & methods"):
-        evidence89(include_survey=False)
+        st.markdown("### More research on the burden")
+        st.write("Survey and literature references from participants across locations.")
+        with st.expander("See patient survey findings · across locations"):
+            st.link_button("Take part in the project survey ↗", "https://docs.google.com/forms/d/e/1FAIpQLSd8r42DMiTEV8NBEHNpRLJq05GRicu_71X2hPYxPivAQYy6BQ/viewform")
+            st.write("Opens Google Forms. Review its consent and privacy information before submitting. This project survey is separate from your private app record.")
+            c1,c2,c3=st.columns(3)
+            c1.metric("At least $10,000 out-of-pocket", "14 of 33")
+            c2.metric("More than 100 days lost", "18 of 33")
+            c3.metric("More than 5 years to diagnosis", "20 of 33")
+            st.write("PathwayAI survey · early October 3, 2026 supplied snapshot, 33 self-reported diagnosed respondents. Small voluntary sample across locations; not county estimates.")
+            with st.expander("Survey methods"):
+                st.write('Counts are from the project lead’s supplied summary, not recalculated from the current export. Confirm question wording, missing-response denominators and reporting periods; no spending average or before-diagnosis cost attribution is inferred.')
+        with st.expander("Larger surveys and study populations"):
+            larger_evidence101()
+            st.markdown("#### Biobank follow-up · published study")
+            st.write("Horn and colleagues followed 253 of 466 enrolled cases. Of those returning, 55 reported ongoing symptoms. Among 226 initially prescribed antibiotics, 47 reported ongoing symptoms. Median follow-up was 89 days.")
+            st.write("This evidence supports examining follow-up access and daily-life effects alongside the cost model.")
+            page_note("Horn et al. (2025), Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023; published July 10, 2025. Full public PDF checked October 14, 2026: Methods/Results pp. 3 and 6, Table 5 p. 7, Limitations p. 8. The study's selected returners and three-month symptom outcome do not establish county long-Lyme/PTLDS risk or additional dollar costs. A Bayesian scenario would need justified cohort transfer, a defined follow-up period and separate incremental-cost evidence. Medication estimates should not be added again to a baseline that already includes medical costs. Observed antibiotic prescribing does not establish treatment effectiveness or change the app's clinical guidance. [Full study](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
+        with st.expander("Five relevant papers for the evidence review"):
+            st.markdown("[Hook et al. (2022) · societal economic burden](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+            st.markdown("[Horn et al. (2025) · Biobank follow-up](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full)")
+            st.markdown("[Kugeler et al. (2021) · estimated U.S. diagnoses](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article)")
+            st.markdown("[Johnson et al. (2014) · quality-of-life survey](https://peerj.com/articles/322/)")
+            st.markdown("[Adrion et al. (2015) · healthcare costs and utilization](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0116767)")
+            st.write("Selected for relevance to costs, disease frequency, follow-up and lived experience. Hook and Horn were checked against supplied source texts; Kugeler and Johnson citations were checked in Horn's bibliography, while their original articles still require review. Adrion is discussed in Hook and remains a candidate for original-paper review. This is a reading list rather than a ranking or identification of challenge reviewers; only checked evidence supports numerical model inputs.")
+        with st.expander("Published evidence & methods"):
+            evidence89(include_survey=False)
     with st.expander("Partner with PathwayAI for healthier communities"):
         st.write("We’re seeking community groups, clinics and public-health partners to pilot consent-based reporting. Together, we can understand local costs and care barriers, identify support needs and test practical responses.")
         st.markdown("[Discuss a community pilot](mailto:pathwyai.feedback@gmail.com?subject=PathwayAI%20community%20pilot)")
@@ -1020,10 +1019,8 @@ def compact_care88(quick, story):
                 else:
                     st.error("Contribution could not be saved. Your summary is still available to download.")
             if not eligible: page_note("To contribute, confirm a supported county, period and journey phase, and enter at least one cost or time measure.")
-    st.markdown("### Sources and methods")
-    with st.expander("Methods & limits"):
+    with st.expander("About your record and calculations"):
         st.write("Entries describe your experience; they do not establish costs caused by Lyme disease or predict future bills. Work-loss value is days × your chosen value/day, separate from medical spending.")
-        for line in published_reference_text(): st.write(line.replace("$", r"\$"))
     with st.expander("How community evidence could be used"):
         st.write("With reviewed consent, comparable cost bands, missed workdays, caregiver hours and care barriers could inform county support priorities. Real shared reporting needs a secure pilot and privacy-reviewed publication.")
         st.write("Before diagnosis is a recording phase, not a clinical stage. Unknown amounts stay unknown. Voluntary reports do not establish county prevalence or savings.")

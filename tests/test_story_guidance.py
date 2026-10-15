@@ -18,7 +18,7 @@ class StoryGuidanceTests(unittest.TestCase):
         self.assertFalse(at.checkbox(key="use_story_ai65").value)
         self.assertFalse(any(button.label == "Try this example" for button in at.button))
         self.assertTrue(any(expander.label == "Read a made-up example" for expander in at.expander))
-        self.assertTrue(any("What symptoms you have" in element.value for element in at.markdown))
+        self.assertTrue(any("What symptoms have you had" in element.value for element in at.markdown))
         story = "I walked in Virginia in May. I have felt tired for ten days. I need help preparing for a visit."
         at.text_area(key="quick_story_value").set_value(story).run()
         at.button(key="patient_to_community").click().run()

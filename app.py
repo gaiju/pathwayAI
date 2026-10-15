@@ -22,6 +22,7 @@ from evidence_rag import search_evidence, validate_answer_citations, source_list
 from county_geography import containing_county
 from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
+from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 from county_trends import show_county_rate_trend
@@ -925,6 +926,8 @@ def compact_care88(quick, story):
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Record money and time")
     st.write('Record money you paid and time you lost. Use one period.')
+    with st.expander("See where costs arise in the care journey"):
+        st.image(str(Path(__file__).parent / "images" / "lyme_care_cost_journey.png"), caption="Care may include visits, testing, treatment and follow-up, with costs and time across the journey.", use_container_width=True)
     st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
     period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
     phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
@@ -964,6 +967,9 @@ def compact_care88(quick, story):
         st.session_state["summary88_text"]=seed
         st.session_state["summary88_seed"]=seed
     with st.expander("Review and download your visit and burden card",expanded=True):
+        visual = personal_cost_svg(medical, other, workdays, caregiver, modeled, period)
+        st.markdown(visual, unsafe_allow_html=True)
+        st.download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
         st.download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
     st.markdown("### 3. Find support and explore your community")

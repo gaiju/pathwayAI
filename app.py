@@ -3271,13 +3271,11 @@ if not st.session_state.get("pathway_open", False):
         st.write("This is a working pilot website. Visit summaries, cost-and-time records, support contacts and evidence downloads work now. Secure shared reporting and county use are the next pilot phase.")
         st.write("Public collection is off by default. A real reporting pilot needs consent, private storage and a privacy-reviewed release process. We have not measured improved health, reduced costs or county adoption.")
     st.markdown("#### Sources and other evidence")
-    with st.expander("Sources and notes for the four headline figures"):
-        st.caption("¹ CDC annual diagnoses/treatment estimate: 476,000, based on insurance claims from 2010–2018. https://www.cdc.gov/lyme/data-research/facts-stats/index.html")
-        st.caption("² CDC reported U.S. Lyme cases in 2022: 62,551. Surveillance counts and diagnoses/treatment estimates measure different things. https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
-        st.caption("³ Hook et al. (2022), annual diagnosed-Lyme societal-cost illustrations in 2016 dollars. https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article")
-        st.caption("⁴ Hook et al. (2022): weighted mean societal cost $2,032 per participant in 2016 dollars; 613 participants in the societal-cost analysis. Includes medical, nonmedical and lost-productivity costs. Checked against the supplied article Results; study references are not personal bills or measured county costs.")
-        st.markdown("[Hook et al. 2022 · economic burden study](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
-        st.write("USD 345 million uses median-cost aggregation; USD 968 million uses mean-cost aggregation. These are two published annual reference calculations, not a confidence interval or a complete accounting of all persistent illness and diagnostic-delay costs. Historical dollar year: 2016; no inflation adjustment here.")
+    with st.expander("Headline figures · sources"):
+        st.caption("476,000 estimated annual diagnoses and treatments: insurance claims, 2010–2018. [CDC](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
+        st.caption("62,551 reported cases: U.S. surveillance, 2022. These counts measure something different from estimated diagnoses and treatments. [CDC](https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm)")
+        st.caption("$345–968 million annually and $2,032 mean per study participant: medical, nonmedical and lost-productivity costs, in 2016 dollars. The annual figures use median- and mean-cost calculations; they are not a confidence interval. The participant mean uses 613 participants. [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
+        st.caption("Published cost references are not personal bills or measured county costs. Figures are not inflation-adjusted and do not capture the full burden of persistent illness or diagnostic delay.")
     st.write("Information and help finding care; not a diagnosis or a personal infection-risk estimate.")
     page_note("[CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html). Photos supplied for PathwayAI; no agency endorsement is implied.")
     render_page_notes()

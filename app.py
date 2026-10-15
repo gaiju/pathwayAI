@@ -50,16 +50,20 @@ def render_page_notes():
                 st.caption(f"{number}. {note}")
         PAGE_NOTES.clear()
     with st.expander("Acknowledgements"):
-        st.write("Thank you to the individuals who offered guidance, shared the survey and helped amplify patient voices:")
-        st.markdown("- **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank; lead author of the 2025 follow-up study.\n- **Allison Weber** — Thank you for guidance on using Lyme Disease Biobank data to study persistent symptoms and estimate medication costs.")
-        st.markdown("- [Cynthia Adinig](https://www.linkedin.com/in/cynthiaadinig/) — Founder, CYNAERA and BIPOC Equity Agency; Federal Policy Advisor, Researcher and Author.\n- [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Founder and Executive Director; Chair of the Research Board, Lyme Treatment Foundation.\n- [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Founder and Executive Director, Lyme Disease Resource Center, Inc.\n- [Bernadette Clavier](https://www.linkedin.com/in/bernadetteclavier) — Owner at Clos Clavier.\n- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Physician focusing on mental and behavioral health, weight management and inflammatory conditions.")
-        st.markdown("We also thank **Ming-Hui Chou, MD, PhD — Wholesomeship Clinic, Tainan, Taiwan** and **Lun-Hsiang Yuan, MD, PhD**. Dr. Yuan is Deputy Director, Department of Urology, National Taiwan University Hospital, Yunlin Branch.")
-        st.write("We thank the patients, caregivers and community members whose feedback helped make PathwayAI clearer and easier to use.")
-        st.write("We also thank the organizations that helped share the PathwayAI patient survey and bring more patient voices into the conversation:")
-        st.markdown("- Colorado Tick-Borne Disease Awareness Association\n- Lyme Treatment Foundation\n- Lyme Disease Resource Center, Inc.")
-        st.write("We acknowledge the Lyme Disease Biobank research by Elizabeth J. Horn and colleagues, and the public-health researchers whose published work informs our evidence review.")
-        st.markdown("[Horn et al. (2025) · Lyme Disease Biobank follow-up research](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) · [Hook et al. (2022) · economic burden research](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
-        st.caption("These credits recognize community outreach, feedback and published research. Professional titles are based on the profile information supplied to PathwayAI. Formal pilot partnerships and endorsements require separate agreement.")
+        st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
+        st.markdown("""
+- **Elizabeth J. (Liz) Horn** — Lyme Disease Biobank
+- **Allison Weber** — Biobank data guidance
+- [Cynthia Adinig](https://www.linkedin.com/in/cynthiaadinig/) — CYNAERA and BIPOC Equity Agency
+- [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Lyme Treatment Foundation
+- [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Lyme Disease Resource Center, Inc.
+- [Bernadette Clavier](https://www.linkedin.com/in/bernadetteclavier) — Clos Clavier
+- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Physician
+- **Ming-Hui Chou, MD, PhD** — Wholesomeship Clinic, Tainan, Taiwan
+- **Lun-Hsiang Yuan, MD, PhD** — National Taiwan University Hospital, Yunlin Branch
+""")
+        st.write("With thanks to Colorado Tick-Borne Disease Awareness Association, Lyme Treatment Foundation, and Lyme Disease Resource Center, Inc.")
+        st.markdown("Research: [Horn et al. (2025)](https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2025.1577936/full) · [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
 
 
 def simple_reading_view():

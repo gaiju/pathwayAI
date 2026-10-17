@@ -1286,8 +1286,8 @@ st.markdown("""<style>
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
 .st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.75rem;}
-.st-key-landing_photo .pathway-photo116 img {height:180px;object-fit:cover;}
-@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 img {height:140px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
+.st-key-landing_photo .pathway-photo116 img {height:140px;object-fit:cover;}
+@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 img {height:100px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */
@@ -3373,6 +3373,8 @@ if view == "📚 Sources & Acknowledgements":
 
 
 if not st.session_state.get("pathway_open", False):
+    with st.container(key="landing_photo"):
+        show_photo116("lake", "Golden sunlight filtering through a forest")
     with st.container(key="landing_paths"):
         st.subheader("What would you like to do?")
         for start in range(0, len(paths), 2):
@@ -3384,8 +3386,6 @@ if not st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
              help="Choose what works for you today. You can switch any time; your entries stay the same.")
-    with st.container(key="landing_photo"):
-        show_photo116("lake", "Golden sunlight filtering through a forest")
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
     estimated, reported = st.columns(2)

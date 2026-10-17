@@ -1,0 +1,200 @@
+[
+  {
+    "deck_slide": 1,
+    "image": "Cover",
+    "title": "Cover: your introduction",
+    "navigation": "Your title slide",
+    "start": "0:00",
+    "end": "0:25",
+    "seconds": 25,
+    "narration": "I\u2019m Yuwei Zhang from Team GreenAcorn. My background is in pathology and epidemiology.\n\nPathology taught me to look closely at disease. Epidemiology taught me to see patterns across communities. Patients reminded me that neither view tells the whole story.\n\nPathwayAI connects those dots.\n\nLet me show you.",
+    "words": 47
+  },
+  {
+    "deck_slide": 2,
+    "image": "1",
+    "title": "Start with the complete pathway",
+    "navigation": "Start page",
+    "start": "0:25",
+    "end": "0:31",
+    "seconds": 6,
+    "narration": "Start before a bite. Continue through care, burden, and community action.",
+    "words": 11
+  },
+  {
+    "deck_slide": 3,
+    "image": "2",
+    "title": "Plan before going outdoors",
+    "navigation": "Plan time outdoors \u2192 Your outdoor plan",
+    "start": "0:31",
+    "end": "0:41",
+    "seconds": 10,
+    "narration": "Choose where and when you will be outdoors, and what you plan to do. Prevention starts with preparation.",
+    "words": 18
+  },
+  {
+    "deck_slide": 4,
+    "image": "3",
+    "title": "Prepare, check, and respond",
+    "navigation": "Learn & Prevent \u2192 Generate My Outdoor Tick-Prevention Plan",
+    "start": "0:41",
+    "end": "0:57",
+    "seconds": 16,
+    "narration": "Prepare protective clothing and an EPA-registered repellent. Follow product instructions. Afterwards, check your body, clothing, gear, and pets. Shower within two hours. These steps reduce risk; they cannot guarantee protection.",
+    "words": 30
+  },
+  {
+    "deck_slide": 5,
+    "image": "4",
+    "title": "After a tick bite",
+    "navigation": "After a tick bite \u2192 Remove \u2192 Record \u2192 Seek advice",
+    "start": "0:57",
+    "end": "1:19",
+    "seconds": 22,
+    "narration": "If a tick is attached, grasp close to the skin with fine-tipped tweezers and pull upward steadily. Record when and where. Some high-risk bites need prompt clinical advice. Do not wait for symptoms if you need prevention advice.",
+    "words": 38
+  },
+  {
+    "deck_slide": 6,
+    "image": "5",
+    "title": "Record when and where",
+    "navigation": "Prepare for care \u2192 Tick encounter details",
+    "start": "1:19",
+    "end": "1:28",
+    "seconds": 9,
+    "narration": "Keep the date and exposure location. These may differ from where you live or need care.",
+    "words": 16
+  },
+  {
+    "deck_slide": 7,
+    "image": "6",
+    "title": "Tell the story once",
+    "navigation": "Prepare for care \u2192 Tell us what happened \u2192 Organize My Story",
+    "start": "1:28",
+    "end": "1:46",
+    "seconds": 18,
+    "narration": "Here is a fictional person preparing for care after feeling unwell. They write a short story, including costs and help received. PathwayAI organizes details they can check, correct, and download.",
+    "words": 30
+  },
+  {
+    "deck_slide": 8,
+    "image": "7",
+    "title": "Prepare questions about testing",
+    "navigation": "Care & Support \u2192 Lyme tests \u2192 Before the test",
+    "start": "1:46",
+    "end": "1:58",
+    "seconds": 12,
+    "narration": "The testing guide helps people ask about timing, their complete report, and costs. It prepares a conversation; it does not diagnose.",
+    "words": 21
+  },
+  {
+    "deck_slide": 9,
+    "image": "8",
+    "title": "Include daily life and caregiver experience",
+    "navigation": "Care & Support \u2192 Daily life and caregiver experience",
+    "start": "1:58",
+    "end": "2:09",
+    "seconds": 11,
+    "narration": "Caregivers can help describe daily-life difficulties. We label their observations and keep their own experience separate. Partial answers are welcome.",
+    "words": 20
+  },
+  {
+    "deck_slide": 10,
+    "image": "9",
+    "title": "Review payments, work and unpaid help",
+    "navigation": "Care & Support \u2192 Review and download your visit and burden card",
+    "start": "2:09",
+    "end": "2:27",
+    "seconds": 18,
+    "narration": "This fictional person paid one hundred eighty dollars for care and forty-five for travel. That is two hundred twenty-five dollars. Three workdays and eight caregiver hours stay separate. Unknown answers stay unknown.",
+    "words": 32
+  },
+  {
+    "deck_slide": 11,
+    "image": "10",
+    "title": "Prepare a request for support",
+    "navigation": "Care & Support \u2192 Choose the help you need \u2192 Getting to care",
+    "start": "2:27",
+    "end": "2:40",
+    "seconds": 13,
+    "narration": "Now the record supports a next step: a transport request asking about eligibility, cost, booking, and the return trip. The person chooses what to share.",
+    "words": 25
+  },
+  {
+    "deck_slide": 12,
+    "image": "11",
+    "title": "Prepare for a benefits conversation",
+    "navigation": "Care & Support \u2192 Prepare for a benefits conversation",
+    "start": "2:40",
+    "end": "2:51",
+    "seconds": 11,
+    "narration": "Benefits preparation helps organize questions and records for food assistance or disability support. Agencies decide eligibility. Nothing is submitted automatically.",
+    "words": 20
+  },
+  {
+    "deck_slide": 13,
+    "image": "12",
+    "title": "Compare county evidence",
+    "navigation": "Community Burden & Action \u2192 Compare Dutchess and Orange",
+    "start": "2:51",
+    "end": "3:06",
+    "seconds": 15,
+    "narration": "Now compare Dutchess and Orange counties. CDC, Census, and HRSA data add context alongside New York surveillance and published research. County averages do not describe every person.",
+    "words": 27
+  },
+  {
+    "deck_slide": 14,
+    "image": "13",
+    "title": "Explore a cost illustration",
+    "navigation": "Community \u2192 Estimated community cost: Dutchess and Orange",
+    "start": "3:06",
+    "end": "3:20",
+    "seconds": 14,
+    "narration": "This illustration multiplies reported cases by a study mean: about four point one million dollars, in twenty sixteen dollars. It is not measured county spending.",
+    "words": 25
+  },
+  {
+    "deck_slide": 15,
+    "image": "14",
+    "title": "Connect needs with possible actions",
+    "navigation": "Community \u2192 Patient voices \u2192 community action",
+    "start": "3:20",
+    "end": "3:37",
+    "seconds": 17,
+    "narration": "What could a community do next? Patients, caregivers, and willing partners could review transport barriers, choose a feasible response, and track rides completed, appointments attended, and unmet needs.",
+    "words": 28
+  },
+  {
+    "deck_slide": 16,
+    "image": "15",
+    "title": "Summarize comparable reports",
+    "navigation": "Community \u2192 See how comparable patient reports could be summarized",
+    "start": "3:37",
+    "end": "3:51",
+    "seconds": 14,
+    "narration": "These six records are invented. Five have usable answers; one leaves fields unknown. Comparable reports could inform planning, but voluntary reports cannot represent everyone.",
+    "words": 24
+  },
+  {
+    "deck_slide": 17,
+    "image": "16",
+    "title": "Ask about the public evidence",
+    "navigation": "Community \u2192 Ask AI about the public evidence",
+    "start": "3:51",
+    "end": "4:11",
+    "seconds": 20,
+    "narration": "Optional AI explains curated public evidence without receiving private patient cards. Story AI requires permission; the local organizer works without it.\n\nAI can organize information, but people review its meaning. Data can reveal patterns, but cannot replace lived experience.",
+    "words": 39
+  },
+  {
+    "deck_slide": 18,
+    "image": "17",
+    "title": "Patients and people remain at the center",
+    "navigation": "Sources & Acknowledgements \u2192 Acknowledgements",
+    "start": "4:11",
+    "end": "4:30",
+    "seconds": 19,
+    "narration": "Models explore possibilities; people remain responsible for decisions. The patient stays at the center.\n\nTo patients, caregivers, advocates, and experts: thank you. Your experiences and guidance helped make PathwayAI possible.\n\nMaking the Hidden Patient Journey Visible\u2014and Actionable.",
+    "words": 37
+  }
+]

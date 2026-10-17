@@ -9,9 +9,9 @@ SHARE_MESSAGE = (
 )
 
 
-def show_share_pathway(key, feedback_callback=None):
+def show_share_pathway(key, feedback_callback=None, title="Share PathwayAI · help patient voices be heard"):
     import streamlit as st
-    with st.expander("Share PathwayAI · help patient voices be heard"):
+    with st.expander(title):
         st.write("Know someone who could use PathwayAI or help improve it? Share the app with patients, caregivers and community teams.")
         st.image(str(Path(__file__).resolve().parent / "images" / "pathwayai_share_qr.png"),
                  width=200, caption="Scan to open PathwayAI")

@@ -10,15 +10,15 @@ Fictional story:
 
 > I felt tired after an outdoor walk and would like help preparing for a visit. I paid $180 for medical care and $45 for travel. I missed 3 workdays. My unpaid caregiver spent 8 hours.
 
-## 0:00–0:25 | Purpose
+## 0:00–0:30 | Your perspective and purpose
 
 **Do:** Show the start page.
 
-**Say:** “I’m Yuwei Zhang from Team GreenAcorn. PathwayAI helps people make their experiences visible and helps communities turn evidence into possible support actions. AI can help organize information; patients remain at the center, and people review the decisions.”
+**Say:** “I’m Yuwei Zhang from Team GreenAcorn. My background in pathology and my work at NIH and CMS connect clinical experience, research and health policy. PathwayAI brings those perspectives together: helping people describe what illness costs them, and helping communities explore what to do next. The patient remains at the center of the evidence.”
 
-## 0:25–1:35 | A useful personal record
+## 0:30–1:35 | A useful personal record
 
-**Do:** Choose Care & Support. Paste the fictional story, click Organize My Story with external AI off, choose Past 30 days, and show the reviewed card and download.
+**Do:** Click Prepare for care. Paste the fictional story, click Organize My Story with external AI off, choose Past 30 days, and show the reviewed card and download.
 
 **Say:** “Illness can make it hard to explain what has happened. This fictional person paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of unpaid help. The person checks the copied details before using them. The card shows 225 dollars in payments; days and hours stay separate. Caregiver reporting and daily-life effects can also be labeled. The reviewed summary can be downloaded for a visit. The local organizer works without an AI service.”
 
@@ -50,9 +50,9 @@ Fictional story:
 
 **Do:** Point to Ask AI about the public evidence without requiring a live response. Show the brief download or return to the title slide.
 
-**Say:** “Optional AI explains bounded public evidence and can help organize a story with permission. Public evidence questions do not receive private patient cards. Sources and assumptions remain available for human review.
+**Say:** “AI can organize a story, but the person reviews its meaning. Data can reveal patterns, but county averages cannot speak for an individual. Models can explore possibilities, but people govern decisions. The patient remains at the center.
 
-“Our next step is a secure, consent-based pilot with patients, caregivers and community partners. We need to test whether people reach useful support. PathwayAI's value is making the connection visible: personal experience, county context, an action to evaluate, and a way to follow up.”
+“PathwayAI connects that experience to a useful output: a personal summary, a support request, or a community action brief. Next, a secure, consent-based pilot will test whether people reach useful support. That is the bridge I want to build between clinical experience, evidence and policy.”
 
 ## If the app or AI is unavailable
 

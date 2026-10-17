@@ -1281,6 +1281,13 @@ st.markdown("""<style>
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3 {font-size:1.2rem;}
 [data-testid="stSidebarCollapsedControl"] button {min-width:48px;min-height:48px;}
 [data-testid="stMainBlockContainer"] div.stButton > button {min-height:50px;font-size:1.04rem;font-weight:600;white-space:normal;}
+.st-key-landing_paths button {min-height:60px !important;}
+[data-testid="stMainBlockContainer"]:has(.st-key-landing_paths) {padding-top:2rem !important;}
+.st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
+.st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
+.st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.75rem;}
+.st-key-landing_photo .pathway-photo116 img {height:180px;object-fit:cover;}
+@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 img {height:140px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */
@@ -3319,10 +3326,10 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("I want to plan a safer outdoor visit", "Explore tick exposure information and prepare for time outdoors.", "🛡️ Learn & Prevent", "outdoors"),
-    ("I've been bitten by a tick", "Find out what to do after a tick bite and when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
-    ("I need care & support", "Find health information, services, and optional tools to prepare for care.", "🧭 Care & Support", "ongoing"),
-    ("I want to explore community needs", "See costs, time lost and ways communities could help.", "📊 Community Burden & Action", "county"),
+    ("Plan time outdoors", "Explore tick information and prepare for a safer visit.", "🛡️ Learn & Prevent", "outdoors"),
+    ("After a tick bite", "Learn what to do and when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
+    ("Prepare for care", "Organize your story, record costs and time, and find support.", "🧭 Care & Support", "ongoing"),
+    ("Explore community needs", "Compare county evidence and build an action brief.", "📊 Community Burden & Action", "county"),
 ]
 
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements", "🌱 What’s next"]
@@ -3334,9 +3341,10 @@ st.sidebar.markdown("### 🧭 Choose a section")
 view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="pathway_view", on_change=open_sidebar_view)
 
 if not st.session_state.get("pathway_open", False):
-    st.title("PathwayAI")
-    st.write("**Make patient voices count. Make community needs visible.**")
-    st.write("Organize personal experiences for care. Explore county evidence and possible support actions with patients, caregivers and community teams.")
+    with st.container(key="landing_intro"):
+        st.title("PathwayAI")
+        st.subheader("Make patient voices count. Make community needs visible.")
+        st.write("Prepare for care, make hidden burdens visible, and explore community support actions—with patients and caregivers at the center.")
 if st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
@@ -3365,67 +3373,54 @@ if view == "📚 Sources & Acknowledgements":
 
 
 if not st.session_state.get("pathway_open", False):
-    st.markdown("### A small tick bite can have a big impact.")
-    show_photo116("lake", "Golden sunlight filtering through a forest")
-    st.write('Ticks can spread Lyme disease and other illnesses. Some bites also trigger alpha-gal syndrome, an allergy that may cause serious reactions to red meat and other mammal products.')
-    st.write('Enjoy the outdoors. Prepare for ticks. Find care when you need it.')
-    st.write("**PathwayAI: Prevent bites. Find timely care. Make hidden costs visible.**")
-    page_note("Not every tick bite causes illness. Alpha-gal syndrome is distinct from Lyme disease. Sources: https://www.cdc.gov/alpha-gal-syndrome/about/index.html and https://www.cdc.gov/ticks/prevention/index.html")
+    with st.container(key="landing_paths"):
+        st.subheader("What would you like to do?")
+        for start in range(0, len(paths), 2):
+            cols = st.columns(2)
+            for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
+                with col:
+                    st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
+                    st.write(detail)
+    st.radio("How much information would you like?", ["Short and simple", "More detail"],
+             key="reading_mode", horizontal=True,
+             help="Choose what works for you today. You can switch any time; your entries stay the same.")
+    with st.container(key="landing_photo"):
+        show_photo116("lake", "Golden sunlight filtering through a forest")
+    st.markdown("### Why make the burden visible?")
+    st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
     estimated, reported = st.columns(2)
     estimated.metric("Estimated diagnoses and treatment / year · U.S.", "476,000")
     reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
     societal, participant_cost = st.columns(2)
     societal.metric("Annual U.S. societal cost of diagnosed Lyme · 2016 dollars", "$345–968M")
     participant_cost.metric("Average societal cost per Lyme study participant · 2016 dollars", "$2,032")
-    page_note("CDC estimates and reported case counts measure different things; do not add them.")
-    page_note("CDC's 476,000 annual estimate is based on insurance claims from 2010–2018. The 62,551 reported cases are specifically for 2022, not the current year's count. Sources: https://www.cdc.gov/lyme/data-research/facts-stats/index.html and https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm")
-    page_note("These features are intended to help people avoid preventable costs and find support. PathwayAI has not measured savings or improved health outcomes. Personal cards are downloadable; secure, consent-based shared reporting is the next pilot phase.")
-    st.markdown("#### What would you like to do?")
-    for start in range(0, len(paths), 2):
-        cols = st.columns(2)
-        for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
-            with col:
-                st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
-                st.write(detail)
-    st.radio("How much information would you like?", ["Short and simple", "More detail"],
-             key="reading_mode", horizontal=True,
-             help="Choose what works for you today. You can switch any time; your entries stay the same.")
-    show_share_pathway("landing_share", lambda: select_public_pathway("💬 Share Feedback", "feedback"))
-    with st.expander("Reviewing PathwayAI for HHS TOPx? Start here (90 seconds)", expanded=False):
-        st.write("**1. Community Burden & Action (40 seconds):** New York map → county comparison → costs → AI evidence questions.")
-        st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
-        st.write("**2. Care & Support (25 seconds):** See how people can organize information and find support.")
-        st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-        st.write("**3. Prevention and tick bites (25 seconds):** Explore local prevention information and next steps after a bite.")
-        st.button("Go to Prevention →", key="review113_prevent", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "outdoors"), use_container_width=True)
-        page_note("Published costs are research references, not local predictions. The AI may make mistakes; check cited sources.")
-    with st.expander("How has illness affected your money, time or daily life?"):
-        st.write("Explore what others reported spending and how costs can differ. Visit Community Burden for patient-reported experiences and published cost references, or record your own costs and time in Care & Support.")
-        st.write("Compare cost categories and reporting periods. These reference figures do not predict your bill.")
-        st.write("We reuse any costs and time you already entered. Sharing reviewed information could help communities understand support needs; real shared reporting is the next pilot phase and requires your consent.")
-        st.button("Review my costs and time →" if st.session_state.get("burden_session_record") else "Record my costs and time →", key="landing_costs_to_care",
-                  on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
-        st.button("Explore others’ experiences and cost references →", key="landing_costs_to_community",
-                  on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
-    with st.expander("Why does this matter?"):
-        st.write("Lyme estimates count diagnoses and treatment, not confirmed infections. Not every tick bite causes illness. Prepare for outdoor activities and seek care for concerning symptoms.")
-        st.markdown("[CDC prevention](https://www.cdc.gov/ticks/prevention/index.html)")
-    with st.expander("Other tick-related conditions · alpha-gal"):
-        st.write("Some tick bites can lead to alpha-gal syndrome, an allergy to products from mammals. This is a separate condition from Lyme disease.")
-        st.markdown("[CDC alpha-gal information](https://www.cdc.gov/alpha-gal-syndrome/about/index.html)")
-    st.markdown("#### Project status and sources")
-    with st.expander("What works now and what comes next"):
-        st.write("This is a working pilot website. Visit summaries, cost-and-time records, support contacts and evidence downloads work now. Secure shared reporting and county use are the next pilot phase.")
-        st.write("Public collection is off by default. A real reporting pilot needs consent, private storage and a privacy-reviewed release process. We have not measured improved health, reduced costs or county adoption.")
-    st.markdown("#### Sources and other evidence")
-    with st.expander("Headline figures · sources"):
+    st.caption("Different populations and periods; do not add these figures. Published costs are not personal predictions or measured county spending. See Evidence and limits below.")
+    with st.expander("About PathwayAI"):
+        st.write("Prepare for outdoor activities, respond to a tick bite, organize information for care, or explore possible community support actions.")
+        st.write("Visit summaries, cost-and-time records, support requests and evidence downloads work now. Personal entries stay in the current session; download your reviewed record to keep it.")
+        st.write("Real shared collection is off by default. A community pilot needs consent, private storage, access and retention rules, duplicate checks and privacy-reviewed summaries. County adoption, improved health and savings have not been demonstrated.")
+        st.button("Open sources and acknowledgements →", key="landing_sources", on_click=select_public_pathway, args=("📚 Sources & Acknowledgements", "sources"))
+        with st.expander("Reviewer walkthrough · 90 seconds"):
+            st.write("**1. Community (40 seconds):** county evidence → Patient voices → community action → planning brief.")
+            st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
+            st.write("**2. Care & Support (25 seconds):** organize a fictional story, review the card and prepare a support request.")
+            st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+            st.write("**3. Prevention (25 seconds):** explore tick information and next steps after a bite.")
+            st.button("Go to Prevention →", key="review113_prevent", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "outdoors"), use_container_width=True)
+        st.button("Review my costs and time →" if st.session_state.get("burden_session_record") else "Record my costs and time →", key="landing_costs_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+        st.button("Explore experiences and cost references →", key="landing_costs_to_community", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
+    with st.expander("Evidence and limits"):
+        st.write("Not every tick bite causes illness. This app supports information, preparation and community discussion; it does not diagnose illness or estimate your personal infection risk.")
         st.caption("476,000 estimated annual diagnoses and treatments: insurance claims, 2010–2018. [CDC](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
         st.caption("62,551 reported cases: U.S. surveillance, 2022. These counts measure something different from estimated diagnoses and treatments. [CDC](https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a1.htm)")
         st.caption("$345–968 million annually and $2,032 mean per study participant: medical, nonmedical and lost-productivity costs, in 2016 dollars. The annual figures use median- and mean-cost calculations; they are not a confidence interval. The participant mean uses 613 participants. [Hook et al. (2022)](https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article)")
-        st.caption("Published cost references are not personal bills or measured county costs. Figures are not inflation-adjusted and do not capture the full burden of persistent illness or diagnostic delay.")
+        st.caption("Figures are not inflation-adjusted and do not capture the full burden of persistent illness or diagnostic delay. Personal entries, study findings and illustrative calculations remain separate. AI can make mistakes; people review its outputs.")
+        st.markdown("[CDC tick prevention](https://www.cdc.gov/ticks/prevention/index.html)")
+        st.write("Some tick bites can also lead to alpha-gal syndrome, an allergy to products from mammals. It is distinct from Lyme disease.")
+        st.markdown("[CDC alpha-gal information](https://www.cdc.gov/alpha-gal-syndrome/about/index.html)")
+        st.caption("Photos supplied for PathwayAI; no agency endorsement is implied.")
+    show_share_pathway("landing_share", lambda: select_public_pathway("💬 Share Feedback", "feedback"), title="Share and give feedback")
     st.write("Information and help finding care; not a diagnosis or a personal infection-risk estimate.")
-    page_note("[CDC Lyme data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html). Photos supplied for PathwayAI; no agency endorsement is implied.")
-    render_page_notes()
     st.stop()
 
 st.button("← Back to start", key="change_path", on_click=return_to_path_choices)

@@ -680,14 +680,14 @@ def policy89():
     for county_name, county_fips in (("Dutchess", "36027"), ("Orange", "36071")):
         county_capacity = load_ahrf_county(county_fips)
         if county_capacity:
-            row = {"County": county_name}
+            row = {"County": county_name, "Data year": "2023"}
             for field, field_label in (("pcp", "Primary-care physicians"), ("hosp", "Hospitals"), ("beds", "Hospital beds")):
                 value = county_capacity.get(field)
                 row[field_label] = int(value) if pd.notna(value) else "Unknown"
             capacity.append(row)
     if capacity:
         show_readable_table(capacity, hide_index=True)
-        st.caption("HRSA AHRF 2024–2025 release · 2023 fields. Census-based language and disability context are available in the county comparison above.")
+        st.caption("Data year: 2023 · Source: [HRSA Area Health Resources Files (AHRF), 2024–2025 release](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Historical counts, not current staffing or available beds. Census-based language and disability context are available in the county comparison above.")
     page_note("HRSA AHRF county resource counts cover general healthcare, not Lyme specialists, appointment availability or confirmed shortages. Fields: phys_nf_prim_care_pc_exc_rsdt_23, hosp_23, hosp_beds_23. [HRSA source](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Census language figures use ACS 2020–2024 QuickFacts; disability figures are reproduced from the regional assessment with unresolved Census vintage, as described in the comparison notes.")
     with st.expander("Local health-plan context · Dutchess source"):
         show_county_plan_context(page_note)

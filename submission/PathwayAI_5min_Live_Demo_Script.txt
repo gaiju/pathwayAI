@@ -1,0 +1,45 @@
+Hello, I’m Yuwei Zhang from Team GreenAcorn.
+
+My background is in pathology, and I have worked at NIH and CMS. Those experiences taught me to look closely at evidence. Listening to patients reminded me that evidence is also about what our systems fail to see.
+
+A medical bill can tell us what a visit cost. It cannot tell us what it took to get there: the missed work, the travel, the unpaid help, or the effort of explaining the same story again.
+
+That is why I built PathwayAI: Making the Hidden Patient Journey Visible—and Actionable.
+
+Let me introduce a fictional person preparing for care. They feel tired after an outdoor walk and have questions about their symptoms. In the past thirty days, they paid one hundred eighty dollars for medical care and forty-five dollars for travel. They missed three workdays. A family member spent eight hours helping them.
+
+These are different kinds of burden. They should not disappear into one number.
+
+PathwayAI helps this person organize their story and review the details. Their payments total two hundred twenty-five dollars. Work stays in days. Unpaid help stays in hours. Unknown answers stay unknown.
+
+They can correct the summary and download it for a visit. If transportation is the problem, they can prepare a request for help. If benefits paperwork is overwhelming, they can use a preparation checklist. The app helps them prepare a conversation; it does not diagnose illness or decide eligibility.
+
+Now, let’s move from one person to the community.
+
+County reports help us understand where Lyme disease is being reported. Federal data adds context about healthcare resources and community conditions. Published studies help us explore costs.
+
+But a county average cannot tell us what one person needs. And one person’s story cannot tell us what everyone in the county experiences.
+
+PathwayAI brings these views alongside each other, keeping their sources and limits clear.
+
+Here, six invented records show how comparable reports could be summarized. Five mention transportation barriers. One leaves the answer blank. These are fictional examples, separate from real patient records and official case counts.
+
+The useful question is: what could a community do next?
+
+A care-navigation team could ask willing residents whether help arranging suitable rides would make a difference. Patients and caregivers would help choose the priority. Community partners would check what support is feasible.
+
+Then we could track something concrete: rides requested, rides completed, appointments attended, and needs still unmet. The app puts that proposed action and its measures into a downloadable planning brief.
+
+We have not yet demonstrated better health or savings. Our next step is to test this approach through a secure, consent-based pilot.
+
+AI can help organize a story, but the person reviews what it means.
+
+Data can reveal patterns, but it cannot replace lived experience.
+
+Models can explore possibilities, but people remain responsible for decisions.
+
+The patient remains at the center.
+
+That is the connection PathwayAI makes: from a person’s experience, to clearer evidence, to a practical next step—and a way for communities to learn whether that step helps.
+
+Thank you.

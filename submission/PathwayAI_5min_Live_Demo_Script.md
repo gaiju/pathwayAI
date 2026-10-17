@@ -1,65 +1,47 @@
-# PathwayAI: From Patient Voices to Community Action
+# PathwayAI: Making the Hidden Patient Journey Visible—and Actionable
 
-**Five-minute live demonstration · Yuwei Zhang · Team GreenAcorn**
+Hello, I’m Yuwei Zhang from Team GreenAcorn.
 
-For the October 22, 2026 showcase; confirm the organizer's schedule. This script reflects the local September 3, October 8 and October 15 office-hours improvements, not verified live deployment. Rehearse navigation and speech together with a timer.
+My background is in pathology, and I have worked at NIH and CMS. Those experiences taught me to look closely at evidence. Listening to patients reminded me that evidence is also about what our systems fail to see.
 
-## Prepare
+A medical bill can tell us what a visit cost. It cannot tell us what it took to get there: the missed work, the travel, the unpaid help, or the effort of explaining the same story again.
 
-Use a fresh session with fictional information. Keep external story AI off for the reliable core path. Have screenshots of the personal card and community pathway as a backup. Do not collect real patient contributions during the demo. Keep the sources page ready for questions.
+That is why I built PathwayAI: Making the Hidden Patient Journey Visible—and Actionable.
 
-Fictional story:
+Let me introduce a fictional person preparing for care. They feel tired after an outdoor walk and have questions about their symptoms. In the past thirty days, they paid one hundred eighty dollars for medical care and forty-five dollars for travel. They missed three workdays. A family member spent eight hours helping them.
 
-> I felt tired after an outdoor walk and would like help preparing for a visit. I paid $180 for medical care and $45 for travel. I missed 3 workdays. My unpaid caregiver spent 8 hours.
+These are different kinds of burden. They should not disappear into one number.
 
-## 0:00–0:30 | Your perspective and purpose
+PathwayAI helps this person organize their story and review the details. Their payments total two hundred twenty-five dollars. Work stays in days. Unpaid help stays in hours. Unknown answers stay unknown.
 
-**Do:** Show the start page.
+They can correct the summary and download it for a visit. If transportation is the problem, they can prepare a request for help. If benefits paperwork is overwhelming, they can use a preparation checklist. The app helps them prepare a conversation; it does not diagnose illness or decide eligibility.
 
-**Say:** “I’m Yuwei Zhang from Team GreenAcorn. My background in pathology and my work at NIH and CMS connect clinical experience, research and health policy. PathwayAI brings those perspectives together: helping people describe what illness costs them, and helping communities explore what to do next. The patient remains at the center of the evidence.”
+Now, let’s move from one person to the community.
 
-## 0:30–1:35 | A useful personal record
+County reports help us understand where Lyme disease is being reported. Federal data adds context about healthcare resources and community conditions. Published studies help us explore costs.
 
-**Do:** Click Prepare for care. Paste the fictional story, click Organize My Story with external AI off, choose Past 30 days, and show the reviewed card and download.
+But a county average cannot tell us what one person needs. And one person’s story cannot tell us what everyone in the county experiences.
 
-**Say:** “Illness can make it hard to explain what has happened. This fictional person paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of unpaid help. The person checks the copied details before using them. The card shows 225 dollars in payments; days and hours stay separate. Caregiver reporting and daily-life effects can also be labeled. The reviewed summary can be downloaded for a visit. The local organizer works without an AI service.”
+PathwayAI brings these views alongside each other, keeping their sources and limits clear.
 
-## 1:35–2:20 | County context
+Here, six invented records show how comparable reports could be summarized. Five mention transportation barriers. One leaves the answer blank. These are fictional examples, separate from real patient records and official case counts.
 
-**Do:** Choose Explore community burden. Show the New York map, Dutchess–Orange comparison and county cost illustration.
+The useful question is: what could a community do next?
 
-**Say:** “County reports show disease patterns but not the whole human burden. We bring together public surveillance, federal community context and published cost references. The two-county societal illustration is about 4.11 million dollars in 2016 dollars: reported cases multiplied by a study mean. It illustrates scale; it is not measured local spending or a cost of diagnostic delay. Public CMS aggregates cannot reconstruct an individual's journey before diagnosis.”
+A care-navigation team could ask willing residents whether help arranging suitable rides would make a difference. Patients and caregivers would help choose the priority. Community partners would check what support is feasible.
 
-## 2:20–3:35 | Patient voices to community action
+Then we could track something concrete: rides requested, rides completed, appointments attended, and needs still unmet. The app puts that proposed action and its measures into a downloadable planning brief.
 
-**Do:** Find Patient voices → community action. Show Getting to care, then switch to Unpaid care and daily life. Open See how comparable patient reports could be summarized.
+We have not yet demonstrated better health or savings. Our next step is to test this approach through a secure, consent-based pilot.
 
-**Say:** “Office-hours advocates reminded us that the burden includes unpaid care, isolation, lost opportunities, and difficulty reaching benefits—not just bills. Here a community can explore a need, the relevant county context, a possible response, who could help, and what to measure.
+AI can help organize a story, but the person reviews what it means.
 
-“This separate demonstration uses six invented cards. Five report transportation barriers; one answer is missing. We keep residence, reporting period and journey phase comparable. We do not add these cards—or this person's private record—to county case counts. A real consenting participant summary would describe contributors, not every person in the county.
+Data can reveal patterns, but it cannot replace lived experience.
 
-"The decision is specific: should a county care-navigation team investigate a small ride-navigation pilot? Patients and caregivers help decide whether that priority is right. Needs change, so follow-up matters; a nearby clinic alone does not establish usable care."
+Models can explore possibilities, but people remain responsible for decisions.
 
-## 3:35–4:20 | Transparent assumptions and a usable output
+The patient remains at the center.
 
-**Do:** Open Explore an assumed travel-cost scenario; leave three trips at 15 dollars. Show the 45-dollar result. Point to Download patient voice-to-action brief.
+That is the connection PathwayAI makes: from a person’s experience, to clearer evidence, to a practical next step—and a way for communities to learn whether that step helps.
 
-**Say:** “Experts also encouraged useful estimates with transparent assumptions. Here three assumed round trips at 15 dollars gives 45 dollars for one invented person's next 30 days. Change the assumptions and the arithmetic changes. This is not a quote, county demand or a savings claim.
-
-“The downloadable action brief carries the selected priority, proposed response and follow-up measures into a partner conversation. For transport, we could track requested and completed rides, appointments attended and needs still unmet.”
-
-## 4:20–5:00 | AI, human governance and next step
-
-**Do:** Point to Ask AI about the public evidence without requiring a live response. Show the brief download or return to the title slide.
-
-**Say:** “AI can organize a story, but the person reviews its meaning. Data can reveal patterns, but county averages cannot speak for an individual. Models can explore possibilities, but people govern decisions. The patient remains at the center.
-
-“PathwayAI connects that experience to a useful output: a personal summary, a support request, or a community action brief. Next, a secure, consent-based pilot will test whether people reach useful support. That is the bridge I want to build between clinical experience, evidence and policy.”
-
-## If the app or AI is unavailable
-
-After ten seconds, switch to the saved fictional example. Say which action did not complete. The maps, local organizer, templates and deterministic demonstrations do not require an OpenAI call. A quota error shows a service notice; admin mode provides API billing links. Do not claim that a failed AI call succeeded.
-
-## Boundaries for questions
-
-Real shared collection remains off by default. Secure storage, reviewed consent, duplicate handling, accessible participation and reviewed aggregate release are not implemented by this demonstration. Small-group suppression does not ensure statistical precision or privacy. No county partnership, causal savings, faster diagnosis or improved health has been demonstrated. Source-table verification gaps remain documented.
+Thank you.

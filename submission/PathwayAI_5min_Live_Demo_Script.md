@@ -74,6 +74,12 @@ PathwayAI does not diagnose. Health benefits and savings need evaluation through
 
 A clearer story. Evidence in context. An action to evaluate.
 
+To the patients and caregivers who shared their experiences, and the advocates and experts who offered their guidance: thank you.
+
+You helped shape PathwayAI.
+
+Your voices remind us what the data alone cannot tell us—and why this work matters.
+
 PathwayAI: Making the Hidden Patient Journey Visible—and Actionable.
 
-Thank you.
+Thank you for helping make it possible.

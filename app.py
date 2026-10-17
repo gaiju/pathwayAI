@@ -1078,7 +1078,7 @@ def compact_care88(quick, story):
     with st.expander("Review and download your visit and burden card",expanded=True):
         if any(value is not None for value in (medical, other, workdays, caregiver)):
             visual = personal_cost_svg(medical, other, workdays, caregiver, modeled, period)
-            st.markdown(visual, unsafe_allow_html=True)
+            st.image(visual, use_container_width=True)
             st.download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
         st.download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")

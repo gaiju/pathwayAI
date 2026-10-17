@@ -16,36 +16,38 @@ All images are screenshots from the local app. Personal data is fictional. The s
 Screen excerpts are cropped for readability; the image ZIP includes the full original screenshots. No screenshot content was synthesized or retouched.
 
 
-01. Start with the complete pathway — Start page — 18 seconds
+01. Start with the complete pathway — Start page — 25 seconds
 
 02. Plan before going outdoors — Plan time outdoors → Your outdoor plan — 12 seconds
 
 03. Prepare, check, and respond — Learn & Prevent → Generate My Outdoor Tick-Prevention Plan — 18 seconds
 
-04. After a tick bite — After a tick bite → Remove → Record → Seek advice — 22 seconds
+04. After a tick bite — After a tick bite → Remove → Record → Seek advice — 24 seconds
 
-05. Record when and where — Prepare for care → Tick encounter details — 12 seconds
+05. Record when and where — Prepare for care → Tick encounter details — 10 seconds
 
-06. Tell the story once — Prepare for care → Tell us what happened → Organize My Story — 24 seconds
+06. Tell the story once — Prepare for care → Tell us what happened → Organize My Story — 22 seconds
 
-07. Prepare questions about testing — Care & Support → Lyme tests → Before the test — 16 seconds
+07. Prepare questions about testing — Care & Support → Lyme tests → Before the test — 14 seconds
 
-08. Include daily life and caregiver experience — Care & Support → Daily life and caregiver experience — 14 seconds
+08. Include daily life and caregiver experience — Care & Support → Daily life and caregiver experience — 12 seconds
 
-09. Review payments, work and unpaid help — Care & Support → Review and download your visit and burden card — 26 seconds
+09. Review payments, work and unpaid help — Care & Support → Review and download your visit and burden card — 22 seconds
 
-10. Prepare a request for support — Care & Support → Choose the help you need → Getting to care — 18 seconds
+10. Prepare a request for support — Care & Support → Choose the help you need → Getting to care — 15 seconds
 
 11. Prepare for a benefits conversation — Care & Support → Prepare for a benefits conversation — 12 seconds
 
-12. Compare county evidence — Community Burden & Action → Compare Dutchess and Orange — 20 seconds
+12. Compare county evidence — Community Burden & Action → Compare Dutchess and Orange — 16 seconds
 
 13. Explore a cost illustration — Community → Estimated community cost: Dutchess and Orange — 15 seconds
 
-14. Connect needs with possible actions — Community → Patient voices → community action — 20 seconds
+14. Connect needs with possible actions — Community → Patient voices → community action — 18 seconds
 
-15. Summarize comparable reports — Community → See how comparable patient reports could be summarized — 18 seconds
+15. Summarize comparable reports — Community → See how comparable patient reports could be summarized — 15 seconds
 
-16. Ask about the public evidence — Community → Ask AI about the public evidence — 20 seconds
+16. Ask about the public evidence — Community → Ask AI about the public evidence — 23 seconds
 
-17. Patients and people remain at the center — Sources & Acknowledgements → Acknowledgements — 15 seconds
+17. Patients and people remain at the center — Sources & Acknowledgements → Acknowledgements — 27 seconds
+
+Use PathwayAI_17_Slide_Timed_Script.pdf for the matching narration and start/end times; PathwayAI_17_Slide_AI_Narration.txt contains narration only. Target timing is five minutes; check actual voice duration before export.

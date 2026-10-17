@@ -1,4 +1,6 @@
-# PathwayAI: five-minute live MVP demonstration
+# PathwayAI: From Patient Voices to Community Action
+
+**Five-minute live demonstration · Yuwei Zhang · Team GreenAcorn**
 
 For the October 22, 2026 showcase; confirm the organizer's schedule. This script reflects the local September 3, October 8 and October 15 office-hours improvements, not verified live deployment. Rehearse navigation and speech together with a timer.
 

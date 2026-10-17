@@ -25,6 +25,8 @@ from tick_encounter import show_tick_encounter
 from story_prefill import story_burden_defaults88, apply_story_burden_defaults88
 from caregiver_record import REPORTERS, show_reporter, show_daily_life, reporting_lines
 from benefits_preparation import show_benefits_preparation
+from support_summary import NEEDS, show_support_summary
+from share_pathway import show_share_pathway
 from evidence_scope import EVIDENCE_SCOPE
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
@@ -205,6 +207,23 @@ def evidence89(include_survey=True):
 
 
 def support89(county, barrier):
+    st.markdown("#### What would help you now?")
+    need_barriers = dict(zip(NEEDS[:4], ("Cost / insurance coverage", "Appointment / referral access", "Transportation / distance", "Language / accessibility")))
+    default_need = next((need for need, value in need_barriers.items() if value == barrier), NEEDS[0])
+    need = st.selectbox("Choose the help you need", NEEDS, index=NEEDS.index(default_need), key="support_need89")
+    barrier = need_barriers.get(need, barrier)
+    if need in ("Food or housing", "Disability benefits"):
+        if need == "Food or housing":
+            st.markdown("[Find local food and housing help — 211](https://www.211.org/) · [Find your state SNAP office](https://www.fns.usda.gov/snap/state-directory)")
+            request = "I need help with food or stable housing. Which local services can help, what information do they need, and can someone help me with the next step? Please tell me about interpreter or accessibility assistance."
+        else:
+            st.markdown("[SSI information](https://www.ssa.gov/ssi/) · [SSDI information](https://www.ssa.gov/disability/)")
+            st.write("Use the benefits checklist below to prepare records of daily-life and work difficulties. Ask the agency or a qualified adviser about applications and keeping benefits.")
+            request = "I need help applying for or keeping disability benefits. I have a personal record of work and daily-life difficulties. Which forms, clinical records and deadlines apply? Can an adviser help me prepare?"
+        st.code(request, language=None, wrap_lines=True)
+        st.download_button("Download my support request", request.encode("utf-8"), file_name="PathwayAI_Support_Request.txt", mime="text/plain", key="support_request89")
+        show_support_summary(need, request, st.session_state.get("burden_session_record"))
+        return
     item=SUPPORT89.get(barrier)
     st.markdown("#### Your support contact")
     if county == "Dutchess County, New York" and item:
@@ -240,6 +259,7 @@ def support89(county, barrier):
     st.code(request, language=None, wrap_lines=True)
     st.download_button("Download my support request", request.encode("utf-8"),
                        file_name="PathwayAI_Support_Request.txt", mime="text/plain", key="support_request89")
+    show_support_summary(need, request, st.session_state.get("burden_session_record"))
     page_note("Support requests are templates based on your selected need. Nothing is sent automatically. Confirm services, eligibility, prices and appointment availability with the provider; resource directories do not verify Lyme expertise or guarantee access. Your existing cost-and-time record remains separate and can be reviewed before sharing.")
 
 
@@ -3329,6 +3349,7 @@ if not st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
              help="Choose what works for you today. You can switch any time; your entries stay the same.")
+    show_share_pathway("landing_share", lambda: select_public_pathway("💬 Share Feedback", "feedback"))
     with st.expander("Reviewing PathwayAI for HHS TOPx? Start here (90 seconds)", expanded=False):
         st.write("**1. Community Burden & Action (40 seconds):** New York map → county comparison → costs → AI evidence questions.")
         st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
@@ -3399,6 +3420,7 @@ def show_brief_feedback():
 
 if view == "💬 Share Feedback":
     show_brief_feedback()
+    show_share_pathway("feedback_share")
     page_note('Patient Voice is separate: review and consent to sharing structured fields in Care & Support.')
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     render_page_notes()

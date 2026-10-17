@@ -12,9 +12,9 @@ What if we could bring them together, with the patient at the center?
 
 That is PathwayAI.
 
-Hello, I’m Yuwei Zhang from Team GreenAcorn. My background is in pathology, and I have worked at the National Institutes of Health and the Centers for Medicare and Medicaid Services.
+I’m Yuwei Zhang from Team GreenAcorn. My background is in pathology, with experience at the National Institutes of Health and the Centers for Medicare and Medicaid Services.
 
-That experience taught me to look closely at evidence. Listening to patients taught me to ask what the evidence might be missing.
+My experience taught me to examine evidence. Patients taught me to ask what it misses.
 
 A medical bill can tell us what a visit cost. It cannot tell us what it took to get there.
 
@@ -26,39 +26,41 @@ First, the patient’s story.
 
 This is a fictional example. A person feels tired after an outdoor walk and wants help preparing for care.
 
-In the past thirty days, they paid one hundred eighty dollars for medical care and forty-five dollars for travel. They missed three workdays. A family member spent eight hours helping them.
+Over thirty days, they paid one hundred eighty dollars for care and forty-five dollars for travel, missed three workdays, and received eight hours of unpaid help.
 
 They write a short story. PathwayAI helps organize the details into a record they can check, change, and download.
 
-Here are two hundred twenty-five dollars in payments. Three days away from work. Eight hours of unpaid help.
+Two hundred twenty-five dollars paid. Three workdays missed. Eight hours of unpaid help.
 
 We keep those measures separate. If something is unknown, it stays unknown.
 
-Now the person has something useful for a visit. They can also prepare a request for transport help or a checklist for a benefits conversation. Nothing is sent automatically. They choose what to share.
+They can bring the summary to a visit, prepare a transport request, or use a benefits checklist. Nothing is sent automatically. They choose what to share.
 
 Second, the community’s evidence.
 
-Here we compare Dutchess and Orange counties in New York. Public reports show Lyme disease patterns. Federal data adds context about healthcare resources and community conditions. Published studies help us explore economic burden.
+Here we compare Dutchess and Orange counties in New York. We use CDC, Census, and HRSA data alongside New York surveillance and published research. Together, these sources provide context about reported disease, healthcare resources, community conditions, and economic burden.
 
 Each source tells part of the story. None tells all of it.
 
-A county average does not describe every resident. A patient’s experience does not represent the whole county. PathwayAI keeps those views separate, while helping people consider them together.
+County averages do not describe every resident. One person does not represent the county. PathwayAI keeps these views separate, but makes both visible.
+
+Patient advocates reminded us to look beyond bills: unpaid care, daily life, and the effort of reaching support. Their feedback helped shape the caregiver options, simpler story entry, and support-preparation tools.
 
 Third, a practical next step.
 
 This demonstration uses six invented records. Five report transportation barriers. One leaves the answer blank. These are examples, not collected patient findings.
 
-What could a community do with comparable reports from willing participants?
+What could a community do with real, comparable reports?
 
 A care-navigation team could investigate help arranging suitable rides. Patients and caregivers would help decide whether that is the right priority. Local partners would check what they can provide.
 
-The planning brief makes the proposal concrete: who could help, what could be tried, and what to measure.
+The downloadable planning brief names a proposed action, potential partners, and measures.
 
 Rides requested. Rides completed. Appointments attended. Needs still unmet.
 
-That is how we move from making burden visible to planning a response—and learning whether it helps.
+Make burden visible. Plan a response. Learn whether it helps.
 
-Optional AI can explain public evidence and help organize a story with permission. The local organizer also works without it.
+Here, a person can ask AI a focused question about the public evidence. It uses a curated summary, keeps source links available, and does not receive private patient cards. Optional story AI requires permission. The local organizer works without it.
 
 AI can organize information, but people review its meaning.
 
@@ -68,7 +70,7 @@ Models can explore possibilities, but people remain responsible for decisions.
 
 The patient remains at the center.
 
-PathwayAI does not diagnose illness. Better health and savings still need evaluation. Our next step is a secure, consent-based pilot with patients, caregivers, and community partners.
+PathwayAI does not diagnose. Health benefits and savings need evaluation through a secure, consent-based pilot with patients, caregivers, and community partners.
 
 A clearer story. Evidence in context. An action to evaluate.
 

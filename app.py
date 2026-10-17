@@ -33,6 +33,8 @@ from county_cost_scenario import show_county_cost_scenario, show_county_burden_c
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
+from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
+from community_action import show_community_action_pathway
 
 PAGE_NOTES = []
 
@@ -91,7 +93,7 @@ def show_sources_and_acknowledgements():
 - [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Lyme Treatment Foundation
 - [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Lyme Disease Resource Center, Inc.
 - [Bernadette Clavier](https://www.linkedin.com/in/bernadetteclavier) — Clos Clavier
-- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Physician
+- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Family Medicine
 - **Ming-Hui Chou, MD, PhD** — Wholesomeship Clinic, Tainan, Taiwan
 - **Lun-Hsiang Yuan, MD, PhD** — National Taiwan University Hospital, Yunlin Branch
 """)
@@ -649,6 +651,7 @@ def policy89():
     </svg>""",unsafe_allow_html=True)
     show_county_rate_trend(page_note)
     show_county_burden_comparison(page_note)
+    voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
     st.markdown("#### Keep a personal record for care")
     st.write("Keep money paid, work missed and help needed in one card. Review it, download it and bring it to a visit.")
     st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
@@ -728,6 +731,7 @@ def policy89():
             brief.append(label + ": " + value)
         brief.append("")
     brief.append("Planning interpretations only: no county Lyme cost estimate, causal link, adopted program or measured benefit is established.")
+    brief.extend(["", voice_action_brief])
     brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
     st.download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
     with st.expander("Ask AI about the public evidence"):
@@ -1325,6 +1329,20 @@ AI_WINDOW_MAX_REQUESTS = 3
 class AIRateLimitError(RuntimeError):
     pass
 
+def show_ai_service_notice():
+    notice = st.session_state.get("pathwayai_service_notice")
+    if not notice:
+        return
+    st.warning(notice["message"])
+    if notice["kind"] == "quota" and st.session_state.get("admin_authenticated"):
+        st.markdown(
+            f"**Administrator:** [Check API billing and add credits]({BILLING_URL}) "
+            f"or [review usage limits]({LIMITS_URL}). "
+            "Check the organization and project used by this app. "
+            "A ChatGPT subscription does not include API credits."
+        )
+        st.caption("This notice follows a failed AI request; the app cannot read your remaining balance or warn before credits run out. Configure available billing alerts or automatic recharge in your API account for earlier notice.")
+
 def _ai_bucket():
     # Use the framework connection address; do not trust arbitrary forwarded headers.
     try:
@@ -1372,7 +1390,15 @@ def _limited_ai_urlopen(request, timeout=60):
         raise AIRateLimitError(message)
     # Reserve before sending: failed requests also consume quota. No automatic retries.
     st.session_state["pathwayai_ai_calls"] = session_calls + 1
-    return urllib.request.urlopen(request, timeout=timeout)
+    try:
+        response = urllib.request.urlopen(request, timeout=timeout)
+    except urllib.error.HTTPError as error:
+        notice = classify_api_error(error)
+        st.session_state["pathwayai_service_notice"] = notice
+        show_ai_service_notice()
+        raise AIRateLimitError(notice["message"]) from None
+    st.session_state.pop("pathwayai_service_notice", None)
+    return response
 
 def record_completed_ai_call():
     # Compatibility with existing UI: quota is reserved per HTTP request above.
@@ -3251,6 +3277,8 @@ with st.sidebar.expander("Admin access"):
 
 
 if st.session_state.get("admin_authenticated"):
+    with st.sidebar:
+        show_ai_service_notice()
     with st.sidebar.expander("MVP showcase checklist"):
         page_note("Patient Voice uses local-file pilot storage. Production collection needs durable private storage and retention controls.")
         st.write("Organizer template: MVP Demo Milestone, reviewed October 7, 2026.")
@@ -3296,6 +3324,8 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="p
 
 if not st.session_state.get("pathway_open", False):
     st.title("PathwayAI")
+    st.write("**Make patient voices count. Make community needs visible.**")
+    st.write("Organize personal experiences for care. Explore county evidence and possible support actions with patients, caregivers and community teams.")
 if st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,

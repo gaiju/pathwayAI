@@ -1,0 +1,128 @@
+"""Fictional participation demonstration and human-reviewed community planning."""
+from burden_demo import aggregate_demo, fictional_cards, show_burden_pathway_demo
+
+
+ACTION_OPTIONS = {
+    "Getting to care": {
+        "decision": "Should a county care-navigation team investigate a small ride-navigation pilot with willing residents?",
+        "need": "Travel, appointment and referral barriers",
+        "context": "Compare reported Lyme rates and general HRSA capacity; neither measures travel barriers or available appointments.",
+        "action": "Ask willing residents and transport providers to review ride eligibility, accessibility and appointment coordination.",
+        "participants": "Patient and caregiver representatives, transport services and care navigators",
+        "measure": "Requested and completed accessible rides; appointments attended; travel spending; support still needed",
+    },
+    "Unpaid care and daily life": {
+        "decision": "Which practical-care or respite gap should a community support team investigate first?",
+        "need": "Help with daily tasks, lost rest and caregiver time",
+        "context": "General disability context can inform accessible planning; it is not Lyme disability prevalence or a measure of caregiver demand.",
+        "action": "Review respite and practical assistance options with people receiving care and caregivers, recording their experiences separately.",
+        "participants": "Patients, caregivers, disability organizations and social-care teams",
+        "measure": "Caregiver hours over the same period; assistance requested and received; unmet daily-life needs",
+    },
+    "Food, housing and benefits": {
+        "decision": "Should a community benefits-navigation team test assisted paperwork and follow-up?",
+        "need": "Difficulty completing paperwork or reaching essential support",
+        "context": "County context describes populations; individual needs and benefit eligibility must be checked separately.",
+        "action": "Discuss assisted applications, accessible communication and follow-up with 211 and qualified benefits advisers.",
+        "participants": "Patients, caregivers, benefits advisers and community support organizations",
+        "measure": "Requests made; application assistance completed; referrals completed; needs still unmet",
+    },
+    "Work, school and relationships": {
+        "decision": "Which accessibility or participation support should community partners explore with participants?",
+        "need": "Lost work or school time, isolation and missed life events",
+        "context": "Claims and disease reports do not measure all lost opportunities or social participation. No local demand estimate is available here.",
+        "action": "Ask participants which work, school, accessibility or social-connection supports would be useful; review feasible responses with partners.",
+        "participants": "Patients, caregivers, community organizations and appropriate work or school support teams",
+        "measure": "Days missed in a common period; support requested and received; participant-described participation",
+    },
+}
+
+
+def pathway_evidence():
+    return [
+        {"Layer": "Reported Lyme context", "Source": "NYSDOH 2024 county cases and rates PDFs, page 5; checked against supplied PDFs",
+         "Period": "2024", "Type": "Public surveillance reports", "Scope": "County residents; not all infections, individual exposure or unmet support demand",
+         "Reference": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"},
+        {"Layer": "General healthcare capacity", "Source": "HRSA AHRF 2024–2025 release, local county file",
+         "Period": "2023 fields", "Type": "Public county resource context", "Scope": "General physicians, hospitals and beds; not Lyme expertise, wait times or appointment access",
+         "Reference": "https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf"},
+        {"Layer": "Comparable participant summary example", "Source": "Six authored fictional cards in burden_demo.py; not collected or derived from a research dataset",
+         "Period": "Invented past-30-days reporting window; before diagnosis", "Type": "Synthetic demonstration", "Scope": "Dutchess residence only; no real participants or county prevalence estimate",
+         "Reference": "Local authored demonstration"},
+        {"Layer": "Travel-cost scenario", "Source": "User-selected round-trip count and assumed price",
+         "Period": "One invented person's next 30 days", "Type": "Assumption-based calculation", "Scope": "Trips × price; no price verification, county extrapolation or causal savings",
+         "Reference": "Editable assumptions in this page"},
+    ]
+
+
+def action_brief(need):
+    plan = ACTION_OPTIONS[need]
+    rows = {r["Measure"]: r for r in aggregate_demo(fictional_cards())}
+    lines = [
+        "PathwayAI | Patient voice to community action",
+        "PLANNING DEMONSTRATION — not a real patient aggregate or an adopted county program",
+        "SELECTED PLANNING THEME: " + need,
+        "DECISION TO EXPLORE: " + plan["decision"],
+        "NEED TO REVIEW: " + plan["need"],
+        "COUNTY CONTEXT: " + plan["context"],
+        "PROPOSED ACTION: " + plan["action"],
+        "POTENTIAL PARTICIPANTS (NOT COMMITTED PARTNERS): " + plan["participants"],
+        "MEASURES TO AGREE WITH PARTICIPANTS: " + plan["measure"],
+        "", "SEPARATE SYNTHETIC EXAMPLE",
+        "Six invented Dutchess-residence cards; past 30 days; before diagnosis. Not collected reports.",
+        "Care barrier: " + rows["Care barrier"]["Synthetic result"],
+        "Median missed workdays: " + rows["Median missed workdays"]["Synthetic result"],
+        "Median caregiver hours: " + rows["Median unpaid caregiver hours"]["Synthetic result"],
+        "Five usable answers for each displayed measure; one missing. Selecting a planning theme does not create reports for that theme.",
+        "", "HUMAN REVIEW AND EVALUATION",
+        "Patients and caregivers review needs; partners check feasibility and agree responsibilities, follow-up and measures before action.",
+        "Compare the same reporting period and report missing answers and who could not participate. Before/after differences alone do not establish an effect.",
+        "Needs can change from week to week. Repeated reviewed records would be needed to understand change; this demonstration does not store longitudinal observations.",
+        "Real voluntary aggregates describe contributors, not all county residents. Small-group suppression alone does not ensure privacy or statistical reliability.",
+        "No patient session entries, raw stories or real contributions are included in this demonstration or download.",
+    ]
+    lines.extend(["", "PROVENANCE: SOURCE, PERIOD, TYPE AND SCOPE"])
+    for evidence in pathway_evidence():
+        lines.append(" | ".join(f"{key}: {value}" for key, value in evidence.items()))
+    return "\n".join(lines)
+
+
+def scenario_cost(trips, cost_per_trip):
+    """Explicit user assumptions, without a clinical or savings inference."""
+    return trips * cost_per_trip
+
+
+def show_community_action_pathway(simple=True):
+    import streamlit as st
+
+    st.markdown("### Patient voices → community action")
+    st.write("Look beyond bills: unpaid care, daily tasks, lost work, isolation and difficulty reaching support. People and caregivers help decide what matters.")
+    st.write("**Reported needs → county context → action to evaluate → follow-up with participants.**")
+    st.write("For county and community planners: choose one support decision to explore with patients and caregivers.")
+    need = st.selectbox("Choose a community support priority to explore", list(ACTION_OPTIONS), key="community_action_need")
+    plan = ACTION_OPTIONS[need]
+    st.write("**Decision to explore:** " + plan["decision"])
+    st.write("**Need to review:** " + plan["need"])
+    st.write("**County evidence can help:** " + plan["context"])
+    st.write("**Possible action:** " + plan["action"])
+    st.write("**Who could help:** " + plan["participants"])
+    st.write("**Track progress:** " + plan["measure"])
+    st.caption("Planning options, not findings about local demand or committed services. Patients, caregivers and community partners review priorities and decisions.")
+    st.caption("Needs change over time. Plan repeated check-ins; clinic counts and distance alone do not show accessible appointments, suitable transport or referral quality.")
+    with st.expander("Evidence behind this pathway: sources, periods and limits"):
+        st.dataframe(pathway_evidence(), hide_index=True, use_container_width=True)
+        st.write("Patient reports, clinical records, surveillance and modeled results answer different questions. Relevance, collection method and reliability matter; a source label alone does not validate a claim.")
+    with st.expander("See how comparable patient reports could be summarized"):
+        show_burden_pathway_demo(simple=simple)
+        st.write("For real contributions: ask permission, use residence and common periods, check duplicates and missing answers, and review disclosure risk. Summaries describe contributors, not county prevalence. People too ill to respond need accessible participation and appropriately authorized caregiver options.")
+    with st.expander("Explore an assumed travel-cost scenario"):
+        st.write("**ASSUMPTIONS — one invented person's next 30 days, not observed spending or a service-price quote.**")
+        trips = st.number_input("Assumed round trips in 30 days", min_value=0, max_value=100, value=3, step=1, key="action_trips")
+        cost = st.number_input("Assumed money paid per round trip ($)", min_value=0.0, max_value=10000.0, value=15.0, step=1.0, key="action_trip_cost")
+        amount = scenario_cost(trips, cost)
+        st.metric("Illustrative travel spending for one person", f"${amount:,.2f}")
+        st.write(f"{trips} round trips × ${cost:,.2f} = ${amount:,.2f}. Change the assumptions to explore a different situation.")
+        st.caption("Not added to patient records, published societal costs or county totals. No county demand, benefit or savings is inferred.")
+    st.download_button("Download patient voice-to-action brief", action_brief(need).encode("utf-8"),
+                       file_name="PathwayAI_Planning_Demonstration.txt", mime="text/plain", key="voice_action_brief")
+    return action_brief(need)

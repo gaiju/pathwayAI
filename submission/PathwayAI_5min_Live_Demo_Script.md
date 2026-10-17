@@ -1,85 +1,63 @@
 # PathwayAI: five-minute live MVP demonstration
 
-October 22, 2026 | Yuwei Zhang | Team GreenAcorn
+For the October 22, 2026 showcase; confirm the organizer's schedule. This script reflects the local September 3, October 8 and October 15 office-hours improvements, not verified live deployment. Rehearse navigation and speech together with a timer.
 
-One title slide, then the live application. Timing includes navigation. Rehearse with a timer; adjust pauses to finish at five minutes.
+## Prepare
 
-## Prepare before presenting
+Use a fresh session with fictional information. Keep external story AI off for the reliable core path. Have screenshots of the personal card and community pathway as a backup. Do not collect real patient contributions during the demo. Keep the sources page ready for questions.
 
-Open the public app in a fresh session. Keep external AI off. Keep the fictional story ready to paste. Have a fictional card and county cost image saved locally as backup.
+Fictional story:
 
-## Fictional story to paste
+> I felt tired after an outdoor walk and would like help preparing for a visit. I paid $180 for medical care and $45 for travel. I missed 3 workdays. My unpaid caregiver spent 8 hours.
 
-I felt tired after an outdoor walk and would like help preparing for a visit. I paid $180 for medical care and $45 for travel. I missed 3 workdays. My unpaid caregiver spent 8 hours.
+## 0:00–0:25 | Purpose
 
-## 0:00–0:30 | Title slide
+**Do:** Show the start page.
 
-### Say
+**Say:** “I’m Yuwei Zhang from Team GreenAcorn. PathwayAI helps people make their experiences visible and helps communities turn evidence into possible support actions. AI can help organize information; patients remain at the center, and people review the decisions.”
 
-Hello, I’m Yuwei Zhang from Team GreenAcorn, the developer of PathwayAI.
+## 0:25–1:35 | A useful personal record
 
-Our goal is to reduce the burden of Lyme disease by connecting prevention, access to care, support and community planning. We make the personal care journey visible, alongside the costs and time that disease reports often miss.
+**Do:** Choose Care & Support. Paste the fictional story, click Organize My Story with external AI off, choose Past 30 days, and show the reviewed card and download.
 
-### Click
+**Say:** “Illness can make it hard to explain what has happened. This fictional person paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of unpaid help. The person checks the copied details before using them. The card shows 225 dollars in payments; days and hours stay separate. Caregiver reporting and daily-life effects can also be labeled. The reviewed summary can be downloaded for a visit. The local organizer works without an AI service.”
 
-Keep the title slide visible. Then switch to the app, already open on the start page.
+## 1:35–2:20 | County context
 
-## 0:30–3:20 | Live app demonstration
+**Do:** Choose Explore community burden. Show the New York map, Dutchess–Orange comparison and county cost illustration.
 
-### Say
+**Say:** “County reports show disease patterns but not the whole human burden. We bring together public surveillance, federal community context and published cost references. The two-county societal illustration is about 4.11 million dollars in 2016 dollars: reported cases multiplied by a study mean. It illustrates scale; it is not measured local spending or a cost of diagnostic delay. Public CMS aggregates cannot reconstruct an individual's journey before diagnosis.”
 
-People begin with what they need today: planning an outdoor visit, responding to a tick bite, preparing for care, or understanding community needs.
+## 2:20–3:35 | Patient voices to community action
 
-I’ll choose Care & Support and use a fictional story. This person paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of unpaid help.
+**Do:** Find Patient voices → community action. Show Getting to care, then switch to Unpaid care and daily life. Open See how comparable patient reports could be summarized.
 
-When I organize the story, clear amounts are copied into fields the person can check and edit. Unclear values stay for review. AI assistance is optional; I’m using the local organizer today.
+**Say:** “Office-hours advocates reminded us that the burden includes unpaid care, isolation, lost opportunities, and difficulty reaching benefits—not just bills. Here a community can explore a need, the relevant county context, a possible response, who could help, and what to measure.
 
-Here, I choose the period these entries cover. The card shows 225 dollars in payments, with missed work and unpaid help recorded separately. It can be downloaded and brought to different healthcare providers. That reduces repeated explanation when someone feels tired or has trouble remembering details.
+“This separate demonstration uses six invented cards. Five report transportation barriers; one answer is missing. We keep residence, reporting period and journey phase comparable. We do not add these cards—or this person's private record—to county case counts. A real consenting participant summary would describe contributors, not every person in the county.
 
-Caregivers can also complete a clearly labeled record. Daily-life effects and the caregiver’s own experience are kept separate. Support resources and ready-to-use requests help people prepare their next conversation.
+"The decision is specific: should a county care-navigation team investigate a small ride-navigation pilot? Patients and caregivers help decide whether that priority is right. Needs change, so follow-up matters; a nearby clinic alone does not establish usable care."
 
-Now let’s look at Community. Our Hudson Valley pilot view compares Dutchess and Orange counties. We can see reported Lyme rates, trends and a cost breakdown. The comparison supports planning; it is not a scorecard of county performance.
+## 3:35–4:20 | Transparent assumptions and a usable output
 
-The personal entries remain available when we return to Care & Support during this session. They are not automatically added to the county totals.
+**Do:** Open Explore an assumed travel-cost scenario; leave three trips at 15 dollars. Show the 45-dollar result. Point to Download patient voice-to-action brief.
 
-### Click
+**Say:** “Experts also encouraged useful estimates with transparent assumptions. Here three assumed round trips at 15 dollars gives 45 dollars for one invented person's next 30 days. Change the assumptions and the arithmetic changes. This is not a quote, county demand or a savings claim.
 
-Choose Care & Support. Paste the fictional story below. Leave external AI off and click Organize My Story. Select Past 30 days. Show the card, visual and download button. Briefly point to caregiver options and support requests. Select Explore community burden; show the county comparison and cost breakdown. If time allows, return with Review my cost-and-time record. Do not open every panel.
+“The downloadable action brief carries the selected priority, proposed response and follow-up measures into a partner conversation. For transport, we could track requested and completed rides, appointments attended and needs still unmet.”
 
-## 3:20–4:20 | Explain evidence while showing the county costs
+## 4:20–5:00 | AI, human governance and next step
 
-### Say
+**Do:** Point to Ask AI about the public evidence without requiring a live response. Show the brief download or return to the title slide.
 
-The county illustration combines 2024 reported cases with Hook and colleagues’ published cost estimate. Across the two counties, that gives about 4.11 million dollars in 2016 dollars. It is a study-based illustration, not measured county spending.
+**Say:** “Optional AI explains bounded public evidence and can help organize a story with permission. Public evidence questions do not receive private patient cards. Sources and assumptions remain available for human review.
 
-Federal sources include CDC, Census, HRSA and CDC PLACES, alongside New York surveillance and published research.
+“Our next step is a secure, consent-based pilot with patients, caregivers and community partners. We need to test whether people reach useful support. PathwayAI's value is making the connection visible: personal experience, county context, an action to evaluate, and a way to follow up.”
 
-Liz Horn clarified that the Biobank’s early-care cohort adds symptom and follow-up context, but does not estimate delayed-diagnosis costs. Those experiences may also be missed by routine healthcare data.
+## If the app or AI is unavailable
 
-Patient and community feedback helped simplify this workflow. Software tests check that it functions; health benefits and savings still need evaluation.
+After ten seconds, switch to the saved fictional example. Say which action did not complete. The maps, local organizer, templates and deterministic demonstrations do not require an OpenAI call. A quota error shows a service notice; admin mode provides API billing links. Do not claim that a failed AI call succeeded.
 
-### Click
+## Boundaries for questions
 
-Keep the two-county cost illustration visible. Point to the dollar year. Do not add Biobank percentages to the cost model or claim that delay costs are already estimated.
-
-## 4:20–5:00 | Return to the title slide and close
-
-### Say
-
-The working MVP is available now. Our next step is a consent-based pilot that reuses reviewed local records to understand barriers and guide support.
-
-We are seeking patients, caregivers, community groups, care teams and data collaborators. Together, we can improve accessibility, strengthen cost evidence and test whether people reach useful support.
-
-PathwayAI’s goal is timely care and less disruption to finances, work and family life. Thank you.
-
-### Click
-
-Return to the title slide. Finish by 5:00. Leave the app link visible.
-
-## If the app is slow
-
-Wait no more than ten seconds. Say: “I’ll use the saved example to keep the demonstration moving.” Show the locally saved fictional card or county cost image. Do not claim a failed action succeeded. Begin the evidence explanation at 3:20 and closing at 4:20.
-
-## Important boundaries
-
-Downloaded records can be kept for later visits; app entries currently persist only during the session. Personal cards are not pooled automatically. Caregiver entries are not a validated proxy outcome measure. Costs are illustrations, not measured county spending or savings. Biobank follow-up is not a delayed-diagnosis cost estimate. No formal county adoption or partnership is claimed.
+Real shared collection remains off by default. Secure storage, reviewed consent, duplicate handling, accessible participation and reviewed aggregate release are not implemented by this demonstration. Small-group suppression does not ensure statistical precision or privacy. No county partnership, causal savings, faster diagnosis or improved health has been demonstrated. Source-table verification gaps remain documented.

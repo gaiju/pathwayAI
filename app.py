@@ -344,6 +344,15 @@ def planning_scenario101():
     return notes
 
 
+def show_burden_reading_guide():
+    with st.container(border=True):
+        st.markdown("#### How to read the burden figures")
+        st.write("**Your entries:** what you or a caregiver report and review; not clinically verified.")
+        st.write("**Public evidence:** reported county data and published studies, with different populations and years.")
+        st.write("**Illustrations:** invented examples or calculations using stated assumptions; not your expected bill or measured county spending.")
+        st.caption("Keep these views separate. AI supports organization and explanation; people review the information and decisions. PathwayAI does not diagnose illness.")
+
+
 def show_burden_evidence_panel104():
     """Evidence-first burden visualization; no synthetic values presented as observations."""
     st.markdown("#### Published Lyme cost findings")
@@ -650,6 +659,7 @@ def policy89():
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
     show_county_rate_trend(page_note)
+    show_burden_reading_guide()
     show_county_burden_comparison(page_note)
     voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
     st.markdown("#### Keep a personal record for care")
@@ -1005,6 +1015,7 @@ def compact_care88(quick, story):
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Your costs, time and visit summary")
+    show_burden_reading_guide()
     st.write("Add what you know. You can return to the rest later in this session. Review and download your card below.")
     if copied or notes:
         with st.container(border=True):

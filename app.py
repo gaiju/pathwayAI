@@ -3481,9 +3481,6 @@ if view == "🩹 Tick Bite: What Next?":
     page_note("A tick bite does not always cause illness. The steps below support prevention and care preparation.")
     st.subheader("1. Remove the tick")
     st.write("If the tick is attached, use clean, fine-tipped tweezers. Grasp it close to the skin and pull upward with steady pressure. Clean the bite area and your hands. Do not burn the tick or cover it with oil or petroleum jelly.")
-    with st.expander("See an attached tick"):
-        st.image(str(BASE_DIR / "images" / "attached_tick_illustration.png"), width=320,
-                 caption="AI-generated illustration of an attached tick. Appearance and size vary.")
     st.subheader("2. Note when and where it happened")
     st.write("Write down the date and place of the bite. Watch for a new rash, fever, fatigue, or other symptoms in the following days and weeks. A Lyme rash does not always look like a bull's-eye.")
     st.subheader("3. Know when to get medical advice")

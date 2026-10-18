@@ -5,6 +5,8 @@ COVERAGE = "https://www.healthcare.gov/have-job-based-coverage/if-you-lose-job-b
 NY_COVERAGE = "https://nystateofhealth.ny.gov/"
 MEDICAL_DEBT = "https://www.consumerfinance.gov/consumer-tools/medical-debt/"
 HOSPITAL_ASSISTANCE = "https://www.irs.gov/charities-non-profits/financial-assistance-policies-faps"
+CDC_BITE = "https://www.cdc.gov/ticks/after-a-tick-bite/index.html"
+CDC_TREATMENT = "https://www.cdc.gov/lyme/treatment/index.html"
 
 
 def care_access_questions():
@@ -12,6 +14,10 @@ def care_access_questions():
         "PathwayAI | Questions about uninsured care and medical bills",
         "Use these questions directly with a health center, enrollment assister or billing office.",
         "You do not need to share a patient story with PathwayAI to use this guide.",
+        "", "SEEK TIMELY CARE",
+        "Contact a clinician promptly about a new rash, fever or other symptoms after possible tick exposure. Tell them when and where it happened.",
+        "Some high-risk tick bites may qualify for preventive antibiotics within 72 hours of tick removal. Ask promptly; antibiotics are not needed after every bite.",
+        "Do not wait for coverage paperwork before contacting a clinician. Ask about care and financial assistance together.",
         "", "CALL A COMMUNITY HEALTH CENTER",
         "I do not have insurance. Are you accepting new patients?",
         "Can you evaluate a tick bite or possible Lyme disease, and how soon can I be seen?",
@@ -37,17 +43,35 @@ def care_access_questions():
         "New York coverage assistance: " + NY_COVERAGE,
         "Medical bills: " + MEDICAL_DEBT,
         "Nonprofit hospital financial-assistance policies: " + HOSPITAL_ASSISTANCE,
+        "After a tick bite: " + CDC_BITE,
+        "Lyme treatment: " + CDC_TREATMENT,
         "", "For an emergency, call 911 or go to an emergency department. Do not delay because you lack insurance; emergency care may still be billed.",
         "PathwayAI helps you find resources and prepare questions. It does not enroll you, pay bills or arrange an appointment.",
     ])
+
+
+def show_timely_care():
+    import streamlit as st
+
+    st.markdown("### Get timely care")
+    st.write("Early evaluation and treatment matter. Contact a clinician promptly if you develop a new rash, fever or other symptoms after possible tick exposure. Tell them when and where it happened.")
+    st.write("Some high-risk tick bites may qualify for preventive antibiotics within **72 hours of tick removal**. Ask promptly; antibiotics are not needed after every bite.")
+    st.write("You can ask about care and financial assistance at the same time. Do not wait for insurance paperwork before contacting a clinician.")
+    with st.expander("When to seek urgent help"):
+        st.write("For chest pain, trouble breathing or fainting, seek emergency care. Call 911 for an emergency. Do not delay because you lack insurance; emergency care may still be billed.")
+        st.markdown(f"[CDC: after a tick bite]({CDC_BITE}) · [CDC: Lyme treatment]({CDC_TREATMENT})")
+    with st.expander("Why early care matters: localized and disseminated Lyme"):
+        st.write("Localized Lyme disease affects the initial infection site. Disseminated Lyme disease has spread to other parts of the body and can involve the joints, nervous system or heart, requiring different or more complex care.")
+        st.write("Published cost comparisons distinguish localized and disseminated disease. Costs vary with the study, treatment, insurance and dollar year. The cost section provides research context, not a prediction of your bill.")
+        st.markdown(f"[CDC: treatment and manifestations of Lyme disease]({CDC_TREATMENT})")
 
 
 def show_care_access():
     import streamlit as st
 
     st.markdown("### No insurance or worried about medical bills?")
-    st.write("Start here. You can use these resources without entering a story, ZIP code or personal documents.")
-    st.markdown(f"**Need care now?** [Find a community health center — HRSA]({HRSA}). Health centers serve uninsured patients and offer sliding-fee discounts based on income and family size. Care is not automatically free.")
+    st.write("Find care you can access. You can use these resources without entering a story, ZIP code or personal documents.")
+    st.markdown(f"[Find a community health center — HRSA]({HRSA}). Health centers serve uninsured patients and offer sliding-fee discounts based on income and family size. Care is not automatically free.")
     with st.expander("Care without insurance: what to ask"):
         st.write("Call the center about new-patient appointments, evaluation for a tick bite or possible Lyme disease, and sliding-fee assistance. Ask what the visit, outside tests, medicines and referrals would cost.")
         st.write("HRSA-funded health centers serve patients regardless of immigration status; you do not have to be a lawful resident to seek care there. Insurance programs have separate eligibility rules. Ask the center what documents it needs for fee assistance.")

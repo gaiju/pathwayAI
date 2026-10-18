@@ -35,7 +35,7 @@ from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
-from care_access import show_care_access
+from care_access import show_care_access, show_timely_care
 
 PAGE_NOTES = []
 
@@ -4295,6 +4295,7 @@ if view == "📊 Community Burden & Action":
 st.header("Care & Support")
 show_photo116("river", "Peaceful lake surrounded by green trees")
 st.write("Turn your story into a visit summary. Keep costs and time in one record. Find support that fits your needs.")
+show_timely_care()
 show_care_access()
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")

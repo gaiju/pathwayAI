@@ -21,6 +21,10 @@ rather than uploading `app.py` alone.
 
 ## What works now
 
+- Care & Support starts with timely evaluation and tick-bite prevention advice,
+  followed by insurance/bill help and then optional story preparation. An
+  optional explanation distinguishes localized and disseminated Lyme and cost
+  context without predicting an individual bill.
 - Uninsured-care and medical-bill guidance is available before story entry,
   with HRSA health-center lookup, coverage resources, financial-assistance
   questions and a downloadable call checklist. Fees and assistance vary.

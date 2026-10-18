@@ -46,7 +46,7 @@ class CareAccessTests(unittest.TestCase):
 
     def test_takeaway_and_community_brief_include_real_next_steps_and_limits(self):
         questions = care_access_questions()
-        self.assertIn("whether or not they are related to a tick bite", EMERGENCY_REMINDER)
+        self.assertIn("whether or not it is related to a tick bite", EMERGENCY_REMINDER)
         self.assertNotIn("billed", EMERGENCY_REMINDER)
         self.assertIn("Emergency care may still be billed", questions)
         for phrase in ("sliding-fee", "itemized bill", "written policy", "charged separately", "Special Enrollment Period", "none is guaranteed"):

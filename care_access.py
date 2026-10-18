@@ -7,7 +7,7 @@ MEDICAL_DEBT = "https://www.consumerfinance.gov/consumer-tools/medical-debt/"
 HOSPITAL_ASSISTANCE = "https://www.irs.gov/charities-non-profits/financial-assistance-policies-faps"
 CDC_BITE = "https://www.cdc.gov/ticks/after-a-tick-bite/index.html"
 CDC_TREATMENT = "https://www.cdc.gov/lyme/treatment/index.html"
-EMERGENCY_REMINDER = "Call 911 for chest pain, severe trouble breathing, or fainting. These symptoms need urgent evaluation, whether or not they are related to a tick bite. Do not delay because you lack insurance."
+EMERGENCY_REMINDER = "Get emergency help: Call 911 for chest pain, severe trouble breathing, or fainting. These can signal a serious problem, whether or not it is related to a tick bite. Do not delay because you lack insurance."
 
 
 def care_access_questions():

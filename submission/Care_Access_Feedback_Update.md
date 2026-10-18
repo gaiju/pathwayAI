@@ -1,0 +1,25 @@
+# Care access and community funding: feedback update
+
+This update responds to video-review feedback that the personal story raises an uninsured-care question the demonstration must answer.
+
+## Changes
+
+- Care & Support now opens with uninsured-care and medical-bill guidance before the story form. No story, ZIP code, contribution or AI use is required.
+- HRSA health-center lookup is paired with income-based sliding-fee questions. Care is not presented as automatically free or limited to lawful residents. Insurance eligibility is separate from clinic access.
+- Coverage information addresses losing job-based coverage, Special Enrollment Periods, Medicaid and New York enrollment assistance without determining eligibility.
+- Bill guidance covers itemized bills, hospital financial-assistance policies and applications, separately billed providers, requests about collections, payment options and good faith estimates. A question checklist can be downloaded.
+- Community planning adds uninsured care and medical bills as a priority and requires discussion of capacity, staffing, cost, a possible funding source and responsibility. Unavailable resources remain unmet needs. Briefs may inform budget or grant discussions; they do not secure funds or establish a county obligation to pay.
+- The What's next page distinguishes today's working tools from future improvements.
+
+## Current narration
+
+Use `PathwayAI_Patient_Community_Demo_Script.txt` (or the matching PDF/Markdown). This is the latest patient/community version and supersedes earlier 4:30 and slide-cued narration for this video. It preserves the approved family story, answers the uninsured-care question, emphasizes community action, and contains no slide numbers, transition markers or pause instructions. The benefits-only scene remains omitted. The submitted title is “PathwayAI — Making the Hidden Patient Journey Visible.”
+
+561 spoken words: target about 4:45 with a conversational pace and pauses; actual audio must be rehearsed. No audio or video was generated. Show the new care-access section immediately after the personal introduction. Older slide decks have not been rebuilt for this update.
+
+## Verification and limits
+
+- Local Streamlit browser checks: new section and expanded bill guidance rendered without exceptions; 390-pixel mobile viewport had no horizontal overflow.
+- All 56 tests passed (28.109 seconds), including access without entering a story or location, exportable questions, community-brief funding limits and existing app regressions.
+- The official HRSA, HealthCare.gov, CFPB and IRS pages could not be fetched from this workspace (proxy 403). Links are official starting points; no current center-specific fee, appointment, local program eligibility or funding was verified.
+- GitHub publication and local app checks do not establish that the public Streamlit deployment has refreshed. No claim of coverage enrollment, completed assistance, reduced disseminated disease, measured savings or county adoption is made.

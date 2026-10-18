@@ -21,6 +21,11 @@ rather than uploading `app.py` alone.
 
 ## What works now
 
+- Uninsured-care and medical-bill guidance is available before story entry,
+  with HRSA health-center lookup, coverage resources, financial-assistance
+  questions and a downloadable call checklist. Fees and assistance vary.
+- Community action briefs include capacity, staffing and funding checks;
+  identifying a need does not create a funded service.
 - Optional benefits-conversation checklists reuse selected personal-record facts;
   they do not submit applications or determine eligibility.
 - Central evidence scope notes show study counts, populations, periods and limits.

@@ -3,6 +3,14 @@ from burden_demo import aggregate_demo, fictional_cards, show_burden_pathway_dem
 
 
 ACTION_OPTIONS = {
+    "Care without insurance and medical bills": {
+        "decision": "Could existing services meet reported uninsured-care needs, or would an additional funded response be needed?",
+        "need": "Uninsured care, unaffordable bills and difficulty reaching financial assistance",
+        "context": "County insurance and healthcare-capacity measures provide context, not individual eligibility, available appointments or a Lyme-specific unmet-need count.",
+        "action": "Review health-center sliding-fee access, coverage enrollment help and hospital financial assistance with patients; identify staffing, appointment capacity, costs and a possible funding source before proposing new services.",
+        "participants": "Patients, health centers, hospital financial-assistance staff, enrollment assisters, county planners and potential funders",
+        "measure": "Care appointments reached; enrollment assistance completed; financial-assistance decisions; remaining bills and unmet needs over a common period",
+    },
     "Getting to care": {
         "decision": "Should a county care-navigation team investigate a small ride-navigation pilot with willing residents?",
         "need": "Travel, appointment and referral barriers",
@@ -74,6 +82,9 @@ def action_brief(need):
         "Median missed workdays: " + rows["Median missed workdays"]["Synthetic result"],
         "Median caregiver hours: " + rows["Median unpaid caregiver hours"]["Synthetic result"],
         "Five usable answers for each displayed measure; one missing. Selecting a planning theme does not create reports for that theme.",
+        "", "RESOURCES AND FUNDING",
+        "Check existing service capacity, staff time, estimated cost, a possible funding source and a responsible partner. If resources are unavailable, record the need as unmet rather than promise a referral will solve it.",
+        "An appropriately sourced brief could support a county budget discussion or grant proposal. It does not secure funding, establish a county duty to pay, or demonstrate clinical benefit or cost savings.",
         "", "HUMAN REVIEW AND EVALUATION",
         "Patients and caregivers review needs; partners check feasibility and agree responsibilities, follow-up and measures before action.",
         "Compare the same reporting period and report missing answers and who could not participate. Before/after differences alone do not establish an effect.",
@@ -107,6 +118,8 @@ def show_community_action_pathway(simple=True):
     st.write("**Possible action:** " + plan["action"])
     st.write("**Who could help:** " + plan["participants"])
     st.write("**Track progress:** " + plan["measure"])
+    st.write("**Before proposing a service:** check available appointments, staff time, cost, a possible funding source and who could take responsibility. If no resource is available, record the need as unmet.")
+    st.caption("A brief could inform a county budget discussion or grant proposal. It does not create funding, establish a county obligation to pay, or demonstrate savings. Earlier access is a goal; reduced disseminated illness and costs have not been demonstrated by this app.")
     st.caption("Planning options, not findings about local demand or committed services. Patients, caregivers and community partners review priorities and decisions.")
     st.caption("Needs change over time. Plan repeated check-ins; clinic counts and distance alone do not show accessible appointments, suitable transport or referral quality.")
     with st.expander("Evidence behind this pathway: sources, periods and limits"):

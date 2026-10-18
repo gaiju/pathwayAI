@@ -35,6 +35,7 @@ from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
+from care_access import show_care_access
 
 PAGE_NOTES = []
 
@@ -3360,7 +3361,7 @@ if view == "🌱 What’s next":
 - **Make participation easier:** test simpler, more accessible ways for people and caregivers to contribute.
 - **Improve cost estimates:** verify medication prices and study how costs differ across communities.
 """)
-    st.caption("These are development priorities, not a benefits application service. Eligibility, approval and access to services are determined by the relevant programs.")
+    st.caption("The benefits-preparation checklist and care-access resources work now. The items above describe future improvements. Apply directly to each program; it decides eligibility and available support.")
     st.button("Share feedback or discuss a pilot →", key="next_to_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"))
     st.button("← Back to start", key="next_back", on_click=return_to_path_choices)
     st.stop()
@@ -4294,6 +4295,7 @@ if view == "📊 Community Burden & Action":
 st.header("Care & Support")
 show_photo116("river", "Peaceful lake surrounded by green trees")
 st.write("Turn your story into a visit summary. Keep costs and time in one record. Find support that fits your needs.")
+show_care_access()
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST

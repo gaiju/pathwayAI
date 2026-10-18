@@ -1,0 +1,67 @@
+# PathwayAI — Making the Hidden Patient Journey Visible
+
+As a pathologist, I studied disease through a microscope.
+
+As an epidemiologist, I studied patterns across communities.
+
+Then it became personal.
+
+After I lost my job, my family lost our health insurance. Just one month later, my husband was bitten by a tick and became ill with Lyme disease.
+
+I was trained to understand disease. But as a wife, I faced another question: How do we find our way through this?
+
+That is why I built PathwayAI.
+
+I'm Yuwei Zhang. Let me show you.
+
+PathwayAI follows the whole journey: preparing for time outdoors, knowing what to do after a tick bite, and finding a way into care and support.
+
+Start with the question my family faced: What if I don't have insurance?
+
+Here, you can find a community health center serving uninsured patients, ask about income-based fees, and get questions to ask about coverage or hospital financial assistance. Care is not automatically free, but you have a place to start—and you do not have to share your story to use it.
+
+Now imagine someone feeling unwell, missing work, and struggling to reach an appointment. This example is fictional.
+
+They describe their experience in their own words. PathwayAI helps organize it into a record they can check, correct, and download.
+
+The first benefit goes to the person sharing their story.
+
+The testing guide helps them prepare questions for a clinician. Caregivers can describe daily difficulties, with their observations clearly identified.
+
+Here, the person paid two hundred twenty-five dollars for care and travel. They also missed three workdays. A caregiver contributed eight hours.
+
+Money paid. Time lost. Help needed.
+
+We keep those burdens separate. Unknown answers stay unknown.
+
+Someone who needs transport can prepare a request about eligibility, cost, booking, and the return trip. They choose what to share.
+
+Now we step back—from one household to the community.
+
+Here, Dutchess and Orange counties provide a starting point. Public data show reported Lyme disease, population context, and healthcare resources.
+
+Where might support be needed? What resources exist? What do we still need to ask patients?
+
+Published cost research helps illustrate the possible scale of burden. The sources and assumptions stay visible. These are planning scenarios, not measured county spending.
+
+The next question is practical: What can a community actually do?
+
+If patients describe transport barriers, partners could review ride support. If families struggle to afford care, they could review health-center access, coverage assistance, and hospital financial aid.
+
+But identifying a gap does not create money or appointments.
+
+The planning brief helps partners discuss existing capacity, staffing, cost, and possible funding. It could support a county budget discussion or a grant proposal. It does not secure funding or promise savings.
+
+Patients and community partners help choose a feasible response. Then they ask: Did people reach care? Did assistance come through? Who still needs help?
+
+These invented records show how comparable patient reports could reveal recurring needs. Shared collection is currently off. A real pilot needs consent, privacy protections, and accessible participation. Voluntary reports cannot represent everyone.
+
+AI can organize information—but people decide what matters.
+
+Data can reveal patterns—but patients help us understand them.
+
+The patient stays at the center, from a useful next step today to a better-informed community decision tomorrow.
+
+That is PathwayAI: Making the Hidden Patient Journey Visible.
+
+To patients, caregivers, and experts: thank you. Your experiences and guidance helped make this possible.

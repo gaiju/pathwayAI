@@ -7,6 +7,7 @@ MEDICAL_DEBT = "https://www.consumerfinance.gov/consumer-tools/medical-debt/"
 HOSPITAL_ASSISTANCE = "https://www.irs.gov/charities-non-profits/financial-assistance-policies-faps"
 CDC_BITE = "https://www.cdc.gov/ticks/after-a-tick-bite/index.html"
 CDC_TREATMENT = "https://www.cdc.gov/lyme/treatment/index.html"
+EMERGENCY_REMINDER = "For chest pain, trouble breathing or fainting, seek emergency care. Call 911 for an emergency; do not delay because you lack insurance. Emergency care may still be billed."
 
 
 def care_access_questions():
@@ -50,16 +51,20 @@ def care_access_questions():
     ])
 
 
-def show_timely_care():
+def show_timely_care(navigate):
     import streamlit as st
 
-    st.markdown("### Get timely care")
-    st.write("Early evaluation and treatment matter. Contact a clinician promptly if you develop a new rash, fever or other symptoms after possible tick exposure. Tell them when and where it happened.")
-    st.write("Some high-risk tick bites may qualify for preventive antibiotics within **72 hours of tick removal**. Ask promptly; antibiotics are not needed after every bite.")
-    st.write("You can ask about care and financial assistance at the same time. Do not wait for insurance paperwork before contacting a clinician.")
-    with st.expander("When to seek urgent help"):
-        st.write("For chest pain, trouble breathing or fainting, seek emergency care. Call 911 for an emergency. Do not delay because you lack insurance; emergency care may still be billed.")
-        st.markdown(f"[CDC: after a tick bite]({CDC_BITE}) · [CDC: Lyme treatment]({CDC_TREATMENT})")
+    st.markdown("### Find care and prepare for your visit")
+    st.write("Contact a clinician promptly about symptoms after possible tick exposure. Do not wait for insurance paperwork before asking about care.")
+    st.write("Recently bitten? See Tick Bite: What Next? for removal steps and time-sensitive advice.")
+    st.button("Tick Bite: What Next? →", key="care_to_tick_bite", on_click=navigate,
+              args=("🩹 Tick Bite: What Next?", "bite"))
+    st.caption(EMERGENCY_REMINDER)
+
+
+def show_lyme_cost_context():
+    import streamlit as st
+
     with st.expander("Why early care matters: localized and disseminated Lyme"):
         st.write("Localized Lyme disease affects the initial infection site. Disseminated Lyme disease has spread to other parts of the body and can involve the joints, nervous system or heart, requiring different or more complex care.")
         st.write("Published cost comparisons distinguish localized and disseminated disease. Costs vary with the study, treatment, insurance and dollar year. The cost section provides research context, not a prediction of your bill.")
@@ -75,8 +80,6 @@ def show_care_access():
     with st.expander("Care without insurance: what to ask"):
         st.write("Call the center about new-patient appointments, evaluation for a tick bite or possible Lyme disease, and sliding-fee assistance. Ask what the visit, outside tests, medicines and referrals would cost.")
         st.write("HRSA-funded health centers serve patients regardless of immigration status; you do not have to be a lawful resident to seek care there. Insurance programs have separate eligibility rules. Ask the center what documents it needs for fee assistance.")
-        st.write("If you need prompt advice after a tick bite or your symptoms are worsening, contact a clinician promptly rather than waiting for coverage paperwork.")
-        st.caption("For an emergency, call 911 or go to an emergency department. Do not delay because you lack insurance; emergency care may still be billed.")
     with st.expander("Lost insurance? Check coverage options"):
         st.markdown(f"[Losing job-based coverage: enrollment options — HealthCare.gov]({COVERAGE})")
         st.write("Losing job-based coverage may qualify you for a time-limited Special Enrollment Period. Medicaid applications are accepted year-round. An enrollment assister can explain deadlines, household and income rules, and any applicable immigration requirements.")

@@ -4,6 +4,13 @@ This update responds to video-review feedback that the personal story raises an 
 
 ## Changes
 
+- Latest navigation refinement: detailed removal and 72-hour prevention guidance
+  stays on Tick Bite: What Next? Care & Support has a short prompt-care reminder
+  and a named button to that page. The bite page links back to Care & Support
+  for affordable care and visit preparation. A brief emergency reminder stays
+  visible on both. Localized/disseminated cost context is now beside cost tools.
+  Three targeted tests passed, including navigating both directions while
+  preserving the patient's story and cost entries. The clean script remains current.
 - Follow-up refinement: timely care now comes before uninsured-care guidance,
   which remains before the optional story form. Guidance distinguishes prompt
   clinical evaluation from preventive antibiotics after selected high-risk bites

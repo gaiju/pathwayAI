@@ -35,7 +35,7 @@ from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
-from care_access import show_care_access, show_timely_care
+from care_access import show_care_access, show_timely_care, show_lyme_cost_context, EMERGENCY_REMINDER
 
 PAGE_NOTES = []
 
@@ -1016,6 +1016,7 @@ def compact_care88(quick, story):
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown("### 2. Your costs, time and visit summary")
+    show_lyme_cost_context()
     show_burden_reading_guide()
     st.write("Add what you know. You can return to the rest later in this session. Review and download your card below.")
     if copied or notes:
@@ -3482,11 +3483,12 @@ if view == "🩹 Tick Bite: What Next?":
     st.subheader("3. Know when to get medical advice")
     st.write("Contact a healthcare professional promptly if symptoms develop. After some high-risk bites, preventive antibiotics may be appropriate if started within 72 hours of tick removal; a clinician can assess whether this applies. Do not wait for symptoms if you need advice about prevention after a recent bite.")
     st.markdown("[CDC: What to Do After a Tick Bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html) · [CDC: Signs and Symptoms of Lyme Disease](https://www.cdc.gov/lyme/signs-symptoms/index.html)")
-    st.info("Seek urgent medical attention for severe symptoms, such as trouble breathing, fainting, or new facial weakness. This app does not diagnose or recommend treatment.")
+    st.info(EMERGENCY_REMINDER)
+    st.write("Need help finding care, paying for it, or preparing for a visit?")
+    st.button("Go to Care & Support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     show_tick_encounter(extract_quick_story(st.session_state.get("saved_story_text", "")))
     page_note("Tick-found details stay in your private session and are not automatically shared. Finding a tick does not confirm Lyme disease or establish county infection risk. Community reporting requires consent, reviewed observations and privacy safeguards; it does not guarantee resource allocation or personal support.")
     show_lyme_testing(simple=simple_reading_view())
-    st.button("Find care and support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     with st.expander("Learn more about Lyme disease, symptoms and rashes", expanded=not simple_reading_view()):
         show_lyme_learning78()
     st.button("← Back to choices", key="bite118_back", on_click=return_to_path_choices)
@@ -4295,7 +4297,7 @@ if view == "📊 Community Burden & Action":
 st.header("Care & Support")
 show_photo116("river", "Peaceful lake surrounded by green trees")
 st.write("Turn your story into a visit summary. Keep costs and time in one record. Find support that fits your needs.")
-show_timely_care()
+show_timely_care(select_public_pathway)
 show_care_access()
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
@@ -5143,6 +5145,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
     })
     show_readable_table(published_costs, hide_index=True, width="stretch")
     st.write('Costs vary with insurance, illness, care, work and support needs.')
+    show_lyme_cost_context()
     page_note("Recent cost study values are standardized to 2022 USD. CDC/TickNET separately captures direct medical, direct nonmedical, and productivity costs, which is why PathwayAI also asks about travel, work, caregiving, and navigation.")
 
     st.markdown("#### Burden you reported")

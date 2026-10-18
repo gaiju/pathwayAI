@@ -1,71 +1,61 @@
-As a pathologist, I studied disease through a microscope.
-
-As an epidemiologist, I studied patterns across communities.
+As a pathologist, I studied disease through a microscope. As an epidemiologist, I studied patterns across communities.
 
 Then it became personal.
 
 After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
 
-I understood disease. But as a wife, I faced another question: How do we find our way through this?
+For immigrants like my husband, language can add another barrier: understanding tests, asking about bills, and explaining symptoms.
 
-For immigrants like my husband, there can be another barrier: language. It can be hard to feel comfortable explaining symptoms to a doctor who does not speak your own language.
-
-That is why I built PathwayAI.
+I built PathwayAI to help people prepare for care and make these hidden burdens visible.
 
 I'm Yuwei Zhang. Let me show you.
 
-For the TOPx HHS Cost of Illness challenge, PathwayAI looks beyond the medical bill. It helps patients prepare for care and helps county and community teams identify practical support priorities.
-
-The pathway starts before a bite, with prevention. After a bite, it explains removal and when to seek medical advice.
+PathwayAI follows the whole journey. Before a bite, people can prepare for time outdoors. After a bite, they can find removal steps and time-sensitive care guidance.
 
 But knowing you need care is only the beginning.
 
-What if you don't have insurance?
+Without insurance, where do you start? Here are community health centers, income-based fee questions, coverage resources, and hospital financial-assistance information. Care is not automatically free, but people have a practical next step.
 
-Here, people can find community health centers serving uninsured patients, ask about income-based fees, and explore coverage or hospital financial assistance. Care is not automatically free, but there is a place to start. No story is required to use these resources.
+Now imagine someone preparing for an appointment. This example is fictional.
 
-What if you struggle to explain what happened?
+They describe a tick encounter, symptoms two weeks later, and a blood test they report was positive. PathwayAI organizes a timeline they can review, correct, and download. Symptom onset and diagnosis timing stay separate. The clinician still needs the original test report. A reviewed record can help someone explain their experience across appointments, without starting from the beginning each time.
 
-On both the tick-bite and care pages, people can enter notes in their preferred language. With permission, AI translates and organizes them into an English visit summary, shown alongside the original.
+People can write in their preferred language. With permission, optional AI translates and organizes an English summary alongside the original. It supports preparation, not professional medical interpretation. The basic English organizer works without external AI.
 
-The person can review, correct, and download it. They can also prepare a request for a qualified interpreter.
+The value is bringing these pieces into one usable workflow, rather than asking people to navigate every source separately.
 
-This is preparation for a conversation, not a replacement for medical interpretation. Our aim is to make communication easier, so language is less likely to stand between someone and care.
+Now look beyond the visit. This person paid two hundred twenty-five dollars for care and travel, missed three workdays, and received eight hours of unpaid help.
 
-Now imagine a person preparing for an appointment. This example is fictional.
+Money, work, and caregiving stay separate. Unknown answers stay unknown.
 
-They describe possible exposure, a tick encounter, symptoms that began two weeks later, and a blood test they report was positive.
+They can prepare a request about transport eligibility, cost, booking, and the return trip. Someone facing a bill can record the unpaid balance and prepare assistance questions.
 
-The summary keeps that sequence visible. It separates symptom onset from diagnosis timing, preserves reported test results, and leaves unknown information unknown.
+Now we move from one household to the community.
 
-A clinician still needs the original test report and a clinical assessment. The patient brings a clearer account they can reuse across appointments.
+Dutchess and Orange county evidence and published cost research provide context. The county cost illustration is a scenario, not measured spending.
 
-Now look at the burden around that care.
+The downloadable planning brief helps partners discuss a practical response, staffing, funding, and what to track: Did people reach care? Did assistance come through? Who still needs help?
 
-This person paid two hundred twenty-five dollars for care and travel. They missed three workdays. A caregiver contributed eight hours.
+Early treatment can prevent serious complications; reducing delays, disruption, and costs is the goal we will evaluate.
 
-Money paid. Time lost. Help needed.
+Our main planning users are county public-health and community teams. Patients and caregivers receive preparation tools directly. Dutchess and Orange are our evidence examples, not committed county partners.
 
-PathwayAI keeps those measures separate. Someone facing a bill can record the balance and prepare assistance questions. Someone needing transport can prepare questions about eligibility, cost, booking, and the return trip.
+Federal sources include CDC surveillance, Census population context, HRSA healthcare resources, and CDC PLACES. New York surveillance and published research add separate evidence. AI organizes language; arithmetic calculates costs.
 
-For community teams, these experiences raise a practical question: Where could support make a difference?
+Advocate discussions highlighted unpaid care and daily difficulties. External public-health feedback pushed us to make practical next steps clearer. We improved summaries, language assistance, bill preparation, and transport guidance.
 
-The app brings together public county evidence, published cost research, and transparent planning scenarios. Dutchess and Orange provide the starting comparison.
+Sixty-four automated tests passed. These verify software behavior. Formal usability studies, clinical translation accuracy, improved access, and savings remain to be evaluated.
 
-These illustrations show possible scale, not measured county spending or the full long-term burden.
+The pilot web app is already available on Streamlit.
 
-A planning brief helps partners discuss existing services, staffing, costs, and possible funding. Identifying a gap does not create resources, so the response must be feasible.
+My proposed next step is a small pilot recruited through willing patient groups, health centers, and care navigators. Shared patient-report collection stays off until consent, secure storage, and follow-up are ready.
 
-Then follow up: Did people reach care? Did assistance come through? Who still needs help?
+The proposed sustainability model is free patient access supported by grants and community partnerships to cover hosting and AI costs. That funding is not yet secured.
 
-Shared patient-report collection is currently off. A future consented pilot would need secure follow-up to understand how burdens change over time.
+Next, we will test usefulness, verify resources, and evaluate support connections before expanding. Over time, repeated records could help us study longer-term burden.
 
-AI helps people communicate. Transparent calculations explain costs. Patients and community partners decide what matters.
+We are seeking patients, caregivers, clinicians, and community partners to help.
 
-Early treatment can help prevent serious complications. PathwayAI aims to help people reach care and support sooner. Reduced delays, disability, and costs remain outcomes we need to evaluate.
+PathwayAI: Full Economic Burden. Making the Hidden Patient Journey Visible.
 
-That is PathwayAI: Full Economic Burden.
-
-Making the Hidden Patient Journey Visible.
-
-To patients, caregivers, and experts: thank you. Your experiences and guidance helped make this possible.
+Thank you.

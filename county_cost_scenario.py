@@ -98,7 +98,7 @@ def show_county_burden_comparison(note):
     import pandas as pd
     import streamlit as st
 
-    st.markdown("### Estimated community cost: Dutchess and Orange")
+    st.markdown("### Community cost illustration: Dutchess and Orange")
     st.write("Study-based societal illustration · 2024 reported cases × $2,032 per participant · 2016 dollars.")
     st.write("The study reference includes medical care, other expenses and lost productivity.")
     frame = pd.DataFrame(county_scenario(perspective="societal"))
@@ -187,10 +187,13 @@ def show_county_cost_scenario(note):
              "Compare the result across counties using the same assumptions.")
     st.write("**Illustrative calculation · reported cases × study cost reference**")
     note("County cost scenarios are illustrative arithmetic, not measured county spending, predicted bills or savings.")
-    choice = st.radio("Cost perspective", ["Societal burden · Hook 2022", "Medical spending · Yu 2026"], key="county_cost_perspective", horizontal=True)
+    show_medical = st.checkbox("Show separate medical-study benchmark (original table not yet verified)", value=False, key="show_medical_benchmark")
+    choices = ["Societal burden · Hook 2022", "Medical spending · Yu 2026"] if show_medical else ["Societal burden · Hook 2022"]
+    choice = st.radio("Cost perspective", choices, key="county_cost_perspective", horizontal=True)
     perspective = "societal" if choice.startswith("Societal") else "medical"
     basis = "Published overall mean"
     if perspective == "medical":
+        st.warning("Separate research benchmark: 2022 dollars and a different study population. Do not compare this as a component of the 2016-dollar societal total. Original Yu table verification is pending; this is not current county spending.")
         basis = st.radio("Medical-cost assumption", ["Published overall mean", "Assumed localized/disseminated mix"],
                      key="county_cost_basis", horizontal=True)
     share = None
@@ -212,10 +215,11 @@ def show_county_cost_scenario(note):
     amount = next(column for column in frame.columns if column.startswith("Illustrative ") and "amount ·" in column)
     st.bar_chart(frame.set_index("County")[[amount]])
     st.write("Compare totals and amounts per 100,000 residents using the same cost reference.")
-    st.write("**Patient-paid medical references:** Yu reports an overall mean of $188 "
-             "among records with out-of-pocket information; localized $107 and disseminated $401. "
-             "These are published study references. "
-             "Patient payments are already included in total medical spending.")
+    if perspective == "medical":
+        st.write("**Patient-paid medical references:** Yu reports an overall mean of $188 "
+                 "among records with out-of-pocket information; localized $107 and disseminated $401. "
+                 "These are published study references. "
+                 "Patient payments are already included in total medical spending.")
     with st.expander("Survey benchmark and local reporting"):
         st.write("Local averages require reviewed payment amounts over matching periods, with duplicate checks and secure, consent-based reporting.")
     note("Published patient-paid costs are not PathwayAI survey averages. The supplied survey summary does not support a mean payment amount. Secure shared collection remains in development.")

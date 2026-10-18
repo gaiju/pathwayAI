@@ -78,7 +78,7 @@ Sources: September 24 transcript, 31:28–36:05 on sparse samples and expenditur
 
 “Optional AI helps organize a person's words for review and explain curated public evidence. Cost arithmetic is deterministic. Private patient cards are not used by the public evidence assistant. The basic organizer also works without external AI.”
 
-External story assistance is opt-in; users should omit identifiers. AI does not diagnose, confirm a disease trajectory, determine benefits eligibility or validate a cost model. Translation, certified medical interpretation and health-system integration are not established features.
+External story assistance is opt-in; users should omit identifiers. AI does not diagnose, confirm a disease trajectory, determine benefits eligibility or validate a cost model. A subsequent update adds opt-in bilingual note preparation on both patient pages, with original-plus-English downloads. The UI integration and failures are tested with simulated responses; clinical translation accuracy, certified medical interpretation and health-system integration are not established. This does not translate the full app.
 
 ## 12. A gap may exist because there is no money. Then what?
 
@@ -140,3 +140,9 @@ Clinical extent is not interchangeable with diagnostic delay. Groups can differ 
 “Those are research directions, not validated capabilities in this MVP. We can demonstrate the working, reviewed visit summary now. Images alone cannot establish tick attachment time, Lyme disease or whether preventive antibiotics are appropriate. Wearable measurements are nonspecific and do not diagnose Lyme.”
 
 A future image workflow would need clinical review, appropriate validation, uncertainty handling, consent and secure image processing. Calling a feature a risk alert rather than diagnosis does not by itself determine its regulatory status. A browser-only app does not directly read HealthKit; an authorized native integration or separately designed import workflow would be required. Activity or sleep records could support future functional-burden research, with careful attention to baseline, missingness and alternative explanations, rather than automatic causal attribution.
+
+## 20. What changed after the patient-report critique?
+
+“Visit summaries now lead with the exposure-to-care timeline and preserve reported test results. Patients can correct bite, rash, onset and diagnosis timing separately. There is opt-in bilingual note preparation; one-bill details can support a financial-help conversation. Disability preparation no longer automatically presents short-term missed-work totals as disability evidence. The main county estimate remains one societal scenario, with other study benchmarks separated.”
+
+These are improvements to the preparation workflow, not evidence of faster diagnosis or clinical benefit. The community brief remains a planning template rather than a delivered service. See `Patient_Report_Review_Improvements.md` for the implemented boundaries and validation record.

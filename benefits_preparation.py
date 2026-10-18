@@ -29,16 +29,17 @@ def preparation_checklist(program, record=None):
                   "- Work history and changes in hours or duties.",
                   "- Separate patient statements from caregiver observations.",
                   "Ask which additional financial documents apply to SSI." if program == "SSI" else "Ask how your work and earnings history relates to SSDI requirements."]
-        record = record or {}
-        facts = []
-        for key, label in (("period", "Recorded period"), ("reported_by", "Reported by"),
-                           ("workdays", "Recorded workdays missed"), ("caregiver_hours", "Recorded unpaid help (hours)")):
-            value = record.get(key)
-            if value is not None and value not in ("", "Not reported"):
-                facts.append(f"{label}: {value}")
-        if facts:
-            lines += ["", "OPTIONAL FACTS ALREADY IN YOUR PERSONAL RECORD (UNVERIFIED)", *facts,
-                      "Review these entries. Your personal record does not replace agency forms or clinical evidence."]
+        lines += ["", "UNDERSTAND THE ADULT DISABILITY STANDARD",
+                  "For adult disability-based SSI/SSDI, SSA generally requires a medically determinable condition preventing substantial gainful activity that has lasted or is expected to last at least 12 months, or result in death.",
+                  "Short-term missed work or caregiver hours alone do not establish this. Other medical, work-history and financial rules apply. SSI also has aged/blind eligibility routes; ask which rules apply.",
+                  "", "PREPARE A FUNCTIONAL TIMELINE",
+                  "- What could you do before, and what is difficult now? Describe specific activities.",
+                  "- When did each limitation begin, how often does it occur, and what help is needed?",
+                  "- Which existing clinical records document changes over time?",
+                  "- Ask your clinician about expected duration; do not infer it from a short reporting window."]
+        history = (record or {}).get("functional_history", "")
+        if history:
+            lines += ["", "FUNCTIONAL CHANGES I CHOSE TO INCLUDE (UNVERIFIED)", history]
     lines += ["", "QUESTIONS TO ASK", "- Which records and forms do you need?",
               "- How can I request communication or accessibility help?",
               "- What should I do if information is missing or a deadline is approaching?",
@@ -50,10 +51,19 @@ def preparation_checklist(program, record=None):
 def show_benefits_preparation(record=None):
     import streamlit as st
     with st.expander("Prepare for a benefits conversation"):
-        st.write("Reuse your personal record and a short checklist to prepare. Programs have different rules; an adviser or the agency can explain what applies.")
+        st.write("Prepare a program-specific checklist and questions. For disability benefits, describe changes in function over time. An adviser or the agency can explain which rules apply.")
         program = st.selectbox("Which program do you want to discuss?", PROGRAMS, key="benefits_program")
         st.markdown(f"[Official {program} information]({LINKS[program]})")
-        text = preparation_checklist(program, record)
+        context = dict(record or {})
+        if program != "SNAP / food assistance":
+            st.write("A few missed workdays do not establish disability-benefit eligibility. Prepare a timeline of limitations over time and discuss the rules with an adviser.")
+            if "benefits_functional_history" not in st.session_state:
+                st.session_state["benefits_functional_history"] = st.session_state.get("saved_benefits_functional_history", "")
+            history = st.text_area("Functional changes over time (optional)", key="benefits_functional_history",
+                                   placeholder="Approximate date; activity before and now; frequency; help needed. Leave out identifiers.", max_chars=4000)
+            st.session_state["saved_benefits_functional_history"] = history
+            context["functional_history"] = history
+        text = preparation_checklist(program, context)
         st.text(text)
         st.download_button("Download my preparation checklist", text.encode("utf-8"),
                            file_name="PathwayAI_Benefits_Preparation.txt", mime="text/plain",

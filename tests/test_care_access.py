@@ -10,7 +10,7 @@ from community_action import action_brief
 class CareAccessTests(unittest.TestCase):
     def test_uninsured_help_is_available_before_story_entry(self):
         at = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=60).run()
-        self.assertTrue(any("A working pilot website for people affected by Lyme disease" in x.value for x in at.markdown))
+        self.assertTrue(any("A working pilot web app for people affected by Lyme disease" in x.value for x in at.markdown))
         self.assertFalse(any(x.label == "Reviewer walkthrough · 90 seconds" for x in at.expander))
         at.button(key="route_ongoing").click().run()
         self.assertFalse(list(at.exception))

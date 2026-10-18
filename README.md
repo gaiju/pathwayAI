@@ -33,8 +33,19 @@ rather than uploading `app.py` alone.
   questions and a downloadable call checklist. Fees and assistance vary.
 - Community action briefs include capacity, staffing and funding checks;
   identifying a need does not create a funded service.
-- Optional benefits-conversation checklists reuse selected personal-record facts;
-  they do not submit applications or determine eligibility.
+- SSI/SSDI preparation explains the adult disability-duration standard and offers
+  a functional-history prompt. Short-term missed-work/caregiver totals are not
+  automatically inserted as disability evidence. SNAP preparation stays separate.
+- Both Tick Bite and Care & Support offer the same notes organizer. Patients can
+  choose a writing language and explicitly opt into external-AI English translation.
+  Original notes and a reviewable English timeline can be downloaded together;
+  notes and results are reused between these pages without another request.
+  This is not a fully translated interface or qualified medical interpretation.
+- English visit summaries put the exposure-to-care timeline before the original
+  notes. Source excerpts preserve reported positive/negative tests and relative
+  timing; editable fields allow correction of missing/ambiguous information.
+- Payment-help summaries optionally include one bill's organization, date, total,
+  amount paid, balance and assistance status, separate from spending totals.
 - Central evidence scope notes show study counts, populations, periods and limits.
 - Short-and-simple or more-detailed reading views.
 - Outdoor planning and county context at the ZIP lookup point.

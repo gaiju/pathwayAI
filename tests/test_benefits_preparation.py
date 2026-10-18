@@ -14,8 +14,9 @@ class BenefitsPreparationTests(unittest.TestCase):
         record = {"workdays": 3, "caregiver_hours": 8, "reported_by": "Myself",
                   "period": "Past 30 days", "story": "PRIVATE STORY", "medical": 180}
         text = preparation_checklist("SSDI", record)
-        self.assertIn("Recorded workdays missed: 3", text)
-        self.assertIn("Recorded unpaid help (hours): 8", text)
+        self.assertNotIn("Recorded workdays missed: 3", text)
+        self.assertIn("at least 12 months", text)
+        self.assertNotIn("Recorded unpaid help (hours): 8", text)
         self.assertNotIn("PRIVATE STORY", text)
         self.assertNotIn("180", text)
         self.assertIn("not an application", text)
@@ -42,7 +43,8 @@ class BenefitsPreparationTests(unittest.TestCase):
         at.number_input(key="workdays88").set_value(3).run()
         at.selectbox(key="benefits_program").set_value("SSDI").run()
         self.assertFalse(list(at.exception))
-        self.assertTrue(any("Recorded workdays missed: 3" in x.value for x in at.text))
+        self.assertFalse(any("Recorded workdays missed: 3" in x.value for x in at.text))
+        self.assertTrue(any("at least 12 months" in x.value for x in at.text))
         self.assertTrue(any(x.key == "benefits_checklist_download" for x in at.get("download_button")))
         at.sidebar.radio(key="pathway_view").set_value("📚 Sources & Acknowledgements").run()
         self.assertFalse(list(at.exception))

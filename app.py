@@ -37,6 +37,7 @@ from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
 from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER
 from visit_summary import show_visit_summary
+from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes
 
 PAGE_NOTES = []
 
@@ -415,7 +416,8 @@ def show_burden_evidence_panel104():
          "Value": "$188", "Scope": "2022 USD; pharmacy excluded; subset only",
          "Evidence": "Published: Yu et al. (2026), Table 2"},
     ])
-    with st.expander("Published cost table and medical-only reference", expanded=not simple_reading_view()):
+    with st.expander("Separate medical-study reference — different population and dollar year", expanded=False):
+        st.write("These studies are not parts of one total. A medical-only estimate from a different population/year may exceed the societal estimate; that is not a valid like-for-like comparison. The original Yu table still requires verification.")
         show_readable_table(published, hide_index=True)
         st.markdown(f"[Hook et al. — CDC]({HOOK_ARTICLE_URL}) · [Yu et al. — JAMA]({YU_COST_URL})")
 
@@ -727,6 +729,8 @@ def policy89():
     with st.expander("Group-cost calculator"):
         scenario_notes101 = planning_scenario101()
     rows=reference_cost_rows("Dutchess",1060) + reference_cost_rows("Orange",964)
+    if not st.session_state.get("show_medical_benchmark", False):
+        rows = [r for r in rows if r["perspective"] == "Societal per participant"]
     brief=["PathwayAI | Dutchess and Orange community burden brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not county prevalence, a quantified local burden or a before-diagnosis unit cost.',"Verified NYSDOH 2024 reported rates per 100,000: Dutchess 355.5; Orange 237.0; statewide 109.8. County case counts were checked against the supplied NYSDOH 2024 cases PDF, page 5. Original Yu cost tables remain pending verification.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
     for r in rows: brief.append(f"{r['county']} · {r['perspective']}: {r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
     brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
@@ -837,7 +841,7 @@ def policy89():
             show_readable_table([{"County":r["county"],"Perspective":r["perspective"],"Calculation":f"{r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,}","Dollar year":r["dollar_year"]} for r in rows],hide_index=True)
             st.write(COST_CONTEXT_CAVEAT)
         with st.expander("About access and contributions"):
-            st.write("This is a working pilot website, not a finished county service. Residents can use visit summaries and support contacts now; community teams can download discussion briefs. Real shared collection is off by default. Proposed ways to reach users are clinic handouts, patient advocates and county partners; these channels and partnerships are not yet established. Outcomes, adoption and savings have not been demonstrated.")
+            st.write("This is a working pilot web app, not a finished county service. Residents can use visit summaries and support contacts now; community teams can download discussion briefs. Real shared collection is off by default. Proposed ways to reach users are clinic handouts, patient advocates and county partners; these channels and partnerships are not yet established. Outcomes, adoption and savings have not been demonstrated.")
 
         with st.expander("Additional local context · Dutchess sources"):
             show_readable_table([
@@ -1073,7 +1077,7 @@ def compact_care88(quick, story):
         record.append(label + ": " + ("Not reported" if value is None else f"${value:,.2f}"))
     paid = medical + other if medical is not None and other is not None else None
     record.append("Recorded patient-paid spending: " + ("Incomplete: one or both spending fields not reported" if paid is None else f"${paid:,.2f}"))
-    record += [f"Missed workdays: {workdays if workdays is not None else 'Not reported'}",f"Caregiver hours: {caregiver if caregiver is not None else 'Not reported'}","Main barrier: " + barrier,"Modeled work loss = missed workdays × chosen value/day; not added to out-of-pocket.","",*published_reference_text()]
+    record += [f"Missed workdays: {workdays if workdays is not None else 'Not reported'}",f"Caregiver hours: {caregiver if caregiver is not None else 'Not reported'}","Main barrier: " + barrier,"Modeled work loss = missed workdays × chosen value/day; not added to out-of-pocket.","", "These are your reported amounts for the stated period, not a comparison with study averages."]
     seed="\n".join(record)
     if st.session_state.get("summary88_seed") != seed:
         st.session_state["summary88_text"]=seed
@@ -2646,6 +2650,120 @@ def merge_llm_into_quick(rule_quick, llm):
     return q
 
 
+def translate_visit_notes(text, language, reporter, *, consent):
+    return translate_notes(text, language, reporter, consent=consent,
+                           api_key=OPENAI_API_KEY, model=PATHWAYAI_LLM_MODEL,
+                           opener=_limited_ai_urlopen)
+
+
+def show_visit_organizer():
+    """One notes/translation workflow reused on the bite and care pages."""
+    st.markdown("### Tell us what happened")
+    reporter_role = show_reporter()
+    if "notes_language" not in st.session_state:
+        st.session_state["notes_language"] = st.session_state.get("saved_notes_language", "English")
+    language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, key="notes_language")
+    st.session_state["saved_notes_language"] = language
+    if language in AIDS:
+        st.write(AIDS[language][0])
+    st.write("In two or three sentences, tell us:")
+    if reporter_role == REPORTERS[2]:
+        st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
+    else:
+        st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
+    st.write("Short notes are fine. Write in your preferred language. For non-English notes, optional AI can translate and organize an English summary. You can skip this tool.")
+    st.write("Please leave out names, contact details and other identifying information.")
+
+    if "quick_story_value" not in st.session_state:
+        st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
+
+    quick_story = st.text_area(
+        "Your story, in your own words",
+        key="quick_story_value",
+        placeholder="Place and time. Symptoms and how long. Care so far and help needed.",
+        height=140,
+        max_chars=MAX_STORY_CHARS,
+    )
+    st.session_state["saved_story_text"] = quick_story
+
+    st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
+    if language == "English":
+        with st.expander("AI assistance and privacy"):
+            use_story_ai = st.checkbox("Use external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")
+            st.write("You can organize your story with the app’s local rules or choose external AI. Review the result before sharing.")
+        page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
+        if use_story_ai:
+            page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
+        organize_story = st.button("✨ Organize My Story", type="primary", use_container_width=True, disabled=not bool(quick_story.strip()))
+
+        STORY_SAMPLE = 'I found a tick after walking in Maryland in June. I have had a rash and felt tired for two weeks. I had a Lyme test last week and would like help preparing for a visit.'
+        with st.expander("Read a made-up example"):
+            st.write("This example is for learning. Write your own experience in the story box.")
+            st.write(STORY_SAMPLE)
+
+        if organize_story:
+            st.session_state["story_organized"] = True
+            st.session_state["organized_story_language"] = "English"
+            # Use the configured LLM only after an explicit click and within the pilot call limit.
+            # A failed/unavailable LLM never blocks the local rule-based fallback.
+            rule_now = extract_quick_story(quick_story)
+            allowed, limit_message = ai_call_allowed("story-extraction")
+            if use_story_ai and allowed and OPENAI_API_KEY and PATHWAYAI_LLM_MODEL:
+                llm_record, llm_status = extract_story_with_llm(quick_story)
+                if llm_record is not None and llm_status.get("state") == "connected":
+                    st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, llm_record)
+                    st.session_state["organized_story_source"] = quick_story
+                    record_completed_ai_call()
+                else:
+                    st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, None)
+                    st.session_state["organized_story_source"] = quick_story
+            else:
+                st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, None)
+                st.session_state["organized_story_source"] = quick_story
+                if not allowed:
+                    st.info(limit_message + " Using local backup extraction.")
+        if not quick_story.strip():
+            st.session_state["story_organized"] = False
+            st.session_state.pop("organized_story_record", None)
+            st.session_state.pop("organized_story_source", None)
+
+        story_is_current = bool(quick_story.strip() and st.session_state.get("story_organized", False)
+                                and st.session_state.get("organized_story_source") == quick_story
+                                and st.session_state.get("organized_story_language", "English") == "English")
+        if story_is_current:
+            method = (st.session_state.get("organized_story_record") or {}).get("extraction_method", "Rule-based NLP fallback")
+            if method == "LLM structured extraction":
+                page_note("Organized with AI. Review every detail for errors.")
+            else:
+                st.write("Review the organized details for accuracy.")
+
+
+
+        rule_quick = extract_quick_story(quick_story)
+        if (st.session_state.get("organized_story_source") == quick_story
+                and st.session_state.get("organized_story_language", "English") == "English"):
+            quick = st.session_state.get("organized_story_record", rule_quick)
+        else:
+            quick = rule_quick
+
+        if story_is_current:
+            st.success("Your visit summary is ready to review.")
+            show_visit_summary(quick_story, quick)
+        elif quick_story.strip():
+            st.write("Select Organize My Story to create or update your visit summary, or continue with your own words.")
+
+    else:
+        result = show_bilingual_organizer(quick_story, language, reporter_role, translate_visit_notes)
+        # Translation is a separate reviewed document, not automatically verified clinical/cost input.
+        quick = extract_quick_story("")
+        st.session_state["story_organized"] = bool(result)
+        if result:
+            st.session_state["organized_story_source"] = quick_story
+            st.session_state["organized_story_record"] = quick
+            st.session_state["organized_story_language"] = language
+    return quick_story, quick, reporter_role
+
+
 def show_immediate_support_from_story(quick):
     """Return immediate patient/caregiver value after story organization."""
     symptoms = quick.get("symptoms") or []
@@ -3347,7 +3465,7 @@ if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
         st.title("PathwayAI")
         st.subheader("Make patient voices count. Make community needs visible.")
-        st.write("A working pilot website for people affected by Lyme disease, caregivers and community teams.")
+        st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
         st.write("Prepare for care, make hidden burdens visible, and explore community support actions—with patients and caregivers at the center.")
 if st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
@@ -3489,7 +3607,8 @@ if view == "🩹 Tick Bite: What Next?":
     st.info(EMERGENCY_REMINDER)
     st.write("Need help finding care, paying for it, or preparing for a visit?")
     st.button("Go to Care & Support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-    show_tick_encounter(extract_quick_story(st.session_state.get("saved_story_text", "")))
+    bite_story, bite_details, bite_reporter = show_visit_organizer()
+    show_tick_encounter(bite_details)
     page_note("Tick-found details stay in your private session and are not automatically shared. Finding a tick does not confirm Lyme disease or establish county infection risk. Community reporting requires consent, reviewed observations and privacy safeguards; it does not guarantee resource allocation or personal support.")
     show_lyme_testing(simple=simple_reading_view())
     with st.expander("Learn more about Lyme disease, symptoms and rashes", expanded=not simple_reading_view()):
@@ -4303,7 +4422,7 @@ st.write("Turn your story into a visit summary. Keep costs and time in one recor
 show_timely_care(select_public_pathway)
 show_care_access()
 show_transport_help(SUPPORT89["Transportation / distance"])
-page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
+page_note("PathwayAI is a working pilot web app. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST
 
@@ -4311,89 +4430,7 @@ page_note("Sharing your experiences with Community Voice is optional. Collection
 # This keeps the opening experience supportive rather than feeling like data collection.
 current_location_start = st.session_state.get("current_location_start", "")
 
-st.markdown("### Tell us what happened")
-reporter_role = show_reporter()
-st.write("In two or three sentences, tell us:")
-if reporter_role == REPORTERS[2]:
-    st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
-else:
-    st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
-st.write("Short notes are fine. Write what you remember. You can skip any question or continue to the tools below.")
-st.write("Please leave out names, contact details and other identifying information.")
-
-if "quick_story_value" not in st.session_state:
-    st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
-
-quick_story = st.text_area(
-    "Your story, in your own words",
-    key="quick_story_value",
-    placeholder="Place and time. Symptoms and how long. Care so far and help needed.",
-    height=140,
-    max_chars=MAX_STORY_CHARS,
-)
-st.session_state["saved_story_text"] = quick_story
-
-with st.expander("AI assistance and privacy"):
-    use_story_ai = st.checkbox("Use external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")
-    st.write("You can organize your story with the app’s local rules or choose external AI. Review the result before sharing.")
-page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
-if use_story_ai:
-    page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
-st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
-organize_story = st.button("✨ Organize My Story", type="primary", use_container_width=True, disabled=not bool(quick_story.strip()))
-
-STORY_SAMPLE = 'I found a tick after walking in Maryland in June. I have had a rash and felt tired for two weeks. I had a Lyme test last week and would like help preparing for a visit.'
-with st.expander("Read a made-up example"):
-    st.write("This example is for learning. Write your own experience in the story box.")
-    st.write(STORY_SAMPLE)
-
-if organize_story:
-    st.session_state["story_organized"] = True
-    # Use the configured LLM only after an explicit click and within the pilot call limit.
-    # A failed/unavailable LLM never blocks the local rule-based fallback.
-    rule_now = extract_quick_story(quick_story)
-    allowed, limit_message = ai_call_allowed("story-extraction")
-    if use_story_ai and allowed and OPENAI_API_KEY and PATHWAYAI_LLM_MODEL:
-        llm_record, llm_status = extract_story_with_llm(quick_story)
-        if llm_record is not None and llm_status.get("state") == "connected":
-            st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, llm_record)
-            st.session_state["organized_story_source"] = quick_story
-            record_completed_ai_call()
-        else:
-            st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, None)
-            st.session_state["organized_story_source"] = quick_story
-    else:
-        st.session_state["organized_story_record"] = merge_llm_into_quick(rule_now, None)
-        st.session_state["organized_story_source"] = quick_story
-        if not allowed:
-            st.info(limit_message + " Using local backup extraction.")
-if not quick_story.strip():
-    st.session_state["story_organized"] = False
-    st.session_state.pop("organized_story_record", None)
-    st.session_state.pop("organized_story_source", None)
-
-story_is_current = bool(quick_story.strip() and st.session_state.get("story_organized", False)
-                        and st.session_state.get("organized_story_source") == quick_story)
-if story_is_current:
-    method = (st.session_state.get("organized_story_record") or {}).get("extraction_method", "Rule-based NLP fallback")
-    if method == "LLM structured extraction":
-        page_note("Organized with AI. Review every detail for errors.")
-    else:
-        st.write("Review the organized details for accuracy.")
-
-
-
-rule_quick = extract_quick_story(quick_story)
-if st.session_state.get("organized_story_source") == quick_story:
-    quick = st.session_state.get("organized_story_record", rule_quick)
-else:
-    quick = rule_quick
-
-if story_is_current:
-    st.success("Your visit summary is ready to review.")
-    show_visit_summary(quick_story, quick)
-elif quick_story.strip():
-    st.write("Select Organize My Story to create or update your visit summary, or continue with your own words.")
+quick_story, quick, reporter_role = show_visit_organizer()
 
 with st.expander("Additional history questions · optional"):
     detailed_form = st.checkbox("Use the detailed journey form", key="details88")
@@ -5106,7 +5143,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         f"Other out-of-pocket partial subtotal: {'Not reported' if not other_paid81 else '$' + format(sum(other_paid81), ',.2f')}",
         "Work-loss formula: days missed × user-entered value/day; separate modeled value, not a bill.",
         "Count each payment once. Missing remains missing. These entries do not assign causality to Lyme disease.", "",
-    ] + published_reference_text())
+    ] + ["Personal entries are not compared with published study averages in this visit record."])
     full_appointment_summary = appointment_text + "\n" + "\n".join(full_cost_summary)
     with st.expander("Review appointment summary with costs and published references", expanded=False):
         st.text(full_appointment_summary)

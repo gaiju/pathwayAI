@@ -7,7 +7,7 @@ MEDICAL_DEBT = "https://www.consumerfinance.gov/consumer-tools/medical-debt/"
 HOSPITAL_ASSISTANCE = "https://www.irs.gov/charities-non-profits/financial-assistance-policies-faps"
 CDC_BITE = "https://www.cdc.gov/ticks/after-a-tick-bite/index.html"
 CDC_TREATMENT = "https://www.cdc.gov/lyme/treatment/index.html"
-EMERGENCY_REMINDER = "For chest pain, trouble breathing or fainting, seek emergency care. Call 911 for an emergency; do not delay because you lack insurance. Emergency care may still be billed."
+EMERGENCY_REMINDER = "Call 911 for chest pain, severe trouble breathing, or fainting. These symptoms need urgent evaluation, whether or not they are related to a tick bite. Do not delay because you lack insurance."
 
 
 def care_access_questions():
@@ -31,6 +31,7 @@ def care_access_questions():
         "What deadlines, eligibility rules and documents apply to my household?",
         "Clinic access and insurance eligibility are different. This guide does not determine either.",
         "", "CALL THE BILLING OFFICE",
+        "Emergency care may still be billed. Ask the hospital about financial assistance; do not delay emergency care because of cost.",
         "Please send an itemized bill and explain any charges I do not understand.",
         "Can I apply for financial assistance or charity care? Please send the written policy and application.",
         "Does assistance cover each clinician, laboratory and other bill, or must I apply separately?",
@@ -46,7 +47,7 @@ def care_access_questions():
         "Nonprofit hospital financial-assistance policies: " + HOSPITAL_ASSISTANCE,
         "After a tick bite: " + CDC_BITE,
         "Lyme treatment: " + CDC_TREATMENT,
-        "", "For an emergency, call 911 or go to an emergency department. Do not delay because you lack insurance; emergency care may still be billed.",
+        "", EMERGENCY_REMINDER,
         "PathwayAI helps you find resources and prepare questions. It does not enroll you, pay bills or arrange an appointment.",
     ])
 
@@ -86,6 +87,7 @@ def show_care_access():
         st.markdown(f"[New York State of Health: coverage and enrollment assistance]({NY_COVERAGE})")
         st.caption("Coverage is not automatic. An assister or the relevant program must check your circumstances.")
     with st.expander("Already have a high medical bill?"):
+        st.write("Emergency care may still be billed. Ask the hospital about financial assistance; do not delay emergency care because of cost.")
         st.markdown("1. **Ask for an itemized bill.** Check unfamiliar, duplicate or incorrect charges with the billing office.\n2. **Ask about financial assistance or charity care.** Request the written policy, application and deadlines. Nonprofit hospitals must have a financial-assistance policy for emergency and other medically necessary hospital care; eligibility and covered providers vary. Ask separately about outside clinician and laboratory bills.\n3. **Ask about collections and payment options.** Ask whether collection activity can pause during review. If a balance remains, ask about self-pay discounts or an interest-free plan. Get agreements in writing.")
         st.write("Before scheduled non-emergency care, uninsured or self-pay patients can ask about a good faith estimate. A bill substantially above the estimate may qualify for a federal dispute process; check the current rules and deadlines.")
         st.markdown(f"[Medical-bill help — CFPB]({MEDICAL_DEBT}) · [Nonprofit hospital assistance policies — IRS]({HOSPITAL_ASSISTANCE})")

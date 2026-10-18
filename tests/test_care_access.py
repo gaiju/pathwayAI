@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
-from care_access import care_access_questions, HRSA, MEDICAL_DEBT
+from care_access import care_access_questions, HRSA, MEDICAL_DEBT, EMERGENCY_REMINDER
 from community_action import action_brief
 
 
@@ -46,6 +46,9 @@ class CareAccessTests(unittest.TestCase):
 
     def test_takeaway_and_community_brief_include_real_next_steps_and_limits(self):
         questions = care_access_questions()
+        self.assertIn("whether or not they are related to a tick bite", EMERGENCY_REMINDER)
+        self.assertNotIn("billed", EMERGENCY_REMINDER)
+        self.assertIn("Emergency care may still be billed", questions)
         for phrase in ("sliding-fee", "itemized bill", "written policy", "charged separately", "Special Enrollment Period", "none is guaranteed"):
             self.assertIn(phrase, questions)
         brief = action_brief("Care without insurance and medical bills")

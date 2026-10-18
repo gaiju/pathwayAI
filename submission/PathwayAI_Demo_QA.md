@@ -128,3 +128,15 @@ Specific needs: controlled-data permissions where relevant; data-use, privacy an
 “Partly. We made the pilot website and audience explicit, removed the public reviewer walkthrough, added care-access guidance and made existing transport contacts accessible without a story. But a referral directory does not create appointments, transport capacity or funding. We still need users and service partners to test whether the proposed next steps are useful.”
 
 Gray source notes and safeguards are supporting information, not unfilled copy placeholders. A full public-facing readability/accessibility review remains appropriate. Proposed outreach is through willing patient groups, health centers, navigators and community organizations; no distribution agreement, county adoption or endorsement is established.
+
+## 18. Can we claim $1,944 saved for every earlier Lyme diagnosis?
+
+“No. Hook reports mean societal costs of $1,307 for confirmed localized and $3,251 for confirmed disseminated cases, in 2016 dollars. Their $1,944 difference is an observational comparison between clinical groups. It is not an estimated causal saving from an earlier diagnosis or an effect of PathwayAI.”
+
+Clinical extent is not interchangeable with diagnostic delay. Groups can differ in severity, care needs and other factors. Do not multiply $1,944 by users or earlier appointments and label it achieved or expected savings. It can motivate an evaluation question, with appropriate design and explicit assumptions. The repository's bounded Hook summary already makes this distinction; no new savings calculation is added.
+
+## 19. Why not add photo recognition or Apple Health before the demo?
+
+“Those are research directions, not validated capabilities in this MVP. We can demonstrate the working, reviewed visit summary now. Images alone cannot establish tick attachment time, Lyme disease or whether preventive antibiotics are appropriate. Wearable measurements are nonspecific and do not diagnose Lyme.”
+
+A future image workflow would need clinical review, appropriate validation, uncertainty handling, consent and secure image processing. Calling a feature a risk alert rather than diagnosis does not by itself determine its regulatory status. A browser-only app does not directly read HealthKit; an authorized native integration or separately designed import workflow would be required. Activity or sleep records could support future functional-burden research, with careful attention to baseline, missingness and alternative explanations, rather than automatic causal attribution.

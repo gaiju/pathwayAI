@@ -1,7 +1,7 @@
 # Research & Strategy Agent evidence
 
-The lowercase `app.py` entrypoint uses `evidence_rag.py`. The legacy `APP.py`
-is unchanged. No hosted index, embedding service, API key, or new dependency
+The lowercase `app.py` entrypoint uses `evidence_rag.py`. The old uppercase
+entrypoint has been removed to avoid case-insensitive filename collisions. No hosted index, embedding service, API key, or new dependency
 is required. The local corpus is retrieved on every strategy request; existing
 planner-selected tools and optional live research remain available.
 

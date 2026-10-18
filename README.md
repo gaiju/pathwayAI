@@ -15,8 +15,11 @@ python -m streamlit run app.py
 python -m unittest discover -s tests -v
 ```
 
-`APP.py` is an older entrypoint and is not the current test version. Deploy the
-whole branch, including the new Python modules and national boundary file,
+The only application entrypoint is lowercase `app.py`. The old uppercase
+entrypoint was removed to prevent filename collisions when extracting the
+project on case-insensitive filesystems (common on macOS and Windows).
+Download a fresh ZIP into an empty folder rather than extracting over an old
+copy. Deploy the whole branch, including Python modules and data assets,
 rather than uploading `app.py` alone.
 
 ## What works now

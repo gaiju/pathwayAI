@@ -13,7 +13,9 @@ Streamlit configuration:
 - Existing Streamlit secrets remain in the app settings. No secrets are added
   to the repository or replaced by this release.
 
-The legacy `APP.py` remains unchanged; it is not this release's entrypoint.
+Subsequent packaging fix: the old uppercase entrypoint has been removed.
+The only supported entrypoint is lowercase `app.py`, avoiding case-insensitive
+filename collisions during ZIP extraction.
 Deploy the complete repository, including modules, images and data files.
 
 Validation: all 24 tests passed. AppTest also rendered the updated landing

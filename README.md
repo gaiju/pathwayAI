@@ -36,6 +36,9 @@ rather than uploading `app.py` alone.
 - Short-and-simple or more-detailed reading views.
 - Outdoor planning and county context at the ZIP lookup point.
 - Visit preparation, optional local story organization and burden recording.
+- Organizing a story immediately shows an editable visit summary and its TXT
+  download before testing guidance or cost forms. Editing the original story
+  requires organizing it again before a summary is marked ready.
 - Reviewed, downloadable visit and cost/time summaries.
 - Lyme testing preparation, report vocabulary and cost-estimate questions.
 - Sourced public-data comparisons and illustrative scenario exports.

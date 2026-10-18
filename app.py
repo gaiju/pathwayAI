@@ -36,6 +36,7 @@ from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
 from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER
+from visit_summary import show_visit_summary
 
 PAGE_NOTES = []
 
@@ -4371,7 +4372,9 @@ if not quick_story.strip():
     st.session_state.pop("organized_story_record", None)
     st.session_state.pop("organized_story_source", None)
 
-if st.session_state.get("story_organized", False):
+story_is_current = bool(quick_story.strip() and st.session_state.get("story_organized", False)
+                        and st.session_state.get("organized_story_source") == quick_story)
+if story_is_current:
     method = (st.session_state.get("organized_story_record") or {}).get("extraction_method", "Rule-based NLP fallback")
     if method == "LLM structured extraction":
         page_note("Organized with AI. Review every detail for errors.")
@@ -4386,10 +4389,11 @@ if st.session_state.get("organized_story_source") == quick_story:
 else:
     quick = rule_quick
 
-if quick_story.strip() and st.session_state.get("story_organized", False):
-    st.success("Your story is organized. Review and download your summary below.")
+if story_is_current:
+    st.success("Your visit summary is ready to review.")
+    show_visit_summary(quick_story, quick)
 elif quick_story.strip():
-    st.write("Select Organize My Story to organize the details, or continue with your own words.")
+    st.write("Select Organize My Story to create or update your visit summary, or continue with your own words.")
 
 with st.expander("Additional history questions · optional"):
     detailed_form = st.checkbox("Use the detailed journey form", key="details88")

@@ -35,7 +35,7 @@ from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
-from care_access import show_care_access, show_timely_care, show_lyme_cost_context, EMERGENCY_REMINDER
+from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER
 
 PAGE_NOTES = []
 
@@ -3346,6 +3346,7 @@ if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
         st.title("PathwayAI")
         st.subheader("Make patient voices count. Make community needs visible.")
+        st.write("A working pilot website for people affected by Lyme disease, caregivers and community teams.")
         st.write("Prepare for care, make hidden burdens visible, and explore community support actions—with patients and caregivers at the center.")
 if st.session_state.get("pathway_open", False):
     st.radio("How much information would you like?", ["Short and simple", "More detail"],
@@ -3402,13 +3403,14 @@ if not st.session_state.get("pathway_open", False):
         st.write("Visit summaries, cost-and-time records, support requests and evidence downloads work now. Personal entries stay in the current session; download your reviewed record to keep it.")
         st.write("Real shared collection is off by default. A community pilot needs consent, private storage, access and retention rules, duplicate checks and privacy-reviewed summaries. County adoption, improved health and savings have not been demonstrated.")
         st.button("Open sources and acknowledgements →", key="landing_sources", on_click=select_public_pathway, args=("📚 Sources & Acknowledgements", "sources"))
-        with st.expander("Reviewer walkthrough · 90 seconds"):
-            st.write("**1. Community (40 seconds):** county evidence → Patient voices → community action → planning brief.")
-            st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
-            st.write("**2. Care & Support (25 seconds):** organize a fictional story, review the card and prepare a support request.")
-            st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-            st.write("**3. Prevention (25 seconds):** explore tick information and next steps after a bite.")
-            st.button("Go to Prevention →", key="review113_prevent", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "outdoors"), use_container_width=True)
+        if st.session_state.get("admin_authenticated"):
+            with st.expander("Reviewer walkthrough · 90 seconds"):
+                st.write("**1. Community (40 seconds):** county evidence → Patient voices → community action → planning brief.")
+                st.button("Go to Community Burden & Action →", key="review113_county", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"), use_container_width=True)
+                st.write("**2. Care & Support (25 seconds):** organize a fictional story, review the card and prepare a support request.")
+                st.button("Go to Care & Support →", key="review113_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+                st.write("**3. Prevention (25 seconds):** explore tick information and next steps after a bite.")
+                st.button("Go to Prevention →", key="review113_prevent", on_click=select_public_pathway, args=("🛡️ Learn & Prevent", "outdoors"), use_container_width=True)
         st.button("Review my costs and time →" if st.session_state.get("burden_session_record") else "Record my costs and time →", key="landing_costs_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
         st.button("Explore experiences and cost references →", key="landing_costs_to_community", on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
     with st.expander("Evidence and limits"):
@@ -4299,6 +4301,7 @@ show_photo116("river", "Peaceful lake surrounded by green trees")
 st.write("Turn your story into a visit summary. Keep costs and time in one record. Find support that fits your needs.")
 show_timely_care(select_public_pathway)
 show_care_access()
+show_transport_help(SUPPORT89["Transportation / distance"])
 page_note("PathwayAI is a working pilot website. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST

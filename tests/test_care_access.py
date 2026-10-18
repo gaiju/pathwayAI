@@ -10,6 +10,8 @@ from community_action import action_brief
 class CareAccessTests(unittest.TestCase):
     def test_uninsured_help_is_available_before_story_entry(self):
         at = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=60).run()
+        self.assertTrue(any("A working pilot website for people affected by Lyme disease" in x.value for x in at.markdown))
+        self.assertFalse(any(x.label == "Reviewer walkthrough · 90 seconds" for x in at.expander))
         at.button(key="route_ongoing").click().run()
         self.assertFalse(list(at.exception))
         self.assertEqual(at.text_area(key="quick_story_value").value, "")
@@ -23,6 +25,8 @@ class CareAccessTests(unittest.TestCase):
         self.assertIn(MEDICAL_DEBT, content)
         self.assertIn("Care is not automatically free", content)
         self.assertIn("regardless of immigration status", content)
+        self.assertIn("845-486-2555", content)
+        self.assertIn("does not book or fund rides", "\n".join(str(x.value) for x in at.caption))
         self.assertTrue(any(d.label == "Download questions about uninsured care and bills" for d in at.get("download_button")))
 
     def test_cross_page_links_preserve_patient_entries_and_bite_guidance(self):

@@ -28,7 +28,7 @@ This update responds to video-review feedback that the personal story raises an 
 
 Use `PathwayAI_Patient_Community_Demo_Script.txt` (or the matching PDF/Markdown). This is the latest patient/community version and supersedes earlier 4:30 and slide-cued narration for this video. It preserves the approved family story, answers the uninsured-care question, emphasizes community action, and contains no slide numbers, transition markers or pause instructions. The benefits-only scene remains omitted. The submitted title is “PathwayAI — Making the Hidden Patient Journey Visible.”
 
-575 spoken words: target about 4:45 with a conversational pace and pauses; actual audio must be rehearsed. No audio or video was generated. After the personal introduction, show timely-care guidance and then uninsured-care help. The revised visit-preparation wording explains symptoms, dates, tests and questions; optional AI organizes the notes and the basic organizer works without external AI. No language-translation feature is promised. Older slide decks have not been rebuilt for this update.
+570 spoken words: target about 4:45 with a conversational pace and pauses; actual audio must be rehearsed. No audio or video was generated. After the personal introduction, show timely-care guidance and then uninsured-care help. The revised visit-preparation wording explains symptoms, dates, tests and questions; optional AI organizes the notes and the basic organizer works without external AI. No language-translation feature is promised. Older slide decks have not been rebuilt for this update.
 
 ## Verification and limits
 

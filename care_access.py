@@ -92,3 +92,15 @@ def show_care_access():
     st.download_button("Download questions about uninsured care and bills", care_access_questions().encode("utf-8"),
                        file_name="PathwayAI_Uninsured_Care_and_Bills.txt", mime="text/plain", key="care_access_questions")
     st.caption("PathwayAI helps you find resources and prepare questions. It does not enroll you in coverage, pay bills or arrange appointments. Confirm fees, assistance and availability directly with each service.")
+
+
+def show_transport_help(resource):
+    """Reuse the app's existing county referral information without a story form."""
+    import streamlit as st
+
+    with st.expander("Need help getting to an appointment?"):
+        st.write("Start with an existing service and ask whether it can cover your trip.")
+        st.write(resource[1])
+        st.markdown(f"[Dutchess County transport information]({resource[2]}) · [New York Medicaid transportation](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [Other local options — 211](https://www.211.org/)")
+        st.write("Ask: Am I eligible? Is registration required? How far ahead must I book? What does it cost, is the vehicle accessible, and how do I arrange the return trip?")
+        st.caption("Confirm current eligibility, availability and costs with the service. PathwayAI does not book or fund rides. If no option is available, the need remains unmet.")

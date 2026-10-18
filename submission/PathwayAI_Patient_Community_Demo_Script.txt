@@ -4,64 +4,70 @@ As an epidemiologist, I studied patterns across communities.
 
 Then it became personal.
 
-After I lost my job, my family lost our health insurance. Just one month later, my husband was bitten by a tick and became ill with Lyme disease.
+After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
 
-I was trained to understand disease. But as a wife, I faced another question: How do we find our way through this?
+I understood disease. But as a wife, I faced another question: How do we find our way through this?
 
-That is why I built PathwayAI—a practical starting point after a tick bite, including for people without insurance.
+That is why I built PathwayAI.
 
 I'm Yuwei Zhang. Let me show you.
 
-PathwayAI follows the whole journey: preparing for time outdoors, knowing what to do after a tick bite, and finding a way into care and support.
+For the TOPx HHS Cost of Illness challenge, our goal is to make the hidden burden before diagnosis visible. This working pilot website connects practical help for patients with evidence for community planning.
 
-First, timely care matters. The app explains when to contact a clinician promptly.
+Reducing burden starts before a bite—with informed choices and prevention. After a bite, people need timely advice and a way into care.
 
-Then comes the question my family faced: What if I don't have insurance?
+Early treatment can help prevent Lyme disease from spreading and reduce serious complications. Practical support can help people reach that care. Reducing disability and future costs is our goal, not a result we have demonstrated.
 
-Here, you can find a community health center serving uninsured patients, ask about income-based fees, and explore coverage or hospital financial assistance. Care is not automatically free. You can ask for care and financial help together, without sharing a story with PathwayAI.
+What if you don't have insurance?
 
-Now imagine someone feeling unwell, missing work, and struggling to reach an appointment. This example is fictional.
+Here, you can find community health centers serving uninsured patients, ask about income-based fees, and explore coverage or hospital financial assistance.
 
-Preparing for a visit can be hard when you feel unwell. Write rough notes about symptoms, dates, tests, and questions. PathwayAI helps organize them into a summary you can check, download, and bring to your appointment.
+Care is not automatically free. But you have a starting point, without sharing a story with PathwayAI.
 
-Optional AI can help organize those words. The basic organizer also works without external AI.
+Now imagine someone feeling unwell and preparing for an appointment. This example is fictional.
 
-The testing guide helps prepare questions. Caregiver observations are clearly identified.
+Write rough notes about symptoms, dates, tests, and questions. PathwayAI helps organize them into a summary you can check, download, and bring to different clinicians.
 
-Here, the person paid two hundred twenty-five dollars for care and travel. They also missed three workdays. A caregiver contributed eight hours.
+Optional AI helps organize your words. The basic organizer works without external AI.
 
-Money paid. Time lost. Help needed.
+A clear record can make it easier to explain what happened across appointments.
 
-We keep those burdens separate. Unknown answers stay unknown.
+Here, the person paid two hundred twenty-five dollars for care and travel. They missed three workdays. A caregiver contributed eight hours.
 
-Someone who needs transport can prepare a request about eligibility, cost, booking, and the return trip. They choose what to share.
+The burden is more than a medical bill. It includes travel, missed work, and unpaid care.
+
+We keep these separate. Unknown answers stay unknown.
+
+The person can also prepare a support request about transport eligibility, cost, booking, and the return trip.
+
+For example, Dutchess older adults without Medicaid can ask the Office for the Aging about medical-ride registration and availability.
 
 Now we step back—from one household to the community.
 
-Here, public data for Dutchess and Orange counties show reported Lyme disease, population context, and healthcare resources.
+Public data for Dutchess and Orange counties show reported Lyme disease, population context, and healthcare resources.
 
-What support exists? What do we still need to ask patients?
+Published cost research illustrates possible burden. Sources and assumptions stay visible. These are planning scenarios, not measured county spending or estimates of the full pre-diagnosis burden.
 
-Published cost research illustrates possible burden, with sources and assumptions visible. These are planning scenarios, not measured county spending.
+What could a community do next?
 
-The next question is practical: What can a community actually do?
+Patients and partners could review transport, affordable care, and navigation barriers, then choose a feasible response.
 
-If patients describe transport barriers, partners could review ride support. If families struggle to afford care, they could review health-center access, coverage assistance, and hospital financial aid.
+But identifying a gap does not create funding.
 
-But identifying a gap does not create money or appointments.
+The planning brief helps discuss capacity, staffing, costs, and possible funding sources. It could inform a county budget discussion or grant proposal.
 
-The planning brief helps partners discuss existing capacity, staffing, cost, and possible funding. It could support a county budget discussion or a grant proposal. It does not secure funding or promise savings.
+Then ask: Did people reach care? Did assistance come through? Who still needs help?
 
-Patients and community partners help choose a feasible response. Then they ask: Did people reach care? Did assistance come through? Who still needs help?
-
-These invented records show how patient reports could reveal recurring needs. Shared collection is off. A real pilot needs consent, privacy protections, and accessible participation. Voluntary reports cannot represent everyone.
+These invented records show how comparable reports could reveal recurring needs. Shared collection is off. A real pilot needs consent, privacy protections, and accessible participation. Voluntary reports cannot represent everyone.
 
 AI can organize information—but people decide what matters.
 
 Data can reveal patterns—but patients help us understand them.
 
-The patient stays at the center, from a useful next step today to a better-informed community decision tomorrow.
+Our aim is more coordinated, patient-centered care and better-informed community action, with less avoidable disruption and potentially lower costs.
 
-That is PathwayAI: Making the Hidden Patient Journey Visible.
+That is PathwayAI: Full Economic Burden.
+
+Making the Hidden Patient Journey Visible.
 
 To patients, caregivers, and experts: thank you. Your experiences and guidance helped make this possible.

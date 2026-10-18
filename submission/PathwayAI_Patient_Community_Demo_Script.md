@@ -12,63 +12,61 @@ After I lost my job, my family lost our health insurance. The next month, my hus
 
 I understood disease. But as a wife, I faced another question: How do we find our way through this?
 
+For immigrants like my husband, there can be another barrier: language. It can be hard to feel comfortable explaining symptoms to a doctor who does not speak your own language.
+
 That is why I built PathwayAI.
 
 I'm Yuwei Zhang. Let me show you.
 
-For the TOPx HHS Cost of Illness challenge, our goal is to make the hidden burden before diagnosis visible. This working pilot website connects practical help for patients with evidence for community planning.
+For the TOPx HHS Cost of Illness challenge, PathwayAI looks beyond the medical bill. It helps patients prepare for care and helps county and community teams identify practical support priorities.
 
-Reducing burden starts before a bite—with informed choices and prevention. After a bite, people need timely advice and a way into care.
+The pathway starts before a bite, with prevention. After a bite, it explains removal and when to seek medical advice.
 
-Early treatment can help prevent Lyme disease from spreading and reduce serious complications. Practical support can help people reach that care. Reducing disability and future costs is our goal, not a result we have demonstrated.
+But knowing you need care is only the beginning.
 
 What if you don't have insurance?
 
-Here, you can find community health centers serving uninsured patients, ask about income-based fees, and explore coverage or hospital financial assistance.
+Here, people can find community health centers serving uninsured patients, ask about income-based fees, and explore coverage or hospital financial assistance. Care is not automatically free, but there is a place to start. No story is required to use these resources.
 
-Care is not automatically free. But you have a starting point, without sharing a story with PathwayAI.
+What if you struggle to explain what happened?
 
-Now imagine someone feeling unwell and preparing for an appointment. This example is fictional.
+On both the tick-bite and care pages, people can enter notes in their preferred language. With permission, AI translates and organizes them into an English visit summary, shown alongside the original.
 
-Write rough notes about symptoms, dates, tests, and questions. PathwayAI helps organize them into a summary you can check, download, and bring to different clinicians.
+The person can review, correct, and download it. They can also prepare a request for a qualified interpreter.
 
-Optional AI helps organize your words. The basic organizer works without external AI.
+This is preparation for a conversation, not a replacement for medical interpretation. Our aim is to make communication easier, so language is less likely to stand between someone and care.
 
-A clear record can make it easier to explain what happened across appointments.
+Now imagine a person preparing for an appointment. This example is fictional.
 
-Here, the person paid two hundred twenty-five dollars for care and travel. They missed three workdays. A caregiver contributed eight hours.
+They describe possible exposure, a tick encounter, symptoms that began two weeks later, and a blood test they report was positive.
 
-The burden is more than a medical bill. It includes travel, missed work, and unpaid care.
+The summary keeps that sequence visible. It separates symptom onset from diagnosis timing, preserves reported test results, and leaves unknown information unknown.
 
-We keep these separate. Unknown answers stay unknown.
+A clinician still needs the original test report and a clinical assessment. The patient brings a clearer account they can reuse across appointments.
 
-The person can also prepare a support request about transport eligibility, cost, booking, and the return trip.
+Now look at the burden around that care.
 
-For example, Dutchess older adults without Medicaid can ask the Office for the Aging about medical-ride registration and availability.
+This person paid two hundred twenty-five dollars for care and travel. They missed three workdays. A caregiver contributed eight hours.
 
-Now we step back—from one household to the community.
+Money paid. Time lost. Help needed.
 
-Public data for Dutchess and Orange counties show reported Lyme disease, population context, and healthcare resources.
+PathwayAI keeps those measures separate. Someone facing a bill can record the balance and prepare assistance questions. Someone needing transport can prepare questions about eligibility, cost, booking, and the return trip.
 
-Published cost research illustrates possible burden. Sources and assumptions stay visible. These are planning scenarios, not measured county spending or estimates of the full pre-diagnosis burden.
+For community teams, these experiences raise a practical question: Where could support make a difference?
 
-What could a community do next?
+The app brings together public county evidence, published cost research, and transparent planning scenarios. Dutchess and Orange provide the starting comparison.
 
-Patients and partners could review transport, affordable care, and navigation barriers, then choose a feasible response.
+These illustrations show possible scale, not measured county spending or the full long-term burden.
 
-But identifying a gap does not create funding.
+A planning brief helps partners discuss existing services, staffing, costs, and possible funding. Identifying a gap does not create resources, so the response must be feasible.
 
-The planning brief helps discuss capacity, staffing, costs, and possible funding sources. It could inform a county budget discussion or grant proposal.
+Then follow up: Did people reach care? Did assistance come through? Who still needs help?
 
-Then ask: Did people reach care? Did assistance come through? Who still needs help?
+Shared patient-report collection is currently off. A future consented pilot would need secure follow-up to understand how burdens change over time.
 
-These invented records show how comparable reports could reveal recurring needs. Shared collection is off. A real pilot needs consent, privacy protections, and accessible participation. Voluntary reports cannot represent everyone.
+AI helps people communicate. Transparent calculations explain costs. Patients and community partners decide what matters.
 
-AI can organize information—but people decide what matters.
-
-Data can reveal patterns—but patients help us understand them.
-
-Our aim is more coordinated, patient-centered care and better-informed community action, with less avoidable disruption and potentially lower costs.
+Early treatment can help prevent serious complications. PathwayAI aims to help people reach care and support sooner. Reduced delays, disability, and costs remain outcomes we need to evaluate.
 
 That is PathwayAI: Full Economic Burden.
 

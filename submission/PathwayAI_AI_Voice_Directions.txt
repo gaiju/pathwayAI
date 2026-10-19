@@ -1,0 +1,30 @@
+Use these as voice directions, not spoken narration. Put the separate clean script in the narration/text field.
+
+Speak in clear, simple English with warmth, conviction and natural variation. Sound like a thoughtful person explaining why this work matters. Use restrained passion, not an advertising voice.
+
+Opening: reflective and personal. Let "Then it became personal" land. Avoid exaggerated sadness.
+
+Problem: sound concerned but purposeful. Read the fictional example calmly and clearly. Do not make it sound like an actual patient's testimonial.
+
+Walkthrough: become slightly brighter and more conversational at "Now let me show you the pathway." Sound helpful when asking "Without insurance, where do you start?"
+
+Slow slightly for: "Review it, correct it, and download it." Emphasize "The patient remains at the center" with a short natural pause before it.
+
+Community: sound practical and collaborative. Give the questions about appointments and support a questioning intonation. Do not sound as if the app has proven savings or county adoption.
+
+Evidence: give the source names and figures clearly, with a neutral, confident tone. Read limitations naturally. Never exaggerate clinical benefits.
+
+Closing: sound hopeful and inviting. Make the request for partners clear. End with sincere thanks.
+
+Aim initially for about 135–140 words per minute. Listen to the actual output. Do not rush to meet the time limit; shorten wording if needed.
+
+Pronunciation: PathwayAI = "Pathway A I"; Lyme = "lime"; Dutchess = "Duchess"; Orange is the New York county. Read CDC, CMS, AI and HRSA as letters if needed. CDC PLACES = "C D C Places." Keep Yuwei Zhang's name in the script and confirm the preferred pronunciation with the presenter.
+
+Three chapter cards: black background, large white text, three seconds each. The titles are visual only and must not be spoken:
+1. THE PROBLEM — before "The burden starts before a diagnosis."
+2. UNDERSTANDING THE HIDDEN BURDEN — before "Here is a fictional example."
+3. FROM INFORMATION TO ACTION — before "Now let me show you the pathway."
+
+Allow a brief breath before the clinical example beginning "Next, prepare for a visit" and before the county-pilot example. These are not extra chapter cards.
+
+Never read stage directions, headings, timestamps, filenames, URLs in editing notes, or XML tags aloud. Do not add or rewrite factual claims.

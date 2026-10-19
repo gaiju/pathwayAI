@@ -42,7 +42,7 @@ For example: could a small care-navigation pilot help uninsured residents reach 
 
 The app does not provide rides, approve assistance, or create funding. Those steps need partners and resources.
 
-Our planning users are county and community teams. Patients and caregivers use the preparation tools directly.
+Patients and caregivers can use these tools today. We are seeking county and community partners for a future pilot.
 
 People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback highlighted confusing choices, reading difficulty, and unclear next steps. We moved the reading choice earlier, shortened instructions, and grouped extra help into sections people can open when needed.
 

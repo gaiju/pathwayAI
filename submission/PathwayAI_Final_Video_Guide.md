@@ -2,7 +2,7 @@
 
 Place your original JPG cover first and hold it for 40 seconds. This deck contains the remaining 13 screens: ten content images and three silent title cards. There are 11 main images including your cover, plus three title cards, for 14 screens total.
 
-Target: 4:45 including nine seconds of silent title cards. The narration has 630 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
+Target: 4:45 including nine seconds of silent title cards. The narration has 633 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
 
 ## Organizer requirements
 
@@ -38,8 +38,8 @@ The template asks for a finalized launch plan. The current public pilot is live;
 | 9 | 1:57–2:11 | FROM INFORMATION TO ACTION | Care & Support |
 | 10 | 2:11–2:32 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
 | 11 | 2:32–2:54 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
-| 12 | 2:54–3:28 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
-| 13 | 3:28–4:01 | FROM INFORMATION TO ACTION | Across the app |
+| 12 | 2:54–3:27 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
+| 13 | 3:27–4:01 | FROM INFORMATION TO ACTION | Across the app |
 | 14 | 4:01–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
 
 ## Spoken sections for video editing only
@@ -110,7 +110,7 @@ The app does not provide rides, approve assistance, or create funding. Those ste
 
 ### Screen 13
 
-Our planning users are county and community teams. Patients and caregivers use the preparation tools directly.
+Patients and caregivers can use these tools today. We are seeking county and community partners for a future pilot.
 
 People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback highlighted confusing choices, reading difficulty, and unclear next steps. We moved the reading choice earlier, shortened instructions, and grouped extra help into sections people can open when needed.
 

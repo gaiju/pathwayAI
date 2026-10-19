@@ -1,0 +1,36 @@
+FICTIONAL DEMO — NOT A REAL PATIENT RECORD
+
+PathwayAI | Appointment and burden summary
+Personal record for review; not a diagnosis or prediction.
+REPORTED BY: Myself
+
+STORY
+I found a tick in Dutchess County, New York, in June. Two weeks later I developed a rash and fever. My blood test was positive. It took four months to get a diagnosis. In the past 30 days, I paid $180 for medical care and $45 for travel. I missed 3 workdays. My unpaid caregiver spent 8 hours helping me. I need help with medical bills.
+
+STRUCTURED JOURNEY
+Exposure: Not reported
+Duration: 2 weeks
+Symptoms: fever, rash
+Professionals seen: Not reported
+
+OPTIONAL TICK OBSERVATION (PATIENT-REPORTED, UNVERIFIED)
+When found: Not reported
+Where found: Not reported
+Current care location: Not reported
+
+QUESTION FOR MY CLINICIAN
+Not reported
+
+BURDEN
+Period: Past 30 days
+Phase: Both before and after diagnosis
+Medical out-of-pocket: $180.00
+Other out-of-pocket: $45.00
+Modeled work-loss value: Not reported
+Recorded patient-paid spending: $225.00
+Missed workdays: 3
+Caregiver hours: 8
+Main barrier: Not reported
+Modeled work loss = missed workdays × chosen value/day; not added to out-of-pocket.
+
+These are your reported amounts for the stated period, not a comparison with study averages.

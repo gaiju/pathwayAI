@@ -1,0 +1,29 @@
+FICTIONAL DEMO — NOT A REAL PATIENT RECORD
+
+PathwayAI | My visit summary
+Reported by: Myself
+Patient/caregiver statements for review; not a diagnosis or test interpretation.
+
+EXPOSURE AND CARE TIMELINE
+Possible exposure: place and date: June
+Tick bite: what you observed: I found a tick in Dutchess County, New York, in June.
+When the tick was found or removed: I found a tick in Dutchess County, New York, in June.
+When symptoms began / time after exposure: Two weeks later I developed a rash and fever.
+Rash or skin changes: appearance and timing: Two weeks later I developed a rash and fever.
+Symptoms and how long they lasted: Two weeks later I developed a rash and fever.
+Tests: name, date and reported result: My blood test was positive.
+Diagnosis date or delay, if reported: It took four months to get a diagnosis.
+Care received and clinicians seen: Not reported
+
+QUESTIONS TO CLARIFY
+- Are symptom duration and time to diagnosis different? Confirm what each time period describes.
+- Confirm missing dates, tick/removal details and rash timing; not reported does not mean No.
+- Bring the original laboratory report to confirm the test name, date and result.
+
+MY QUESTIONS AND CORRECTIONS
+Add your questions or corrections here.
+
+MY ORIGINAL NOTES (FOR CROSS-CHECKING)
+I found a tick in Dutchess County, New York, in June. Two weeks later I developed a rash and fever. My blood test was positive. It took four months to get a diagnosis. In the past 30 days, I paid $180 for medical care and $45 for travel. I missed 3 workdays. My unpaid caregiver spent 8 hours helping me. I need help with medical bills.
+
+Bring a medication list if available. No dates or clinical conclusions have been inferred.

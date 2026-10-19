@@ -2667,21 +2667,28 @@ def show_visit_organizer():
     st.session_state["saved_notes_language"] = language
     if language in AIDS:
         st.write(AIDS[language][0])
-    st.write("In two or three sentences, tell us:")
-    if reporter_role == REPORTERS[2]:
-        st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
+    if simple_reading_view():
+        st.write("Make a note for your visit. A few words are enough. Skip anything you do not know.")
+        if reporter_role == REPORTERS[2]:
+            st.markdown("1. Where and when did it happen?\n2. What symptoms have you observed? When did they start?\n3. Any tick bite, rash, tests or treatment? Include test results if known.\n4. What help does the person need now?")
+        else:
+            st.markdown("1. Where and when did it happen?\n2. What symptoms have you had? When did they start?\n3. Any tick bite, rash, tests or treatment? Include test results if known.\n4. What help do you need now?")
     else:
-        st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
-    st.write("Short notes are fine. Write in your preferred language. For non-English notes, optional AI can translate and organize an English summary. You can skip this tool.")
+        st.write("In two or three sentences, tell us:")
+        if reporter_role == REPORTERS[2]:
+            st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
+        else:
+            st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
+        st.write("Short notes are fine. Write in your preferred language. For non-English notes, optional AI can translate and organize an English summary. You can skip this tool.")
     st.write("Please leave out names, contact details and other identifying information.")
 
     if "quick_story_value" not in st.session_state:
         st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
 
     quick_story = st.text_area(
-        "Your story, in your own words",
+        "Your notes" if simple_reading_view() else "Your story, in your own words",
         key="quick_story_value",
-        placeholder="Place and time. Symptoms and how long. Care so far and help needed.",
+        placeholder="Write what you know. You do not need to write a full story.",
         height=140,
         max_chars=MAX_STORY_CHARS,
     )
@@ -2689,9 +2696,9 @@ def show_visit_organizer():
 
     st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
     if language == "English":
-        with st.expander("AI assistance and privacy"):
+        with st.expander("Optional AI help and privacy"):
             use_story_ai = st.checkbox("Use external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")
-            st.write("You can organize your story with the app’s local rules or choose external AI. Review the result before sharing.")
+            st.write("AI is off unless you choose it. You can make an English visit note without AI. Check the note before sharing.")
         page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
         if use_story_ai:
             page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
@@ -2751,7 +2758,7 @@ def show_visit_organizer():
             st.success("Your visit summary is ready to review.")
             show_visit_summary(quick_story, quick)
         elif quick_story.strip():
-            st.write("Select Organize My Story to create or update your visit summary, or continue with your own words.")
+            st.write("Select Organize My Story to make your visit note. You can check and change it before sharing.")
 
     else:
         result = show_bilingual_organizer(quick_story, language, reporter_role, translate_visit_notes)
@@ -3468,10 +3475,10 @@ if not st.session_state.get("pathway_open", False):
         st.subheader("Make patient voices count. Make community needs visible.")
         st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
         st.write("Prepare for care, make hidden burdens visible, and explore community support actions—with patients and caregivers at the center.")
-if st.session_state.get("pathway_open", False):
-    st.radio("How much information would you like?", ["Short and simple", "More detail"],
-             key="reading_mode", horizontal=True,
-             help="Choose what works for you today. You can switch any time; your entries stay the same.")
+st.radio("What works for you today?", ["Short and simple", "More detail"],
+         key="reading_mode", horizontal=True,
+         format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
+         help="Start with fewer words. Switch any time. Your notes and amounts stay the same.")
 
 
 if view == "🌱 What’s next":
@@ -3506,18 +3513,16 @@ if not st.session_state.get("pathway_open", False):
                 with col:
                     st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                     st.write(detail)
-    st.radio("How much information would you like?", ["Short and simple", "More detail"],
-             key="reading_mode", horizontal=True,
-             help="Choose what works for you today. You can switch any time; your entries stay the same.")
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
-    estimated, reported = st.columns(2)
-    estimated.metric("Estimated diagnoses and treatment / year · U.S.", "476,000")
-    reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
-    societal, participant_cost = st.columns(2)
-    societal.metric("Annual U.S. societal cost of diagnosed Lyme · 2016 dollars", "$345–968M")
-    participant_cost.metric("Average societal cost per Lyme study participant · 2016 dollars", "$2,032")
-    st.caption("Different populations and periods; do not add these figures. Published costs are not personal predictions or measured county spending. See Evidence and limits below.")
+    with st.expander("See national Lyme and cost figures", expanded=not simple_reading_view()):
+        estimated, reported = st.columns(2)
+        estimated.metric("Estimated diagnoses and treatment / year · U.S.", "476,000")
+        reported.metric("Reported Lyme cases · U.S., 2022", "62,551")
+        societal, participant_cost = st.columns(2)
+        societal.metric("Annual U.S. societal cost of diagnosed Lyme · 2016 dollars", "$345–968M")
+        participant_cost.metric("Average societal cost per Lyme study participant · 2016 dollars", "$2,032")
+        st.caption("Different populations and periods; do not add these figures. Published costs are not personal predictions or measured county spending. See Evidence and limits below.")
     with st.expander("About PathwayAI"):
         st.write("Prepare for outdoor activities, respond to a tick bite, organize information for care, or explore possible community support actions.")
         st.write("Visit summaries, cost-and-time records, support requests and evidence downloads work now. Personal entries stay in the current session; download your reviewed record to keep it.")
@@ -3595,15 +3600,16 @@ if view == "🧠 Research & Strategy Agent":
 
 if view == "🩹 Tick Bite: What Next?":
     st.header("🩹 I've Been Bitten by a Tick — What Next?")
-    show_photo116("tick_leaf", "Sunlight filtering through green forest trees")
+    if not simple_reading_view():
+        show_photo116("tick_leaf", "Sunlight filtering through green forest trees")
     st.write("Remove an attached tick. Record when and where you found it. Know when to seek care.")
     page_note("A tick bite does not always cause illness. The steps below support prevention and care preparation.")
     st.subheader("1. Remove the tick")
-    st.write("If the tick is attached, use clean, fine-tipped tweezers. Grasp it close to the skin and pull upward with steady pressure. Clean the bite area and your hands. Do not burn the tick or cover it with oil or petroleum jelly.")
+    st.write("Use clean, fine-tipped tweezers. Hold the tick close to the skin. Pull straight up with steady pressure. Clean the bite area and your hands. Do not burn the tick or cover it with oil or petroleum jelly.")
     st.subheader("2. Note when and where it happened")
-    st.write("Write down the date and place of the bite. Watch for a new rash, fever, fatigue, or other symptoms in the following days and weeks. A Lyme rash does not always look like a bull's-eye.")
+    st.write("Write down the date and place. Watch for a new rash, fever, feeling very tired, or other symptoms over the next days and weeks. A Lyme rash does not always look like a bull's-eye.")
     st.subheader("3. Know when to get medical advice")
-    st.write("Contact a healthcare professional promptly if symptoms develop. After some high-risk bites, preventive antibiotics may be appropriate if started within 72 hours of tick removal; a clinician can assess whether this applies. Do not wait for symptoms if you need advice about prevention after a recent bite.")
+    st.write("Contact a clinician promptly if symptoms develop. After some bites, antibiotics may help prevent Lyme if started within 72 hours of tick removal. Ask a clinician promptly whether this applies. Do not wait for symptoms to ask. Not every bite needs antibiotics.")
     st.markdown("[CDC: What to Do After a Tick Bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html) · [CDC: Signs and Symptoms of Lyme Disease](https://www.cdc.gov/lyme/signs-symptoms/index.html)")
     st.info(EMERGENCY_REMINDER)
     st.write("Need help finding care, paying for it, or preparing for a visit?")
@@ -4418,11 +4424,14 @@ if view == "📊 Community Burden & Action":
     st.stop()
 
 st.header("Care & Support")
-show_photo116("river", "Peaceful lake surrounded by green trees")
-st.write("Turn your story into a visit summary. Keep costs and time in one record. Find support that fits your needs.")
+if not simple_reading_view():
+    show_photo116("river", "Peaceful lake surrounded by green trees")
+st.write("Make a note for your visit. Track money and time. Find help.")
 show_timely_care(select_public_pathway)
-show_care_access()
-show_transport_help(SUPPORT89["Transportation / distance"])
+with st.expander("Find care or help with bills", expanded=not simple_reading_view()):
+    show_care_access()
+with st.expander("Need a ride to care?", expanded=not simple_reading_view()):
+    show_transport_help(SUPPORT89["Transportation / distance"])
 page_note("PathwayAI is a working pilot web app. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST

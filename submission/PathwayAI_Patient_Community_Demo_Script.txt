@@ -4,58 +4,50 @@ Then it became personal.
 
 After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
 
-For immigrants like my husband, language can add another barrier: understanding tests, asking about bills, and explaining symptoms.
+For immigrants like my husband, language can make it harder to understand tests, discuss bills, and explain symptoms.
 
-I built PathwayAI to help people prepare for care and make these hidden burdens visible.
+I'm Yuwei Zhang. That experience led me to build PathwayAI.
 
-I'm Yuwei Zhang. Let me show you.
+The burden starts before a diagnosis. It includes uncertainty, finding care, missed work, and help from family. Patients need a next step. Communities need to understand what is missing.
 
-PathwayAI follows the whole journey. Before a bite, people can prepare for time outdoors. After a bite, they can find removal steps and time-sensitive care guidance.
+Here is a fictional example. A person records two hundred twenty-five dollars in care and travel payments, three missed workdays, and eight hours of unpaid help.
 
-But knowing you need care is only the beginning.
+These stay separate. Unknown information stays unknown. Repeated records could show how the burden changes over time.
 
-Without insurance, where do you start? Here are community health centers, income-based fee questions, coverage resources, and hospital financial-assistance information. Care is not automatically free, but people have a practical next step.
+At community level, we compare Dutchess and Orange counties using public data and published research. Federal sources include CDC surveillance, Census, HRSA, and CDC PLACES. New York surveillance adds local context.
 
-Now imagine someone preparing for an appointment. This example is fictional.
+County cost figures are illustrations based on study averages, not measured county spending or personal bills.
 
-They describe a tick encounter, symptoms two weeks later, and a blood test they report was positive. PathwayAI organizes a timeline they can review, correct, and download. Symptom onset and diagnosis timing stay separate. The clinician still needs the original test report. A reviewed record can help someone explain their experience across appointments, without starting from the beginning each time.
+Now let me show you what people can do.
 
-People can write in their preferred language. With permission, optional AI translates and organizes an English summary alongside the original. It supports preparation, not professional medical interpretation. The basic English organizer works without external AI.
+Before a bite, find prevention information. After a bite, find removal steps and time-sensitive advice. A clinician decides whether preventive treatment is appropriate.
 
-The value is bringing these pieces into one usable workflow, rather than asking people to navigate every source separately.
+If you lack insurance, start with community health centers and questions about income-based fees. Find coverage and hospital financial-assistance resources. Care is not automatically free, but there is a place to start.
 
-Now look beyond the visit. This person paid two hundred twenty-five dollars for care and travel, missed three workdays, and received eight hours of unpaid help.
+Next, prepare for a visit. Our fictional patient describes a tick encounter, symptoms two weeks later, and a blood test they report was positive.
 
-Money, work, and caregiving stay separate. Unknown answers stay unknown.
+PathwayAI organizes these into a timeline. Symptom onset and time to diagnosis stay separate. The person can review, correct, and download the summary. The clinician still needs the original test report.
 
-They can prepare a request about transport eligibility, cost, booking, and the return trip. Someone facing a bill can record the unpaid balance and prepare assistance questions.
+People can write in their preferred language. With permission, optional AI organizes and translates an English summary beside the original. People review both before sharing. It does not replace a qualified medical interpreter. The basic English organizer also works without external AI.
 
-Now we move from one household to the community.
+AI helps organize words. Arithmetic calculates costs. The patient remains at the center.
 
-Dutchess and Orange county evidence and published cost research provide context. The county cost illustration is a scenario, not measured spending.
+Patients can also prepare questions about bills or transport eligibility, cost, and booking.
 
-The downloadable planning brief helps partners discuss a practical response, staffing, funding, and what to track: Did people reach care? Did assistance come through? Who still needs help?
+For county and community teams, the planning brief connects a barrier with a possible response, responsible partners, funding needs, and follow-up. Did someone reach care? Did support arrive? The app cannot provide rides, approve assistance, or create funding.
 
-Early treatment can prevent serious complications; reducing delays, disruption, and costs is the goal we will evaluate.
+Our main planning users are county and community teams. Patients and caregivers use the preparation tools directly.
 
-Our main planning users are county public-health and community teams. Patients and caregivers receive preparation tools directly. Dutchess and Orange are our evidence examples, not committed county partners.
+People living with Lyme disease and a county health commissioner reviewed the working app. Feedback highlighted confusing choices, reading difficulty, and the need for practical next steps. It has guided improvements and our next round of simpler flows.
 
-Federal sources include CDC surveillance, Census population context, HRSA healthcare resources, and CDC PLACES. New York surveillance and published research add separate evidence. AI organizes language; arithmetic calculates costs.
+Sixty-four automated tests passed. These check software behavior. They do not establish clinical accuracy, better access, or savings. Those outcomes need evaluation.
 
-Advocate discussions highlighted unpaid care and daily difficulties. External public-health feedback pushed us to make practical next steps clearer. We improved summaries, language assistance, bill preparation, and transport guidance.
+The pilot is live on Streamlit. Next, I plan a small pilot with willing patient groups, health centers, and care navigators. We will test usefulness, verify resources, and follow support connections.
 
-Sixty-four automated tests passed. These verify software behavior. Formal usability studies, clinical translation accuracy, improved access, and savings remain to be evaluated.
+Free patient access supported by grants and community partners is the proposed model. Funding is not secured. Shared patient-report collection stays off until consent and secure storage are ready.
 
-The pilot web app is already available on Streamlit.
+Longer-term records are the next research goal. We are seeking partners to help.
 
-My proposed next step is a small pilot recruited through willing patient groups, health centers, and care navigators. Shared patient-report collection stays off until consent, secure storage, and follow-up are ready.
+PathwayAI: Full Economic Burden. Making the hidden patient journey visible, and actionable.
 
-The proposed sustainability model is free patient access supported by grants and community partnerships to cover hosting and AI costs. That funding is not yet secured.
-
-Next, we will test usefulness, verify resources, and evaluate support connections before expanding. Over time, repeated records could help us study longer-term burden.
-
-We are seeking patients, caregivers, clinicians, and community partners to help.
-
-PathwayAI: Full Economic Burden. Making the Hidden Patient Journey Visible.
-
-Thank you.
+Thank you to the patients and experts helping shape it.

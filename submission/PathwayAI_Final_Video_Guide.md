@@ -2,7 +2,7 @@
 
 Place your original JPG cover first and hold it for 40 seconds. This deck contains the remaining 13 screens: ten content images and three silent title cards. There are 11 main images including your cover, plus three title cards, for 14 screens total.
 
-Target: 4:45 including nine seconds of silent title cards. The narration has 640 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
+Target: 4:45 including nine seconds of silent title cards. The narration has 625 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
 
 ## Organizer requirements
 
@@ -29,18 +29,18 @@ The template asks for a finalized launch plan. The current public pilot is live;
 |---|---|---|---|
 | 1 | 0:00–0:40 | Original JPG cover | Add your own file |
 | 2 | 0:40–0:43 | THE PROBLEM (silent title) |  |
-| 3 | 0:43–0:56 | THE PROBLEM | Start page |
-| 4 | 0:56–0:59 | UNDERSTANDING THE HIDDEN BURDEN (silent title) |  |
-| 5 | 0:59–1:16 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
-| 6 | 1:16–1:40 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
-| 7 | 1:40–1:43 | FROM INFORMATION TO ACTION (silent title) |  |
-| 8 | 1:43–2:03 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
-| 9 | 2:03–2:19 | FROM INFORMATION TO ACTION | Care & Support |
-| 10 | 2:19–2:39 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
-| 11 | 2:39–3:01 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
-| 12 | 3:01–3:35 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
-| 13 | 3:35–4:03 | FROM INFORMATION TO ACTION | Across the app |
-| 14 | 4:03–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
+| 3 | 0:43–1:04 | THE PROBLEM | Start page |
+| 4 | 1:04–1:07 | UNDERSTANDING THE HIDDEN BURDEN (silent title) |  |
+| 5 | 1:07–1:25 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
+| 6 | 1:25–1:50 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
+| 7 | 1:50–1:53 | FROM INFORMATION TO ACTION (silent title) |  |
+| 8 | 1:53–2:05 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
+| 9 | 2:05–2:20 | FROM INFORMATION TO ACTION | Care & Support |
+| 10 | 2:20–2:41 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
+| 11 | 2:41–3:05 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
+| 12 | 3:05–3:40 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
+| 13 | 3:40–4:04 | FROM INFORMATION TO ACTION | Across the app |
+| 14 | 4:04–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
 
 ## Spoken sections for video editing only
 
@@ -62,6 +62,8 @@ I'm Yuwei Zhang. That experience led me to build PathwayAI.
 
 The burden starts before a diagnosis. Finding care, missing work, arranging transport, and relying on family all take a toll. PathwayAI connects practical patient tools with evidence for community action.
 
+Choose Quick and easy. Short prompts help on difficult days. Switch to More detail and keep your notes.
+
 ### Screen 5
 
 Here is a fictional example. Someone paid two hundred twenty-five dollars for care and travel, missed three workdays, and needed eight hours of unpaid help.
@@ -72,19 +74,17 @@ One record shows money, missed work, and unpaid help, ready for a care or suppor
 
 We compare Dutchess and Orange using CDC disease surveillance and community health estimates, Census, HRSA, CMS, New York surveillance, and published research. Together, they connect reported disease, community needs, healthcare resources, and spending context.
 
-Each source answers a different question. Lyme cost illustrations and Medicare payments are clearly separated from personal bills and measured county Lyme spending.
+Each source answers a different question. Published Lyme cost illustrations support planning scenarios. CMS adds general Medicare context. Personal records show each family’s own experience.
 
 ### Screen 8
 
 Now let me show you the pathway.
 
-Choose Quick and easy. Short prompts help on difficult days. Switch to More detail without losing your notes.
-
 Plan a safer outdoor visit. If you find an attached tick, get clear removal steps and advice on when to seek care.
 
 ### Screen 9
 
-Without insurance, where do you start? PathwayAI links to community health centers and helps people ask about income-based fees, coverage, and hospital financial assistance. Care is not automatically free; the tool gives people a practical place to begin.
+Without insurance, where do you start? PathwayAI links to community health centers and helps people ask about income-based fees, coverage, and hospital financial assistance. Patients leave with practical questions for the clinic or billing office.
 
 ### Screen 10
 
@@ -94,9 +94,9 @@ The editable timeline keeps important clues easy to find. Symptom onset and diag
 
 ### Screen 11
 
-People can write in their preferred language. With permission, optional AI organizes and translates an English summary beside the original for review. It supports preparation and does not replace a qualified medical interpreter.
+People can write in their preferred language. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
 
-English notes also work without external AI. AI organizes language. Arithmetic calculates costs. The patient remains at the center.
+The basic English organizer is available with AI switched off. AI organizes language. Arithmetic calculates costs. The patient remains at the center.
 
 ### Screen 12
 
@@ -112,15 +112,15 @@ Partners get a concrete proposal to assess against local capacity and funding.
 
 Patients and caregivers can use these tools today. We are seeking county partners to test the planning value.
 
-People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback led to earlier reading choices, shorter instructions, and clearer next steps. Sixty-eight automated tests passed. Patient reviews guide usability; software tests check behavior. Clinical accuracy, improved access, and savings still need evaluation.
+People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback led to earlier reading choices, shorter instructions, and clearer next steps. Sixty-eight automated tests passed. Patient reviews guide usability; software tests check behavior.
 
 ### Screen 14
 
 The pilot is available on Streamlit. Our next step is a small pilot recruited through willing patient groups, health centers, and care navigators.
 
-We propose free patient access supported by grants and community partnerships. Funding is not yet secured.
+Our proposed model keeps patient access free through grants and community partnerships.
 
-We will test usefulness, verify resources, and follow support connections. Shared patient-report collection remains off until consent and secure storage are ready. Longer-term records could help reveal burden that single visits miss.
+We will test usefulness, verify resources, and follow support connections. Future research, with consent and secure storage, could use longer-term records to reveal burden that single visits miss.
 
 We welcome partners to help turn patient experience into practical support.
 

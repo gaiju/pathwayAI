@@ -1,9 +1,12 @@
+[calm]
 As a pathologist, I studied disease through a microscope. As an epidemiologist, I studied patterns across communities.
 
+[sad]
 Then it became personal.
 
 After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
 
+[calm]
 For immigrants like my husband, language can make tests, bills, and medical visits harder to understand.
 
 I'm Yuwei Zhang. That experience led me to build PathwayAI.
@@ -23,8 +26,10 @@ We compare Dutchess and Orange using CDC disease surveillance and community heal
 Each source answers a different question. Published Lyme cost illustrations support planning scenarios. CMS adds general Medicare context. Personal records show each family’s own experience.
 
 [long pause]
+[excited]
 Now let me show you the pathway.
 
+[calm]
 Plan a safer outdoor visit. If you find an attached tick, get clear removal steps and advice on when to seek care.
 
 Without insurance, where do you start? PathwayAI links to community health centers and helps people ask about income-based fees, coverage, and hospital financial assistance. Patients leave with practical questions for the clinic or billing office.
@@ -34,7 +39,7 @@ Next, prepare for a visit. Our fictional patient describes a tick encounter, sym
 
 The editable timeline keeps important clues easy to find. Symptom onset and diagnosis delay remain separate. Review, correct, download, and bring the original test report.
 
-People can write in their preferred language. Orange County has a higher share of residents speaking another language at home than Dutchess. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
+People can write in the language they feel most comfortable using. This could be especially helpful in communities like Orange County, where many residents speak a language other than English at home. With permission, optional AI organizes and translates an English summary beside the original for review.
 
 The basic English organizer is available with AI switched off. AI organizes language. Arithmetic calculates costs. The patient remains at the center.
 
@@ -57,6 +62,7 @@ Our proposed model keeps patient access free through grants and community partne
 
 We will test usefulness, verify resources, and follow support connections. Future research, with consent and secure storage, could use longer-term records to reveal burden that single visits miss.
 
+[happy]
 We welcome partners to help turn patient experience into practical support.
 
 PathwayAI: Full Economic Burden. Making the hidden patient journey visible, and actionable.

@@ -2,7 +2,7 @@
 
 Place your original JPG cover first and hold it for 40 seconds. This deck contains the remaining 13 screens: ten content images and three silent title cards. There are 11 main images including your cover, plus three title cards, for 14 screens total.
 
-Target: 4:45 including nine seconds of silent title cards. The narration has 640 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
+Target: 4:45 including nine seconds of silent title cards. The narration has 639 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
 
 ## Organizer requirements
 
@@ -94,7 +94,7 @@ The editable timeline keeps important clues easy to find. Symptom onset and diag
 
 ### Screen 11
 
-People can write in their preferred language. Orange County has a higher share of residents speaking another language at home than Dutchess. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
+People can write in the language they feel most comfortable using. This could be especially helpful in communities like Orange County, where many residents speak a language other than English at home. With permission, optional AI organizes and translates an English summary beside the original for review.
 
 The basic English organizer is available with AI switched off. AI organizes language. Arithmetic calculates costs. The patient remains at the center.
 

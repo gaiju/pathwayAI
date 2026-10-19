@@ -91,7 +91,7 @@ def show_sources_and_acknowledgements():
 - [Wendy Phillips](https://www.linkedin.com/in/wendyphillips8/) — Lyme Treatment Foundation
 - [Maria Malaguti](https://www.linkedin.com/in/maria-m-05011263/) — Lyme Disease Resource Center, Inc.
 - [Bernadette Clavier](https://www.linkedin.com/in/bernadetteclavier) — Clos Clavier
-- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Physician
+- [Tatiana Denning, D.O.](https://www.linkedin.com/in/tatiana-denning-d-o-9768ab13) — Family Medicine
 - **Ming-Hui Chou, MD, PhD** — Wholesomeship Clinic, Tainan, Taiwan
 - **Lun-Hsiang Yuan, MD, PhD** — National Taiwan University Hospital, Yunlin Branch
 """)

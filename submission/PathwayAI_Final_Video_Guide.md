@@ -2,7 +2,7 @@
 
 Place your original JPG cover first and hold it for 40 seconds. This deck contains the remaining 13 screens: ten content images and three silent title cards. There are 11 main images including your cover, plus three title cards, for 14 screens total.
 
-Target: 4:45 including nine seconds of silent title cards. The narration has 625 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
+Target: 4:45 including nine seconds of silent title cards. The narration has 640 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
 
 ## Organizer requirements
 
@@ -29,18 +29,18 @@ The template asks for a finalized launch plan. The current public pilot is live;
 |---|---|---|---|
 | 1 | 0:00–0:40 | Original JPG cover | Add your own file |
 | 2 | 0:40–0:43 | THE PROBLEM (silent title) |  |
-| 3 | 0:43–1:04 | THE PROBLEM | Start page |
-| 4 | 1:04–1:07 | UNDERSTANDING THE HIDDEN BURDEN (silent title) |  |
-| 5 | 1:07–1:25 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
-| 6 | 1:25–1:50 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
-| 7 | 1:50–1:53 | FROM INFORMATION TO ACTION (silent title) |  |
-| 8 | 1:53–2:05 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
-| 9 | 2:05–2:20 | FROM INFORMATION TO ACTION | Care & Support |
-| 10 | 2:20–2:41 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
-| 11 | 2:41–3:05 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
-| 12 | 3:05–3:40 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
-| 13 | 3:40–4:04 | FROM INFORMATION TO ACTION | Across the app |
-| 14 | 4:04–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
+| 3 | 0:43–1:03 | THE PROBLEM | Start page |
+| 4 | 1:03–1:06 | UNDERSTANDING THE HIDDEN BURDEN (silent title) |  |
+| 5 | 1:06–1:23 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
+| 6 | 1:23–1:48 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
+| 7 | 1:48–1:51 | FROM INFORMATION TO ACTION (silent title) |  |
+| 8 | 1:51–2:03 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
+| 9 | 2:03–2:18 | FROM INFORMATION TO ACTION | Care & Support |
+| 10 | 2:18–2:38 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
+| 11 | 2:38–3:07 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
+| 12 | 3:07–3:41 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
+| 13 | 3:41–4:05 | FROM INFORMATION TO ACTION | Across the app |
+| 14 | 4:05–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
 
 ## Spoken sections for video editing only
 
@@ -94,7 +94,7 @@ The editable timeline keeps important clues easy to find. Symptom onset and diag
 
 ### Screen 11
 
-People can write in their preferred language. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
+People can write in their preferred language. Orange County has a higher share of residents speaking another language at home than Dutchess. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
 
 The basic English organizer is available with AI switched off. AI organizes language. Arithmetic calculates costs. The patient remains at the center.
 

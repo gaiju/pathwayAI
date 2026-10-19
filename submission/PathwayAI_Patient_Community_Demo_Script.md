@@ -32,7 +32,7 @@ Next, prepare for a visit. Our fictional patient describes a tick encounter, sym
 
 The editable timeline keeps important clues easy to find. Symptom onset and diagnosis delay remain separate. Review, correct, download, and bring the original test report.
 
-People can write in their preferred language. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
+People can write in their preferred language. Orange County has a higher share of residents speaking another language at home than Dutchess. With permission, optional AI organizes and translates an English summary beside the original for review. This helps people prepare for a conversation with their healthcare team.
 
 The basic English organizer is available with AI switched off. AI organizes language. Arithmetic calculates costs. The patient remains at the center.
 

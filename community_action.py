@@ -106,7 +106,7 @@ def scenario_cost(trips, cost_per_trip):
 def show_community_action_pathway(simple=True):
     import streamlit as st
 
-    st.markdown("### Patient voices → community action")
+    st.markdown("### Patient Voices → Community Action")
     st.write("Look beyond bills: unpaid care, daily tasks, lost work, isolation and difficulty reaching support. People and caregivers help decide what matters.")
     st.write("**Reported needs → county context → action to evaluate → follow-up with participants.**")
     st.write("For county and community planners: choose one support decision to explore with patients and caregivers.")

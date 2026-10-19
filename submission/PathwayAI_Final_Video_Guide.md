@@ -29,18 +29,18 @@ The template asks for a finalized launch plan. The current public pilot is live;
 |---|---|---|---|
 | 1 | 0:00–0:40 | Original JPG cover | Add your own file |
 | 2 | 0:40–0:43 | THE PROBLEM (silent title) |  |
-| 3 | 0:43–1:03 | THE PROBLEM | Start page |
+| 3 | 0:43–1:03 | THE PROBLEM | Start Page |
 | 4 | 1:03–1:06 | UNDERSTANDING THE HIDDEN BURDEN (silent title) |  |
-| 5 | 1:06–1:23 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
-| 6 | 1:23–1:48 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
+| 5 | 1:06–1:23 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, Time and Support |
+| 6 | 1:23–1:48 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action → County Comparison |
 | 7 | 1:48–1:51 | FROM INFORMATION TO ACTION (silent title) |  |
 | 8 | 1:51–2:03 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
-| 9 | 2:03–2:18 | FROM INFORMATION TO ACTION | Care & Support |
-| 10 | 2:18–2:38 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
-| 11 | 2:38–3:07 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
-| 12 | 3:07–3:41 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
-| 13 | 3:41–4:05 | FROM INFORMATION TO ACTION | Across the app |
-| 14 | 4:05–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
+| 9 | 2:03–2:18 | FROM INFORMATION TO ACTION | Care & Support → Care Access |
+| 10 | 2:18–2:38 | FROM INFORMATION TO ACTION | Care & Support → Your Organized Visit Summary |
+| 11 | 2:38–3:07 | FROM INFORMATION TO ACTION | Tick Bite: What Next? / Care & Support → Preferred Language |
+| 12 | 3:07–3:41 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient Voices → Community Action |
+| 13 | 3:41–4:05 | FROM INFORMATION TO ACTION | Across the App → Users, Feedback and Testing |
+| 14 | 4:05–4:45 | FROM INFORMATION TO ACTION | Live Web App → What’s Next |
 
 ## Spoken sections for video editing only
 

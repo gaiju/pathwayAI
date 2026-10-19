@@ -904,7 +904,7 @@ def policy89():
             evidence89(include_survey=False)
     with st.expander("Partner with PathwayAI for healthier communities"):
         st.write("We’re seeking community groups, clinics and public-health partners to pilot consent-based reporting. Together, we can understand local costs and care barriers, identify support needs and test practical responses.")
-        st.markdown("[Discuss a community pilot](mailto:pathwyai.feedback@gmail.com?subject=PathwayAI%20community%20pilot)")
+        st.markdown("[Discuss a community pilot](mailto:pathwayai.feedback@gmail.com?subject=PathwayAI%20community%20pilot)")
         st.write("Use this email for pilot enquiries and general feedback. Keep personal health cards in the agreed private reporting process.")
         with st.expander("Community reporting details"):
             county = st.selectbox("County for consented community reports", ["Dutchess County, New York", "Orange County, New York"], key="voice_community_county")

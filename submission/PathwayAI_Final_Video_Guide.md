@@ -2,7 +2,7 @@
 
 Place your original JPG cover first and hold it for 40 seconds. This deck contains the remaining 13 screens: ten content images and three silent title cards. There are 11 main images including your cover, plus three title cards, for 14 screens total.
 
-Target: 4:45 including nine seconds of silent title cards. The narration has 639 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
+Target: 4:45 including nine seconds of silent title cards. The narration has 640 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
 
 ## Organizer requirements
 
@@ -34,13 +34,13 @@ The template asks for a finalized launch plan. The current public pilot is live;
 | 5 | 0:59–1:16 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
 | 6 | 1:16–1:40 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
 | 7 | 1:40–1:43 | FROM INFORMATION TO ACTION (silent title) |  |
-| 8 | 1:43–2:02 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
-| 9 | 2:02–2:18 | FROM INFORMATION TO ACTION | Care & Support |
-| 10 | 2:18–2:38 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
-| 11 | 2:38–3:00 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
-| 12 | 3:00–3:34 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
-| 13 | 3:34–4:02 | FROM INFORMATION TO ACTION | Across the app |
-| 14 | 4:02–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
+| 8 | 1:43–2:03 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
+| 9 | 2:03–2:19 | FROM INFORMATION TO ACTION | Care & Support |
+| 10 | 2:19–2:39 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
+| 11 | 2:39–3:01 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
+| 12 | 3:01–3:35 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
+| 13 | 3:35–4:03 | FROM INFORMATION TO ACTION | Across the app |
+| 14 | 4:03–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
 
 ## Spoken sections for video editing only
 
@@ -80,7 +80,7 @@ Now let me show you the pathway.
 
 Choose Quick and easy. Short prompts help on difficult days. Switch to More detail without losing your notes.
 
-Before a bite, prepare for time outdoors. After a bite, find removal steps and time-sensitive guidance to discuss with a clinician.
+Plan a safer outdoor visit. If you find an attached tick, get clear removal steps and advice on when to seek care.
 
 ### Screen 9
 

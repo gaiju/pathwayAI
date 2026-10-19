@@ -24,7 +24,7 @@ Now let me show you the pathway.
 
 Choose Quick and easy. Short prompts help on difficult days. Switch to More detail without losing your notes.
 
-Before a bite, prepare for time outdoors. After a bite, find removal steps and time-sensitive guidance to discuss with a clinician.
+Plan a safer outdoor visit. If you find an attached tick, get clear removal steps and advice on when to seek care.
 
 Without insurance, where do you start? PathwayAI links to community health centers and helps people ask about income-based fees, coverage, and hospital financial assistance. Care is not automatically free; the tool gives people a practical place to begin.
 

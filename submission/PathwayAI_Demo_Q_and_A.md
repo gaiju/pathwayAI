@@ -70,6 +70,14 @@ The latest full suite passed 68 software tests. A fictional flow also checked re
 
 No single live feed is claimed. Sources have different reporting years. NYSDOH 2024 cases/rates and supplied Hook article text were checked; the historical CDC file covers 2019–2022. Census disability year labels in the regional report remain unresolved. The Yu original tables and the October 3 survey summary require further verification. Provenance and caveats are in the app's Sources page.
 
+## Why did you not show survey results in the demo? How can they help?
+
+The demo focuses on public data and practical patient tools. Patient surveys can help identify burdens that official data may miss, such as difficulty finding care, missed work, unpaid caregiving and financial stress. They can guide which questions and support tools we prioritize.
+
+The survey summary discussed included 33 voluntary respondents who reported a Lyme diagnosis. This small, self-selected sample cannot establish how common these problems are across a county or calculate county-wide costs. Before presenting a numerical finding, we need to verify the original responses, the question wording, the date and the number who answered that question. We have not verified that these survey results are used in the app's calculations.
+
+Short answer: “Public data shows reported disease patterns. Patient feedback helps us understand what those numbers leave out—and what support people need. The survey can guide design, but it is not a representative county estimate.”
+
 ## What comes next?
 
 Recruit a small willing pilot; refine simple and language-accessible flows; verify local resources; measure task completion, referrals, appointments reached and assistance received. Design secure consented follow-up before shared reporting or longitudinal research. Use observed results to decide whether broader deployment is justified.

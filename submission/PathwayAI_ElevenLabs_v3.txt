@@ -1,0 +1,66 @@
+As a pathologist, I studied disease through a microscope. As an epidemiologist, I studied patterns across communities.
+
+Then it became personal.
+
+After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
+
+For immigrants like my husband, language can make tests, bills, and medical visits harder to understand.
+
+I'm Yuwei Zhang. That experience led me to build PathwayAI.
+
+[long pause]
+The burden starts before a diagnosis. It includes finding care, missed work, travel, and help from family. Patients need a next step. Communities need a clearer picture.
+
+[long pause]
+Here is a fictional example. Someone records two hundred twenty-five dollars in care and travel payments, three missed workdays, and eight hours of unpaid help.
+
+Payments, workdays, and caregiving hours stay separate. Unknown information stays unknown.
+
+We compare Dutchess and Orange using public data and published research. Federal sources include CDC, Census, HRSA, CDC PLACES, and now CMS Medicare payment data. New York surveillance adds county Lyme context.
+
+Medicare payments are not Lyme costs or patients' bills. The Lyme cost illustrations use published study averages. They are not measured county spending.
+
+[long pause]
+Now let me show you the pathway.
+
+Choose Quick and easy. You can switch to More detail without losing your notes.
+
+Before a bite, find prevention information. After a bite, find removal steps and time-sensitive care advice. A clinician decides whether preventive treatment is appropriate.
+
+Without insurance, where do you start? Find community health centers, questions about income-based fees, coverage resources, and hospital financial assistance. Care is not automatically free, but there is a place to start.
+
+[short pause]
+Next, prepare for a visit. Our fictional patient describes a tick encounter, symptoms two weeks later, and a blood test they report was positive.
+
+PathwayAI organizes a timeline. Symptom onset and time to diagnosis stay separate. Review it, correct it, and download it. Bring the original test report too.
+
+People can write in their preferred language. With permission, optional AI organizes and translates an English summary beside the original. People review both. It does not replace a qualified medical interpreter. The basic English organizer works without external AI.
+
+AI helps organize words. Arithmetic calculates costs. The patient remains at the center.
+
+Patients can also prepare questions about an unpaid bill or transport eligibility, cost, and booking.
+
+For county and community teams, the planning brief turns a barrier into a question for action.
+
+[short pause]
+For example: could a small care-navigation pilot help uninsured residents reach existing services? Who would verify contacts, follow referrals, and provide staff time? Did people reach appointments? Who still needs help?
+
+The app does not provide rides, approve assistance, or create funding. Those steps need partners and resources.
+
+Patients and caregivers can use these tools today. We are seeking county and community partners for a future pilot.
+
+People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback highlighted confusing choices, reading difficulty, and unclear next steps. We moved the reading choice earlier, shortened instructions, and grouped extra help into sections people can open when needed.
+
+Sixty-eight automated tests passed. These check software behavior. Better access, translation accuracy, and savings still need evaluation.
+
+The pilot is available on Streamlit. Next, we plan to recruit a small pilot through willing patient groups, health centers, and care navigators.
+
+We propose keeping patient access free through grants and community partnerships. Funding is not secured.
+
+Next steps are user testing, resource verification, and support follow-up. Shared patient-report collection stays off until consent and secure storage are ready. Longer-term burden tracking is a future research goal.
+
+We welcome patients, caregivers, clinicians, and community partners to help shape that work.
+
+PathwayAI: Full Economic Burden. Making the hidden patient journey visible, and actionable.
+
+Thank you to the patients and experts helping make it possible.

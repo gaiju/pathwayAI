@@ -2,7 +2,7 @@
 
 Place your original JPG cover first and hold it for 40 seconds. This deck contains the remaining 13 screens: ten content images and three silent title cards. There are 11 main images including your cover, plus three title cards, for 14 screens total.
 
-Target: 4:45 including nine seconds of silent title cards. The narration has 635 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
+Target: 4:45 including nine seconds of silent title cards. The narration has 639 words. This is a timing plan, not a rendered audio duration. Rehearse with the selected voice; keep the final export under five minutes. Do not read labels or this guide aloud.
 
 ## Organizer requirements
 
@@ -32,15 +32,15 @@ The template asks for a finalized launch plan. The current public pilot is live;
 | 3 | 0:43–0:56 | THE PROBLEM | Start page |
 | 4 | 0:56–0:59 | UNDERSTANDING THE HIDDEN BURDEN (silent title) |  |
 | 5 | 0:59–1:16 | UNDERSTANDING THE HIDDEN BURDEN | Care & Support → Costs, time and support |
-| 6 | 1:16–1:38 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
-| 7 | 1:38–1:41 | FROM INFORMATION TO ACTION (silent title) |  |
-| 8 | 1:41–2:00 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
-| 9 | 2:00–2:16 | FROM INFORMATION TO ACTION | Care & Support |
-| 10 | 2:16–2:37 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
-| 11 | 2:37–2:59 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
-| 12 | 2:59–3:33 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
-| 13 | 3:33–4:01 | FROM INFORMATION TO ACTION | Across the app |
-| 14 | 4:01–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
+| 6 | 1:16–1:40 | UNDERSTANDING THE HIDDEN BURDEN | Community Burden & Action |
+| 7 | 1:40–1:43 | FROM INFORMATION TO ACTION (silent title) |  |
+| 8 | 1:43–2:02 | FROM INFORMATION TO ACTION | Learn & Prevent / Tick Bite: What Next? |
+| 9 | 2:02–2:18 | FROM INFORMATION TO ACTION | Care & Support |
+| 10 | 2:18–2:38 | FROM INFORMATION TO ACTION | Care & Support → Your organized visit summary |
+| 11 | 2:38–3:00 | FROM INFORMATION TO ACTION | Tick Bite / Care & Support → Preferred language |
+| 12 | 3:00–3:34 | FROM INFORMATION TO ACTION | Community Burden & Action → Patient voices → community action |
+| 13 | 3:34–4:02 | FROM INFORMATION TO ACTION | Across the app |
+| 14 | 4:02–4:45 | FROM INFORMATION TO ACTION | Live app / What’s next |
 
 ## Spoken sections for video editing only
 
@@ -70,7 +70,7 @@ One record shows money, missed work, and unpaid help, ready for a care or suppor
 
 ### Screen 6
 
-We compare Dutchess and Orange using CDC, Census, HRSA, CDC PLACES, CMS, New York surveillance, and published research. Together, they connect reported disease, community needs, healthcare resources, and spending context.
+We compare Dutchess and Orange using CDC disease surveillance and community health estimates, Census, HRSA, CMS, New York surveillance, and published research. Together, they connect reported disease, community needs, healthcare resources, and spending context.
 
 Each source answers a different question. Lyme cost illustrations and Medicare payments are clearly separated from personal bills and measured county Lyme spending.
 

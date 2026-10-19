@@ -16,7 +16,7 @@ Here is a fictional example. Someone paid two hundred twenty-five dollars for ca
 
 One record shows money, missed work, and unpaid help, ready for a care or support conversation.
 
-We compare Dutchess and Orange using CDC, Census, HRSA, CDC PLACES, CMS, New York surveillance, and published research. Together, they connect reported disease, community needs, healthcare resources, and spending context.
+We compare Dutchess and Orange using CDC disease surveillance and community health estimates, Census, HRSA, CMS, New York surveillance, and published research. Together, they connect reported disease, community needs, healthcare resources, and spending context.
 
 Each source answers a different question. Lyme cost illustrations and Medicare payments are clearly separated from personal bills and measured county Lyme spending.
 

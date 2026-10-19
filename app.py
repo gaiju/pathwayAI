@@ -30,6 +30,7 @@ from share_pathway import show_share_pathway
 from evidence_scope import EVIDENCE_SCOPE
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
+from medicare_county_context import show_medicare_county_context
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
@@ -664,6 +665,7 @@ def policy89():
     show_county_rate_trend(page_note)
     show_burden_reading_guide()
     show_county_burden_comparison(page_note)
+    show_medicare_county_context()
     voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
     st.markdown("#### Keep a personal record for care")
     st.write("Keep money paid, work missed and help needed in one card. Review it, download it and bring it to a visit.")

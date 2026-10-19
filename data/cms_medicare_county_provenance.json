@@ -1,0 +1,29 @@
+{
+  "dataset": "2014\u20132024 Original Medicare Geographic Variation Public Use File",
+  "source_url": "https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-geographic-comparisons/medicare-geographic-variation-by-national-state-county",
+  "import_date": "2026-10-19",
+  "source_type": "Project-owner-supplied tab-separated extract from CMS CSV; not independently downloaded from CMS",
+  "source_sha256": "c145a231f5aa9efc424f52c79ae88f31e5d8602d689e9c50cc47197983cd413e",
+  "dictionary_file": "2014-2024 Original Medicare Geographic Variation Data Dictionary.pdf",
+  "dictionary_sha256": "75a8d4bef07d1900a50732c78a2aec688ba3ca132dad1dc6cab1a9243d55109f",
+  "checks": [
+    "22 rows; 246 complete unique columns in supplied extract",
+    "Both target county FIPS codes and county names agree",
+    "One County / All-age row per county per year, 2014\u20132024",
+    "Actual and standardized inpatient/outpatient totals divided by Original Medicare count agree with reported per-capita values within $0.011",
+    "Dictionary confirms measure names, age levels, Medicare population and suppression marker *"
+  ],
+  "population": "Original Medicare beneficiaries with Part A and Part B and Original Medicare for all Medicare-entitled months; includes qualifying new enrollees and decedents",
+  "geography": "Beneficiary county of residence; not hospital location",
+  "age_group": "All (Original Medicare beneficiaries, not all county residents)",
+  "unit": "Annual Medicare program payment in USD per Original Medicare beneficiary",
+  "standardization": "Adjusts for geographic payment-rate differences; not a health-status adjustment",
+  "limits": [
+    "Not Lyme-specific",
+    "Not all-payer spending",
+    "Not patient out-of-pocket payments or hospital charges",
+    "Hospital outpatient department services are not all care outside hospital",
+    "No claim of causal differences, service quality, unmet need, or savings",
+    "Original full CSV could not be transferred; supplied extract validated internally and against dictionary"
+  ]
+}

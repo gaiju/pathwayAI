@@ -1,6 +1,9 @@
 """Source populations and periods; never infer survey response denominators."""
 
 EVIDENCE_SCOPE = [
+    {"Source": "CMS Original Medicare Geographic Variation", "Population / count": "2024: Dutchess 33,439; Orange 38,188 Original Medicare beneficiaries",
+     "Period / scope": "2014–2024 extract; county of beneficiary residence; All Original Medicare age group",
+     "Key limit": "Program payments, not patient bills or Lyme costs. Standardization adjusts geographic payment rates, not health status. Supplied extract and dictionary checked; full CSV not independently re-downloaded. No Blue Button integration."},
     {"Source": "Hook et al. (2022)", "Population / count": "613 societal-cost participants; 901 in the patient analysis",
      "Period / scope": "Recruitment 2014–2016; four high-incidence states; costs in 2016 dollars",
      "Key limit": "Separate analyses and denominators. Study costs are transferred assumptions, not measured county spending or full delayed-diagnosis costs."},

@@ -1,4 +1,5 @@
 """Fictional participation demonstration and human-reviewed community planning."""
+from report_download import branded_download_button
 from burden_demo import aggregate_demo, fictional_cards, show_burden_pathway_demo
 
 
@@ -136,6 +137,6 @@ def show_community_action_pathway(simple=True):
         st.metric("Illustrative travel spending for one person", f"${amount:,.2f}")
         st.write(f"{trips} round trips × ${cost:,.2f} = ${amount:,.2f}. Change the assumptions to explore a different situation.")
         st.caption("Not added to patient records, published societal costs or county totals. No county demand, benefit or savings is inferred.")
-    st.download_button("Download patient voice-to-action brief", action_brief(need).encode("utf-8"),
+    branded_download_button("Download patient voice-to-action brief", action_brief(need).encode("utf-8"),
                        file_name="PathwayAI_Planning_Demonstration.txt", mime="text/plain", key="voice_action_brief")
     return action_brief(need)

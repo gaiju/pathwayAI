@@ -1,4 +1,5 @@
 """Public care-access guidance; no eligibility decisions or patient-data collection."""
+from report_download import branded_download_button
 
 HRSA = "https://findahealthcenter.hrsa.gov/"
 COVERAGE = "https://www.healthcare.gov/have-job-based-coverage/if-you-lose-job-based-coverage/"
@@ -91,7 +92,7 @@ def show_care_access():
         st.markdown("1. **Ask for an itemized bill.** Check unfamiliar, duplicate or incorrect charges with the billing office.\n2. **Ask about financial assistance or charity care.** Request the written policy, application and deadlines. Nonprofit hospitals must have a financial-assistance policy for emergency and other medically necessary hospital care; eligibility and covered providers vary. Ask separately about outside clinician and laboratory bills.\n3. **Ask about collections and payment options.** Ask whether collection activity can pause during review. If a balance remains, ask about self-pay discounts or an interest-free plan. Get agreements in writing.")
         st.write("Before scheduled non-emergency care, uninsured or self-pay patients can ask about a good faith estimate. A bill substantially above the estimate may qualify for a federal dispute process; check the current rules and deadlines.")
         st.markdown(f"[Medical-bill help — CFPB]({MEDICAL_DEBT}) · [Nonprofit hospital assistance policies — IRS]({HOSPITAL_ASSISTANCE})")
-    st.download_button("Download questions about uninsured care and bills", care_access_questions().encode("utf-8"),
+    branded_download_button("Download questions about uninsured care and bills", care_access_questions().encode("utf-8"),
                        file_name="PathwayAI_Uninsured_Care_and_Bills.txt", mime="text/plain", key="care_access_questions")
     st.caption("PathwayAI helps you find resources and prepare questions. It does not enroll you in coverage, pay bills or arrange appointments. Confirm fees, assistance and availability directly with each service.")
 

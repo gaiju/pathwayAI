@@ -1,4 +1,5 @@
 """Preparation aid only: no applications, eligibility decisions or document uploads."""
+from report_download import branded_download_button
 
 PROGRAMS = ("SSI", "SSDI", "SNAP / food assistance")
 LINKS = {
@@ -65,7 +66,7 @@ def show_benefits_preparation(record=None):
             context["functional_history"] = history
         text = preparation_checklist(program, context)
         st.text(text)
-        st.download_button("Download my preparation checklist", text.encode("utf-8"),
+        branded_download_button("Download my preparation checklist", text.encode("utf-8"),
                            file_name="PathwayAI_Benefits_Preparation.txt", mime="text/plain",
                            key="benefits_checklist_download")
         st.caption("This tool organizes information. It does not determine eligibility, submit applications or guarantee benefits. Confirm requirements with the program or a qualified adviser.")

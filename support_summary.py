@@ -1,4 +1,5 @@
 """Local support preparation; never sends records or determines eligibility."""
+from report_download import branded_download_button
 
 NEEDS = ("Paying for care", "Getting an appointment", "Getting to care",
          "Interpreter or accessibility help", "Food or housing", "Disability benefits")
@@ -78,6 +79,6 @@ def show_support_summary(need, request, record=None):
             st.session_state["support_summary_text"] = seed
             st.session_state["support_summary_seed"] = seed
         reviewed = st.text_area("Keep only what you want to share", key="support_summary_text", height=180)
-        st.download_button("Download my support summary", reviewed.encode("utf-8"),
+        branded_download_button("Download my support summary", reviewed.encode("utf-8"),
                            file_name="PathwayAI_Support_Summary.txt", mime="text/plain", key="support_summary_download")
         st.caption("Leave out Social Security numbers, bank details and identity documents. Your entries remain available during this session; download a copy to keep.")

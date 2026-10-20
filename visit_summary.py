@@ -1,4 +1,5 @@
 """Reviewable chronology; quotations preserve uncertainty, not clinical interpretation."""
+from report_download import branded_download_button
 import re
 
 VISIT_FIELDS = {
@@ -86,6 +87,6 @@ def show_visit_summary(story, details):
         st.session_state["visit_summary_edit"] = st.session_state.get("visit_summary_reviewed", seed)
     edited = st.text_area("Review and edit your visit summary", key="visit_summary_edit", height=350, max_chars=60000)
     st.session_state["visit_summary_reviewed"] = edited
-    st.download_button("Download my visit summary", edited.encode("utf-8"),
+    branded_download_button("Download my visit summary", edited.encode("utf-8"),
                        file_name="PathwayAI_Visit_Summary.txt", mime="text/plain", key="visit_summary_download")
     st.caption("The timeline comes first; your original notes are retained at the end. Add costs and time below for a separate appointment and cost card.")

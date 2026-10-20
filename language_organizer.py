@@ -1,4 +1,5 @@
 """Opt-in note translation; no diagnosis, inference, image input or shared storage."""
+from report_download import branded_download_button
 import json
 import urllib.request
 
@@ -129,14 +130,14 @@ def show_bilingual_organizer(story, language, reporter, translate):
             st.session_state["bilingual_reviewed"] = edited
         # Original is appended separately too, so removing it from the editable summary cannot lose it from the download.
         export = edited + "\n\nORIGINAL NOTES (UNCHANGED)\n" + story
-        st.download_button("Download original and English summary", export.encode("utf-8"), file_name="PathwayAI_Bilingual_Visit_Summary.txt", mime="text/plain", key="bilingual_download")
+        branded_download_button("Download original and English summary", export.encode("utf-8"), file_name="PathwayAI_Bilingual_Visit_Summary.txt", mime="text/plain", key="bilingual_download")
         st.caption("AI can mistranslate. Check positive/negative results, dates, medication names and uncertainty with a qualified interpreter or clinician. AI does not replace medical interpretation. This English document does not automatically fill the cost or clinical fields below.")
     elif st.session_state.get("translation_source") == fingerprint and st.session_state.get("translation_error"):
         st.warning(st.session_state["translation_error"])
-    st.download_button("Download my original notes", story.encode("utf-8"), file_name="PathwayAI_Original_Notes.txt", mime="text/plain", key="original_notes_download")
+    branded_download_button("Download my original notes", story.encode("utf-8"), file_name="PathwayAI_Original_Notes.txt", mime="text/plain", key="original_notes_download")
     preference = "Please help me confirm my preferred language." if language == "Other / not sure" else "My preferred language is: " + language + "."
     request = "I need a qualified medical interpreter for my appointment. " + preference + " How can I arrange one, and is there a cost?"
     with st.expander("Ask the clinic for a qualified interpreter / 申请口译 / Pedir un intérprete"):
         st.text(request)
-        st.download_button("Download interpreter request", request.encode("utf-8"), file_name="PathwayAI_Interpreter_Request.txt", mime="text/plain", key="interpreter_request_download")
+        branded_download_button("Download interpreter request", request.encode("utf-8"), file_name="PathwayAI_Interpreter_Request.txt", mime="text/plain", key="interpreter_request_download")
     return result

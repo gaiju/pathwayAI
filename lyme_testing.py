@@ -1,4 +1,5 @@
 """Public educational content only; no report upload, diagnosis or secret access."""
+from report_download import branded_download_button
 
 CDC_TESTING_URL = "https://www.cdc.gov/lyme/hcp/diagnosis-testing/index.html"
 CDC_ABOUT_URL = "https://www.cdc.gov/lyme/diagnosis-testing/index.html"
@@ -102,7 +103,7 @@ def show_lyme_testing(simple=True):
                 st.write("CDC says positive IgM results should be disregarded when illness "
                          "has lasted more than 30 days. Ask the clinician to interpret the "
                          "appropriate results and the complete testing history.")
-        st.download_button("Download Lyme testing questions", PREPARATION_CHECKLIST.encode("utf-8"),
+        branded_download_button("Download Lyme testing questions", PREPARATION_CHECKLIST.encode("utf-8"),
                            file_name="PathwayAI_LymeTestingQuestions.txt", mime="text/plain",
                            key="lyme_testing_questions")
         st.markdown(f"[CDC: clinical testing guidance]({CDC_TESTING_URL})")

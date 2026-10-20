@@ -17,7 +17,7 @@
 
 This counts output types, not files required per patient. Detailed-mode versions of visit/cost summaries are variants, not additional report types. Most users only need selected outputs. Translation outputs require permission and available AI. Outdoor downloads contain general guidance and destination/month/activity, not maps or selected health conditions.
 
-Plain-text report downloads carry: “PathwayAI: Making the Hidden Patient Journey Visible—and Actionable.” The money-and-time image has the same visible tagline. Original-notes files have a branded header; the original note body is preserved. CSV exports remain clean tables and QR image bytes remain unchanged.
+Written report downloads now use PDF and carry: “PathwayAI: Making the Hidden Patient Journey Visible—and Actionable.” The money-and-time image has the same visible tagline. Original-notes files have a branded header; the original note body is preserved. CSV exports remain clean tables and QR image bytes remain unchanged.
 
 ## Separate community/research outputs
 

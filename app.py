@@ -2687,47 +2687,61 @@ def translate_visit_notes(text, language, reporter, *, consent):
 def show_visit_organizer():
     """One notes/translation workflow reused on the bite and care pages."""
     st.markdown('<span id="visit-notes"></span>', unsafe_allow_html=True)
-    st.markdown("### Tell us what happened")
+    current_page = st.session_state.get("pathway_view")
+    saved_note = st.session_state.get("saved_story_text", "")
+    reuse_key = "reuse_visit_note_" + str(current_page)
+    if st.session_state.get("last_visit_note_page") != current_page:
+        st.session_state[reuse_key] = bool(saved_note.strip())
+    st.session_state["last_visit_note_page"] = current_page
+    reuse_note = bool(st.session_state.get(reuse_key) and saved_note.strip())
+    st.markdown("### Your saved visit note" if reuse_note else "### Tell us what happened")
+    if reuse_note:
+        st.success("Your saved visit note is already here. You do not need to answer the same questions again.")
+        st.write(saved_note[:240] + ("…" if len(saved_note) > 240 else ""))
+        st.caption("Saved language: " + st.session_state.get("saved_notes_language", "English") + ". Open Review or edit below only if you want to make changes. Your organizer and downloads remain below.")
     if st.session_state.get("pathway_view") == "🩹 Tick Bite: What Next?":
         st.caption("Already entered your story in Care & Support? The same notes appear here. Review or update them—you don’t need to enter them again. Notes are shared within this session.")
     else:
         st.caption("Already entered your story on the Tick Bite page? Your notes appear below. Review or update them—you don’t need to enter them again. Notes are shared within this session.")
-    reporter_role = show_reporter()
-    language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, index=LANGUAGES.index(st.session_state.get("saved_notes_language", "English")), key="notes_language", help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
-    st.session_state["saved_notes_language"] = language
-    if language in AIDS:
-        st.write(AIDS[language][0])
-    if simple_reading_view():
-        st.write("Make a note for your visit. A few words are enough. Skip anything you do not know.")
-        if reporter_role == REPORTERS[2]:
-            st.markdown("1. Where and when did it happen?\n2. What symptoms have you observed? When did they start?\n3. Any tick bite, rash, tests or treatment? Include test results if known.\n4. What help does the person need now?")
+    needs_language_fix = chinese_notes_in_english_mode(saved_note, st.session_state.get("saved_notes_language", "English"))
+    fields = st.expander("Review or edit your saved visit note", expanded=not simple_reading_view() or needs_language_fix) if reuse_note else st.container()
+    with fields:
+        reporter_role = show_reporter()
+        language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, index=LANGUAGES.index(st.session_state.get("saved_notes_language", "English")), key="notes_language", help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
+        st.session_state["saved_notes_language"] = language
+        if language in AIDS:
+            st.write(AIDS[language][0])
+        if simple_reading_view():
+            st.write("Make a note for your visit. A few words are enough. Skip anything you do not know.")
+            if reporter_role == REPORTERS[2]:
+                st.markdown("1. Where and when did it happen?\n2. What symptoms have you observed? When did they start?\n3. Any tick bite, rash, tests or treatment? Include test results if known.\n4. What help does the person need now?")
+            else:
+                st.markdown("1. Where and when did it happen?\n2. What symptoms have you had? When did they start?\n3. Any tick bite, rash, tests or treatment? Include test results if known.\n4. What help do you need now?")
         else:
-            st.markdown("1. Where and when did it happen?\n2. What symptoms have you had? When did they start?\n3. Any tick bite, rash, tests or treatment? Include test results if known.\n4. What help do you need now?")
-    else:
-        st.write("In two or three sentences, tell us:")
-        if reporter_role == REPORTERS[2]:
-            st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
-        else:
-            st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
-        st.write("Short notes are fine. Write in your preferred language. For non-English notes, optional AI can translate and organize an English summary. You can skip this tool.")
-    st.write("For pilot testing, please use made-up information. Do not enter names, dates of birth, contact details, Social Security numbers or other identifying information.")
-    show_pilot_privacy()
+            st.write("In two or three sentences, tell us:")
+            if reporter_role == REPORTERS[2]:
+                st.markdown("1. Where and when did the person find a tick—or first feel unwell?\n2. What symptoms have you observed, and for how long?\n3. What care or tests have they had, and what help is needed now?")
+            else:
+                st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
+            st.write("Short notes are fine. Write in your preferred language. For non-English notes, optional AI can translate and organize an English summary. You can skip this tool.")
+        st.write("For pilot testing, please use made-up information. Do not enter names, dates of birth, contact details, Social Security numbers or other identifying information.")
+        show_pilot_privacy()
 
-    st.info("Mixed languages are welcome. Keep place names such as Pasadena and words such as tick in English. Choose the main language you are writing in.\n\n可以中英文混合输入。地名、药名和不熟悉的医学词可以保留英文，不需要自行翻译。主要写中文时，请选择「中文 / Chinese」。")
-    st.write("Some cities share the same name. If you know it, include the state or the ZIP code of the place where you were outdoors—for example, Pasadena, CA. An approximate location is fine; do not enter a street or home address.")
-    st.write("有些城市同名。如知道，请补充当时户外活动地点所在的州或邮政编码，例如 Pasadena, CA。不确定时可写大致地点；无需填写街道或家庭住址。")
-    quick_story = st.text_area(
-        "Your notes" if simple_reading_view() else "Your story, in your own words",
-        value=st.session_state.get("saved_story_text", ""),
-        key="quick_story_value",
-        on_change=keep_visit_draft,
-        placeholder="Write what you know. You do not need to write a full story.",
-        height=140,
-        max_chars=MAX_STORY_CHARS,
-    )
-    st.session_state["saved_story_text"] = quick_story
-    if quick_story.strip():
-        st.caption("Your notes are saved for this browser session. You can use the same notes on the bite and care pages; a new tab or a cleared session starts a separate record.")
+        st.info("Mixed languages are welcome. Keep place names such as Pasadena and words such as tick in English. Choose the main language you are writing in.\n\n可以中英文混合输入。地名、药名和不熟悉的医学词可以保留英文，不需要自行翻译。主要写中文时，请选择「中文 / Chinese」。")
+        st.write("Some cities share the same name. If you know it, include the state or the ZIP code of the place where you were outdoors—for example, Pasadena, CA. An approximate location is fine; do not enter a street or home address.")
+        st.write("有些城市同名。如知道，请补充当时户外活动地点所在的州或邮政编码，例如 Pasadena, CA。不确定时可写大致地点；无需填写街道或家庭住址。")
+        quick_story = st.text_area(
+            "Your notes" if simple_reading_view() else "Your story, in your own words",
+            value=st.session_state.get("saved_story_text", ""),
+            key="quick_story_value",
+            on_change=keep_visit_draft,
+            placeholder="Write what you know. You do not need to write a full story.",
+            height=140,
+            max_chars=MAX_STORY_CHARS,
+        )
+        st.session_state["saved_story_text"] = quick_story
+        if quick_story.strip():
+            st.caption("Your notes are saved for this browser session. You can use the same notes on the bite and care pages; a new tab or a cleared session starts a separate record.")
 
     st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
     if chinese_notes_in_english_mode(quick_story, language):

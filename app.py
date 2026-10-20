@@ -3515,6 +3515,25 @@ if not st.session_state.get("pathway_open", False):
                 with col:
                     st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                     st.write(detail)
+    st.markdown("### Just exploring or reviewing PathwayAI?")
+    st.write("Take a quick tour. You don’t need to enter personal information.")
+    with st.expander("Quick tour"):
+        st.write("Choose any section below. Use a made-up example if you want to try the tools.")
+        tour_steps = [
+            ("Learn & Prevent", "Plan time outdoors and learn how to prevent tick bites.", "🛡️ Learn & Prevent", "outdoors"),
+            ("Tick Bite: What Next?", "Find tick-removal steps and advice on when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
+            ("Care & Support", "Try a fictional story, review a visit summary and record costs and time.", "🧭 Care & Support", "ongoing"),
+            ("Community Burden & Action", "Explore county evidence and a community action brief.", "📊 Community Burden & Action", "county"),
+        ]
+        for label, detail, target, intent in tour_steps:
+            st.write("**" + label + ":** " + detail)
+            st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
+        st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
+    demo_col, feedback_col = st.columns(2)
+    with demo_col:
+        st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
+    with feedback_col:
+        st.button("Give feedback", key="landing_reviewer_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"), use_container_width=True)
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
     with st.expander("See national Lyme and cost figures", expanded=not simple_reading_view()):

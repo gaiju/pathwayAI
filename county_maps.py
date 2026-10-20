@@ -9,6 +9,34 @@ def rate_data():
     return json.loads((Path(__file__).resolve().parent / "data" / "ny_lyme_map_rates_2024.json").read_text())
 
 
+def sorted_county_rates(order="highest"):
+    """Sort actual numeric rates, with alphabetic tie-breaks; retain provenance."""
+    import pandas as pd
+    if order not in ("highest", "alphabetical"):
+        raise ValueError("Unknown county sort order")
+    data = rate_data()
+    frame = pd.DataFrame([{"County": name.title(), "Reported cases per 100,000": rate,
+                           "Year": 2024, "source_url": data["source_url"], "pdf_page": 5}
+                          for name, rate in data["county_rates"].items()])
+    columns = ["Reported cases per 100,000", "County"] if order == "highest" else ["County"]
+    ascending = [False, True] if order == "highest" else [True]
+    return frame.sort_values(columns, ascending=ascending).reset_index(drop=True)
+
+
+def county_rate_report(order):
+    frame = sorted_county_rates(order)
+    label = "Highest to lowest reported rate" if order == "highest" else "Alphabetical by county"
+    lines = ["New York County Lyme Rates — 2024", label,
+             "Reported Lyme cases per 100,000 residents. These are rates, not case counts.",
+             "57 counties; NYC is reported separately as an aggregate and is excluded here.",
+             "", "COUNTY | REPORTED CASES PER 100,000"]
+    lines += [f"{row['County']} | {row['Reported cases per 100,000']:,.1f}" for row in frame.to_dict("records")]
+    lines += ["", "Source: NYSDOH 2024 county rates PDF, page 5, Lyme column.",
+              rate_data()["source_url"],
+              "Reported surveillance rates are not tick density or a prediction of personal infection risk."]
+    return "\n".join(lines)
+
+
 def county_key(name):
     return re.sub(r"[^a-z]", "", str(name).lower())
 
@@ -52,11 +80,21 @@ def show_lyme_rate_map(boundaries, geom_paths, project, note):
     st.markdown(f'<div aria-label="Reported Lyme rate legend"><div style="height:16px;background:linear-gradient(to right,#ebf3f8,#144b73)"></div><div style="display:flex;justify-content:space-between"><span>0</span><span>{maximum:g} cases per 100,000</span></div></div>', unsafe_allow_html=True)
     st.write("Highlighted counties: Dutchess and Orange. Gray areas belong to the separate NYC summary.")
     with st.expander("Download statewide reported-rate map data"):
-        frame = pd.DataFrame([{"County": name.title(), "Reported cases per 100,000": rate,
-                               "Year": 2024, "source_url": data["source_url"], "pdf_page": 5}
-                              for name, rate in data["county_rates"].items()])
-        st.download_button("Download 2024 county Lyme rates", frame.to_csv(index=False).encode("utf-8-sig"),
-                           file_name="NY_Reported_Lyme_Rates_2024.csv", mime="text/csv", key="ny_lyme_map_rates_csv")
+        from report_download import branded_download_button
+        st.write("Choose a PDF sorted by reported rate or by county name. Both contain the same 2024 data.")
+        high, alpha = st.columns(2)
+        for col, order, label in [(high, "highest", "Download PDF · highest rate first"),
+                                  (alpha, "alphabetical", "Download PDF · county A–Z")]:
+            with col:
+                branded_download_button(label, county_rate_report(order).encode("utf-8"),
+                                        file_name=f"NY_Lyme_Rates_2024_{order}.txt", mime="text/plain",
+                                        key="ny_lyme_rates_pdf_" + order)
+        with st.expander("Spreadsheet copies (CSV)"):
+            for order, label in [("highest", "Download CSV · highest rate first"),
+                                 ("alphabetical", "Download CSV · county A–Z")]:
+                st.download_button(label, sorted_county_rates(order).to_csv(index=False).encode("utf-8-sig"),
+                                   file_name=f"NY_Lyme_Rates_2024_{order}.csv", mime="text/csv",
+                                   key="ny_lyme_rates_csv_" + order)
     note("Lyme map source: supplied NYSDOH 2024 rates PDF, page 5, county Lyme column. Shading represents reported human case rates, "
          "not tick density or personal infection risk. NYC is a single source aggregate; its rate is not assigned to individual borough counties. "
          "Dutchess is not the highest reported-rate county in this table. Tick observations are a separate map view. "

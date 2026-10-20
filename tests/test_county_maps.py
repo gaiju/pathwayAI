@@ -1,6 +1,6 @@
 import unittest
 
-from county_maps import county_key, rate_color, rate_data
+from county_maps import county_key, rate_color, rate_data, sorted_county_rates
 
 
 class RateMapTests(unittest.TestCase):
@@ -20,3 +20,15 @@ class RateMapTests(unittest.TestCase):
         luminance = lambda color: sum(int(color[i:i + 2], 16) for i in (1, 3, 5))
         self.assertLess(luminance(high), luminance(low))
         self.assertNotEqual(rate_color(None, 535.5), rate_color(0, 535.5))
+
+
+class CountyRateSortTests(unittest.TestCase):
+    def test_sorting_changes_order_without_changing_data(self):
+        highest = sorted_county_rates("highest")
+        alpha = sorted_county_rates("alphabetical")
+        self.assertEqual(highest.iloc[0]["County"], "Essex")
+        self.assertTrue(highest["Reported cases per 100,000"].is_monotonic_decreasing)
+        self.assertEqual(list(alpha["County"]), sorted(alpha["County"]))
+        self.assertEqual(highest.set_index("County").sort_index().to_dict(), alpha.set_index("County").sort_index().to_dict())
+        self.assertEqual(len(alpha), 57)
+        self.assertTrue((alpha["Year"] == 2024).all())

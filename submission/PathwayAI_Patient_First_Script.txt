@@ -12,7 +12,7 @@ A medical bill shows only part of what illness costs a family.
 
 Finding care. Missing work. Relying on family. Those costs are real, too.
 
-PathwayAI connects practical patient support with public evidence for community action.
+PathwayAI is a working web app connecting patient support with public evidence for community action.
 
 Let me start with the question my family faced: where do you go without insurance?
 
@@ -20,7 +20,7 @@ Care and Support links to community health centers and questions about income-ba
 
 Helping people find care matters. We also want to help them prepare before illness happens.
 
-Enter your destination ZIP code, month, and outdoor activity. Download a plan with tick-prevention steps and what to watch for afterward.
+Enter your destination ZIP code, month, and outdoor activity. Download a plan with tick-prevention steps and what to watch for afterward. Its exposure context uses CDC tick surveillance and available state data.
 
 If you find an attached tick, the next page explains removal, what to record, and when to contact a clinician. Some bites need time-sensitive advice; a clinician decides whether preventive treatment is appropriate.
 
@@ -29,6 +29,8 @@ Now let’s follow a fictional patient preparing for a visit.
 They record exposure, symptoms, and test results, then review and correct a timeline. Symptom onset and diagnosis delay stay separate. Clinicians still need original test reports.
 
 People can write in their preferred language, including mixed Chinese and English.
+
+Above the notes box, choose your main writing language. Keep words like tick or Pasadena in English. Add a state or destination ZIP if known; no home address is needed.
 
 With permission, optional AI prepares an English summary beside the original for review. It does not diagnose illness or replace a qualified medical interpreter.
 
@@ -42,13 +44,15 @@ That is 225 dollars paid. Workdays and caregiving hours stay separate, with the 
 
 They leave with a visit summary, a record of costs and time, and support questions. Programs decide benefits eligibility.
 
+Choose Download my visit summary for the visit note. For costs, open Review or add costs and time, check your entries, then select Download appointment and cost summary. The PDF saves to your device, not an automatic email.
+
 That is one family. What can we learn about the communities around them?
 
-We compare Dutchess and Orange using CDC, Census, HRSA, and New York data on disease, population, and healthcare resources. Sources and years are shown.
+For Dutchess and Orange, New York surveillance supplies reported Lyme rates. The Census American Community Survey adds population and language context. HRSA’s Area Health Resources Files describe healthcare capacity. CDC PLACES adds broader community-health estimates.
 
-Published Lyme costs illustrate burden, not measured county spending. CMS Medicare payments provide separate context, not Lyme-specific costs.
+CMS Medicare Geographic Variation provides separate payment context, not Lyme-specific spending. Sources and years stay visible. Published Lyme costs are labeled illustrations, not measured county spending.
 
-Preparation, timely care, clearer records, and practical support are all ways we aim to ease burden.
+Our aim is to ease burden through prevention, timely care, clearer records, and practical support.
 
 What could a community do with that information?
 

@@ -92,7 +92,7 @@ def show_lyme_rate_map(boundaries, geom_paths, project, note):
         with st.expander("Spreadsheet copies (CSV)"):
             for order, label in [("highest", "Download CSV · highest rate first"),
                                  ("alphabetical", "Download CSV · county A–Z")]:
-                st.download_button(label, sorted_county_rates(order).to_csv(index=False).encode("utf-8-sig"),
+                branded_download_button(label, sorted_county_rates(order).to_csv(index=False).encode("utf-8-sig"),
                                    file_name=f"NY_Lyme_Rates_2024_{order}.csv", mime="text/csv",
                                    key="ny_lyme_rates_csv_" + order)
     note("Lyme map source: supplied NYSDOH 2024 rates PDF, page 5, county Lyme column. Shading represents reported human case rates, "

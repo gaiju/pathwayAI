@@ -1,4 +1,5 @@
 """Transparent scenario arithmetic; no fitted model or survey-derived mean."""
+from report_download import branded_download_button
 
 import math
 import json
@@ -125,7 +126,7 @@ def show_county_burden_comparison(note):
     for column in ("Medical costs · 2016 USD", "Other expenses and lost productivity · 2016 USD", "Estimated societal total · 2016 USD"):
         display[column] = display[column].map(lambda value: f"${value:,.0f}")
     st.dataframe(display, hide_index=True, use_container_width=True)
-    st.download_button("Download two-county burden comparison", categories.to_csv(index=False).encode("utf-8-sig"),
+    branded_download_button("Download two-county burden comparison", categories.to_csv(index=False).encode("utf-8-sig"),
                        file_name="Dutchess_Orange_Societal_Burden_Illustration.csv", mime="text/csv", key="county_burden_comparison_csv")
     note(f"Main county illustration: verified NYSDOH 2024 case counts (Dutchess 1,060; Orange 964), cases PDF p. 5; "
          f"rates 355.5 and 237.0 per 100,000, rates PDF p. 5. Hook mean $2,032 was checked against supplied article Results; "
@@ -174,7 +175,7 @@ def show_burden_paths(frame, note):
         st.write("Year 0 uses the 2024 case input. Years 1–5 apply your selected annual change and a fixed study-cost reference.")
         note("Future paths are hypothetical, not a validated prediction or recorded time trend. No inflation or intervention effect is estimated. "
              "Lower reported counts could reflect disease, diagnosis or reporting changes. The gap between lines is not PathwayAI savings.")
-        st.download_button("Download hypothetical paths and assumptions", paths.to_csv(index=False).encode("utf-8-sig"),
+        branded_download_button("Download hypothetical paths and assumptions", paths.to_csv(index=False).encode("utf-8-sig"),
                            file_name="PathwayAI_Hypothetical_BurdenPaths.csv", mime="text/csv", key="burden_path_csv")
 
 
@@ -223,7 +224,7 @@ def show_county_cost_scenario(note):
     with st.expander("Survey benchmark and local reporting"):
         st.write("Local averages require reviewed payment amounts over matching periods, with duplicate checks and secure, consent-based reporting.")
     note("Published patient-paid costs are not PathwayAI survey averages. The supplied survey summary does not support a mean payment amount. Secure shared collection remains in development.")
-    st.download_button("Download county burden scenario and sources", frame.to_csv(index=False).encode("utf-8-sig"),
+    branded_download_button("Download county burden scenario and sources", frame.to_csv(index=False).encode("utf-8-sig"),
                        file_name="PathwayAI_Illustrative_CountyBurden.csv", mime="text/csv", key="county_burden_csv")
     show_burden_paths(frame, note)
     note(f"Scenario sources: [NYSDOH cases]({CASE_SOURCE}), [rates]({RATE_SOURCE}), "

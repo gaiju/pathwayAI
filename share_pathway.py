@@ -1,4 +1,5 @@
 """Share the public app address without patient data or tracking parameters."""
+from report_download import branded_download_button
 from pathlib import Path
 
 PUBLIC_APP_URL = "https://pathwayai.streamlit.app/"
@@ -17,7 +18,7 @@ def show_share_pathway(key, feedback_callback=None, title="Share PathwayAI · he
                  width=200, caption="Scan to open PathwayAI")
         st.markdown(f"[Open PathwayAI]({PUBLIC_APP_URL})")
         st.code(SHARE_MESSAGE, language=None, wrap_lines=True)
-        st.download_button("Download QR code", (Path(__file__).resolve().parent / "images" / "pathwayai_share_qr.png").read_bytes(),
+        branded_download_button("Download QR code", (Path(__file__).resolve().parent / "images" / "pathwayai_share_qr.png").read_bytes(),
                            file_name="PathwayAI_QR.png", mime="image/png", key=key + "_qr")
         st.write("Your feedback can help us understand needs and improve support. What one change would help you most?")
         if feedback_callback:

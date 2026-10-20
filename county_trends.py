@@ -1,4 +1,5 @@
 """Observed reported-rate series from checked public PDFs, separate from scenarios."""
+from report_download import branded_download_button
 import json
 from pathlib import Path
 
@@ -37,7 +38,7 @@ def show_county_rate_trend(note):
     ).properties(height=290)
     st.altair_chart(chart, use_container_width=True)
     with st.expander("Download reported-rate trend and sources"):
-        st.download_button("Download reported rates · 2022–2024", frame.to_csv(index=False).encode("utf-8-sig"),
+        branded_download_button("Download reported rates · 2022–2024", frame.to_csv(index=False).encode("utf-8-sig"),
                            file_name="Dutchess_Orange_Reported_Lyme_Rates_2022_2024.csv",
                            mime="text/csv", key="county_rate_trend_csv")
     note("Observed-rate chart: 2022–2023 values checked against Mid-Hudson CHA 2025 Figure 147, printed/PDF p. 219; "

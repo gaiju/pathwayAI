@@ -1,4 +1,5 @@
 """Optional Original Medicare county context, separate from Lyme cost scenarios."""
+from report_download import branded_download_button
 import csv
 import json
 import math
@@ -91,7 +92,7 @@ def show_medicare_county_context():
                      use_container_width=True)
         st.caption('Hospital outpatient means hospital outpatient department services. It does not include every service delivered outside a hospital. Per-beneficiary averages include people who did not use that service; they are not prices per visit or admission.')
         st.write('Use this to describe the healthcare spending context. These figures do not establish Lyme burden, service gaps, quality, or potential savings. Do not add them to the Lyme cost illustrations or personal cost record.')
-        st.download_button('Download this Medicare comparison', frame.to_csv(index=False).encode('utf-8-sig'),
+        branded_download_button('Download this Medicare comparison', frame.to_csv(index=False).encode('utf-8-sig'),
                            file_name=f'PathwayAI_Medicare_County_Context_{year}_{basis}.csv', mime='text/csv', key='cms_county_download')
         st.markdown(f'[CMS dataset and documentation]({SOURCE_URL})')
         st.caption('Source: project-owner-supplied extract of the 2014–2024 CMS public use file. Column definitions checked against the supplied CMS dictionary; the full source CSV was not independently re-downloaded. Suppressed or missing values remain missing.')

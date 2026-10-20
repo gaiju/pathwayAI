@@ -1,4 +1,5 @@
 """Authored fictional cohort, never connected to patient files or AI inputs."""
+from report_download import branded_download_button
 
 import csv
 import io
@@ -95,7 +96,7 @@ def show_burden_pathway_demo(simple=True):
              "Missing answers stay missing. Selecting a card changes only the preview, not the cohort.")
     st.write("**Response to evaluate:** transport navigation. **Check:** appointments completed, "
              "patient-paid travel spending and support still needed. Confirm actual participant needs before allocating resources.")
-    st.download_button("Download synthetic community summary", demo_summary_csv(rows),
+    branded_download_button("Download synthetic community summary", demo_summary_csv(rows),
                        file_name="PathwayAI_SYNTHETIC_CommunitySummary.csv", mime="text/csv",
                        key="burden_demo_summary")
     with st.expander("How the demonstration differs from real collection"):

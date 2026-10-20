@@ -5,9 +5,7 @@ REPORTERS = ("Myself", "Myself, with help", "A caregiver, on someone else's beha
 
 def show_reporter():
     import streamlit as st
-    if "reporter_role" not in st.session_state:
-        st.session_state["reporter_role"] = st.session_state.get("saved_reporter_role", REPORTERS[0])
-    role = st.selectbox("Who is completing this record?", REPORTERS, key="reporter_role")
+    role = st.selectbox("Who is completing this record?", REPORTERS, index=REPORTERS.index(st.session_state.get("saved_reporter_role", REPORTERS[0])), key="reporter_role")
     st.session_state["saved_reporter_role"] = role
     if role == REPORTERS[2]:
         st.caption("Describe the person receiving care. Keep your own experience separate below. Share only with appropriate permission.")

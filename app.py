@@ -2693,9 +2693,7 @@ def show_visit_organizer():
     else:
         st.caption("Already entered your story on the Tick Bite page? Your notes appear below. Review or update them—you don’t need to enter them again. Notes are shared within this session.")
     reporter_role = show_reporter()
-    if "notes_language" not in st.session_state:
-        st.session_state["notes_language"] = st.session_state.get("saved_notes_language", "English")
-    language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, key="notes_language", help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
+    language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, index=LANGUAGES.index(st.session_state.get("saved_notes_language", "English")), key="notes_language", help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
     st.session_state["saved_notes_language"] = language
     if language in AIDS:
         st.write(AIDS[language][0])
@@ -2715,20 +2713,21 @@ def show_visit_organizer():
     st.write("For pilot testing, please use made-up information. Do not enter names, dates of birth, contact details, Social Security numbers or other identifying information.")
     show_pilot_privacy()
 
-    if "quick_story_value" not in st.session_state:
-        st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
-
     st.info("Mixed languages are welcome. Keep place names such as Pasadena and words such as tick in English. Choose the main language you are writing in.\n\n可以中英文混合输入。地名、药名和不熟悉的医学词可以保留英文，不需要自行翻译。主要写中文时，请选择「中文 / Chinese」。")
     st.write("Some cities share the same name. If you know it, include the state or the ZIP code of the place where you were outdoors—for example, Pasadena, CA. An approximate location is fine; do not enter a street or home address.")
     st.write("有些城市同名。如知道，请补充当时户外活动地点所在的州或邮政编码，例如 Pasadena, CA。不确定时可写大致地点；无需填写街道或家庭住址。")
     quick_story = st.text_area(
         "Your notes" if simple_reading_view() else "Your story, in your own words",
+        value=st.session_state.get("saved_story_text", ""),
         key="quick_story_value",
+        on_change=keep_visit_draft,
         placeholder="Write what you know. You do not need to write a full story.",
         height=140,
         max_chars=MAX_STORY_CHARS,
     )
     st.session_state["saved_story_text"] = quick_story
+    if quick_story.strip():
+        st.caption("Your notes are saved for this browser session. You can use the same notes on the bite and care pages; a new tab or a cleared session starts a separate record.")
 
     st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
     if chinese_notes_in_english_mode(quick_story, language):
@@ -3480,12 +3479,28 @@ if st.session_state.get("admin_authenticated"):
         st.write("Deployment Strategy: launch plan, sustainability, post-sprint roadmap, and ways to support the tool.")
         page_note("Technical checks are not user validation. County adoption, clinical benefit and savings remain unestablished.")
 
+def keep_visit_draft():
+    """Snapshot widget values before Streamlit removes off-page widgets."""
+    for widget, saved in (("quick_story_value", "saved_story_text"),
+                          ("notes_language", "saved_notes_language"),
+                          ("reporter_role", "saved_reporter_role")):
+        if widget in st.session_state:
+            value = st.session_state[widget]
+            # An off-page widget can reappear with its empty default during cleanup.
+            # Do not overwrite a saved story with that transient navigation value.
+            if widget == "quick_story_value" and not value and st.session_state.get(saved):
+                continue
+            st.session_state[saved] = value
+
+
 def select_public_pathway(target, intent):
+    keep_visit_draft()
     st.session_state["pathway_view"] = target
     st.session_state["public_pathway_intent"] = intent
     st.session_state["pathway_open"] = True
 
 def return_to_path_choices():
+    keep_visit_draft()
     st.session_state["pathway_open"] = False
     st.session_state["pathway_view"] = None
 
@@ -3497,6 +3512,7 @@ def clear_session_and_return():
     st.session_state["pathway_open"] = False
 
 def open_sidebar_view():
+    keep_visit_draft()
     st.session_state["pathway_open"] = True
     st.session_state["public_pathway_intent"] = "browse"
 
@@ -3703,6 +3719,8 @@ if view == "🩹 Tick Bite: What Next?":
     st.write("Optional: start your visit note here, or go directly to Care & Support. You can read the bite guidance without filling in a form.")
     bite_story, bite_details, bite_reporter = show_visit_organizer()
     show_tick_encounter(bite_details)
+    if bite_story.strip():
+        st.button("Continue to Care & Support with these notes →", key="bite_continue_with_notes", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     page_note("Tick-found details stay in your private session and are not automatically shared. Finding a tick does not confirm Lyme disease or establish county infection risk. Community reporting requires consent, reviewed observations and privacy safeguards; it does not guarantee resource allocation or personal support.")
     show_lyme_testing(simple=simple_reading_view())
     with st.expander("Learn more about Lyme disease, symptoms and rashes", expanded=not simple_reading_view()):

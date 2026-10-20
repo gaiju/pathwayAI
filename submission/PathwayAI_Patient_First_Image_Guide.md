@@ -4,13 +4,13 @@ This supersedes the county-first order for this new script. Keep your original J
 
 Use PathwayAI_Patient_First_ElevenLabs_Script.txt for tagged narration, or the plain TXT for a voice model that does not support tags. No spoken stage/page labels are embedded in the plain script.
 
-756 spoken words. Revised around patient benefits, community benefits, and their connection. Target approximately 4:45; actual ElevenLabs duration has not been measured. Check the rendered recording and keep the final export under five minutes, including any title-card pauses. Voice tags depend on the ElevenLabs model; use the plain script if unsupported.
+721 spoken words. Revised around patient benefits, community benefits, and their connection. Target approximately 4:45; actual ElevenLabs duration has not been measured. Check the rendered recording and keep the final export under five minutes, including any title-card pauses. Voice tags depend on the ElevenLabs model; use the plain script if unsupported.
 
 ## Image cues
 
 | Image | App page / section | Narration cue |
 |---|---|---|
-| 01_Personal_Story.png | Opening story | Then it became personal. |
+| 01_Personal_Story.png | Opening story | Then, three years ago, it became personal. |
 | 02_The_Problem.png | Start Page | A medical bill shows only part of what illness costs. |
 | 03_Uninsured_Care.png | Care & Support | Start with the question my family faced: |
 | 04_Outdoor_Plan.png | Learn & Prevent | Support also starts before illness. |
@@ -51,3 +51,7 @@ The after-bite narration now connects CDC guidance on early appropriate treatmen
 ## Benefit-focused revision
 
 The patient segment emphasizes care access, prevention, visit preparation, language support, and usable downloads. The cost record supports a conversation; it does not claim to pay bills or include outstanding-balance fields not demonstrated. The community segment frames decisions and possible actions. Their connection is a proposed consent-based pilot, not an existing transfer of patient notes to counties. The existing personal-cost image still depicts the fictional example; its numbers are context rather than the central benefit.
+
+## Personal-story clarification
+
+The opening explicitly places the family experience three years ago and describes the lessons that led to development. It does not imply a current illness. The latest script describes ongoing invitations to Mandarin-, Spanish-, and English-speaking reviewers without claiming completed multilingual validation. Follow the script’s spoken transitions when selecting existing images; the image cue table is a navigation aid, not fixed audio timing.

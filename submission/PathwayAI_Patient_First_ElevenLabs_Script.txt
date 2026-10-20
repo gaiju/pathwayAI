@@ -1,61 +1,73 @@
 [thoughtful] As a pathologist, I studied disease through a microscope. As an epidemiologist, I looked for patterns across communities. [short pause]
 
-[serious] Then it became personal. [pause]
+Then, three years ago, it became personal. [pause]
 
-[gentle] I lost my job, and my family lost our health insurance. The next month, my husband was bitten by a tick and developed Lyme disease. [short pause]
+I lost my job, and my family lost our health insurance. The next month, my husband was bitten by a tick and developed Lyme disease.
 
-[warm] For my husband, speaking to a doctor in English could feel overwhelming. I wanted to make that first conversation easier. [short pause]
+That experience taught me how difficult it can be to navigate care while worrying about costs—and how language can make those conversations even harder. [short pause]
 
-[confident] I'm Yuwei Zhang. That experience led me to build PathwayAI. [short pause]
+I kept thinking: how could we help other families feel better prepared?
 
-[explaining] A medical bill shows only part of what illness costs. There is time spent finding care, work missed, and help from family. PathwayAI is a working web app that connects practical patient support with evidence for community planning. [short pause]
+I’m Yuwei Zhang. Those lessons led me to build PathwayAI. [pause]
 
-[curious] First, what does a patient gain? [pause]
+Illness costs more than a medical bill. There is time spent finding care, missed work, and help from family.
 
-[warm] Start with the question my family faced: where do you go without insurance? In Care and Support, people can find community health centers and questions to ask about income-based fees, coverage, and hospital financial assistance. Care is not automatically free. But they have somewhere to start. [short pause]
+PathwayAI connects practical patient support with public evidence for community planning. [short pause]
 
-[explaining] Support also starts before illness. In Learn and Prevent, enter a destination ZIP code, month, and outdoor activity. Download a practical tick-prevention plan. On Tick Bite: What Next, find removal instructions, what to record, and when to contact a clinician. [short pause]
+[warm] First, what does a patient gain?
 
-[serious] Early, appropriate treatment can help prevent more severe Lyme disease. Published research reports higher costs for disseminated disease. Helping people reach care is one reason we address language, insurance, and cost barriers. [short pause]
+Start in Care and Support. Someone without insurance can find community health centers and questions about income-based fees, coverage, and hospital financial assistance. Care is not automatically free, but they have somewhere to start.
 
-[warm] Now imagine someone preparing for a visit. Every patient detail in this demonstration is fictional. [pause]
+Support also begins before illness. In Learn and Prevent, enter a destination ZIP code, month, and outdoor activity. Download a practical tick-prevention plan.
 
-[explaining] They enter what happened and review a timeline of exposure, symptoms, tests, and care. Symptom onset and diagnosis delay stay separate. They can correct the summary, download it, and bring it with their original test report. [short pause]
+On Tick Bite: What Next, find removal instructions, what to record, and when to contact a clinician. Some bites require time-sensitive advice. [short pause]
 
-[warm] People can write in their own language, or mix languages. With permission, optional external AI helps prepare an English summary alongside the original for review. The aim is to help them feel better prepared to explain symptoms and ask questions, so language is less of a barrier to seeking timely care. It does not replace a qualified interpreter. [short pause]
+Early, appropriate treatment can help prevent more severe Lyme disease. Addressing barriers to care is part of addressing the burden. [pause]
 
-[explaining] The English organizer also works without external AI. This demonstration uses that option. [short pause]
+[explaining] Now imagine someone preparing for a visit. All patient details in this demonstration are fictional.
 
-[serious] And the cost record? Adding numbers alone will not pay a bill. [short pause]
+They record exposure, symptoms, tests, and care, then review and correct a timeline. Symptom onset and diagnosis delay stay separate. Original test reports still matter.
 
-[explaining] Our fictional patient paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of family help. Money, workdays, and caregiving hours stay separate. The value is having these concerns together when asking for support. [short pause]
+People can write in their preferred language or mix languages. With permission, optional external AI helps prepare an English summary alongside the original for review.
 
-[warm] Choose Download my visit summary for the visit note. Under Review or add costs and time, choose Download appointment and cost summary. The PDFs save to your device. The care-access checklist provides questions for the clinic or billing office. [short pause]
+The goal is to help people feel better prepared to explain symptoms and ask questions, so language is less of a barrier to seeking care. It does not replace a qualified medical interpreter. [short pause]
 
-[curious] Second, what does a community gain? [pause]
+We have invited Mandarin-, Spanish-, and English-speaking reviewers to test whether instructions are clear and summaries preserve their meaning. That testing is ongoing.
 
-[explaining] A county team needs to decide where to focus limited resources. In Community Burden and Action, we compare Dutchess and Orange counties. [short pause]
+The English organizer also works without external AI. That is the option shown here. Select Download my visit summary to save the reviewed note. [pause]
 
-[explaining] New York surveillance supplies reported Lyme rates. Census data adds population and language context. HRSA describes healthcare resources. CDC tick surveillance informs exposure context, and CDC PLACES adds broader community-health estimates. CMS provides separate Original Medicare payment context, not Lyme-specific costs. [short pause]
+[serious] What about costs? Adding numbers alone will not pay a bill.
 
-[serious] Sources and years stay visible. Published Lyme cost estimates illustrate possible burden; they are not measured county spending. [short pause]
+Our fictional patient paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of family help.
 
-[curious] What can a county do next? [short pause]
+Money, workdays, and caregiving hours stay separate. The benefit is keeping these concerns together when asking for support.
 
-[explaining] The planning brief connects a need with possible actions, partners, and measures. That could mean tick education in parks, helping uninsured residents reach existing clinics, or improving connections to language and transportation support. Partners would confirm service capacity and resources before starting. [short pause]
+Download the appointment and cost summary. The care-access checklist provides questions for a clinic or billing office. [pause]
 
-[confident] Third, how do these two sides connect? [pause]
+[curious] Second, what does a community gain?
 
-[thoughtful] County averages cannot explain why one family struggled to reach care. Patient experiences can reveal questions worth investigating. Public data helps put those questions in context. Together, they can inform a more focused response. [short pause]
+County teams need to decide where to focus limited resources. Community Burden and Action brings together evidence for that conversation.
 
-[explaining] Personal notes are not automatically sent to counties. Shared collection is off in this demo. Secure, consent-based reporting is a future pilot goal. [short pause]
+New York surveillance provides reported Lyme cases and rates. Census data adds population and language context. HRSA describes healthcare resources. CDC tick surveillance informs exposure context, while CDC PLACES adds broader community-health estimates. CMS provides separate Original Medicare spending context—not Lyme-specific costs.
 
-[hopeful] People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback helped us simplify choices and clarify next steps. [short pause]
+The county illustration multiplies 2024 reported cases by a published societal-cost benchmark in 2016 dollars. Sources and calculations stay visible. This is an illustration, not measured county spending. [pause]
 
-[confident] We are seeking patient groups, health centers, and community partners for a small pilot. We would test whether summaries are useful, people reach support, and needs remain unmet, before claiming better outcomes or savings. Our proposed model keeps patient access free through grants and partnerships. [short pause]
+[explaining] The planning brief connects a need with possible actions, partners, and measures: prevention outreach, clinic navigation, or connections to language and transportation support.
 
-[warm] AI can help organize words. Data can reveal patterns. Patients remain at the center. [short pause]
+Partners would confirm capacity and resources. A pilot could track completed referrals, appointments reached, assistance received, and unmet needs. [short pause]
 
-[confident] PathwayAI. Making the hidden patient journey visible—and actionable. [short pause]
+Third, how do these connect?
 
-[warm] Thank you to the patients, caregivers, and reviewers helping shape what comes next. [short pause]
+County averages cannot explain why one family struggled to reach care. Patient experiences reveal questions worth investigating. Public data provides context for a focused response.
+
+Personal notes are not automatically sent to counties. Secure, consent-based reporting is a future goal. [pause]
+
+[hopeful] People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback helped us simplify choices and clarify next steps.
+
+We welcome patient groups, health centers, and community partners for a small pilot. We will evaluate usefulness before claiming better outcomes or savings. Our proposed model keeps patient access free through grants and partnerships. [short pause]
+
+AI can help organize words. Data can reveal patterns. Patients remain at the center. [pause]
+
+PathwayAI. Making the hidden patient journey visible—and actionable.
+
+[warm] Thank you to the patients, caregivers, and reviewers helping shape what comes next.

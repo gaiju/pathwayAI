@@ -43,6 +43,17 @@ CONTROLS = {
 }
 
 
+def chinese_notes_in_english_mode(text, language):
+    """Conservative script check, not a general language detector."""
+    import re
+    if language != "English":
+        return False
+    # Do not label Japanese/Korean notes Chinese based on shared Han characters.
+    if re.search(r"[\u3040-\u30ff\uac00-\ud7af]", text):
+        return False
+    return len(re.findall(r"[\u3400-\u4dbf\u4e00-\u9fff]", text)) >= 2
+
+
 def validate_translation(value):
     if not isinstance(value, dict) or set(value) != {"english_translation", "timeline", "uncertainties"}:
         raise ValueError("Invalid translation structure")

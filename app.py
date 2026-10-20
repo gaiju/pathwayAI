@@ -40,7 +40,7 @@ from community_action import show_community_action_pathway
 from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER
 from outdoor_plan import outdoor_plan_text, CDC_BOT
 from visit_summary import show_visit_summary
-from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes
+from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
 
 PAGE_NOTES = []
 
@@ -2728,6 +2728,16 @@ def show_visit_organizer():
     st.session_state["saved_story_text"] = quick_story
 
     st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
+    if chinese_notes_in_english_mode(quick_story, language):
+        st.warning("Your notes appear to contain Chinese, but English is selected. The basic English organizer cannot reliably organize these notes. Choose 中文 / Chinese to review the translation options. Your notes are kept; nothing is sent to AI by this check.")
+        st.write("您输入了中文，但目前选择的是 English。请切换到中文。笔记已保留；只有您同意并点击翻译后，才会发送给外部 AI。")
+        def choose_chinese_notes():
+            st.session_state["notes_language"] = "中文 / Chinese"
+            st.session_state["saved_notes_language"] = "中文 / Chinese"
+        st.button("切换到中文 / Use Chinese", key="switch_notes_to_chinese", on_click=choose_chinese_notes)
+        branded_download_button("Download my original notes", quick_story.encode("utf-8"), file_name="PathwayAI_Original_Notes.txt", mime="text/plain", key="mismatched_language_original_download")
+        st.session_state["story_organized"] = False
+        return quick_story, extract_quick_story(""), reporter_role
     if language == "English":
         with st.expander("Optional AI help and privacy"):
             use_story_ai = st.checkbox("Use external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")

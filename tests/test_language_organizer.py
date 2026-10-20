@@ -97,3 +97,26 @@ class BilingualExportTests(unittest.TestCase):
             self.assertEqual(result.count(original),1)
             self.assertTrue(result.endswith(original))
             self.assertIn("Reviewed English notes",result)
+
+
+class LanguageMismatchTests(unittest.TestCase):
+    def test_chinese_notes_do_not_produce_empty_english_summary(self):
+        from unittest.mock import patch
+        app = Path(__file__).resolve().parents[1] / "app.py"
+        story="在lancaster玩，被tick咬了，昏睡，没法工作10天，看医生两次，580美金，检查阴性，想找个医生检查"
+        with patch("language_organizer.translate_notes") as translate:
+            at=AppTest.from_file(str(app),default_timeout=60).run()
+            at.button(key="route_ongoing").click().run()
+            at.text_area(key="quick_story_value").set_value(story).run()
+            self.assertFalse(list(at.exception))
+            self.assertTrue(any("English is selected" in e.value for e in at.warning))
+            self.assertFalse(any("Organize My Story" in b.label for b in at.button))
+            self.assertFalse(any(d.key=="visit_summary_download" for d in at.get("download_button")))
+            self.assertEqual(translate.call_count,0)
+            at.button(key="switch_notes_to_chinese").click().run()
+            self.assertFalse(list(at.exception))
+            self.assertEqual(at.selectbox(key="notes_language").value,"中文 / Chinese")
+            self.assertEqual(at.text_area(key="quick_story_value").value,story)
+            self.assertFalse(at.checkbox(key="translation_consent").value)
+            self.assertTrue(at.button(key="translate_visit_notes").disabled)
+            self.assertEqual(translate.call_count,0)

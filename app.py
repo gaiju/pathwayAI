@@ -2695,7 +2695,7 @@ def show_visit_organizer():
     reporter_role = show_reporter()
     if "notes_language" not in st.session_state:
         st.session_state["notes_language"] = st.session_state.get("saved_notes_language", "English")
-    language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, key="notes_language")
+    language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, key="notes_language", help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
     st.session_state["saved_notes_language"] = language
     if language in AIDS:
         st.write(AIDS[language][0])
@@ -2718,6 +2718,7 @@ def show_visit_organizer():
     if "quick_story_value" not in st.session_state:
         st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
 
+    st.info("Mixed languages are welcome. Keep place names such as Pasadena and words such as tick in English. Choose the main language you are writing in.\n\n可以中英文混合输入。地名、药名和不熟悉的医学词可以保留英文，不需要自行翻译。主要写中文时，请选择「中文 / Chinese」。")
     quick_story = st.text_area(
         "Your notes" if simple_reading_view() else "Your story, in your own words",
         key="quick_story_value",

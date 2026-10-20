@@ -35,5 +35,5 @@ def personal_cost_svg(medical=None, other=None, workdays=None, caregiver=None,
                       f'<text x="{x+14}" y="172" font-size="23" font-weight="bold">{label(value, unit)}</text>'])
     parts.extend([f'<text x="28" y="240" font-size="21" font-weight="bold">{escape(total)}</text>',
                   f'<text x="28" y="273" font-size="17">{escape(estimated)}</text>',
-                  '<text x="28" y="310" font-size="15">PathwayAI · Your entries for this period · Review alongside your visit summary</text>', f'<text x="28" y="345" font-size="16">{escape(TAGLINE)}</text>', '</g></svg>'])
+                  '<text x="28" y="310" font-size="15">Your entries for this period · Review with your visit summary</text>', f'<text x="28" y="345" font-size="16">{escape(TAGLINE)}</text>', '</g></svg>'])
     return "".join(parts)

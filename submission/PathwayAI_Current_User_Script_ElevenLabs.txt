@@ -1,0 +1,57 @@
+[thoughtful] As a pathologist, I studied disease through a microscope. As an epidemiologist, I studied patterns across communities. [short pause]
+
+[serious] Then it became personal. [pause]
+
+[somber] After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease. [pause]
+
+[gentle] For immigrants like my husband, language can make tests, bills, and medical visits harder to understand. [short pause]
+
+I'm Yuwei Zhang. That experience led me to build PathwayAI. [short pause]
+
+[confident] Our goal is to reduce the burden of Lyme disease by supporting prevention, helping people seek timely care, and reducing barriers such as lack of insurance, language difficulties, and cost. [short pause]
+
+The problem is bigger than a medical bill: finding care without insurance, understanding what is happening, missing work, and relying on family. PathwayAI connects practical patient support with evidence for community action. [short pause]
+
+[explaining] First, what can local evidence tell us? Here we compare Dutchess and Orange counties. Reported Lyme surveillance, community health estimates, population data, and healthcare resources answer different questions. Their years and limitations stay visible. [short pause]
+
+Published Lyme cost estimates support illustrations, not measured county spending. CMS figures describe Original Medicare fee-for-service beneficiaries by county of residence. Standardized and actual payments are separate. These are not Lyme-specific costs. [short pause]
+
+County data provides context; it cannot tell us what happened to an individual family. [short pause]
+
+[warm] Now return to the person behind those numbers. [pause]
+
+Without insurance, where do you start? PathwayAI links to community health centers and helps people ask about income-based fees, coverage, and hospital financial assistance. These are practical starting points, not guaranteed services. [short pause]
+
+For this demonstration, every patient detail is fictional. This person paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of unpaid help. [short pause]
+
+The local organizer creates a summary they can check, correct, and download. Payments total 225 dollars; workdays and caregiving hours stay separate. [short pause]
+
+People can also write in a language they are comfortable using. With explicit permission, optional external AI can help organize an English summary alongside the original for review. That is not a fully translated interface or qualified medical interpretation. This demonstration uses the local English organizer with AI off. [short pause]
+
+The aim is to help someone prepare for a conversation, not diagnose illness or determine benefits eligibility. [short pause]
+
+[curious] How can a county team respond to barriers like these? [short pause]
+
+The community planning brief connects a need with a possible action, partners, resources, and follow-up. Here, the focus is reaching care. [short pause]
+
+A care-navigation pilot could help uninsured residents find existing services and prepare for language-support and billing conversations. Local partners would verify contacts, staffing, eligibility, and funding before offering support. [short pause]
+
+The brief gives them a proposal to assess. A pilot could track completed referrals, appointments reached, assistance received, and unresolved needs. It does not establish that a county has adopted or funded the program. [short pause]
+
+Shared storage is disabled in this demonstration. We are using fictional information, and personal entries do not automatically become county evidence. [short pause]
+
+[hopeful] Patients and caregivers can use the current preparation tools today. Our next step is a small pilot with willing patient groups, health centers, care navigators, and community partners. [short pause]
+
+First, test whether people can find support and prepare a useful summary, including reviewers from different language backgrounds. [short pause]
+
+Second, develop separate disability-benefits and food-assistance guidance with qualified advisers. [short pause]
+
+Third, verify medication prices and investigate how costs vary across communities. Secure, consent-based local reporting is a future development priority, not an active public collection service. [short pause]
+
+We will evaluate usefulness and support connections before claiming improved health outcomes or savings. Our proposed model keeps patient access free through grants and community partnerships. [short pause]
+
+[reflective] At an event, someone told me they wished their family member had been able to use PathwayAI earlier. That stayed with me. It captured why I built it: to help people find support when they need it. [pause]
+
+[confident] PathwayAI. Making the hidden patient journey visible—and actionable. [pause]
+
+[warm] Thank you. [short pause]

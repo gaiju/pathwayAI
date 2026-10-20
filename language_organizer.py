@@ -112,6 +112,13 @@ def show_bilingual_organizer(story, language, reporter, translate):
     import streamlit as st
     if language in AIDS:
         st.write(AIDS[language][1])
+    if st.session_state.get("reading_mode") == "More detail":
+        with st.container(border=True):
+            st.markdown("**Detailed review guide · what to check in your English summary**")
+            st.markdown("- Check when exposure and symptoms happened; keep diagnosis delay separate.\n- Check whether test results say positive, negative or uncertain.\n- Check payments, missed work and caregiving hours, including the period they cover.\n- Keep your original notes and ask the clinic for a qualified interpreter if you need one.")
+            if language == "中文 / Chinese":
+                st.write("详细核对：时间、检测阳性或阴性、费用、误工和照护时间。AI 翻译需要您同意；可以请诊所安排专业医疗口译。")
+
     st.write("Only these notes and your selected language/reporter role go to OpenAI after you give permission and click Translate. AI may miss or change important details. Review and correct the summary before sharing. Leave out identifiers. This translates your notes, not the app's menus or medical instructions.")
     st.caption("Translation requires permission and a button click. The external provider’s retention policy still applies; no zero-retention guarantee is made.")
     consent_label, button_label = CONTROLS.get(language, ("I agree to send these notes to external AI for English translation", "Translate and organize into English"))

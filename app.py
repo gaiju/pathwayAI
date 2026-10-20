@@ -1041,6 +1041,7 @@ def compact_care88(quick, story):
                     google_maps_search_url("primary care or infectious disease doctor near " + encounter["current"]) + ")")
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
+    st.markdown('<span id="costs-time"></span>', unsafe_allow_html=True)
     st.markdown("### 2. Your costs, time and visit summary")
     show_lyme_cost_context()
     show_burden_reading_guide()
@@ -1110,6 +1111,7 @@ def compact_care88(quick, story):
             branded_download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
         branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
+    st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
     st.markdown("### 3. Find support and explore your community")
     county=county_selector88("patient88", include_zip=False)
     st.session_state["burden_session_record"] = {
@@ -1299,6 +1301,11 @@ st.markdown("""<style>
 [data-testid="stMetricValue"] {white-space:normal !important; overflow:visible !important; text-overflow:clip !important; font-size:1.7rem !important;}
 [data-testid="stMetricLabel"] p {white-space:normal !important; overflow:visible !important; text-overflow:clip !important;}
 [data-testid="stHeading"] h1, [data-testid="stHeading"] h2, [data-testid="stHeading"] h3 {overflow-wrap:break-word;}
+
+/* Comfortable spacing and in-page destinations for short and expanded views. */
+[data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] p,
+[data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] li {line-height:1.65;}
+#care-start, #visit-notes, #costs-time, #find-support {scroll-margin-top:6rem;}
 
 /* v115: navigation is easier to find and use on desktop and mobile. */
 .pathway-hero {width:100%;margin:0.35rem 0 1rem;display:flex;justify-content:center;overflow:hidden;border-radius:14px;}
@@ -2679,6 +2686,7 @@ def translate_visit_notes(text, language, reporter, *, consent):
 
 def show_visit_organizer():
     """One notes/translation workflow reused on the bite and care pages."""
+    st.markdown('<span id="visit-notes"></span>', unsafe_allow_html=True)
     st.markdown("### Tell us what happened")
     if st.session_state.get("pathway_view") == "🩹 Tick Bite: What Next?":
         st.caption("Already entered your story in Care & Support? The same notes appear here. Review or update them—you don’t need to enter them again. Notes are shared within this session.")
@@ -3507,6 +3515,18 @@ st.radio("What works for you today?", ["Short and simple", "More detail"],
          help="Start with fewer words. Switch any time. Your notes and amounts stay the same.")
 
 
+if simple_reading_view():
+    st.success("Quick and easy · Short steps. Open extra information only when you need it.")
+else:
+    st.info("More detail · Extra explanations and optional sections are open. Your notes and amounts stay the same.")
+    st.caption("This changes how much information is shown—not the medical guidance, AI permission or accuracy of a report. Extra questions remain optional.")
+
+if view == "🧭 Care & Support":
+    st.markdown("**On this page:** [Find care or help with bills](#care-start) · [Prepare your visit note](#visit-notes) · [Costs and time](#costs-time) · [Support options](#find-support)")
+elif view == "🩹 Tick Bite: What Next?":
+    st.markdown("**Start with the three bite steps below.** [Go to optional visit notes](#visit-notes). You can read the guidance without filling out a form.")
+
+
 if view == "🌱 What’s next":
     st.header("What’s next for PathwayAI")
     st.write("We’re seeking patients, caregivers, community groups and care teams to help shape the next pilot.")
@@ -3680,7 +3700,8 @@ if view == "🩹 Tick Bite: What Next?":
 
 if view == "🛡️ Learn & Prevent":
     st.header("Plan a safer outdoor visit")
-    show_photo116("forest", "Woodland walking trail in a green forest")
+    if not simple_reading_view():
+        show_photo116("forest", "Woodland walking trail in a green forest")
     st.write("Choose where and when you are going. Build a tick-prevention plan for your time outdoors.")
     with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=False):
         show_lyme_learning78()
@@ -3712,18 +3733,19 @@ if view == "🛡️ Learn & Prevent":
 
     outdoor_activity = st.selectbox("What will you be doing?", ["Choose an activity", "Hiking or camping", "Gardening or yard work", "Parks or outdoor events", "Mostly indoor activities"])
 
-    health_context = st.multiselect(
-        "Do any of these apply to you?",
-        [
-            "Age 65 or older",
-            "Weakened immune system or immunosuppressive treatment",
-            "No spleen or reduced spleen function",
-            "Cancer or cancer treatment",
-            "Kidney disease",
-            "Liver disease",
-            "Other relevant health condition"
-        ]
-    )
+    with st.expander("Health context · optional", expanded=not simple_reading_view()):
+        health_context = st.multiselect(
+            "Do any of these apply to you?",
+            [
+                "Age 65 or older",
+                "Weakened immune system or immunosuppressive treatment",
+                "No spleen or reduced spleen function",
+                "Cancer or cancer treatment",
+                "Kidney disease",
+                "Liver disease",
+                "Other relevant health condition"
+            ]
+        )
     plan_inputs = (travel_zip, travel_month, outdoor_activity, tuple(health_context))
     if st.button("Generate My Outdoor Tick-Prevention Plan", type="primary"):
         st.session_state["outdoor_plan_inputs"] = plan_inputs
@@ -3738,207 +3760,208 @@ if view == "🛡️ Learn & Prevent":
         st.info('Use this plan for prevention, not diagnosis or personal risk prediction.')
         st.markdown("**Your next steps**\n- Before: prepare EPA-registered repellent and protective clothing; follow product instructions.\n- After outdoor activities: check your body, clothing, gear and pets; shower within two hours.\n- If you found a tick or feel unwell: use the bite guidance below or choose Care & Support.")
 
-        st.write(f"**Destination:** {travel_destination}")
-        if normalize_zip(travel_zip):
-            st.write(f"**Destination ZIP code:** {normalize_zip(travel_zip)}")
-            if travel_geo:
-                state_code = travel_geo.get("state_code", "")
+        with st.expander("Destination context and additional planning details", expanded=not simple_reading_view()):
+            st.write(f"**Destination:** {travel_destination}")
+            if normalize_zip(travel_zip):
+                st.write(f"**Destination ZIP code:** {normalize_zip(travel_zip)}")
+                if travel_geo:
+                    state_code = travel_geo.get("state_code", "")
+                    if state_code in HIGH_INCIDENCE_STATES:
+                        st.success(f"**{travel_geo.get('state','This state')} is in CDC's higher-incidence Lyme disease group.** This means Lyme disease is reported more frequently at the population level. It does not estimate your personal chance of infection. The map below provides national context; finer local measures are shown when available.")
+                    else:
+                        st.info(f"**{travel_geo.get('state','This state')} is not currently in CDC's higher-incidence Lyme disease group.** This does not mean zero risk. Tick exposure and Lyme disease can still occur, so PathwayAI shows national tick/pathogen surveillance and local public-health sources rather than labeling the ZIP 'low risk.'")
+            st.write(f"**Travel month:** {travel_month}")
+            st.write(f"**Planned activity:** {outdoor_activity}")
+            if outdoor_activity == "Mostly indoor activities":
+                page_note("Consider tick precautions for any outdoor portions of your visit; an indoor visit alone does not establish tick exposure.")
+            if "Kidney disease" in health_context or "Liver disease" in health_context:
+                st.info("Serious kidney or liver disease can increase the risk of severe babesiosis, another infection spread by blacklegged ticks. This is not an estimate of your Lyme risk. Bring your medication list and contact a clinician promptly if you become unwell after possible tick exposure.")
+                if "Kidney disease" in health_context:
+                    st.write("Follow your prescribed fluid guidance. Ask a clinician or pharmacist before using ibuprofen or naproxen; do not change prescribed medicines on your own.")
+                page_note("Sources: [CDC babesiosis](https://www.cdc.gov/babesiosis/hcp/clinical-overview/index.html) · [NIDDK medicine safety](https://www.niddk.nih.gov/health-information/kidney-disease/keeping-kidneys-safe)")
+
+            if health_context:
+                st.write("**Health context:** " + ", ".join(health_context))
+            else:
+                st.write("**Health context:** None selected")
+
+            if normalize_zip(travel_zip).startswith("126") and latest_dutchess is not None:
+                st.subheader("Environmental Surveillance")
+
+                st.write(
+                    f"**Latest NYSDOH surveillance year:** {int(latest_dutchess['Year'])}"
+                )
+
+                st.write(
+                    f"**Nymph tick population density:** {latest_dutchess['Tick Population Density']:.2f}"
+                )
+
+                st.write(
+                    f"**B. burgdorferi positive:** {latest_dutchess['B. burgdorferi (%)']}"
+                )
+
+                page_note(
+                    "Source: New York State Department of Health deer tick surveillance. "
+                    "Environmental surveillance describes local tick conditions and does "
+                    "not estimate an individual's probability of infection."
+                )
+            st.subheader("Local Tick Exposure Context")
+
+            if normalize_zip(travel_zip).startswith("126") and latest_dutchess is not None:
+                latest_year = int(latest_dutchess["Year"])
+                latest_density = float(latest_dutchess["Tick Population Density"])
+                latest_bb = latest_dutchess["B. burgdorferi (%)"]
+
+                st.markdown("#### At a glance")
+                c1, c2, c3 = st.columns(3)
+                with c1:
+                    st.metric("Surveillance year", latest_year)
+                    page_note("Latest local record")
+                with c2:
+                    st.metric("Nymph density", f"{latest_density:.1f} / 1,000 m²")
+                    page_note("Host-seeking nymphs found in standardized surveillance")
+                with c3:
+                    st.metric("B. burgdorferi positive", str(latest_bb))
+                    try:
+                        _bb = float(str(latest_bb).replace('%','').strip())
+                        page_note(f"≈ {_bb:.0f} of every 100 tested nymphs")
+                    except Exception:
+                        page_note("Share of tested nymphs positive")
+                page_note(f"NYSDOH • {latest_year} • Environmental surveillance, not personal infection probability")
+
+                st.markdown("#### Tick Exposure at Your Destination")
+                st.write(
+                    'Review regional and local tick surveillance before your trip.'
+                )
+
+                page_note("Use the observed county surveillance above. Regional measures are not a personal infection probability.")
+
+                st.markdown(
+                    "[View the official NYSDOH Tick Risk Score by Region map]"
+                    "(https://www.health.ny.gov/diseases/communicable/lyme/risk_score_map.htm)"
+                )
+
+                with st.expander("View Dutchess County surveillance history"):
+                    dutchess_plot = dutchess_data.sort_values("Year").copy()
+                    if "Tick Population Density" in dutchess_plot.columns:
+                        trend = dutchess_plot[["Year", "Tick Population Density"]].dropna()
+                        if not trend.empty:
+                            trend = trend.set_index("Year")
+                            page_note(
+                                "Observed nymph tick population density in the PathwayAI "
+                                "Dutchess County surveillance dataset"
+                            )
+                            st.line_chart(trend)
+                    page_note(
+                        "Source: NYSDOH deer tick surveillance. Year-to-year surveillance "
+                        "values can vary and should be interpreted as environmental context."
+                    )
+                # v9.8.0: ZIPs beginning with 126 keep the NYSDOH local detail above,
+                # but now ALSO receive the same combined regional map used for every other ZIP.
+                state_code = travel_geo.get("state_code", "") if travel_geo else ""
+                st.markdown("#### Tick & Lyme Disease Surveillance Near Your Destination")
+                st.write(
+                    'Compare tick surveillance and reported Lyme cases separately. Neither predicts your personal risk.'
+                )
+                show_combined_tick_lyme_context(state_code, travel_geo)
+                st.markdown("**Open the underlying county-level layers**")
+                st.markdown("[🔵 CDC blacklegged tick surveillance — county level](https://www.cdc.gov/ticks/data-research/facts-stats/blacklegged-tick-surveillance.html)")
+                st.markdown("[CDC tickborne pathogen surveillance map](https://www.cdc.gov/ticks/data-research/facts-stats/tickborne-pathogen-surveillance-1.html)")
+                st.markdown("[🟧 CDC Lyme disease surveillance and reported-case data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
+                st.markdown(f"[Find local/state public-health information for ZIP {normalize_zip(travel_zip)}](https://www.google.com/search?q={quote_plus('official health department tick Lyme ZIP ' + normalize_zip(travel_zip))})")
+                page_note("CDC notes that a county with no tick/pathogen surveillance record should not be interpreted as having no ticks or no pathogen; sampling and reporting vary by location.")
+
+            else:
+                state_code = travel_geo.get("state_code", "") if travel_geo else ""
+                st.markdown("#### Tick & Lyme Disease Surveillance Near Your Destination")
+                st.write(
+                    'Compare tick surveillance and reported Lyme cases separately. Neither predicts your personal risk.'
+                )
+                show_combined_tick_lyme_context(state_code, travel_geo)
+                st.markdown("**Open the underlying county-level layers**")
+                st.markdown("[🔵 CDC blacklegged tick surveillance — county level](https://www.cdc.gov/ticks/data-research/facts-stats/blacklegged-tick-surveillance.html)")
+                st.markdown("[CDC tickborne pathogen surveillance map](https://www.cdc.gov/ticks/data-research/facts-stats/tickborne-pathogen-surveillance-1.html)")
+                st.markdown("[🟧 CDC Lyme disease surveillance and reported-case data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
+                st.markdown(f"[Find local/state public-health information for ZIP {normalize_zip(travel_zip)}](https://www.google.com/search?q={quote_plus('official health department tick Lyme ZIP ' + normalize_zip(travel_zip))})")
+                page_note("CDC notes that a county with no tick/pathogen surveillance record should not be interpreted as having no ticks or no pathogen; sampling and reporting vary by location.")
+
+            show_tick_identification_guide()
+
+            st.subheader("My Travel Snapshot")
+
+            st.write(f"**Destination:** {travel_destination}")
+            st.write(f"**Season:** {travel_month}")
+
+            if normalize_zip(travel_zip).startswith("126") and latest_dutchess is not None:
+                st.write(
+                    f"**Destination exposure context:** NYSDOH surveillance data are available "
+                    f"for Dutchess County; the latest record in this PathwayAI dataset is "
+                    f"{int(latest_dutchess['Year'])}. Use the surveillance measures above as "
+                    f"environmental context rather than an individual infection probability."
+                )
+            else:
+                state_code = travel_geo.get("state_code", "") if travel_geo else ""
                 if state_code in HIGH_INCIDENCE_STATES:
-                    st.success(f"**{travel_geo.get('state','This state')} is in CDC's higher-incidence Lyme disease group.** This means Lyme disease is reported more frequently at the population level. It does not estimate your personal chance of infection. The map below provides national context; finer local measures are shown when available.")
+                    st.write("**Destination exposure context:** Your destination is in CDC's higher-incidence Lyme disease group. Use the national map plus available state/local surveillance for trip planning; this is population-level context, not an individual infection probability.")
                 else:
-                    st.info(f"**{travel_geo.get('state','This state')} is not currently in CDC's higher-incidence Lyme disease group.** This does not mean zero risk. Tick exposure and Lyme disease can still occur, so PathwayAI shows national tick/pathogen surveillance and local public-health sources rather than labeling the ZIP 'low risk.'")
-        st.write(f"**Travel month:** {travel_month}")
-        st.write(f"**Planned activity:** {outdoor_activity}")
-        if outdoor_activity == "Mostly indoor activities":
-            page_note("Consider tick precautions for any outdoor portions of your visit; an indoor visit alone does not establish tick exposure.")
-        if "Kidney disease" in health_context or "Liver disease" in health_context:
-            st.info("Serious kidney or liver disease can increase the risk of severe babesiosis, another infection spread by blacklegged ticks. This is not an estimate of your Lyme risk. Bring your medication list and contact a clinician promptly if you become unwell after possible tick exposure.")
-            if "Kidney disease" in health_context:
-                st.write("Follow your prescribed fluid guidance. Ask a clinician or pharmacist before using ibuprofen or naproxen; do not change prescribed medicines on your own.")
-            page_note("Sources: [CDC babesiosis](https://www.cdc.gov/babesiosis/hcp/clinical-overview/index.html) · [NIDDK medicine safety](https://www.niddk.nih.gov/health-information/kidney-disease/keeping-kidneys-safe)")
+                    st.write("**Destination exposure context:** Your destination is not currently in CDC's higher-incidence Lyme disease group. Tick exposure may still occur, so PathwayAI links national tick/pathogen surveillance and local public-health sources rather than labeling the ZIP 'low risk.'")
 
-        if health_context:
-            st.write("**Health context:** " + ", ".join(health_context))
-        else:
-            st.write("**Health context:** None selected")
-
-        if normalize_zip(travel_zip).startswith("126") and latest_dutchess is not None:
-            st.subheader("Environmental Surveillance")
+            if health_context:
+                st.write("**Personal context:** " + ", ".join(health_context))
+            else:
+                st.write("**Personal context:** None selected")
 
             st.write(
-                f"**Latest NYSDOH surveillance year:** {int(latest_dutchess['Year'])}"
+        "**Action:** Use enhanced tick-bite precautions during outdoor, "
+        "wooded, or brush exposure."
+    )
+
+            st.subheader("What This Means for My Trip")
+
+            if normalize_zip(travel_zip).startswith("126"):
+                st.write("**Exposure context:** Local NYSDOH surveillance provides additional environmental context for this destination.")
+            elif travel_geo and travel_geo.get("state_code") in HIGH_INCIDENCE_STATES:
+                st.write("**Exposure context:** This destination is in CDC's higher-incidence Lyme disease group. Use tick-bite prevention during potential exposure and review the surveillance information above.")
+            else:
+                st.write("**Exposure context:** This destination is not currently in CDC's higher-incidence Lyme disease group. That does not mean zero risk; use the national tick/pathogen and local public-health information above for context.")
+
+            if health_context:
+                st.write(
+                    "**Personal context:** You selected: "
+                    + ", ".join(health_context)
+                )
+
+            st.write(
+                "**Travel guidance:** This does not mean you need to avoid the "
+                "destination. Consider additional tick-bite prevention, especially "
+                "during outdoor, wooded, or brush exposure."
             )
 
             st.write(
-                f"**Nymph tick population density:** {latest_dutchess['Tick Population Density']:.2f}"
-            )
-
-            st.write(
-                f"**B. burgdorferi positive:** {latest_dutchess['B. burgdorferi (%)']}"
+                "**If a tick bite occurs:** Record the date and location, remove "
+                "the tick promptly, and monitor for symptoms. Seek medical "
+                "evaluation for concerning symptoms."
             )
 
             page_note(
-                "Source: New York State Department of Health deer tick surveillance. "
-                "Environmental surveillance describes local tick conditions and does "
-                "not estimate an individual's probability of infection."
-            )
-        st.subheader("Local Tick Exposure Context")
-
-        if normalize_zip(travel_zip).startswith("126") and latest_dutchess is not None:
-            latest_year = int(latest_dutchess["Year"])
-            latest_density = float(latest_dutchess["Tick Population Density"])
-            latest_bb = latest_dutchess["B. burgdorferi (%)"]
-
-            st.markdown("#### At a glance")
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.metric("Surveillance year", latest_year)
-                page_note("Latest local record")
-            with c2:
-                st.metric("Nymph density", f"{latest_density:.1f} / 1,000 m²")
-                page_note("Host-seeking nymphs found in standardized surveillance")
-            with c3:
-                st.metric("B. burgdorferi positive", str(latest_bb))
-                try:
-                    _bb = float(str(latest_bb).replace('%','').strip())
-                    page_note(f"≈ {_bb:.0f} of every 100 tested nymphs")
-                except Exception:
-                    page_note("Share of tested nymphs positive")
-            page_note(f"NYSDOH • {latest_year} • Environmental surveillance, not personal infection probability")
-
-            st.markdown("#### Tick Exposure at Your Destination")
-            st.write(
-                'Review regional and local tick surveillance before your trip.'
+                'Information about tick exposure only. Environmental surveillance does not estimate your individual probability of infection.'
             )
 
-            page_note("Use the observed county surveillance above. Regional measures are not a personal infection probability.")
-
-            st.markdown(
-                "[View the official NYSDOH Tick Risk Score by Region map]"
-                "(https://www.health.ny.gov/diseases/communicable/lyme/risk_score_map.htm)"
-            )
-
-            with st.expander("View Dutchess County surveillance history"):
-                dutchess_plot = dutchess_data.sort_values("Year").copy()
-                if "Tick Population Density" in dutchess_plot.columns:
-                    trend = dutchess_plot[["Year", "Tick Population Density"]].dropna()
-                    if not trend.empty:
-                        trend = trend.set_index("Year")
-                        page_note(
-                            "Observed nymph tick population density in the PathwayAI "
-                            "Dutchess County surveillance dataset"
-                        )
-                        st.line_chart(trend)
-                page_note(
-                    "Source: NYSDOH deer tick surveillance. Year-to-year surveillance "
-                    "values can vary and should be interpreted as environmental context."
-                )
-            # v9.8.0: ZIPs beginning with 126 keep the NYSDOH local detail above,
-            # but now ALSO receive the same combined regional map used for every other ZIP.
-            state_code = travel_geo.get("state_code", "") if travel_geo else ""
-            st.markdown("#### Tick & Lyme Disease Surveillance Near Your Destination")
-            st.write(
-                'Compare tick surveillance and reported Lyme cases separately. Neither predicts your personal risk.'
-            )
-            show_combined_tick_lyme_context(state_code, travel_geo)
-            st.markdown("**Open the underlying county-level layers**")
-            st.markdown("[🔵 CDC blacklegged tick surveillance — county level](https://www.cdc.gov/ticks/data-research/facts-stats/blacklegged-tick-surveillance.html)")
-            st.markdown("[CDC tickborne pathogen surveillance map](https://www.cdc.gov/ticks/data-research/facts-stats/tickborne-pathogen-surveillance-1.html)")
-            st.markdown("[🟧 CDC Lyme disease surveillance and reported-case data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
-            st.markdown(f"[Find local/state public-health information for ZIP {normalize_zip(travel_zip)}](https://www.google.com/search?q={quote_plus('official health department tick Lyme ZIP ' + normalize_zip(travel_zip))})")
-            page_note("CDC notes that a county with no tick/pathogen surveillance record should not be interpreted as having no ticks or no pathogen; sampling and reporting vary by location.")
-
-        else:
-            state_code = travel_geo.get("state_code", "") if travel_geo else ""
-            st.markdown("#### Tick & Lyme Disease Surveillance Near Your Destination")
-            st.write(
-                'Compare tick surveillance and reported Lyme cases separately. Neither predicts your personal risk.'
-            )
-            show_combined_tick_lyme_context(state_code, travel_geo)
-            st.markdown("**Open the underlying county-level layers**")
-            st.markdown("[🔵 CDC blacklegged tick surveillance — county level](https://www.cdc.gov/ticks/data-research/facts-stats/blacklegged-tick-surveillance.html)")
-            st.markdown("[CDC tickborne pathogen surveillance map](https://www.cdc.gov/ticks/data-research/facts-stats/tickborne-pathogen-surveillance-1.html)")
-            st.markdown("[🟧 CDC Lyme disease surveillance and reported-case data](https://www.cdc.gov/lyme/data-research/facts-stats/index.html)")
-            st.markdown(f"[Find local/state public-health information for ZIP {normalize_zip(travel_zip)}](https://www.google.com/search?q={quote_plus('official health department tick Lyme ZIP ' + normalize_zip(travel_zip))})")
-            page_note("CDC notes that a county with no tick/pathogen surveillance record should not be interpreted as having no ticks or no pathogen; sampling and reporting vary by location.")
-
-        show_tick_identification_guide()
-
-        st.subheader("My Travel Snapshot")
-
-        st.write(f"**Destination:** {travel_destination}")
-        st.write(f"**Season:** {travel_month}")
-
-        if normalize_zip(travel_zip).startswith("126") and latest_dutchess is not None:
-            st.write(
-                f"**Destination exposure context:** NYSDOH surveillance data are available "
-                f"for Dutchess County; the latest record in this PathwayAI dataset is "
-                f"{int(latest_dutchess['Year'])}. Use the surveillance measures above as "
-                f"environmental context rather than an individual infection probability."
-            )
-        else:
-            state_code = travel_geo.get("state_code", "") if travel_geo else ""
-            if state_code in HIGH_INCIDENCE_STATES:
-                st.write("**Destination exposure context:** Your destination is in CDC's higher-incidence Lyme disease group. Use the national map plus available state/local surveillance for trip planning; this is population-level context, not an individual infection probability.")
-            else:
-                st.write("**Destination exposure context:** Your destination is not currently in CDC's higher-incidence Lyme disease group. Tick exposure may still occur, so PathwayAI links national tick/pathogen surveillance and local public-health sources rather than labeling the ZIP 'low risk.'")
-
-        if health_context:
-            st.write("**Personal context:** " + ", ".join(health_context))
-        else:
-            st.write("**Personal context:** None selected")
-
-        st.write(
-    "**Action:** Use enhanced tick-bite precautions during outdoor, "
-    "wooded, or brush exposure."
-)
-
-        st.subheader("What This Means for My Trip")
-
-        if normalize_zip(travel_zip).startswith("126"):
-            st.write("**Exposure context:** Local NYSDOH surveillance provides additional environmental context for this destination.")
-        elif travel_geo and travel_geo.get("state_code") in HIGH_INCIDENCE_STATES:
-            st.write("**Exposure context:** This destination is in CDC's higher-incidence Lyme disease group. Use tick-bite prevention during potential exposure and review the surveillance information above.")
-        else:
-            st.write("**Exposure context:** This destination is not currently in CDC's higher-incidence Lyme disease group. That does not mean zero risk; use the national tick/pathogen and local public-health information above for context.")
-
-        if health_context:
-            st.write(
-                "**Personal context:** You selected: "
-                + ", ".join(health_context)
-            )
-
-        st.write(
-            "**Travel guidance:** This does not mean you need to avoid the "
-            "destination. Consider additional tick-bite prevention, especially "
-            "during outdoor, wooded, or brush exposure."
-        )
-
-        st.write(
-            "**If a tick bite occurs:** Record the date and location, remove "
-            "the tick promptly, and monitor for symptoms. Seek medical "
-            "evaluation for concerning symptoms."
-        )
-
-        page_note(
-            'Information about tick exposure only. Environmental surveillance does not estimate your individual probability of infection.'
-        )
-
-        st.subheader("My PathwayAI Travel Plan")
-        before, during, after = st.tabs(["Before the trip", "During the trip", "After the trip"])
-        with before:
-            st.write("• Review local and seasonal tick-exposure context.")
-            st.write("• Plan tick-bite prevention for wooded, brushy, grassy, or outdoor activities.")
-            st.write("• Pack appropriate repellent/protective clothing and a tick-removal tool.")
-        with during:
-            st.write("• Use planned tick-bite precautions during outdoor exposure.")
-            st.write("• Perform tick checks after outdoor activity and remove attached ticks promptly.")
-            st.write("• If a possible exposure occurs, record the date, place, and circumstances.")
-        with after:
-            st.write("• Keep your exposure history with your travel record.")
-            st.write("• Monitor for new or changing symptoms after possible exposure.")
-            st.write("• If symptoms or concerns develop, use **Care & Support** to prepare your story and questions for a healthcare professional.")
-        page_note("Travel-plan guidance supports prevention and documentation; it is not a diagnosis or treatment recommendation.")
+            st.subheader("My PathwayAI Travel Plan")
+            before, during, after = st.tabs(["Before the trip", "During the trip", "After the trip"])
+            with before:
+                st.write("• Review local and seasonal tick-exposure context.")
+                st.write("• Plan tick-bite prevention for wooded, brushy, grassy, or outdoor activities.")
+                st.write("• Pack appropriate repellent/protective clothing and a tick-removal tool.")
+            with during:
+                st.write("• Use planned tick-bite precautions during outdoor exposure.")
+                st.write("• Perform tick checks after outdoor activity and remove attached ticks promptly.")
+                st.write("• If a possible exposure occurs, record the date, place, and circumstances.")
+            with after:
+                st.write("• Keep your exposure history with your travel record.")
+                st.write("• Monitor for new or changing symptoms after possible exposure.")
+                st.write("• If symptoms or concerns develop, use **Care & Support** to prepare your story and questions for a healthcare professional.")
+            page_note("Travel-plan guidance supports prevention and documentation; it is not a diagnosis or treatment recommendation.")
 
     st.button("Found a tick? See what to do →", key="outdoors_to_bite", on_click=select_public_pathway, args=("🩹 Tick Bite: What Next?", "bite"))
     st.button("Prepare for care or find support →", key="outdoors_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
@@ -4486,6 +4509,7 @@ if view == "📊 Community Burden & Action":
     render_page_notes()
     st.stop()
 
+st.markdown('<span id="care-start"></span>', unsafe_allow_html=True)
 st.header("Care & Support")
 if not simple_reading_view():
     show_photo116("river", "Peaceful lake surrounded by green trees")
@@ -4505,7 +4529,8 @@ current_location_start = st.session_state.get("current_location_start", "")
 
 quick_story, quick, reporter_role = show_visit_organizer()
 
-with st.expander("Additional history questions · optional"):
+with st.expander("Additional history questions · optional", expanded=not simple_reading_view()):
+    st.write("Want to record more? This optional form adds testing history, care visits and daily-life questions. It is not required for your short visit summary.")
     detailed_form = st.checkbox("Use the detailed journey form", key="details88")
 if not detailed_form:
     compact_care88(quick, quick_story)
@@ -4885,6 +4910,7 @@ insurance_context = st.selectbox(
     "Did insurance, coverage, or cost affect when or where you sought care?",
     ["Not reported", "No access or coverage barrier reported", "Uninsured during part of the journey", "Underinsured / high out-of-pocket costs", "Delayed or skipped care because of cost", "Insurance/network limited care options", "Unsure / prefer not to answer"]
 )
+st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
 support_needs = st.multiselect(
     "Which support areas would be useful to explore?",
     ["Disability benefits", "Workplace leave / FMLA", "Health coverage", "Food assistance", "Housing / rent", "Utilities", "Transportation", "Caregiver / family support"]
@@ -4895,6 +4921,7 @@ if quick["cost_amount"] is not None:
 st.info("**What this supports:** organize spending and daily-life effects for appointment preparation and support conversations. You can review and share a summary. Improved care coordination, time saved and reduced burden are intended benefits; effects have not been measured.")
 show_sample_burden_card()
 st.markdown("#### Record your costs")
+st.markdown('<span id="costs-time"></span>', unsafe_allow_html=True)
 cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
 burden_phase81 = st.selectbox("Which part of your journey do these amounts cover?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="burden_phase81")
 page_note("“Before diagnosis” means the time before a person learned they had Lyme disease. It is not a medical stage. If your costs cover both before and after diagnosis, we cannot separate them for you.")

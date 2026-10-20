@@ -69,7 +69,7 @@ def show_visit_summary(story, details):
         st.session_state["visit_fields_source"] = field_source
     st.markdown("### Your organized visit summary")
     st.write("Review the exposure-to-care timeline below. Keep positive or negative test results exactly as reported, and clarify dates you are unsure about.")
-    with st.expander("Check or add bite, rash, symptom and test details"):
+    with st.expander("Check or add bite, rash, symptom and test details", expanded=st.session_state.get("reading_mode") == "More detail"):
         st.write("These are your notes, not clinical findings. Keep a blank field if you do not know. A missing bite or rash does not rule out Lyme disease.")
         facts = {}
         for key, label in VISIT_FIELDS.items():

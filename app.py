@@ -37,7 +37,7 @@ from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
-from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER
+from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER, TIMELY_CARE_MESSAGE, CDC_TREATMENT
 from outdoor_plan import outdoor_plan_text, CDC_BOT
 from visit_summary import show_visit_summary
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
@@ -3711,6 +3711,8 @@ if view == "🩹 Tick Bite: What Next?":
     st.subheader("3. Know when to get medical advice")
     st.write("Contact a clinician promptly if symptoms develop. After some bites, antibiotics may help prevent Lyme if started within 72 hours of tick removal. Ask a clinician promptly whether this applies. Do not wait for symptoms to ask. Not every bite needs antibiotics.")
     st.markdown("[CDC: What to Do After a Tick Bite](https://www.cdc.gov/ticks/after-a-tick-bite/index.html) · [CDC: Signs and Symptoms of Lyme Disease](https://www.cdc.gov/lyme/signs-symptoms/index.html)")
+    st.write(TIMELY_CARE_MESSAGE)
+    st.markdown(f"[CDC: treatment and recovery]({CDC_TREATMENT})")
     st.markdown(f"[CDC Tick Bite Bot: questions and next steps after a bite]({CDC_BOT})")
     st.caption("This opens a separate CDC resource. PathwayAI does not run the CDC tool or send your notes to it.")
     st.info(EMERGENCY_REMINDER)

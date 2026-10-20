@@ -4,7 +4,7 @@ This supersedes the county-first order for this new script. Keep your original J
 
 Use PathwayAI_Patient_First_ElevenLabs_Script.txt for tagged narration, or the plain TXT for a voice model that does not support tags. No spoken stage/page labels are embedded in the plain script.
 
-741 spoken words. The user reported that the previous 640-word recording lasted about four minutes. This revision adds 101 words and two longer visual pauses for the language menu and PDF downloads. Aim for approximately 40–45 additional seconds, but timing depends on the chosen voice and how it interprets pauses. Re-render and measure the final ElevenLabs audio; keep the export under five minutes. Optional title cards also add time and can be omitted. No fixed slide durations or measured new audio length are asserted.
+775 spoken words. The user reported that the previous 640-word recording lasted about four minutes. The current revision adds a language/download walkthrough, two longer visual pauses, and a short evidence-based explanation of timely care and access barriers. Its new audio duration has not been measured. Re-render the ElevenLabs recording, keep the final export under five minutes, and omit optional title cards or shorten pauses if needed. No fixed slide durations are asserted.
 
 ## Image cues
 
@@ -43,3 +43,7 @@ Re-read the uploaded MVP Demo Milestone.pptx on October 20, 2026. Slide 2 asks f
 The revised narration names CDC tick surveillance, Census ACS, HRSA AHRF, CDC PLACES and CMS Medicare Geographic Variation, and separates state NYSDOH data, published cost research and personal reports. The source visual gives each a different role. Sources are not interchangeable and the spoken demo does not claim one unified measured population-wide burden.
 
 The app is described as a working web app; next-phase partnerships, sustainability and follow-up remain proposed. Formative review is not proof of outcomes. The timing is still based on the user's previous audio, not a rendered and measured new recording.
+
+## Timely-care education added
+
+The after-bite narration now connects CDC guidance on early appropriate treatment, the observed higher costs of disseminated disease in published research, and the purpose of language/insurance/cost support. It does not claim that PathwayAI has reduced delays or costs. The app's educational evidence section cites CDC treatment guidance and Hook et al. (2022), with the 2016-dollar study means and observational limitations.

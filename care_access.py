@@ -8,6 +8,8 @@ MEDICAL_DEBT = "https://www.consumerfinance.gov/consumer-tools/medical-debt/"
 HOSPITAL_ASSISTANCE = "https://www.irs.gov/charities-non-profits/financial-assistance-policies-faps"
 CDC_BITE = "https://www.cdc.gov/ticks/after-a-tick-bite/index.html"
 CDC_TREATMENT = "https://www.cdc.gov/lyme/treatment/index.html"
+HOOK_COST_STUDY = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
+TIMELY_CARE_MESSAGE = "Early diagnosis and appropriate antibiotic treatment can help prevent more severe Lyme disease. If untreated, the infection can affect the joints, nerves or heart. A clinician decides what care you need."
 EMERGENCY_REMINDER = "Get emergency help: Call 911 for chest pain, severe trouble breathing, or fainting. These can signal a serious problem, whether or not it is related to a tick bite. Do not delay because you lack insurance."
 
 
@@ -19,6 +21,7 @@ def care_access_questions():
         "", "SEEK TIMELY CARE",
         "Contact a clinician promptly about a new rash, fever or other symptoms after possible tick exposure. Tell them when and where it happened.",
         "Some high-risk tick bites may qualify for preventive antibiotics within 72 hours of tick removal. Ask promptly; antibiotics are not needed after every bite.",
+        TIMELY_CARE_MESSAGE,
         "Do not wait for coverage paperwork before contacting a clinician. Ask about care and financial assistance together.",
         "", "CALL A COMMUNITY HEALTH CENTER",
         "I do not have insurance. Are you accepting new patients?",
@@ -58,6 +61,8 @@ def show_timely_care(navigate):
 
     st.markdown("### Find care and prepare for your visit")
     st.write("Contact a clinician promptly about symptoms after possible tick exposure. Do not wait for insurance paperwork before asking about care.")
+    st.write(TIMELY_CARE_MESSAGE)
+    st.markdown(f"[CDC: treatment and recovery]({CDC_TREATMENT})")
     st.write("Recently bitten? See Tick Bite: What Next? for removal steps and time-sensitive advice.")
     st.button("Tick Bite: What Next? →", key="care_to_tick_bite", on_click=navigate,
               args=("🩹 Tick Bite: What Next?", "bite"))
@@ -67,10 +72,19 @@ def show_timely_care(navigate):
 def show_lyme_cost_context():
     import streamlit as st
 
-    with st.expander("Why early care matters: localized and disseminated Lyme"):
-        st.write("Localized Lyme disease affects the initial infection site. Disseminated Lyme disease has spread to other parts of the body and can involve the joints, nervous system or heart, requiring different or more complex care.")
-        st.write("Published cost comparisons distinguish localized and disseminated disease. Costs vary with the study, treatment, insurance and dollar year. The cost section provides research context, not a prediction of your bill.")
-        st.markdown(f"[CDC: treatment and manifestations of Lyme disease]({CDC_TREATMENT})")
+    with st.expander("Why early care matters: localized and disseminated Lyme", expanded=st.session_state.get("reading_mode") == "More detail"):
+        st.write(TIMELY_CARE_MESSAGE)
+        st.write("Localized Lyme refers to infection at the initial site. Disseminated Lyme has spread to other parts of the body and can require more complex care.")
+        st.markdown(f"[CDC: treatment and recovery]({CDC_TREATMENT})")
+        st.markdown("**What published cost research found**")
+        st.table([
+            {"Study group": "Confirmed localized Lyme", "Mean societal cost (2016 USD)": "$1,307"},
+            {"Study group": "Confirmed disseminated Lyme", "Mean societal cost (2016 USD)": "$3,251"},
+        ])
+        st.caption("Hook et al. (2022): societal costs include medical, nonmedical and productivity costs. These are study-group averages, not a prediction of your bill. Do not add these averages to your own expenses.")
+        st.write("The study compared disease groups. It did not show that each delayed diagnosis causes a particular extra cost, or that earlier care through PathwayAI saves $1,944. It did not measure long-term disability caused by delay.")
+        st.markdown(f"[Read Hook et al. (2022): study methods and limits]({HOOK_COST_STUDY})")
+        st.write("Practical next step: tell the clinician about exposure, symptoms, their timing and any test results. If cost or language makes care harder to reach, use the support resources on this page. PathwayAI helps with preparation; reduced delays or savings have not been established.")
 
 
 def show_care_access():

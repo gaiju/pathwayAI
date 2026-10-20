@@ -13,14 +13,11 @@ class ReportDownloadTests(unittest.TestCase):
             self.assertEqual(download.call_args.kwargs['file_name'], 'Notes.pdf')
             self.assertEqual(download.call_args.kwargs['mime'], 'application/pdf')
 
-    def test_csv_branding_preserves_data_columns(self):
-        import csv,io
+    def test_csv_remains_unchanged(self):
+        original=b'county,cost\nExample,10\n'
         with patch('streamlit.download_button') as download:
-            branded_download_button('Download', b'county,cost\nExample,10\n', mime='text/csv')
-            rows=list(csv.DictReader(io.StringIO(download.call_args.args[1].decode('utf-8-sig'))))
-            self.assertEqual(rows[0]['county'],'Example')
-            self.assertEqual(rows[0]['cost'],'10')
-            self.assertEqual(rows[0]['PathwayAI report'],TAGLINE)
+            branded_download_button('Download',original,mime='text/csv')
+            self.assertEqual(download.call_args.args[1],original)
 
     def test_outdoor_plan_is_educational_and_has_sources(self):
         plan = outdoor_plan_text('Example destination', 'June', 'Gardening or yard work', created='2026-10-20')

@@ -3510,6 +3510,11 @@ st.radio("What works for you today?", ["Short and simple", "More detail"],
 if view == "🌱 What’s next":
     st.header("What’s next for PathwayAI")
     st.write("We’re seeking patients, caregivers, community groups and care teams to help shape the next pilot.")
+    st.subheader("Help us make PathwayAI easier to use")
+    st.write("We have invited Mandarin-, Spanish-, and English-speaking reviewers to test PathwayAI. We also welcome people whose first language is not English to join the testing. Your feedback can help us make the app clearer, easier to use, and more useful for our communities.")
+    st.write("You do not need medical or technical knowledge. Please use made-up information and tell us what is helpful or confusing.")
+    st.write("To join the testing or share feedback, email pathwayai.feedback@gmail.com or use the feedback button below.")
+
     st.markdown("""
 - **Prepare for benefits conversations:** a basic checklist is available in Care & Support. Next, develop and review separate guidance for disability benefits and food assistance with qualified advisers.
 - **Strengthen local evidence:** develop secure, consent-based reporting to help communities understand barriers and plan resources.

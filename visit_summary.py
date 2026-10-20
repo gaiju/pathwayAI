@@ -44,7 +44,7 @@ def story_details(story, details):
 def visit_summary_text(story, details, reviewed_fields=None, reporter="Not reported"):
     facts = story_details(story, details) if reviewed_fields is None else reviewed_fields
     lines = ["PathwayAI | My visit summary", "Reported by: " + reporter,
-             "Patient/caregiver statements for review; not a diagnosis or test interpretation.",
+             "Based on information entered by the user. Not independently verified. Patient/caregiver statements for review; not a diagnosis or test interpretation.",
              "", "EXPOSURE AND CARE TIMELINE"]
     lines += [label + ": " + (facts.get(key) or "Not reported") for key, label in VISIT_FIELDS.items()]
     lines += ["", "QUESTIONS TO CLARIFY", "- Are symptom duration and time to diagnosis different? Confirm what each time period describes.",

@@ -86,7 +86,7 @@ def translate_notes(text, language, reporter, *, consent, api_key, model, opener
 
 def bilingual_text(original, language, reporter, result):
     lines = ["PathwayAI | Bilingual visit preparation", "Reported by: " + reporter,
-             "Writing language: " + language, "AI translation for review; not verified medical interpretation or a diagnosis.",
+             "Writing language: " + language, "Based on information entered by the user. Not independently verified. Bring original test reports for your clinician to review. AI translation for review; not verified medical interpretation or a diagnosis.",
              "", "ENGLISH TIMELINE FOR REVIEW"]
     for key, label in FIELDS.items():
         lines.append(label + ": " + (result["timeline"][key] or "Not reported"))
@@ -99,7 +99,7 @@ def show_bilingual_organizer(story, language, reporter, translate):
     import streamlit as st
     if language in AIDS:
         st.write(AIDS[language][1])
-    st.write("Only these notes and your selected language/reporter role go to external AI after you give permission and click Translate. Leave out identifiers. This translates your notes, not the app's menus or medical instructions.")
+    st.write("Only these notes and your selected language/reporter role go to OpenAI after you give permission and click Translate. AI may miss or change important details. Review and correct the summary before sharing. Leave out identifiers. This translates your notes, not the app's menus or medical instructions.")
     st.caption("Translation requires permission and a button click. The external provider’s retention policy still applies; no zero-retention guarantee is made.")
     consent_label, button_label = CONTROLS.get(language, ("I agree to send these notes to external AI for English translation", "Translate and organize into English"))
     consent = st.checkbox(consent_label, value=False, key="translation_consent")

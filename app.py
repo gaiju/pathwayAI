@@ -65,8 +65,24 @@ def render_page_notes():
         PAGE_NOTES.clear()
 
 
+def show_pilot_privacy():
+    with st.expander("About this pilot and your privacy"):
+        st.write("Project lead: Yuwei Zhang. For privacy questions, corrections or pilot feedback, contact pathwayai.feedback@gmail.com. No agency or county endorsement is implied.")
+        st.write("For pilot testing, use made-up information. Do not enter names, dates of birth, contact details, Social Security numbers, account numbers or identity documents.")
+        st.write("Notes and generated summaries are held in the running Streamlit app’s session state on the server. This is not browser-only processing. Use ‘Clear this session and return to start’ to clear app session entries; this does not erase downloaded files, provider records or hosting logs.")
+        st.write("Optional story organization and translation send submitted notes to OpenAI only after you choose AI and click the relevant button. Translation also sends your selected language and reporter role. These requests set store=false, but this is not a guarantee of zero retention. Provider policies and account settings still apply.")
+        st.markdown("[OpenAI API data controls](https://platform.openai.com/docs/guides/your-data) · [Streamlit privacy notice](https://streamlit.io/privacy-policy)")
+        st.write("The app also keeps AI request timestamps and a keyed connection identifier in a local rate-limit database. That database is not designed to store your story. Expired entries are removed when the rate-limit check runs.")
+        if PATIENT_VOICE_STORAGE_ENABLED:
+            st.write("Shared Patient Voice storage is enabled in this deployment. It has separate consent and reviewed-field controls; do not submit real information during pilot testing.")
+        else:
+            st.write("Shared Patient Voice collection is disabled in this deployment. Personal downloads are not automatically submitted to county officials.")
+        st.write("A complete review of hosting logs, backups, retention periods, deletion procedures and provider settings has not been completed. Do not use this pilot for confidential medical records. Information you download or email has separate storage and sharing risks.")
+
+
 def show_sources_and_acknowledgements():
     st.header("Sources and acknowledgements")
+    show_pilot_privacy()
     for section, notes in st.session_state.get("source_notes_by_section", {}).items():
         with st.expander(f"Notes · {section}"):
             for note in notes:
@@ -1067,7 +1083,7 @@ def compact_care88(quick, story):
     daily_context = show_daily_life()
     questions = st.text_input("Question for your clinician (optional)",key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
-    record[1] = "Personal record for review; not a diagnosis or prediction."
+    record[1] = "Based on information entered by the user. Not independently verified. Not a diagnosis or prediction. Bring original test reports for your clinician to review."
     record[2:2] = reporting_lines(role, daily_context)
     for label,value in [("Exposure",encounter["exposure"] or quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
         record.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
@@ -2682,7 +2698,8 @@ def show_visit_organizer():
         else:
             st.markdown("1. Where and when did you find the tick—or first feel unwell?\n2. What symptoms have you had, and for how long?\n3. What care or tests have you had, and what help do you need now?")
         st.write("Short notes are fine. Write in your preferred language. For non-English notes, optional AI can translate and organize an English summary. You can skip this tool.")
-    st.write("Please leave out names, contact details and other identifying information.")
+    st.write("For pilot testing, please use made-up information. Do not enter names, dates of birth, contact details, Social Security numbers or other identifying information.")
+    show_pilot_privacy()
 
     if "quick_story_value" not in st.session_state:
         st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
@@ -2700,7 +2717,7 @@ def show_visit_organizer():
     if language == "English":
         with st.expander("Optional AI help and privacy"):
             use_story_ai = st.checkbox("Use external AI to organize my story", value=False, key="use_story_ai65", help="If checked, your submitted story is sent to the configured external AI service. Leave out names and other identifiers. Leave off to use local rules. Daily-life answers are not sent to external AI.")
-            st.write("AI is off unless you choose it. You can make an English visit note without AI. Check the note before sharing.")
+            st.write("If you choose external AI, your submitted notes are sent to OpenAI to help organize them. AI may miss or change important details. Review and correct the summary before sharing. You can make a basic English visit note without external AI.")
         page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
         if use_story_ai:
             page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
@@ -3475,6 +3492,7 @@ if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
         st.title("PathwayAI")
         st.subheader("Make patient voices count. Make community needs visible.")
+        st.write("PathwayAI is an educational and patient-organizing pilot. It helps you prepare for care, record costs and time, and explore support resources. It does not diagnose illness or decide treatment.")
         st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
         st.write("Prepare for care, make hidden burdens visible, and explore community support actions—with patients and caregivers at the center.")
 st.radio("What works for you today?", ["Short and simple", "More detail"],
@@ -3534,6 +3552,7 @@ if not st.session_state.get("pathway_open", False):
         st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
     with feedback_col:
         st.button("Give feedback", key="landing_reviewer_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"), use_container_width=True)
+    show_pilot_privacy()
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
     with st.expander("See national Lyme and cost figures", expanded=not simple_reading_view()):
@@ -3986,6 +4005,7 @@ if view == "📊 Community Burden & Action":
     ]
     county_cost_context = reference_cost_rows("Dutchess", 1060) + reference_cost_rows("Orange", 964)
     with st.expander("Illustrative published-cost context · Dutchess", expanded=True):
+        st.write("Planning illustration based on reported cases and published study averages—not measured county spending or proven savings.")
         st.write("Official NYSDOH reported Lyme cases, 2024 × published overall mean unit costs. Separate reference calculations, not a cost range.")
         display_costs = []
         for row in county_cost_context:

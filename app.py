@@ -2719,6 +2719,8 @@ def show_visit_organizer():
         st.session_state.quick_story_value = st.session_state.get("saved_story_text", "")
 
     st.info("Mixed languages are welcome. Keep place names such as Pasadena and words such as tick in English. Choose the main language you are writing in.\n\n可以中英文混合输入。地名、药名和不熟悉的医学词可以保留英文，不需要自行翻译。主要写中文时，请选择「中文 / Chinese」。")
+    st.write("Some cities share the same name. If you know it, include the state or the ZIP code of the place where you were outdoors—for example, Pasadena, CA. An approximate location is fine; do not enter a street or home address.")
+    st.write("有些城市同名。如知道，请补充当时户外活动地点所在的州或邮政编码，例如 Pasadena, CA。不确定时可写大致地点；无需填写街道或家庭住址。")
     quick_story = st.text_area(
         "Your notes" if simple_reading_view() else "Your story, in your own words",
         key="quick_story_value",

@@ -2680,7 +2680,10 @@ def translate_visit_notes(text, language, reporter, *, consent):
 def show_visit_organizer():
     """One notes/translation workflow reused on the bite and care pages."""
     st.markdown("### Tell us what happened")
-    st.caption("One shared visit record: notes entered on Tick Bite: What Next? also appear in Care & Support in this session. Review or update them—you do not need to type the same story again.")
+    if st.session_state.get("pathway_view") == "🩹 Tick Bite: What Next?":
+        st.caption("Already entered your story in Care & Support? The same notes appear here. Review or update them—you don’t need to enter them again. Notes are shared within this session.")
+    else:
+        st.caption("Already entered your story on the Tick Bite page? Your notes appear below. Review or update them—you don’t need to enter them again. Notes are shared within this session.")
     reporter_role = show_reporter()
     if "notes_language" not in st.session_state:
         st.session_state["notes_language"] = st.session_state.get("saved_notes_language", "English")

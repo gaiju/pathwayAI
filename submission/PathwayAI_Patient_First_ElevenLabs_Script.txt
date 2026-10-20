@@ -1,82 +1,90 @@
-[thoughtful] As a pathologist, I studied disease through a microscope. As an epidemiologist, I studied patterns across communities.
+[thoughtful] As a pathologist, I studied disease through a microscope. As an epidemiologist, I looked for patterns across communities.
 
 [short pause]
 
-Then it became personal.
+Then Lyme disease came into my own family.
 
-[somber] After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
+After I lost my job, we lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
 
-For immigrants like my husband, language can make tests, bills, and medical visits harder to understand.
+For immigrants like my husband, language can make symptoms, tests, and bills harder to discuss.
 
-[short pause]
-
-I'm Yuwei Zhang. That experience led me to build PathwayAI.
-
-[confident] A medical bill tells only part of the story. There is also time spent finding care, work missed, and help from family. Much of that burden stays invisible.
-
-PathwayAI connects practical help for patients with evidence for community action.
+I'm Yuwei Zhang. That experience is why I built PathwayAI.
 
 [short pause]
 
-[warm] Let me start where my family started. Without insurance, where do you go?
+A medical bill shows only part of what illness costs a family.
 
-In Care and Support, people can find community health centers and questions about income-based fees, coverage, and hospital financial assistance. Care is not automatically free, but these resources give people a starting point.
+There is time spent finding care. Days away from work. Unpaid help from family. Those costs are real, too.
 
-The pathway also includes outdoor preparation and clear steps after a tick bite. Our aim is to support prevention and timely care, while making barriers easier to address.
+PathwayAI connects practical patient support with public evidence for community action.
 
-[short pause]
+[warm] Let me show you, starting with the question my family faced: where do you go without insurance?
 
-Now consider a fictional patient preparing for a visit.
+In Care and Support, people can find community health centers and questions to ask about income-based fees, coverage, and hospital financial assistance. Care is not automatically free, but people have a place to start.
 
-They describe where they found a tick, when symptoms started, and what tests they had. PathwayAI helps organize those notes into a timeline they can check, correct, and download. Symptom onset and time to diagnosis stay separate. Original test reports still belong in the clinical conversation.
-
-People can write in their preferred language, including mixed Chinese and English. With explicit permission, optional external AI can organize and translate an English summary alongside the original for review.
-
-AI supports communication. It does not diagnose illness or replace a qualified medical interpreter. This demonstration uses the local English organizer with external AI off.
+Outdoor preparation and steps after a tick bite are included. Support starts before the bills arrive.
 
 [short pause]
 
-[explaining] Now we make another part of the journey visible: its cost.
+Now let’s follow a fictional patient preparing for a visit.
 
-Our fictional patient paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of unpaid help.
+They describe where they found a tick, when symptoms began, and what their test report said.
 
-Payments total 225 dollars. Workdays and caregiving hours stay separate. The person chooses the reporting period and reviews the record before downloading a PDF.
+PathwayAI creates a timeline they can review and correct. Symptom onset and diagnosis delay stay separate. The clinician still needs the original test report.
 
-This gives patients something concrete to bring to care and support conversations. It does not determine benefits eligibility.
+People can write in their preferred language, mixing Chinese and English if that feels easier.
 
-[short pause]
+With permission, optional AI prepares an English summary beside the original for review. It does not diagnose illness or replace a qualified medical interpreter.
 
-That is one family's experience. What can public data tell us about the communities around them?
-
-Here we compare Dutchess and Orange counties. CDC surveillance and community health estimates, Census population data, HRSA healthcare resources, and New York surveillance describe different parts of the picture. Their sources and years stay visible.
-
-Published Lyme costs support planning illustrations, not measured county spending. CMS Original Medicare payments provide separate context; they are not Lyme-specific costs.
-
-Public data adds context. Patient experiences reveal burdens those datasets cannot capture.
+For this demonstration, I’m using the English organizer without external AI.
 
 [short pause]
 
-[curious] What can a community do next?
+Next, we record what the experience has cost.
 
-The planning brief connects a barrier with a possible action, partners, resources, and follow-up. For example, a care-navigation pilot could help uninsured residents find existing services and prepare for language-support and billing conversations.
+Our fictional patient paid 180 dollars for care and 45 dollars for travel. They missed three workdays, and a family member spent eight hours helping.
 
-Partners would verify contacts, staffing, eligibility, and funding. A pilot could track referrals completed, appointments reached, assistance received, and needs still unmet.
+That is 225 dollars paid. Workdays and caregiving hours stay separate. People choose the reporting period and check their PDF before sharing.
 
-Shared storage is disabled in this demonstration. Fictional personal entries do not automatically become county evidence.
-
-[short pause]
-
-[hopeful] People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback helped us simplify choices and make next steps clearer.
-
-We welcome patient groups, health centers, care navigators, and community partners to help test usefulness, including across languages.
-
-We will evaluate support connections before claiming better health outcomes or savings. Secure, consent-based follow-up is a future priority. Our proposed model keeps patient access free through grants and community partnerships.
+They leave with a visit summary, a cost-and-time record, and questions about support. The app does not determine benefits eligibility.
 
 [short pause]
 
-[reflective] Someone told me they wished their family member could have used PathwayAI earlier. That stayed with me.
+That is one family. What can we learn about the communities around them?
 
-AI can help organize words. Data can reveal patterns. Patients give those patterns meaning.
+We compare Dutchess and Orange counties using CDC, Census, HRSA, and New York data. These describe disease patterns, population, and healthcare resources. Sources and reporting years are shown.
+
+Published Lyme costs help illustrate possible burden; they are not measured county spending. CMS Medicare payments add separate context. They are not Lyme-specific costs.
+
+Public data helps us see the wider picture. Patient experiences help reveal what those datasets often miss.
+
+[short pause]
+
+What could a community do with that information?
+
+The planning brief connects a barrier with a possible response, the partners needed, and what to measure.
+
+For example, a small care-navigation pilot could help uninsured residents find existing services and ask about language support and medical bills.
+
+Partners would check contacts, staffing, eligibility, and funding. Then we could measure referrals completed, appointments reached, assistance received, and needs still unmet.
+
+The examples in this demo are fictional. Shared collection is off, and personal notes are not automatically sent to county teams.
+
+[short pause]
+
+People living with Lyme disease and a county health commissioner have reviewed the working app. Their feedback helped us simplify choices and make the next steps clearer.
+
+We welcome patient groups, health centers, and community partners to help test it across languages.
+
+We will evaluate usefulness and support connections before claiming better health outcomes or savings. Secure, consent-based follow-up comes next. Our proposed model keeps patient access free through grants and community partnerships.
+
+[short pause]
+
+[reflective] Someone told me they wished their family member could have used PathwayAI earlier.
+
+That stayed with me. People need a next step when they ask for help.
+
+AI can help organize words. Data can reveal patterns. Patients remain at the center.
 
 [confident] PathwayAI. Making the hidden patient journey visible—and actionable.
 

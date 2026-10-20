@@ -4,25 +4,25 @@ This supersedes the county-first order for this new script. Keep your original J
 
 Use PathwayAI_Patient_First_ElevenLabs_Script.txt for tagged narration, or the plain TXT for a voice model that does not support tags. No spoken stage/page labels are embedded in the plain script.
 
-771 spoken words. The user reported that the previous 640-word recording lasted about four minutes. The current revision adds a language/download walkthrough, two longer visual pauses, and a short evidence-based explanation of timely care and access barriers. Its new audio duration has not been measured. Re-render the ElevenLabs recording, keep the final export under five minutes, and omit optional title cards or shorten pauses if needed. No fixed slide durations are asserted.
+756 spoken words. Revised around patient benefits, community benefits, and their connection. Target approximately 4:45; actual ElevenLabs duration has not been measured. Check the rendered recording and keep the final export under five minutes, including any title-card pauses. Voice tags depend on the ElevenLabs model; use the plain script if unsupported.
 
 ## Image cues
 
 | Image | App page / section | Narration cue |
 |---|---|---|
 | 01_Personal_Story.png | Opening story | Then it became personal. |
-| 02_The_Problem.png | Start Page | A medical bill shows only part of what illness costs a family. |
-| 03_Uninsured_Care.png | Care & Support | Let me start with the question my family faced: |
-| 04_Outdoor_Plan.png | Learn & Prevent | Helping people find care matters. |
-| 05_After_Tick_Bite.png | Tick Bite: What Next? | If you find an attached tick |
-| 06_Visit_And_Language.png | Tick Bite / Care & Support | Now let’s follow a fictional patient preparing for a visit. |
-| 07_Personal_Cost_Record.png | Care & Support | Next, we record what the experience has cost. |
-| 08_County_Evidence.png | Community Burden & Action | That is one family. |
-| 08B_Public_Data_Sources.png | Sources & Acknowledgements / Community Burden & Action | The Census American Community Survey adds population and language context. |
-| 09_Community_Action.png | Community Burden & Action | What could a community do with that information? |
-| 10_Pilot_Evaluation.png | Community Burden & Action | Partners would check contacts, staffing, eligibility, and funding. |
+| 02_The_Problem.png | Start Page | A medical bill shows only part of what illness costs. |
+| 03_Uninsured_Care.png | Care & Support | Start with the question my family faced: |
+| 04_Outdoor_Plan.png | Learn & Prevent | Support also starts before illness. |
+| 05_After_Tick_Bite.png | Tick Bite: What Next? | On Tick Bite: What Next |
+| 06_Visit_And_Language.png | Tick Bite / Care & Support | Now imagine someone preparing for a visit. |
+| 07_Personal_Cost_Record.png | Care & Support | And the cost record? |
+| 08_County_Evidence.png | Community Burden & Action | Second, what does a community gain? |
+| 08B_Public_Data_Sources.png | Sources & Acknowledgements / Community Burden & Action | New York surveillance supplies reported Lyme rates. |
+| 09_Community_Action.png | Community Burden & Action | What can a county do next? |
+| 10_Pilot_Evaluation.png | Community Burden & Action | Third, how do these two sides connect? |
 | 11_Next_Steps.png | What’s next | People living with Lyme disease and a county health commissioner |
-| 12_Closing_And_Partners.png | Live app / Share feedback | Someone told me they wished their family member |
+| 12_Closing_And_Partners.png | Live app / Share feedback | AI can help organize words. |
 
 Optional silent title cards: THE PROBLEM before the medical-bill paragraph; FROM INFORMATION TO ACTION before uninsured-care navigation; UNDERSTANDING THE HIDDEN BURDEN before county evidence. The community images return to action after the county context. If cards make the video too long, omit them; every content image already has a section title.
 
@@ -34,7 +34,7 @@ The script includes entrant-confirmed formative working-app review by Lyme patie
 
 - On image 06, show Care & Support → Tell us what happened → the preferred-language menu above Your notes. The menu choice does not itself send notes to AI. Consent and the translation button remain separate.
 - On image 07, point to Download my visit summary for the visit note. For the cost record, open Review or add costs and time, then review the card and select Download appointment and cost summary. Files save to the device, not an automatic email.
-- Hold these screens during the two long-pause cues. The presentation images use instructional callouts; they are not screenshots of clickable buttons.
+- Hold these screens while demonstrating the language menu and download buttons. The presentation images use instructional callouts; they are not screenshots of clickable buttons.
 
 ## Rechecked organizer template
 
@@ -47,3 +47,7 @@ The app is described as a working web app; next-phase partnerships, sustainabili
 ## Timely-care education added
 
 The after-bite narration now connects CDC guidance on early appropriate treatment, the observed higher costs of disseminated disease in published research, and the purpose of language/insurance/cost support. It does not claim that PathwayAI has reduced delays or costs. The app's educational evidence section cites CDC treatment guidance and Hook et al. (2022), with the 2016-dollar study means and observational limitations.
+
+## Benefit-focused revision
+
+The patient segment emphasizes care access, prevention, visit preparation, language support, and usable downloads. The cost record supports a conversation; it does not claim to pay bills or include outstanding-balance fields not demonstrated. The community segment frames decisions and possible actions. Their connection is a proposed consent-based pilot, not an existing transfer of patient notes to counties. The existing personal-cost image still depicts the fictional example; its numbers are context rather than the central benefit.

@@ -3722,12 +3722,13 @@ if view == "🛡️ Learn & Prevent":
     plan_inputs = (travel_zip, travel_month, outdoor_activity, tuple(health_context))
     if st.button("Generate My Outdoor Tick-Prevention Plan", type="primary"):
         st.session_state["outdoor_plan_inputs"] = plan_inputs
-        st.session_state["outdoor_plan_download"] = outdoor_plan_text(travel_destination, travel_month, outdoor_activity)
+        st.session_state["outdoor_plan_state"] = travel_geo.get("state_code") if travel_geo else None
+        st.session_state["outdoor_plan_download"] = outdoor_plan_text(travel_destination, travel_month, outdoor_activity, state_name=travel_geo.get("state") if travel_geo else None)
     if st.session_state.get("outdoor_plan_inputs") == plan_inputs:
         st.divider()
         st.header("My Outdoor Preparation Plan")
         st.write("PathwayAI: Making the Hidden Patient Journey Visible—and Actionable")
-        branded_download_button("Download my outdoor plan", st.session_state["outdoor_plan_download"].encode("utf-8"), file_name="PathwayAI_Outdoor_Preparation_Plan.txt", mime="text/plain", key="outdoor_plan_download_button")
+        branded_download_button("Download my outdoor plan", st.session_state["outdoor_plan_download"].encode("utf-8"), file_name="PathwayAI_Outdoor_Preparation_Plan.txt", mime="text/plain", key="outdoor_plan_download_button", pdf_state_code=st.session_state.get("outdoor_plan_state"))
         st.caption("Save or print this checklist. It includes your destination, month and activity; maps and health-condition selections are not included.")
         st.info('Use this plan for prevention, not diagnosis or personal risk prediction.')
         st.markdown("**Your next steps**\n- Before: prepare EPA-registered repellent and protective clothing; follow product instructions.\n- After outdoor activities: check your body, clothing, gear and pets; shower within two hours.\n- If you found a tick or feel unwell: use the bite guidance below or choose Care & Support.")

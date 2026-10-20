@@ -5,11 +5,12 @@ from report_download import TAGLINE
 CDC_BOT = "https://www.cdc.gov/ticks/communication-resources/tick-bite-bot-1.html"
 
 
-def outdoor_plan_text(destination, month, activity, *, created=None):
+def outdoor_plan_text(destination, month, activity, *, created=None, state_name=None):
     created = created or datetime.now(timezone.utc).strftime("%Y-%m-%d (UTC)")
     return "\n".join([
         TAGLINE, "My Outdoor Preparation Plan", "Created: " + created,
         "", "YOUR PLANS", "Destination: " + (destination or "Not provided"),
+        "Destination state: " + (state_name or "State not identified"),
         "Month: " + month, "Planned activity: " + activity,
         "", "BEFORE AND DURING OUTDOOR ACTIVITIES",
         "- Pack an EPA-registered insect repellent and follow its label instructions.",

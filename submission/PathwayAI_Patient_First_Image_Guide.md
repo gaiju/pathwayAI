@@ -4,13 +4,13 @@ This supersedes the county-first order for this new script. Keep your original J
 
 Use PathwayAI_Patient_First_ElevenLabs_Script.txt for tagged narration, or the plain TXT for a voice model that does not support tags. No spoken stage/page labels are embedded in the plain script.
 
-775 spoken words. The user reported that the previous 640-word recording lasted about four minutes. The current revision adds a language/download walkthrough, two longer visual pauses, and a short evidence-based explanation of timely care and access barriers. Its new audio duration has not been measured. Re-render the ElevenLabs recording, keep the final export under five minutes, and omit optional title cards or shorten pauses if needed. No fixed slide durations are asserted.
+771 spoken words. The user reported that the previous 640-word recording lasted about four minutes. The current revision adds a language/download walkthrough, two longer visual pauses, and a short evidence-based explanation of timely care and access barriers. Its new audio duration has not been measured. Re-render the ElevenLabs recording, keep the final export under five minutes, and omit optional title cards or shorten pauses if needed. No fixed slide durations are asserted.
 
 ## Image cues
 
 | Image | App page / section | Narration cue |
 |---|---|---|
-| 01_Personal_Story.png | Opening story | Then Lyme disease came into my own family. |
+| 01_Personal_Story.png | Opening story | Then it became personal. |
 | 02_The_Problem.png | Start Page | A medical bill shows only part of what illness costs a family. |
 | 03_Uninsured_Care.png | Care & Support | Let me start with the question my family faced: |
 | 04_Outdoor_Plan.png | Learn & Prevent | Helping people find care matters. |

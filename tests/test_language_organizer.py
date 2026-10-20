@@ -86,3 +86,14 @@ class LanguageOrganizerTests(unittest.TestCase):
             at.text_area(key="quick_story_value").set_value("新的笔记").run()
             self.assertFalse(any(d.key == "bilingual_download" for d in at.get("download_button")))
             self.assertTrue(any(d.key == "original_notes_download" for d in at.get("download_button")))
+
+
+class BilingualExportTests(unittest.TestCase):
+    def test_original_is_preserved_once_in_new_and_legacy_drafts(self):
+        from language_organizer import bilingual_export
+        original="虚构测试：还没有确诊。"
+        for draft in ["Reviewed English notes", "Reviewed English notes\n\nORIGINAL NOTES\n"+original]:
+            result=bilingual_export(draft,original)
+            self.assertEqual(result.count(original),1)
+            self.assertTrue(result.endswith(original))
+            self.assertIn("Reviewed English notes",result)

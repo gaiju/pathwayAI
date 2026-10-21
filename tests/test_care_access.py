@@ -59,6 +59,8 @@ class CareAccessTests(unittest.TestCase):
         self.assertFalse(list(at.exception))
         self.assertEqual(at.radio(key="pathway_view").value, "🩹 Tick Bite: What Next?")
         self.assertTrue(any("within 72 hours of tick removal" in x.value for x in at.markdown))
+        self.assertTrue(any("Different tick-borne infections" in x.value for x in at.markdown))
+        self.assertTrue(any("Do not wait for tick-test results" in x.value for x in at.markdown))
         at.button(key="bite118_to_care").click().run()
         self.assertFalse(list(at.exception))
         self.assertEqual(at.radio(key="pathway_view").value, "🧭 Care & Support")

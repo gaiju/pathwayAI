@@ -3808,6 +3808,7 @@ if view == "🩹 Tick Bite: What Next?":
     page_note("A tick bite does not always cause illness. The steps below support prevention and care preparation.")
     st.subheader("1. Remove the tick")
     st.write("Use clean, fine-tipped tweezers. Hold the tick close to the skin. Pull straight up with steady pressure. Clean the bite area and your hands. Do not burn the tick or cover it with oil or petroleum jelly.")
+    st.write("Remove an attached tick promptly. Different tick-borne infections can spread at different speeds; do not assume a short attachment time makes every infection impossible.")
     st.subheader("2. Note when and where it happened")
     st.write("Write down the date and place. Watch for a new rash, fever, feeling very tired, or other symptoms over the next days and weeks. A Lyme rash does not always look like a bull's-eye.")
     st.subheader("3. Know when to get medical advice")
@@ -3817,6 +3818,10 @@ if view == "🩹 Tick Bite: What Next?":
     st.markdown(f"[CDC: treatment and recovery]({CDC_TREATMENT})")
     st.markdown(f"[CDC Tick Bite Bot: questions and next steps after a bite]({CDC_BOT})")
     st.caption("This opens a separate CDC resource. PathwayAI does not run the CDC tool or send your notes to it.")
+    with st.expander("Should I have the tick tested?"):
+        st.write("CDC does not recommend using tick-test results to decide whether a person needs treatment. A positive tick result does not show that you were infected, and a negative result does not rule out infection from another tick.")
+        st.write("Do not wait for tick-test results before contacting a clinician about symptoms or time-sensitive prevention advice. Testing a tick is different from testing a person. Laboratory testing of the tick does not replace medical evaluation.")
+        st.markdown("[CDC: after a tick bite, including tick-testing guidance](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
     st.info(EMERGENCY_REMINDER)
     st.write("Need help finding care, paying for it, or preparing for a visit?")
     st.button("Next: find care or prepare for a visit →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)

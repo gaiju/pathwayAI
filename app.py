@@ -3621,7 +3621,7 @@ if st.session_state.get("pathway_open", False):
     show_reading_choice()
 
 
-if st.session_state.get("pathway_open", False):
+if st.session_state.get("pathway_open", False) and view != "🛡️ Learn & Prevent":
     if simple_reading_view():
         st.success("Quick and easy · Short steps. Open extra information only when you need it.")
     else:
@@ -3830,10 +3830,9 @@ if view == "🛡️ Learn & Prevent":
     st.header("Plan a safer outdoor visit")
     if not simple_reading_view():
         show_photo116("forest", "Woodland walking trail in a green forest")
-    st.write("Choose where and when you are going. Build a tick-prevention plan for your time outdoors.")
+    st.write("Enter your destination, month, and activity to create a tick-prevention plan.")
     with st.expander("Learn about Lyme · symptoms, rash images and research", expanded=False):
         show_lyme_learning78()
-    st.subheader("Your outdoor plan")
 
     travel_zip = st.text_input(
         "Where are you going? Enter any U.S. ZIP code",
@@ -3875,7 +3874,7 @@ if view == "🛡️ Learn & Prevent":
             ]
         )
     plan_inputs = (travel_zip, travel_month, outdoor_activity, tuple(health_context))
-    if st.button("Generate My Outdoor Tick-Prevention Plan", type="primary"):
+    if st.button("Create my outdoor plan", type="primary"):
         st.session_state["outdoor_plan_inputs"] = plan_inputs
         st.session_state["outdoor_plan_state"] = travel_geo.get("state_code") if travel_geo else None
         st.session_state["outdoor_plan_download"] = outdoor_plan_text(travel_destination, travel_month, outdoor_activity, state_name=travel_geo.get("state") if travel_geo else None)

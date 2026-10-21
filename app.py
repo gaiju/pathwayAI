@@ -617,7 +617,7 @@ def show_session_burden():
                           any((record.get("encounter") or {}).get(field) for field in ("when", "exposure", "current"))):
         return
     st.markdown("#### Your cost and time record")
-    st.write('Your entries from Care & Support appear here automatically. Only you can see this session record.')
+    st.write('Your entries from Care & Support appear here automatically. This session record is not automatically shared with county teams.')
     if record.get("reported_by"):
         st.caption("Reported by: " + record["reported_by"])
     st.write(f"Period: {record['period']} · Phase: {record['phase'].replace(' (Stage 0)', '')} · Residence: {record['county']}")
@@ -639,12 +639,15 @@ def show_session_burden():
                  " · Where found: " + (encounter.get("exposure") or "Not reported"))
         st.write("Current care location: " + (encounter.get("current") or "Not reported"))
         page_note("Encounter location, current care location and county of residence have different purposes. Tick observations cannot establish infection or tick density and would need separate review before public-health use.")
-    st.write('Your record stays private in this session. You control any sharing after review.')
-    page_note("The preview stays in this browser session, is not sent to public policy AI and does not automatically write to Community Voice. A secure reporting pilot is still needed for county use.")
+    st.write('Review before downloading or sharing. Entries are held in the running app session; see the privacy information for processing details.')
+    page_note("The preview uses the current server-side app session, is not sent to public policy AI and does not automatically write to Community Voice. A secure reporting pilot is still needed for county use.")
 
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
+    st.write("**For county health departments and community partners:** explore where support may be needed and prepare one sourced brief to discuss with local partners.")
+    st.markdown("**Start here:** compare local evidence → choose a support priority → download a planning brief. Then confirm services, partners and resources before proposing a pilot.")
+    st.caption("Patient and caregiver records make expenses, missed work and unpaid help visible. They do not automatically become county evidence. Study illustrations and Medicare context remain separate; the full long-term population burden has not been measured.")
     st.write(reading_copy("Compare Lyme reports and costs. Find a community action.", "Compare reported Lyme rates, study-based cost illustrations and local care resources. Review the assumptions and evidence to prepare a community discussion."))
     page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")
     st.markdown("#### Hudson Valley community focus")
@@ -3598,8 +3601,18 @@ if view == "🌱 What’s next":
     st.download_button("Download the proposed partnership flowchart", data=(BASE_DIR / "images" / "community_partnership_pilot.png").read_bytes(),
                        file_name="PathwayAI_Proposed_Community_Partnership.png", mime="image/png", key="community_partnership_flowchart")
 
+    with st.expander("What reviewers helped improve"):
+        st.write("People living with Lyme disease and a county health commissioner reviewed the working app. Feedback helped us simplify instructions, make care-access resources available without a story, and clarify useful next steps.")
+        st.caption("These are formative reviews, not a clinical trial or proof of improved outcomes. Invitations to Mandarin-, Spanish-, and English-speaking reviewers do not establish completed multilingual validation.")
+    with st.expander("How we would run the next pilot"):
+        st.markdown("1. **Agree on one use case** with a patient group, health center or community team.\n2. **Confirm responsibilities and resources**, including service availability, privacy arrangements and language review.\n3. **Test usefulness:** check summary accuracy, task completion, support connections and unmet needs.\n4. **Review results with partners** before claiming better health or savings.")
+        st.write("The working app is publicly accessible. We plan outreach through patient groups, health centers and public-health partners. Free patient access through grants and partnerships is a proposed sustainability model.")
+        st.caption("The record structure could be adapted to other illnesses after condition-specific review. FHIR and Blue Button are not connected; any future integration needs a defined use case, permissions and technical validation.")
+
     st.subheader("Help us make PathwayAI easier to use")
     st.write("We have invited Mandarin-, Spanish-, and English-speaking reviewers to test PathwayAI. We also welcome people whose first language is not English to join the testing. Your feedback can help us make the app clearer, easier to use, and more useful for our communities.")
+    st.write("Language, cost, and difficulty reaching care can make some experiences harder to share—and easier to miss in community planning. We welcome immigrants, people from racial and ethnic minority communities, and anyone who finds these tools difficult to use. Your feedback can help us identify barriers we might otherwise miss.")
+    st.caption("People’s experiences vary. Speaking another language at home does not necessarily mean someone needs language assistance. Write in the language you prefer; optional AI assistance still requires permission and review.")
     st.write("You do not need medical or technical knowledge. Please use made-up information and tell us what is helpful or confusing.")
     st.write("To join the testing or share feedback, email pathwayai.feedback@gmail.com or use the feedback button below.")
 

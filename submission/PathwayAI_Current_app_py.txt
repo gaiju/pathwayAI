@@ -3591,6 +3591,14 @@ paths = [
     ("I’m reviewing or giving feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
 ]
 
+landing_details = {
+    "bite": ("Start with tick-removal steps, what to record, and when to contact a clinician. You can then prepare a visit note or continue to Care & Support.", "Removal and care information, plus an optional downloadable visit summary."),
+    "ongoing": ("Find care-access, disability-benefits and essential-support resources without writing a story. If useful, organize a visit note in your preferred language and record costs and time.", "A reviewed visit summary, cost-and-time record, or questions to ask about assistance."),
+    "outdoors": ("Enter a destination ZIP code, month and activity. Review prevention steps and available exposure context, then download your outdoor plan.", "A tick-prevention PDF. It does not predict your personal infection risk."),
+    "county": ("Compare county surveillance, healthcare resources and published cost illustrations. Review sources and assumptions, then select a support priority to discuss with partners.", "A sourced planning brief. It is not measured county spending or a funded service."),
+    "feedback": ("Explore any route using made-up information, watch the walkthrough, or tell us what is helpful or confusing. Reviewers do not need to enter personal health information.", "A way to share feedback or discuss a future pilot."),
+}
+
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements", "🌱 What’s next"]
 if st.session_state.get("admin_authenticated"):
     available_views.append("🧠 Research & Strategy Agent")
@@ -3603,7 +3611,7 @@ def show_reading_choice():
     st.radio("Reading detail", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
              format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
-             help="Start with fewer words. Switch any time. Your notes and amounts stay the same.")
+             help="Quick and easy shows brief descriptions. More detail explains each route and its outputs, and opens supporting sections. Switch any time; your entries stay the same.")
 
 
 if not st.session_state.get("pathway_open", False):
@@ -3686,7 +3694,12 @@ if not st.session_state.get("pathway_open", False):
             for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
                 with col:
                     st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
-                    st.write(detail)
+                    if simple_reading_view():
+                        st.write(detail)
+                    else:
+                        explanation, output = landing_details[intent]
+                        st.write(explanation)
+                        st.markdown("**You’ll get:** " + output)
     with st.expander("Quick tour and demo"):
         st.write("Choose any section below. Use a made-up example if you want to try the tools.")
         tour_steps = [

@@ -4,9 +4,9 @@ Then it became personal. [pause]
 
 I lost my job, and my family lost our health insurance. The next month, my husband was bitten by a tick and developed Lyme disease.
 
-That experience taught me how difficult it can be to find care while worrying about costs—and how language can make those conversations harder.
+Finding care, worrying about costs, and explaining symptoms in another language became personal concerns.
 
-I kept thinking: how could we help another family feel better prepared?
+How could we help another family feel better prepared?
 
 Those lessons led me to build PathwayAI. [pause]
 
@@ -16,17 +16,17 @@ PathwayAI helps people make that burden visible—and connects practical support
 
 [warm] Let me show you.
 
-Choose your starting point: outdoor preparation, help after a tick bite, preparing for care, or community planning. There is also an option for reviewers. Choose Quick and easy for shorter explanations.
+Choose outdoor preparation, help after a tick bite, care and support, or community planning. Reviewers have their own route. Quick and easy gives shorter explanations.
 
 Learn and Prevent offers a downloadable outdoor plan. Tick Bite: What Next explains removal, what to record, and when to contact a clinician. Early, appropriate treatment can help prevent more severe Lyme disease.
 
-In Care and Support, people without insurance can find community health centers and questions about affordable care. Early Lyme disease can often be managed in primary care. Ask the center about services, fees, and interpreters. Availability varies; care is not automatically free. [pause]
+Care and Support links uninsured people to community health centers and questions about affordable care. Early Lyme disease can often be managed in primary care. Confirm services, fees, and interpreters; care is not automatically free. [pause]
 
-Now imagine preparing for an appointment. Every patient detail shown here is fictional.
+Now prepare for an appointment using fictional details.
 
 Enter what happened. Review and correct the timeline. Download the visit summary and bring the original test report.
 
-For someone uncomfortable speaking English, explaining symptoms can feel overwhelming. People can write in their preferred language or mix languages.
+Explaining symptoms in English can feel overwhelming. People can write in their preferred language or mix languages.
 
 With permission, optional external AI helps prepare an English summary alongside the original for review. It supports communication, not diagnosis or qualified medical interpretation. The English organizer also works without external AI. [pause]
 
@@ -44,19 +44,17 @@ Support choices include disability-benefits preparation, food, housing, temporar
 
 County health departments and community partners are our intended organizational users.
 
-CDC PLACES estimates that 6.5 percent of Dutchess adults aged 18 to 64 lacked insurance in 2023. The county health plan also identifies access concerns. These are general community findings, not Lyme-specific estimates.
-
-They give us a reason to explore care navigation. [short pause]
+CDC PLACES estimates that 6.5 percent of Dutchess adults aged 18 to 64 lacked insurance in 2023. This is general context, not Lyme-specific evidence. It supports exploring care navigation. [short pause]
 
 PathwayAI brings together New York Lyme surveillance, Census population and language data, HRSA healthcare resources, CDC tick surveillance, and CDC PLACES. CMS adds separate Original Medicare payment context—not Lyme-specific spending.
 
 Here is one transparent calculation: 1,060 Dutchess cases reported in 2024, multiplied by Hook’s societal-cost benchmark of 2,032 dollars, gives about 2.15 million dollars in 2016 dollars.
 
-That is a study-based illustration, not measured county spending. Our survey informs questions about burden. Horn’s research supports attention to follow-up needs. Neither is added to that total. [pause]
+That is an illustration, not measured county spending. Survey experiences and Horn’s follow-up research inform questions; neither is added to that total. [pause]
 
 [explaining] Then we connect evidence with a possible action.
 
-At local events, partners could share prevention information and preparation tools. Residents could leave with a plan, a visit note, or questions about affordable care.
+At local events, partners could help residents leave with a prevention plan, a visit note, or questions about affordable care.
 
 A future secure pilot, with explicit consent, could document unmet needs. Resources would remain available without contributing personal information. Personal notes are not automatically sent to counties.
 
@@ -64,7 +62,7 @@ Partners would confirm capacity and resources, then track completed referrals, a
 
 [hopeful] People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback helped us simplify instructions and make resources available without entering a story.
 
-Mandarin-, Spanish-, and English-speaking reviewers have also been invited. Testing is ongoing.
+Mandarin-, Spanish-, and English-speaking reviewers have been invited; testing is ongoing.
 
 The app is publicly accessible. We plan outreach through patient groups, health centers, and public-health partners. Grants and partnerships are our proposed model for keeping patient access free.
 

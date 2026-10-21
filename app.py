@@ -650,6 +650,25 @@ def policy89():
     st.caption("Patient and caregiver records make expenses, missed work and unpaid help visible. They do not automatically become county evidence. Study illustrations and Medicare context remain separate; the full long-term population burden has not been measured.")
     st.write(reading_copy("Compare Lyme reports and costs. Find a community action.", "Compare reported Lyme rates, study-based cost illustrations and local care resources. Review the assumptions and evidence to prepare a community discussion."))
     page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")
+    with st.expander("How the pathways connect", expanded=False):
+        st.write("**One journey. Several ways to address the burden.**")
+        st.write("Prepare outdoors → Seek timely care → Find practical support → Inform community planning")
+        pathway_steps = [
+            ("1. Prepare outdoors", "Learn & Prevent", "Prevention information and a downloadable outdoor plan.", "Available now"),
+            ("2. Seek timely care", "Tick Bite: What Next?", "Removal information, when to contact a clinician, and optional visit notes. A clinician decides treatment.", "Available now"),
+            ("3. Find practical support", "Care & Support", "Reviewed visit summaries, language assistance, cost-and-time records, and care-access questions.", "Available now"),
+            ("4. Inform community planning", "Community Burden & Action", "Public-data comparisons and planning briefs work now. Secure, consent-based resident reporting is a future pilot.", "Public tools now; reporting proposed"),
+        ]
+        for start in range(0, len(pathway_steps), 2):
+            columns = st.columns(2)
+            for column, (title, page, purpose, status) in zip(columns, pathway_steps[start:start + 2]):
+                with column:
+                    with st.container(border=True):
+                        st.markdown("**" + title + "**")
+                        st.write(purpose)
+                        st.caption(page + " · " + status)
+        st.write("**Long-term goal:** help people reach appropriate care and support, and evaluate whether this reduces lasting disruption to their lives.")
+        st.caption("Personal notes are not automatically sent to counties or the state. Partner teams would review privacy-protected findings and available resources before deciding priorities. Reduced costs or long-term disability have not been demonstrated by PathwayAI.")
     st.markdown("#### Hudson Valley community focus")
     st.write("Start with New York. Compare Dutchess and Orange in our Hudson Valley pilot view.")
     page_note("The pilot comparison supports community learning. It does not rank county performance or represent a county partnership.")

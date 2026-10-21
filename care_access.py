@@ -92,7 +92,7 @@ def show_lyme_cost_context():
         st.write("Practical next step: tell the clinician about exposure, symptoms, their timing and any test results. If cost or language makes care harder to reach, use the support resources on this page. PathwayAI helps with preparation; reduced delays or savings have not been established.")
 
 
-def show_care_access():
+def show_care_access(include_bills=True):
     import streamlit as st
 
     st.markdown("### No insurance or worried about medical bills?")
@@ -112,6 +112,13 @@ def show_care_access():
         st.write("Losing job-based coverage may qualify you for a time-limited Special Enrollment Period. Medicaid applications are accepted year-round. An enrollment assister can explain deadlines, household and income rules, and any applicable immigration requirements.")
         st.markdown(f"[New York State of Health: coverage and enrollment assistance]({NY_COVERAGE})")
         st.caption("Coverage is not automatic. An assister or the relevant program must check your circumstances.")
+    if include_bills:
+        show_billing_help()
+
+
+def show_billing_help():
+    import streamlit as st
+
     with st.expander("Already have a high medical bill?"):
         st.write("Emergency care may still be billed. Ask the hospital about financial assistance; do not delay emergency care because of cost.")
         st.markdown("1. **Ask for an itemized bill.** Check unfamiliar, duplicate or incorrect charges with the billing office.\n2. **Ask about financial assistance or charity care.** Request the written policy, application and deadlines. Nonprofit hospitals must have a financial-assistance policy for emergency and other medically necessary hospital care; eligibility and covered providers vary. Ask separately about outside clinician and laboratory bills.\n3. **Ask about collections and payment options.** Ask whether collection activity can pause during review. If a balance remains, ask about self-pay discounts or an interest-free plan. Get agreements in writing.")

@@ -41,13 +41,13 @@ from community_action import show_community_action_pathway
 # Refresh only when required exports are missing; real import failures still surface.
 import care_access as _care_access
 _CARE_ACCESS_EXPORTS = (
-    "show_care_access", "show_timely_care", "show_lyme_cost_context",
+    "show_billing_help", "show_care_access", "show_timely_care", "show_lyme_cost_context",
     "show_transport_help", "EMERGENCY_REMINDER", "TIMELY_CARE_MESSAGE", "CDC_TREATMENT",
 )
 if any(not hasattr(_care_access, name) for name in _CARE_ACCESS_EXPORTS):
     from importlib import reload as _reload_module
     _reload_module(_care_access)
-from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER, TIMELY_CARE_MESSAGE, CDC_TREATMENT
+from care_access import show_billing_help, show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER, TIMELY_CARE_MESSAGE, CDC_TREATMENT
 from outdoor_plan import outdoor_plan_text, CDC_BOT
 from visit_summary import show_visit_summary
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
@@ -279,7 +279,7 @@ def support89(county, barrier):
         links, request = support_routes[need]
         st.markdown(links)
         if need == "Disability benefits":
-            st.write("Use the Disability benefits (SSDI / SSI) section near the top of this page for the preparation checklist. A diagnosis alone does not establish eligibility.")
+            st.write("Use section 5, Benefits and everyday support, for the SSDI / SSI preparation checklist. A diagnosis alone does not establish eligibility.")
         if "New York" in county:
             if need == "Temporary cash assistance":
                 st.markdown("[New York Temporary Assistance — OTDA](https://otda.ny.gov/programs/temporary-assistance/) · [Local social-services departments](https://otda.ny.gov/workingfamilies/dss.asp)")
@@ -1101,15 +1101,21 @@ def compact_care88(quick, story):
     def selected_burden_index(key, options):
         value = st.session_state.get(key, saved.get(key))
         return options.index(value) if value in options else 0
-    encounter = show_tick_encounter(quick)
+    encounter = dict(st.session_state.get("tick_encounter_record", {}))
+    for field, fallback in (("when", quick.get("month")), ("exposure", quick.get("exposure_location")), ("current", quick.get("current_location"))):
+        encounter.setdefault(field, fallback or "")
     page_note("Tick-found details remain private in this session and are not automatically sent to a community dataset. Finding a tick does not confirm Lyme disease or establish county infection risk. Secure community use needs participant consent, review, comparable location/time fields and privacy-reviewed summaries. Community decisions and support cannot be guaranteed from one report.")
     if encounter["current"]:
         st.markdown("[Find care near the location you already entered](" +
                     google_maps_search_url("primary care or infectious disease doctor near " + encounter["current"]) + ")")
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
+    st.markdown('<span id="lyme-tests"></span>', unsafe_allow_html=True)
+    st.markdown("### 3. Understand Lyme tests")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown('<span id="costs-time"></span>', unsafe_allow_html=True)
-    st.markdown("### Your costs, time and visit summary")
+    st.markdown("### 4. Get help with bills and costs")
+    show_billing_help()
+    st.write("Optional: record your costs and time below, then review and download your summary.")
     show_lyme_cost_context()
     show_burden_reading_guide()
     st.write("Add what you know. You can return to the rest later in this session. Review and download your card below.")
@@ -1179,7 +1185,8 @@ def compact_care88(quick, story):
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
         branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
     st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
-    st.markdown("### Find support and explore your community")
+    st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
+    st.markdown("### 5. Find benefits and everyday support")
     county=county_selector88("patient88", include_zip=False)
     st.session_state["burden_session_record"] = {
         "medical": medical, "other": other, "workdays": workdays,
@@ -1193,6 +1200,7 @@ def compact_care88(quick, story):
     st.session_state["saved_burden_form"] = {
         key: st.session_state[key] for key in form_keys if key in st.session_state
     }
+    show_benefits_preparation(st.session_state.get("burden_session_record"))
     support89(county,barrier)
     st.caption("You can stop here and keep your downloads. The community page is optional and does not submit your record.")
     st.button("Optional: explore community planning →", key="patient_to_community",
@@ -1372,7 +1380,7 @@ st.markdown("""<style>
 /* Comfortable spacing and in-page destinations for short and expanded views. */
 [data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] li {line-height:1.65;}
-#care-start, #care-access, #visit-notes, #costs-time, #find-support, #benefits-help {scroll-margin-top:6rem;}
+#care-start, #care-access, #visit-notes, #costs-time, #find-support, #benefits-help, #lyme-tests {scroll-margin-top:6rem;}
 
 /* v115: navigation is easier to find and use on desktop and mobile. */
 .pathway-hero {width:100%;margin:0.35rem 0 1rem;display:flex;justify-content:center;overflow:hidden;border-radius:14px;}
@@ -3848,7 +3856,6 @@ if view == "🩹 Tick Bite: What Next?":
     if bite_story.strip():
         st.button("Continue to Care & Support with these notes →", key="bite_continue_with_notes", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     page_note("Tick-found details stay in your private session and are not automatically shared. Finding a tick does not confirm Lyme disease or establish county infection risk. Community reporting requires consent, reviewed observations and privacy safeguards; it does not guarantee resource allocation or personal support.")
-    show_lyme_testing(simple=simple_reading_view())
     with st.expander("Learn more about Lyme disease, symptoms and rashes", expanded=not simple_reading_view()):
         show_lyme_learning78()
     st.button("← Back to choices", key="bite118_back", on_click=return_to_path_choices)
@@ -4669,21 +4676,19 @@ st.markdown('<span id="care-start"></span>', unsafe_allow_html=True)
 st.header("Care & Support")
 if not simple_reading_view():
     show_photo116("river", "Peaceful lake surrounded by green trees")
-st.write("Choose only what you need. You can find resources without writing a story or entering costs.")
-st.markdown("**Find help:** [Care or medical bills](#care-access) · [Disability benefits: SSDI / SSI](#benefits-help) · [Food, housing and other support](#find-support)")
-st.markdown("**Prepare a record, if useful:** [Visit note](#visit-notes) · [Costs and time](#costs-time)")
-st.caption("You can write your visit note in your preferred language, including mixed languages.")
-show_timely_care(select_public_pathway)
+st.write("Find care, prepare for your visit, and get help with costs. Start where you need help—you do not have to complete every section.")
+st.markdown("**Jump to:** [1. Find care](#care-access) · [2. Prepare for your visit](#visit-notes) · [3. Understand Lyme tests](#lyme-tests) · [4. Bills and costs](#costs-time) · [5. Benefits and everyday support](#benefits-help)")
+st.caption(EMERGENCY_REMINDER)
 st.markdown('<span id="care-access"></span>', unsafe_allow_html=True)
-with st.expander("Find care or help with bills", expanded=not simple_reading_view()):
-    show_care_access()
+st.markdown("### 1. Find care")
+st.write("Ask about appointments, income-based fees and interpreter services. You can use these resources without entering a story.")
+with st.expander("Find a clinician, uninsured care or language support", expanded=not simple_reading_view()):
+    show_care_access(include_bills=False)
 with st.expander("Need a ride to care?", expanded=not simple_reading_view()):
     show_transport_help(SUPPORT89["Transportation / distance"])
-st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
-st.markdown("### Disability benefits (SSDI / SSI) and food assistance")
-show_benefits_preparation(st.session_state.get("burden_session_record"))
+st.markdown("### 2. Prepare for your visit")
+st.caption("Use your preferred language, including mixed languages. Notes already entered on the tick-bite page are reused in this session.")
 page_note("PathwayAI is a working pilot web app. A healthcare professional can help you decide what care you need.")
-page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST
 
 # Location is intentionally optional and comes after the patient receives immediate value.
@@ -4701,6 +4706,8 @@ if not detailed_form:
     st.stop()
 
 # Optional whole-person context: patient-reviewed, session-only, no composite score.
+st.markdown('<span id="lyme-tests"></span>', unsafe_allow_html=True)
+st.markdown("### 3. Understand Lyme tests")
 show_lyme_testing(simple=simple_reading_view())
 st.markdown("### Daily life and your next appointment")
 page_note("Optional. Use this without AI or contributing to Patient Voice.")
@@ -5083,8 +5090,13 @@ if quick["cost_amount"] is not None:
     st.info(f"From your story: approximately ${quick['cost_amount']:,.0f} in patient-reported illness-related cost. This is kept separate unless you choose to break it into categories below.")
 st.info("**What this supports:** organize spending and daily-life effects for appointment preparation and support conversations. You can review and share a summary. Improved care coordination, time saved and reduced burden are intended benefits; effects have not been measured.")
 show_sample_burden_card()
-st.markdown("#### Record your costs")
 st.markdown('<span id="costs-time"></span>', unsafe_allow_html=True)
+st.markdown("### 4. Get help with bills and costs")
+show_billing_help()
+st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
+with st.expander("Benefits and everyday support · optional"):
+    show_benefits_preparation(st.session_state.get("burden_session_record"))
+st.markdown("#### Record your costs")
 cost_period75 = st.selectbox("Time covered by these costs and hours", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started", "Other period"], key="cost_period75")
 burden_phase81 = st.selectbox("Which part of your journey do these amounts cover?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="burden_phase81")
 page_note("“Before diagnosis” means the time before a person learned they had Lyme disease. It is not a medical stage. If your costs cover both before and after diagnosis, we cannot separate them for you.")

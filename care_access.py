@@ -133,9 +133,6 @@ def show_transport_help(resource):
     """Reuse the app's existing county referral information without a story form."""
     import streamlit as st
 
-    with st.expander("Need help getting to an appointment?"):
-        st.write("Start with an existing service and ask whether it can cover your trip.")
-        st.write(resource[1])
-        st.markdown(f"[Dutchess County transport information]({resource[2]}) · [New York Medicaid transportation](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm) · [Other local options — 211](https://www.211.org/)")
-        st.write("Ask: Am I eligible? Is registration required? How far ahead must I book? What does it cost, is the vehicle accessible, and how do I arrange the return trip?")
-        st.caption("Confirm current eligibility, availability and costs with the service. PathwayAI does not book or fund rides. If no option is available, the need remains unmet.")
+    st.markdown("- **Anywhere in the U.S.:** Contact [211](https://www.211.org/) to ask about local transportation assistance.\n- **Have Medicaid?** Ask your plan or state Medicaid program about non-emergency medical transportation. [New York transportation information](https://www.health.ny.gov/health_care/medicaid/members/medtrans_overview.htm).\n- **In Dutchess County?** Older adults without Medicaid can call **845-486-2555** to ask about GoGo registration and availability. [Dutchess transportation information](https://www.dutchessny.gov/Departments/Aging/Transportation-for-Seniors.htm).")
+    st.write("Before booking, ask: Am I eligible? Is registration required? What does it cost? How early must I book? Is an accessible vehicle available? Is the return trip included?")
+    st.caption("Confirm eligibility, availability and costs with the service. PathwayAI does not arrange or pay for rides. These resources are for non-emergency appointments.")

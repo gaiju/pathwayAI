@@ -4676,15 +4676,15 @@ st.markdown('<span id="care-start"></span>', unsafe_allow_html=True)
 st.header("Care & Support")
 if not simple_reading_view():
     show_photo116("river", "Peaceful lake surrounded by green trees")
-st.write("Find care, prepare for your visit, and get help with costs. Start where you need help—you do not have to complete every section.")
-st.markdown("**Jump to:** [1. Find care](#care-access) · [2. Prepare for your visit](#visit-notes) · [3. Understand Lyme tests](#lyme-tests) · [4. Bills and costs](#costs-time) · [5. Benefits and everyday support](#benefits-help)")
+st.write("Choose the help you need. You can skip any section.")
+st.markdown("[1. Find care](#care-access) · [2. Prepare for your visit](#visit-notes) · [3. Understand Lyme tests](#lyme-tests) · [4. Bills and costs](#costs-time) · [5. Benefits and everyday support](#benefits-help)")
 st.caption(EMERGENCY_REMINDER)
 st.markdown('<span id="care-access"></span>', unsafe_allow_html=True)
 st.markdown("### 1. Find care")
 st.write("Ask about appointments, income-based fees and interpreter services. You can use these resources without entering a story.")
 with st.expander("Find a clinician, uninsured care or language support", expanded=not simple_reading_view()):
     show_care_access(include_bills=False)
-with st.expander("Need a ride to care?", expanded=not simple_reading_view()):
+with st.expander("Need a ride to an appointment?", expanded=not simple_reading_view()):
     show_transport_help(SUPPORT89["Transportation / distance"])
 st.markdown("### 2. Prepare for your visit")
 st.caption("Use your preferred language, including mixed languages. Notes already entered on the tick-bite page are reused in this session.")

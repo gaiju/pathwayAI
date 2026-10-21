@@ -1180,7 +1180,8 @@ def compact_care88(quick, story):
         key: st.session_state[key] for key in form_keys if key in st.session_state
     }
     support89(county,barrier)
-    st.button("Explore community burden →", key="patient_to_community",
+    st.caption("You can stop here and keep your downloads. The community page is optional and does not submit your record.")
+    st.button("Optional: explore community planning →", key="patient_to_community",
               on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
     with st.expander("What others reported · cost and journey evidence"):
         evidence89()
@@ -1357,7 +1358,7 @@ st.markdown("""<style>
 /* Comfortable spacing and in-page destinations for short and expanded views. */
 [data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] li {line-height:1.65;}
-#care-start, #visit-notes, #costs-time, #find-support, #benefits-help {scroll-margin-top:6rem;}
+#care-start, #care-access, #visit-notes, #costs-time, #find-support, #benefits-help {scroll-margin-top:6rem;}
 
 /* v115: navigation is easier to find and use on desktop and mobile. */
 .pathway-hero {width:100%;margin:0.35rem 0 1rem;display:flex;justify-content:center;overflow:hidden;border-radius:14px;}
@@ -3583,11 +3584,11 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("Plan time outdoors", "Get tick-prevention steps and download an outdoor preparation plan.", "🛡️ Learn & Prevent", "outdoors"),
-    ("After a tick bite", "Find removal steps, what to watch for and when to ask for care.", "🩹 Tick Bite: What Next?", "bite"),
-    ("Prepare for care or find support", "Find uninsured-care resources, prepare a visit note in your preferred language, and record costs.", "🧭 Care & Support", "ongoing"),
-    ("Explore community needs", "For community teams: compare county evidence and prepare a planning brief.", "📊 Community Burden & Action", "county"),
-    ("Review or give feedback", "Just visiting? Explore the tools or share suggestions—no personal information needed.", "💬 Share Feedback", "feedback"),
+    ("I found a tick on my skin", "Tick Bite: What Next? — removal steps and when to contact a clinician.", "🩹 Tick Bite: What Next?", "bite"),
+    ("I need care or support", "Care & Support — find resources, prepare a visit note, or ask about benefits and bills.", "🧭 Care & Support", "ongoing"),
+    ("I’m planning time outdoors", "Learn & Prevent — create and download a tick-prevention plan.", "🛡️ Learn & Prevent", "outdoors"),
+    ("I’m planning community support", "Community Burden & Action — compare county evidence and prepare a planning brief.", "📊 Community Burden & Action", "county"),
+    ("I’m reviewing or giving feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
 ]
 
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements", "🌱 What’s next"]
@@ -3621,17 +3622,9 @@ if st.session_state.get("pathway_open", False):
     show_reading_choice()
 
 
-if st.session_state.get("pathway_open", False) and view != "🛡️ Learn & Prevent":
-    if simple_reading_view():
-        st.success("Quick and easy · Short steps. Open extra information only when you need it.")
-    else:
-        st.info("More detail · Extra explanations and optional sections are open. Your notes and amounts stay the same.")
-        st.caption("This changes how much information is shown—not the medical guidance, AI permission or accuracy of a report. Extra questions remain optional.")
 
-if view == "🧭 Care & Support":
-    st.markdown("**On this page:** [Find care or help with bills](#care-start) · [Prepare your visit note](#visit-notes) · [Costs and time](#costs-time) · [Disability benefits: SSDI / SSI](#benefits-help) · [Other support](#find-support)")
-elif view == "🩹 Tick Bite: What Next?":
-    st.markdown("**Start with the three bite steps below.** [Go to optional visit notes](#visit-notes). You can read the guidance without filling out a form.")
+if view == "🩹 Tick Bite: What Next?":
+    st.markdown("**Start with the three bite steps below.** Visit notes are optional. [Skip to visit notes](#visit-notes).")
 
 
 if view == "🌱 What’s next":
@@ -3687,6 +3680,7 @@ if view == "📚 Sources & Acknowledgements":
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_paths"):
         st.subheader("What would help you today?")
+        st.write("Choose the sentence that fits you. You do not need to visit every page.")
         for start in range(0, len(paths), 2):
             cols = st.columns(2)
             for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
@@ -3812,7 +3806,7 @@ if view == "🩹 Tick Bite: What Next?":
     st.caption("This opens a separate CDC resource. PathwayAI does not run the CDC tool or send your notes to it.")
     st.info(EMERGENCY_REMINDER)
     st.write("Need help finding care, paying for it, or preparing for a visit?")
-    st.button("Go to Care & Support →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+    st.button("Next: find care or prepare for a visit →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
     st.write("Optional: start your visit note here, or go directly to Care & Support. You can read the bite guidance without filling in a form.")
     bite_story, bite_details, bite_reporter = show_visit_organizer()
     show_tick_encounter(bite_details)
@@ -4090,8 +4084,8 @@ if view == "🛡️ Learn & Prevent":
                 st.write("• If symptoms or concerns develop, use **Care & Support** to prepare your story and questions for a healthcare professional.")
             page_note("Travel-plan guidance supports prevention and documentation; it is not a diagnosis or treatment recommendation.")
 
-    st.button("Found a tick? See what to do →", key="outdoors_to_bite", on_click=select_public_pathway, args=("🩹 Tick Bite: What Next?", "bite"))
-    st.button("Prepare for care or find support →", key="outdoors_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+    st.button("Found a tick? Next: removal and care guidance →", key="outdoors_to_bite", on_click=select_public_pathway, args=("🩹 Tick Bite: What Next?", "bite"))
+    st.button("Need care or support? Go to Care & Support →", key="outdoors_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)
     render_page_notes()
     st.stop()
@@ -4640,9 +4634,12 @@ st.markdown('<span id="care-start"></span>', unsafe_allow_html=True)
 st.header("Care & Support")
 if not simple_reading_view():
     show_photo116("river", "Peaceful lake surrounded by green trees")
-st.write("Make a note for your visit. Track money and time. Find help.")
-st.write("Write visit notes in your preferred language, including mixed languages. Optional external AI can help prepare an English summary with your permission; review it before use.")
+st.write("Choose only what you need. You can find resources without writing a story or entering costs.")
+st.markdown("**Find help:** [Care or medical bills](#care-access) · [Disability benefits: SSDI / SSI](#benefits-help) · [Food, housing and other support](#find-support)")
+st.markdown("**Prepare a record, if useful:** [Visit note](#visit-notes) · [Costs and time](#costs-time)")
+st.caption("You can write your visit note in your preferred language, including mixed languages.")
 show_timely_care(select_public_pathway)
+st.markdown('<span id="care-access"></span>', unsafe_allow_html=True)
 with st.expander("Find care or help with bills", expanded=not simple_reading_view()):
     show_care_access()
 with st.expander("Need a ride to care?", expanded=not simple_reading_view()):

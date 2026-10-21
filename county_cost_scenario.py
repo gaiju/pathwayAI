@@ -108,6 +108,13 @@ def show_county_burden_comparison(note):
     for col, (_, row) in zip(cols, frame.iterrows()):
         col.metric(row["County"] + " · societal illustration", f"${row[amount] / 1_000_000:.2f}M")
     cols[2].metric("Both counties · societal illustration", f"${frame[amount].sum() / 1_000_000:.2f}M")
+    with st.expander("How PathwayAI calculates these figures"):
+        st.markdown("1. **Personal record:** add entered payments for the same reporting period. In a fictional example, $180 for care + $45 for travel = $225 paid. Missed workdays and caregiving hours stay separate.\n2. **County illustration:** 1,060 reported Dutchess cases in 2024 × Hook’s $2,032 societal mean = $2,153,920, in 2016 dollars. This assumes study costs apply to reported county cases; it is not measured county spending or proven savings.\n3. **Medicare context:** display CMS payment figures separately. They are not Lyme-specific and are never added to the Lyme illustration.")
+        st.caption("Arithmetic calculates; optional AI organizes language. People review. Study societal costs already include medical, nonmedical and productivity costs, so do not add those costs again.")
+        method_image = Path(__file__).resolve().parent / "images" / "burden_calculation_methodology.png"
+        st.image(str(method_image), caption="Calculation methodology. Personal entries shown are fictional; county totals are study-based illustrations.", use_container_width=True)
+        st.download_button("Download the calculation methodology image", method_image.read_bytes(),
+                           file_name="PathwayAI_Calculation_Methodology.png", mime="image/png", key="burden_methodology_image")
     categories = pd.DataFrame(county_cost_categories())
     plot = categories.rename(columns={"Medical costs · 2016 USD": "Medical costs",
                                       "Other expenses and lost productivity · 2016 USD": "Other costs + time lost"}).melt(

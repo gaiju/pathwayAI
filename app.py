@@ -3541,10 +3541,10 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("Plan time outdoors", "Explore tick information and prepare for a safer visit.", "🛡️ Learn & Prevent", "outdoors"),
-    ("After a tick bite", "Learn what to do and when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
-    ("Prepare for care", "Organize your story, record costs and time, and find support.", "🧭 Care & Support", "ongoing"),
-    ("Explore community needs", "Compare county evidence and build an action brief.", "📊 Community Burden & Action", "county"),
+    ("Plan time outdoors", "Get tick-prevention steps and download an outdoor preparation plan.", "🛡️ Learn & Prevent", "outdoors"),
+    ("After a tick bite", "Find removal steps, what to watch for and when to ask for care.", "🩹 Tick Bite: What Next?", "bite"),
+    ("Prepare for care or find support", "Find uninsured-care resources, prepare a visit note in your preferred language, and record costs.", "🧭 Care & Support", "ongoing"),
+    ("Explore community needs", "For community teams: compare county evidence and prepare a planning brief.", "📊 Community Burden & Action", "county"),
 ]
 
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements", "🌱 What’s next"]
@@ -3558,10 +3558,11 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="p
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
         st.title("PathwayAI")
-        st.subheader("Make patient voices count. Make community needs visible.")
-        st.write("PathwayAI is an educational and patient-organizing pilot. It helps you prepare for care, record costs and time, and explore support resources. It does not diagnose illness or decide treatment.")
+        st.subheader("Worried about a tick bite, preparing for care, or helping someone with Lyme?")
+        st.write("Find a next step: prepare for outdoors, organize a visit note, or explore help with care and medical bills.")
+        st.caption("Making the Hidden Patient Journey Visible—and Actionable")
         st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
-        st.write("Prepare for care, make hidden burdens visible, and explore community support actions—with patients and caregivers at the center.")
+        st.caption("Educational and preparation tools—not a diagnosis or treatment decision. You can browse resources without entering a story. For pilot testing, use made-up information.")
 st.radio("What works for you today?", ["Short and simple", "More detail"],
          key="reading_mode", horizontal=True,
          format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
@@ -3621,16 +3622,18 @@ if view == "📚 Sources & Acknowledgements":
 
 
 if not st.session_state.get("pathway_open", False):
-    with st.container(key="landing_photo"):
-        show_photo116("lake", "Golden sunlight filtering through a forest")
     with st.container(key="landing_paths"):
-        st.subheader("What would you like to do?")
+        st.subheader("What would help you today?")
         for start in range(0, len(paths), 2):
             cols = st.columns(2)
             for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):
                 with col:
                     st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                     st.write(detail)
+    st.markdown("**You can leave with:** an outdoor plan, a reviewed visit summary, or questions to ask about care and bills.")
+    st.write("Write visit notes in your preferred language, including mixed languages. Optional external AI can help prepare an English summary with your permission; review it before use.")
+    with st.container(key="landing_photo"):
+        show_photo116("lake", "Golden sunlight filtering through a forest")
     st.markdown("### Just exploring or reviewing PathwayAI?")
     st.write("Take a quick tour. You don’t need to enter personal information.")
     with st.expander("Quick tour"):

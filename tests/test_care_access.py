@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
-from care_access import care_access_questions, HRSA, MEDICAL_DEBT, EMERGENCY_REMINDER
+from care_access import care_access_questions, HRSA, MEDICAL_DEBT, EMERGENCY_REMINDER, LYME_SERVICE_EXAMPLE
 from community_action import action_brief
 
 
@@ -24,6 +24,9 @@ class CareAccessTests(unittest.TestCase):
         self.assertIn("Early diagnosis and appropriate antibiotic treatment", content)
         self.assertIn("did not show that each delayed diagnosis", content)
         self.assertTrue(any("$1,307" in str(t.value) and "$3,251" in str(t.value) for t in at.table))
+        self.assertIn("Early Lyme disease can often be evaluated and treated in primary care", content)
+        self.assertIn("does not confirm Lyme-specific services", content)
+        self.assertIn(LYME_SERVICE_EXAMPLE, content)
         self.assertIn(HRSA, content)
         self.assertIn(MEDICAL_DEBT, content)
         self.assertIn("Care is not automatically free", content)
@@ -54,6 +57,8 @@ class CareAccessTests(unittest.TestCase):
         self.assertIn("Emergency care may still be billed", questions)
         for phrase in ("sliding-fee", "itemized bill", "written policy", "charged separately", "Special Enrollment Period", "none is guaranteed"):
             self.assertIn(phrase, questions)
+        self.assertIn("coordinate a specialist referral", questions)
+        self.assertIn("qualified interpreter", questions)
         brief = action_brief("Care without insurance and medical bills")
         self.assertIn("possible funding source", brief)
         self.assertIn("record the need as unmet", brief)

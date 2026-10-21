@@ -16,7 +16,7 @@ PathwayAI makes several parts of that burden visible and connects practical pati
 
 [warm] First, what does a patient gain?
 
-In Care and Support, people without insurance can find community health centers and questions about income-based fees and hospital financial assistance. Care is not automatically free, but they have somewhere to start.
+In Care and Support, people without insurance can find community health centers. Early Lyme disease can often be managed in primary care. The app helps people ask whether a center offers evaluation, treatment, or referral—and about income-based fees and interpreter services. Care is not automatically free, and services vary by location.
 
 In Learn and Prevent, they can download an outdoor preparation plan. Tick Bite: What Next explains removal, what to record, and when to contact a clinician. Early, appropriate treatment can help prevent more severe Lyme disease. [short pause]
 

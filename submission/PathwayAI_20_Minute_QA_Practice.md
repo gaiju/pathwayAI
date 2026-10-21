@@ -18,7 +18,7 @@ A useful patient tool provides immediate preparation. A separate community view 
 
 ## 3. What practical benefit does a patient get?
 
-A patient can prepare a clearer account of exposure, symptoms, test results, and care, then review and download it. They can find questions about uninsured care and financial assistance and keep expenses, missed work, and unpaid help together. We have not established that these tools shorten diagnosis or improve treatment outcomes. The first evaluation should test accuracy, ease of use, and usefulness in support conversations.
+A patient can prepare a clearer account of exposure, symptoms, test results, and care, then review and download it. Early Lyme disease can often be managed in primary care, but each center must confirm evaluation, treatment or referral, appointment timing, interpreter access, and fees. They can find questions about uninsured care and financial assistance and keep expenses, missed work, and unpaid help together. We have not established that these tools shorten diagnosis or improve treatment outcomes. The first evaluation should test accuracy, ease of use, and usefulness in support conversations.
 
 **Follow-up: What would count as success?**
 Define tasks before testing: complete the summary, identify a care resource, download the correct report, and report whether it helped a conversation. Record mistakes and unsuccessful attempts as well as successes.

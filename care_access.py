@@ -8,6 +8,8 @@ MEDICAL_DEBT = "https://www.consumerfinance.gov/consumer-tools/medical-debt/"
 HOSPITAL_ASSISTANCE = "https://www.irs.gov/charities-non-profits/financial-assistance-policies-faps"
 CDC_BITE = "https://www.cdc.gov/ticks/after-a-tick-bite/index.html"
 CDC_TREATMENT = "https://www.cdc.gov/lyme/treatment/index.html"
+LYME_SERVICE_EXAMPLE = "https://www.cornellscott.org/programs-and-services/infectious-diseases"
+PRIMARY_CARE_LYME = "Early Lyme disease can often be evaluated and treated in primary care. Services vary by health center and location; a listing in the HRSA locator does not confirm Lyme-specific services or appointment availability."
 HOOK_COST_STUDY = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
 TIMELY_CARE_MESSAGE = "Early diagnosis and appropriate antibiotic treatment can help prevent more severe Lyme disease. If untreated, the infection can affect the joints, nerves or heart. A clinician decides what care you need."
 EMERGENCY_REMINDER = "Get emergency help: Call 911 for chest pain, severe trouble breathing, or fainting. These can signal a serious problem, whether or not it is related to a tick bite. Do not delay because you lack insurance."
@@ -25,7 +27,10 @@ def care_access_questions():
         "Do not wait for coverage paperwork before contacting a clinician. Ask about care and financial assistance together.",
         "", "CALL A COMMUNITY HEALTH CENTER",
         "I do not have insurance. Are you accepting new patients?",
+        PRIMARY_CARE_LYME,
         "Can you evaluate a tick bite or possible Lyme disease, and how soon can I be seen?",
+        "Do you provide Lyme testing and treatment when appropriate, or coordinate a specialist referral?",
+        "Can you provide a qualified interpreter for the visit?",
         "How do I apply for your sliding-fee discount? Which income and household documents do you need?",
         "What would the visit cost? Are outside tests, medicines and referrals charged separately?",
         "Can an enrollment assister help me check coverage options?",
@@ -93,6 +98,12 @@ def show_care_access():
     st.markdown("### No insurance or worried about medical bills?")
     st.write("Find care you can access. You can use these resources without entering a story, ZIP code or personal documents.")
     st.markdown(f"[Find a community health center — HRSA]({HRSA}). Health centers serve uninsured patients and offer sliding-fee discounts based on income and family size. Care is not automatically free.")
+    st.write(PRIMARY_CARE_LYME)
+    with st.expander("Can a health center help with Lyme disease?"):
+        st.write("Ask whether the location evaluates tick bites or possible Lyme disease, offers testing and treatment when appropriate, or coordinates specialist referrals. Ask how soon you can be seen and whether interpreter services are available.")
+        st.markdown(f"[CDC: Lyme treatment]({CDC_TREATMENT})")
+        st.markdown(f"[Example: Cornell Scott–Hill Health Center infectious disease services, Connecticut]({LYME_SERVICE_EXAMPLE})")
+        st.caption("Provider example supplied for reference; current services have not been independently confirmed by PathwayAI. This is not a verified Dutchess or Orange County referral. Confirm appointments, services and fees directly.")
     with st.expander("Care without insurance: what to ask"):
         st.write("Call the center about new-patient appointments, evaluation for a tick bite or possible Lyme disease, and sliding-fee assistance. Ask what the visit, outside tests, medicines and referrals would cost.")
         st.write("HRSA-funded health centers serve patients regardless of immigration status; you do not have to be a lawful resident to seek care there. Insurance programs have separate eligibility rules. Ask the center what documents it needs for fee assistance.")

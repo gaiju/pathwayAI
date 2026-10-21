@@ -1,0 +1,45 @@
+As a pathologist, I studied disease through a microscope. As an epidemiologist, I looked for patterns across communities. Then it became personal. I lost my job, and my family lost our health insurance. The next month, my husband was bitten by a tick and developed Lyme disease.
+
+That experience taught me how difficult it can be to navigate care while worrying about costs—and how language can make those conversations harder.
+
+I kept thinking: how could we help other families feel better prepared?
+
+I’m Yuwei Zhang. Those lessons led me to build PathwayAI. A medical bill shows only part of what illness costs. It misses time spent finding care, work missed, and unpaid help from family.
+
+PathwayAI makes several parts of that burden visible and connects practical patient support with public evidence for community planning. First, what does a patient gain?
+
+In Care and Support, people without insurance can find community health centers and questions about income-based fees and hospital financial assistance. Care is not automatically free, but they have somewhere to start.
+
+In Learn and Prevent, they can download an outdoor preparation plan. Tick Bite: What Next explains removal, what to record, and when to contact a clinician. Early, appropriate treatment can help prevent more severe Lyme disease. Now let’s follow a fictional patient preparing for a visit.
+
+They record exposure, symptoms, tests, and care, then review and correct a timeline. Symptom onset and diagnosis delay stay separate. They can download the summary and bring their original test report. People can write in their preferred language or mix languages. With permission, optional external AI helps organize an English summary alongside the original for review.
+
+The purpose is to help someone explain symptoms and ask questions with more confidence. It does not diagnose illness or replace a qualified interpreter.
+
+We have invited Mandarin-, Spanish-, and English-speaking reviewers to test clarity and whether summaries preserve their meaning. That work is ongoing. The English organizer also works without external AI. What about the burden itself?
+
+Our fictional patient paid 180 dollars for care and 45 dollars for travel, missed three workdays, and received eight hours of family help.
+
+The record shows 225 dollars paid, three workdays, and eight caregiving hours. We keep those units separate rather than invent a single total.
+
+Select Download appointment and cost summary to save the record. The care-access checklist provides questions for a clinic or billing office.
+
+Adding numbers alone will not pay a bill. But a clearer record can help someone explain what support they need. Second, what does a community gain?
+
+In Community Burden and Action, we compare Dutchess and Orange counties using public evidence.
+
+New York surveillance provides reported Lyme cases and rates. Census data adds population and language context. HRSA describes healthcare resources. CDC tick surveillance informs exposure context, and CDC PLACES adds broader community-health estimates. CMS provides separate Original Medicare spending context—not Lyme-specific costs.
+
+Here is one transparent calculation. Dutchess reported 1,060 cases in 2024. Multiplying that by Hook’s published average societal cost of 2,032 dollars gives an illustration of about 2.15 million dollars, expressed in 2016 dollars.
+
+The source and formula stay visible. This is not measured county spending or demonstrated savings. What can a community do next?
+
+The planning brief connects a need with possible actions, partners, and measures. A care-navigation pilot could help uninsured residents connect with existing services and prepare for language-support and billing conversations.
+
+Partners would confirm capacity and resources, then track completed referrals, appointments reached, assistance received, and unresolved needs.
+
+Patient experiences can reveal barriers that county averages miss. Public data helps put those questions in context. Personal notes are not automatically sent to counties; secure, consent-based reporting is a future goal. People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback helped us simplify choices and clarify next steps.
+
+We welcome patient groups, health centers, and community partners for a small pilot. We will evaluate usefulness before claiming better outcomes or savings. Our proposed model keeps patient access free through grants and partnerships. AI can help organize words. Data can reveal patterns. Patients remain at the center. PathwayAI. Making the hidden patient journey visible—and actionable.
+
+Thank you to the patients, caregivers, and reviewers helping shape what comes next.

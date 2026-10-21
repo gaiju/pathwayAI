@@ -1074,7 +1074,7 @@ def compact_care88(quick, story):
         page_note("This opens an external map search when clicked. Confirm provider services, insurance and availability directly; listings are not verified Lyme specialists.")
     show_lyme_testing(simple=simple_reading_view())
     st.markdown('<span id="costs-time"></span>', unsafe_allow_html=True)
-    st.markdown("### 2. Your costs, time and visit summary")
+    st.markdown("### Your costs, time and visit summary")
     show_lyme_cost_context()
     show_burden_reading_guide()
     st.write("Add what you know. You can return to the rest later in this session. Review and download your card below.")
@@ -1144,7 +1144,7 @@ def compact_care88(quick, story):
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
         branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
     st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
-    st.markdown("### 3. Find support and explore your community")
+    st.markdown("### Find support and explore your community")
     county=county_selector88("patient88", include_zip=False)
     st.session_state["burden_session_record"] = {
         "medical": medical, "other": other, "workdays": workdays,
@@ -1159,7 +1159,6 @@ def compact_care88(quick, story):
         key: st.session_state[key] for key in form_keys if key in st.session_state
     }
     support89(county,barrier)
-    show_benefits_preparation(st.session_state["burden_session_record"])
     st.button("Explore community burden →", key="patient_to_community",
               on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
     with st.expander("What others reported · cost and journey evidence"):
@@ -1337,7 +1336,7 @@ st.markdown("""<style>
 /* Comfortable spacing and in-page destinations for short and expanded views. */
 [data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stMainBlockContainer"] [data-testid="stMarkdownContainer"] li {line-height:1.65;}
-#care-start, #visit-notes, #costs-time, #find-support {scroll-margin-top:6rem;}
+#care-start, #visit-notes, #costs-time, #find-support, #benefits-help {scroll-margin-top:6rem;}
 
 /* v115: navigation is easier to find and use on desktop and mobile. */
 .pathway-hero {width:100%;margin:0.35rem 0 1rem;display:flex;justify-content:center;overflow:hidden;border-radius:14px;}
@@ -3598,7 +3597,7 @@ else:
     st.caption("This changes how much information is shown—not the medical guidance, AI permission or accuracy of a report. Extra questions remain optional.")
 
 if view == "🧭 Care & Support":
-    st.markdown("**On this page:** [Find care or help with bills](#care-start) · [Prepare your visit note](#visit-notes) · [Costs and time](#costs-time) · [Support options](#find-support)")
+    st.markdown("**On this page:** [Find care or help with bills](#care-start) · [Prepare your visit note](#visit-notes) · [Costs and time](#costs-time) · [Disability benefits: SSDI / SSI](#benefits-help) · [Other support](#find-support)")
 elif view == "🩹 Tick Bite: What Next?":
     st.markdown("**Start with the three bite steps below.** [Go to optional visit notes](#visit-notes). You can read the guidance without filling out a form.")
 
@@ -4625,6 +4624,9 @@ with st.expander("Find care or help with bills", expanded=not simple_reading_vie
     show_care_access()
 with st.expander("Need a ride to care?", expanded=not simple_reading_view()):
     show_transport_help(SUPPORT89["Transportation / distance"])
+st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
+st.markdown("### Disability benefits (SSDI / SSI) and food assistance")
+show_benefits_preparation(st.session_state.get("burden_session_record"))
 page_note("PathwayAI is a working pilot web app. A healthcare professional can help you decide what care you need.")
 page_note("Sharing your experiences with Community Voice is optional. Collection is currently off unless it is enabled.")
 # QUICK START — STORY FIRST

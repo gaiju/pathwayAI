@@ -67,7 +67,7 @@ def preparation_checklist(program, record=None):
 
 def show_benefits_preparation(record=None):
     import streamlit as st
-    with st.expander("Prepare for a benefits conversation"):
+    with st.expander("Open SSDI, SSI or food-assistance checklist"):
         st.write("Prepare a program-specific checklist and questions. For disability benefits, describe changes in function over time. An adviser or the agency can explain which rules apply.")
         program = st.selectbox("Which program do you want to discuss?", PROGRAMS, key="benefits_program")
         st.markdown(f"[Official {program} information]({LINKS[program]})")
@@ -84,7 +84,8 @@ def show_benefits_preparation(record=None):
             st.session_state["saved_benefits_functional_history"] = history
             context["functional_history"] = history
         text = preparation_checklist(program, context)
-        st.text(text)
+        with st.expander("Preview the downloadable checklist"):
+            st.markdown(text.replace("\n", "\n\n"))
         branded_download_button("Download my preparation checklist", text.encode("utf-8"),
                            file_name="PathwayAI_Benefits_Preparation.txt", mime="text/plain",
                            key="benefits_checklist_download")

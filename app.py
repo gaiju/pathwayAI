@@ -3832,10 +3832,13 @@ if view == "🩹 Tick Bite: What Next?":
     st.markdown(f"[CDC: treatment and recovery]({CDC_TREATMENT})")
     st.markdown(f"[CDC Tick Bite Bot: questions and next steps after a bite]({CDC_BOT})")
     st.caption("This opens a separate CDC resource. PathwayAI does not run the CDC tool or send your notes to it.")
-    with st.expander("Should I have the tick tested?"):
+    with st.expander("Optional: tick identification and testing"):
         st.write("CDC does not recommend using tick-test results to decide whether a person needs treatment. A positive tick result does not show that you were infected, and a negative result does not rule out infection from another tick.")
         st.write("Do not wait for tick-test results before contacting a clinician about symptoms or time-sensitive prevention advice. Testing a tick is different from testing a person. Laboratory testing of the tick does not replace medical evaluation.")
         st.markdown("[CDC: after a tick bite, including tick-testing guidance](https://www.cdc.gov/ticks/after-a-tick-bite/index.html)")
+        st.warning("Do not wait for tick-testing results to seek care. Testing a tick cannot tell whether you are infected and should not guide treatment decisions.")
+        st.write("Some laboratories offer tick identification and pathogen testing. The following links are informational, not endorsements. Check current services, fees and turnaround times directly with the laboratory.")
+        st.markdown("- [TickReport](https://www.tickreport.com/)\n- [Tick Research Lab of Pennsylvania](https://www.ticklab.org/)\n- [Ticknology](https://www.ticknology.org/tick-testing)\n- [Global Lyme Alliance: tick-testing laboratory directory](https://www.globallymealliance.org/lyme-patient-support/tick-testing-labs/)")
     st.info(EMERGENCY_REMINDER)
     st.write("Need help finding care, paying for it, or preparing for a visit?")
     st.button("Next: find care or prepare for a visit →", key="bite118_to_care", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)

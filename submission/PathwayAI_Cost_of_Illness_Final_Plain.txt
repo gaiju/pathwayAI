@@ -16,19 +16,19 @@ PathwayAI helps people make that burden visible—and connects practical support
 
 Let me show you.
 
-Choose outdoor preparation, help after a tick bite, care and support, or community planning. Reviewers have their own route. Quick and easy gives shorter explanations.
+Choose the route that fits you. Quick and easy gives shorter explanations; reviewers have their own route.
 
 Learn and Prevent offers a downloadable outdoor plan. Tick Bite: What Next explains removal, what to record, and when to contact a clinician. Early, appropriate treatment can help prevent more severe Lyme disease.
 
-Care and Support links uninsured people to community health centers and questions about affordable care. Early Lyme disease can often be managed in primary care. Confirm services, fees, and interpreters; care is not automatically free.
+Care and Support links people to community health centers and affordable-care questions. Confirm Lyme services, fees, and interpreters; care is not automatically free.
 
 Now prepare for an appointment using fictional details.
 
-Enter what happened. Review and correct the timeline. Download the visit summary and bring the original test report.
+Review the timeline, correct it, and download the visit summary. Bring the original test report.
 
 Explaining symptoms in English can feel overwhelming. People can write in their preferred language or mix languages.
 
-With permission, optional external AI helps prepare an English summary alongside the original for review. It supports communication, not diagnosis or qualified medical interpretation. The English organizer also works without external AI.
+With permission, optional external AI prepares an English summary alongside the original for review. It does not diagnose or replace qualified interpretation. The English organizer also works without external AI.
 
 Now look at what the bill misses.
 
@@ -46,27 +46,31 @@ County health departments and community partners are our intended organizational
 
 CDC PLACES estimates that 6.5 percent of Dutchess adults aged 18 to 64 lacked insurance in 2023. This is general context, not Lyme-specific evidence. It supports exploring care navigation.
 
-PathwayAI brings together New York Lyme surveillance, Census population and language data, HRSA healthcare resources, CDC tick surveillance, and CDC PLACES. CMS adds separate Original Medicare payment context—not Lyme-specific spending.
+Federal sources include Census, HRSA, CDC tick surveillance, CDC PLACES, and CMS Medicare data. New York adds Lyme surveillance. Medicare payments remain separate from Lyme costs.
 
-Here is one transparent calculation: 1,060 Dutchess cases reported in 2024, multiplied by Hook’s societal-cost benchmark of 2,032 dollars, gives about 2.15 million dollars in 2016 dollars.
+The calculation is visible: 1,060 Dutchess cases reported in 2024, times Hook’s societal-cost benchmark of 2,032 dollars, gives about 2.15 million dollars in 2016 dollars.
 
-That is an illustration, not measured county spending. Survey experiences and Horn’s follow-up research inform questions; neither is added to that total.
+That is an illustration, not measured county spending. Our survey and Horn’s follow-up research inform questions, not additional dollar costs.
 
 Then we connect evidence with a possible action.
 
-At local events, partners could help residents leave with a prevention plan, a visit note, or questions about affordable care.
+Counties with high reported Lyme rates could link to PathwayAI on their websites and introduce it at local events, complementing existing prevention and support programs.
 
 A future secure pilot, with explicit consent, could document unmet needs. Resources would remain available without contributing personal information. Personal notes are not automatically sent to counties.
 
 Partners would confirm capacity and resources, then track completed referrals, appointments reached, and needs still unmet.
 
-People living with Lyme disease and a county health commissioner reviewed the working app. Their feedback helped us simplify instructions and make resources available without entering a story.
+People living with Lyme disease and a county health commissioner reviewed the working app. One reviewer called it “a great start for a very useful tool.” Others offered to share the survey.
+
+Reviewers also found problems. Their feedback led to clearer navigation and stronger checks that costs remain saved when switching pages.
 
 Mandarin-, Spanish-, and English-speaking reviewers have been invited; testing is ongoing.
 
-The app is publicly accessible. We plan outreach through patient groups, health centers, and public-health partners. Grants and partnerships are our proposed model for keeping patient access free.
+The app is public. We seek patient groups, health centers, and public-health partners for outreach, with grants and partnerships proposed to keep patient access free.
 
-Next, we seek a small partner pilot to test usefulness before claiming better outcomes or savings. The structure could be adapted to other illnesses after condition-specific review.
+Next, we seek a small partner pilot to test usefulness and support connections. Reducing financial strain and long-term disability is a goal—not an outcome we have demonstrated. The structure could be adapted to other illnesses after review.
+
+A family member told me they wished they could have used PathwayAI earlier. That stayed with me.
 
 AI can help organize words. Data can reveal patterns. Patients remain at the center.
 

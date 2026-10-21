@@ -54,6 +54,17 @@ from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, transl
 
 PAGE_NOTES = []
 
+# Keep reviewed burden widgets alive while their page is not rendered. Reassigning
+# also sends the retained value back to the browser on return. Keep numeric
+# defaults None so deliberately clearing a field remains a valid operation.
+_BURDEN_WIDGET_KEYS = (
+    "medical88", "other88", "workdays88", "caregiver88", "dayvalue88",
+    "period88", "phase88", "barrier88", "question96",
+)
+for _burden_widget_key in _BURDEN_WIDGET_KEYS:
+    if _burden_widget_key in st.session_state:
+        st.session_state[_burden_widget_key] = st.session_state[_burden_widget_key]
+
 
 def page_note(text):
     """Keep safeguards beside decisions; collect supporting text for the footer."""
@@ -1087,6 +1098,9 @@ def compact_care88(quick, story):
         copied = apply_story_burden_defaults88(st.session_state, {})
         st.session_state["story_burden_notes88"] = {}
     notes = st.session_state.get("story_burden_notes88", {})
+    def selected_burden_index(key, options):
+        value = st.session_state.get(key, saved.get(key))
+        return options.index(value) if value in options else 0
     encounter = show_tick_encounter(quick)
     page_note("Tick-found details remain private in this session and are not automatically sent to a community dataset. Finding a tick does not confirm Lyme disease or establish county infection risk. Secure community use needs participant consent, review, comparable location/time fields and privacy-reviewed summaries. Community decisions and support cannot be guaranteed from one report.")
     if encounter["current"]:
@@ -1116,8 +1130,8 @@ def compact_care88(quick, story):
             st.write("Out-of-pocket means money the person receiving care paid, separate from insurer payments. Keep the caregiver's own losses separate.")
         else:
             st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
-        period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], key="period88")
-        phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
+        period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], index=selected_burden_index("period88", ['Not reported', 'Past 30 days', 'Past 90 days', 'Since symptoms started']), key="period88")
+        phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], index=selected_burden_index("phase88", ['Not reported', 'Before diagnosis (Stage 0)', 'After diagnosis', 'Both before and after diagnosis']), key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
         st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
         a,b=st.columns(2)
         with a:
@@ -1129,7 +1143,7 @@ def compact_care88(quick, story):
         st.caption("Optional work-loss estimate: enter a daily value only if you want this calculation.")
         dayvalue=st.number_input("Your chosen value per missed workday ($)",min_value=0.0,value=None,step=25.0,key="dayvalue88")
         st.write('Multiply days missed by the value you choose for one day. This is an estimate. Keep it separate from bills.')
-    barrier=st.selectbox("Main barrier to getting care or support",["Not reported","No barrier reported","Transportation / distance","Cost / insurance coverage","Appointment / referral access","Language / accessibility","Finding appropriate support","Other / unsure"],key="barrier88")
+    barrier=st.selectbox("Main barrier to getting care or support",["Not reported","No barrier reported","Transportation / distance","Cost / insurance coverage","Appointment / referral access","Language / accessibility","Finding appropriate support","Other / unsure"],index=selected_burden_index("barrier88", ['Not reported', 'No barrier reported', 'Transportation / distance', 'Cost / insurance coverage', 'Appointment / referral access', 'Language / accessibility', 'Finding appropriate support', 'Other / unsure']), key="barrier88")
     modeled=workdays*dayvalue if workdays is not None and dayvalue is not None else None
     if any(value is not None for value in (medical, other, modeled)):
         labels = ["Money paid for care", "Other money paid", "Work-loss estimate"] if simple_reading_view() else ["Medical out-of-pocket", "Other out-of-pocket", "Modeled work loss"]
@@ -1137,7 +1151,7 @@ def compact_care88(quick, story):
         for col, (label, value) in zip(st.columns(len(entered)), entered):
             col.metric(label, f"${value:,.0f}")
     daily_context = show_daily_life()
-    questions = st.text_input("Question for your clinician (optional)",key="question96")
+    questions = st.text_input("Question for your clinician (optional)", value=st.session_state.get("question96", saved.get("question96", "")), key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
     record[1] = "Based on information entered by the user. Not independently verified. Not a diagnosis or prediction. Bring original test reports for your clinician to review."
     record[2:2] = reporting_lines(role, daily_context)

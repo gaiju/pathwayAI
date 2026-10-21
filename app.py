@@ -3599,7 +3599,7 @@ st.sidebar.markdown("### 🧭 Choose a section")
 view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="pathway_view", on_change=open_sidebar_view)
 
 def show_reading_choice():
-    st.radio("What works for you today?", ["Short and simple", "More detail"],
+    st.radio("Reading detail", ["Short and simple", "More detail"],
              key="reading_mode", horizontal=True,
              format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
              help="Start with fewer words. Switch any time. Your notes and amounts stay the same.")
@@ -3621,11 +3621,12 @@ if st.session_state.get("pathway_open", False):
     show_reading_choice()
 
 
-if simple_reading_view():
-    st.success("Quick and easy · Short steps. Open extra information only when you need it.")
-else:
-    st.info("More detail · Extra explanations and optional sections are open. Your notes and amounts stay the same.")
-    st.caption("This changes how much information is shown—not the medical guidance, AI permission or accuracy of a report. Extra questions remain optional.")
+if st.session_state.get("pathway_open", False):
+    if simple_reading_view():
+        st.success("Quick and easy · Short steps. Open extra information only when you need it.")
+    else:
+        st.info("More detail · Extra explanations and optional sections are open. Your notes and amounts stay the same.")
+        st.caption("This changes how much information is shown—not the medical guidance, AI permission or accuracy of a report. Extra questions remain optional.")
 
 if view == "🧭 Care & Support":
     st.markdown("**On this page:** [Find care or help with bills](#care-start) · [Prepare your visit note](#visit-notes) · [Costs and time](#costs-time) · [Disability benefits: SSDI / SSI](#benefits-help) · [Other support](#find-support)")
@@ -3705,8 +3706,6 @@ if not st.session_state.get("pathway_open", False):
             st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
         st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
         st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
-    st.markdown("**You can leave with:** an outdoor plan, a reviewed visit summary, or questions to ask about care and bills.")
-    st.write("Write visit notes in your preferred language, including mixed languages. Optional external AI can help prepare an English summary with your permission; review it before use.")
     show_pilot_privacy()
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
@@ -4643,6 +4642,7 @@ st.header("Care & Support")
 if not simple_reading_view():
     show_photo116("river", "Peaceful lake surrounded by green trees")
 st.write("Make a note for your visit. Track money and time. Find help.")
+st.write("Write visit notes in your preferred language, including mixed languages. Optional external AI can help prepare an English summary with your permission; review it before use.")
 show_timely_care(select_public_pathway)
 with st.expander("Find care or help with bills", expanded=not simple_reading_view()):
     show_care_access()

@@ -38,9 +38,25 @@ def preparation_checklist(program, record=None):
                   "- When did each limitation begin, how often does it occur, and what help is needed?",
                   "- Which existing clinical records document changes over time?",
                   "- Ask your clinician about expected duration; do not infer it from a short reporting window."]
+        if (record or {}).get("tick_related_preparation"):
+            lines += ["", "IF YOU ARE PREPARING BECAUSE OF LYME OR ANOTHER TICK-RELATED CONDITION",
+                      "- Separate your reported condition from any diagnosis documented by a clinician; do not infer a diagnosis from symptoms.",
+                      "- Record exposure, symptom onset, diagnosis and treatment dates separately; mark unknown dates as unknown.",
+                      "- Keep original test reports, treatment records and clinician assessments. PathwayAI does not interpret tests.",
+                      "- Describe specific work and daily-life limitations, their frequency, fluctuations, help needed and expected duration if documented.",
+                      "- Describe other health conditions that may affect function; do not automatically attribute every limitation to Lyme.",
+                      "- Ask a clinician or qualified adviser which evidence is needed. A Lyme diagnosis alone does not establish eligibility."]
         history = (record or {}).get("functional_history", "")
         if history:
             lines += ["", "FUNCTIONAL CHANGES I CHOSE TO INCLUDE (UNVERIFIED)", history]
+    if program != "SNAP / food assistance":
+        lines += ["", "FIND THE RIGHT APPLICATION ROUTE",
+                  "SSDI and SSI are federal programs, not separate Lyme application forms for each state.",
+                  "Ask SSA or an adviser about the Adult Disability Report (SSA-3368), Function Report - Adult (SSA-3373), and any forms requested for your own claim. Not everyone needs the same forms or application route.",
+                  "Official SSA forms directory: https://www.ssa.gov/forms/",
+                  "Find a Social Security office: https://www.ssa.gov/locator/",
+                  "State short-term disability, paid medical leave, employer insurance and workers' compensation are different programs. Availability and eligibility vary; the relevant state may depend on where you work, not only where you live.",
+                  "Confirm current forms, deadlines and filing instructions with the program. PathwayAI has not verified a 50-state application directory."]
     lines += ["", "QUESTIONS TO ASK", "- Which records and forms do you need?",
               "- How can I request communication or accessibility help?",
               "- What should I do if information is missing or a deadline is approaching?",
@@ -60,6 +76,9 @@ def show_benefits_preparation(record=None):
             st.write("A few missed workdays do not establish disability-benefit eligibility. Prepare a timeline of limitations over time and discuss the rules with an adviser.")
             if "benefits_functional_history" not in st.session_state:
                 st.session_state["benefits_functional_history"] = st.session_state.get("saved_benefits_functional_history", "")
+            st.write("SSDI and SSI use federal application routes. State short-term disability and paid medical leave are separate programs; ask which rules apply where you work.")
+            st.markdown("[Official SSA forms directory](https://www.ssa.gov/forms/) · [Find a Social Security office](https://www.ssa.gov/locator/)")
+            context["tick_related_preparation"] = st.checkbox("Include Lyme / tick-related preparation questions", key="benefits_tick_related")
             history = st.text_area("Functional changes over time (optional)", key="benefits_functional_history",
                                    placeholder="Approximate date; activity before and now; frequency; help needed. Leave out identifiers.", max_chars=4000)
             st.session_state["saved_benefits_functional_history"] = history

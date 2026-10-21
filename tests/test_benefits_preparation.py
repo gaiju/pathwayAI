@@ -21,6 +21,16 @@ class BenefitsPreparationTests(unittest.TestCase):
         self.assertNotIn("180", text)
         self.assertIn("not an application", text)
 
+    def test_tick_related_preparation_is_opt_in_and_does_not_infer_eligibility(self):
+        base = preparation_checklist("SSDI")
+        self.assertNotIn("IF YOU ARE PREPARING BECAUSE OF LYME", base)
+        selected = preparation_checklist("SSDI", {"tick_related_preparation": True})
+        self.assertIn("IF YOU ARE PREPARING BECAUSE OF LYME", selected)
+        self.assertIn("A Lyme diagnosis alone does not establish eligibility", selected)
+        self.assertIn("where you work", selected)
+        self.assertIn("https://www.ssa.gov/forms/", selected)
+        self.assertNotIn("IF YOU ARE PREPARING BECAUSE OF LYME", preparation_checklist("SNAP / food assistance", {"tick_related_preparation": True}))
+
     def test_snap_does_not_automatically_include_health_record(self):
         text = preparation_checklist("SNAP / food assistance", {"workdays": 3, "caregiver_hours": 8, "period": "Past 30 days"})
         self.assertNotIn("Recorded workdays", text)

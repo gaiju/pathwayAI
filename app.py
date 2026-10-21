@@ -1372,9 +1372,9 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"]:has(.st-key-landing_paths) {padding-top:4.5rem !important;}
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
-.st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.75rem;}
-.st-key-landing_photo .pathway-photo116 img {height:190px;object-fit:cover;object-position:center;}
-@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 img {height:130px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
+.st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.75rem 12px;width:calc(100% + 8px);}
+.st-key-landing_photo .pathway-photo116 img {height:220px;object-fit:cover;object-position:center;}
+@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:150px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */

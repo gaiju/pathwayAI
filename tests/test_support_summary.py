@@ -1,10 +1,18 @@
 import unittest
 from pathlib import Path
-from support_summary import support_summary
+from support_summary import support_summary, NEEDS
 from streamlit.testing.v1 import AppTest
 
 
 class SupportSummaryTests(unittest.TestCase):
+    def test_nine_choices_put_disability_first_and_keep_health_details_optional(self):
+        self.assertEqual(len(NEEDS), 9)
+        self.assertEqual(NEEDS[0], "Disability benefits")
+        for need in ("Food or free meals", "Housing or rent support", "Temporary cash assistance", "Utilities or heating help"):
+            text = support_summary(need, "Help", {"medical": 180, "story": "PRIVATE"})
+            self.assertNotIn("PRIVATE", text)
+            self.assertNotIn("180", text)
+
     def test_sensitive_fields_are_opt_in_and_need_specific(self):
         record = {"medical": 180, "workdays": 3, "period": "Past 30 days",
                   "story": "PRIVATE STORY", "daily_life_context": {
@@ -26,7 +34,7 @@ class SupportSummaryTests(unittest.TestCase):
         at = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=60).run()
         at.button(key="route_ongoing").click().run()
         at.number_input(key="medical88").set_value(180).run()
-        for need in ("Food or housing", "Disability benefits", "Paying for care"):
+        for need in ("Food or free meals", "Housing or rent support", "Temporary cash assistance", "Utilities or heating help", "Disability benefits", "Paying for care"):
             at.selectbox(key="support_need89").set_value(need).run()
             self.assertFalse(list(at.exception))
             self.assertEqual(at.number_input(key="medical88").value, 180)
@@ -39,7 +47,7 @@ class SupportSummaryTests(unittest.TestCase):
         self.assertIn("Billing organization: Example Clinic", at.text_area(key="support_summary_text").value)
         self.assertIn("Balance stated on bill ($): 420", at.text_area(key="support_summary_text").value)
         self.assertEqual(at.number_input(key="medical88").value, 180)
-        at.selectbox(key="support_need89").set_value("Food or housing").run()
+        at.selectbox(key="support_need89").set_value("Food or free meals").run()
         at.selectbox(key="support_need89").set_value("Paying for care").run()
         self.assertEqual(at.text_input(key="bill_organization").value, "Example Clinic")
         self.assertEqual(at.number_input(key="bill_balance").value, 420)

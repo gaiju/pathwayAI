@@ -1,12 +1,13 @@
 """Local support preparation; never sends records or determines eligibility."""
 from report_download import branded_download_button
 
-NEEDS = ("Paying for care", "Getting an appointment", "Getting to care",
-         "Interpreter or accessibility help", "Food or housing", "Disability benefits")
+NEEDS = ("Disability benefits", "Paying for care", "Food or free meals",
+         "Housing or rent support", "Temporary cash assistance", "Getting an appointment",
+         "Getting to care", "Interpreter or accessibility help", "Utilities or heating help")
 
 
 def support_summary(need, request, record=None, include_facts=False, reviewed_story=""):
-    if need not in NEEDS:
+    if need not in NEEDS and need != "Food or housing":
         raise ValueError("Unknown support need")
     record = record or {}
     lines = ["PathwayAI | My support summary", "Help needed: " + need, "", request]

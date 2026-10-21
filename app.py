@@ -243,19 +243,40 @@ def evidence89(include_survey=True):
 
 def support89(county, barrier):
     st.markdown("#### What would help you now?")
-    need_barriers = dict(zip(NEEDS[:4], ("Cost / insurance coverage", "Appointment / referral access", "Transportation / distance", "Language / accessibility")))
+    need_barriers = {"Paying for care": "Cost / insurance coverage", "Getting an appointment": "Appointment / referral access", "Getting to care": "Transportation / distance", "Interpreter or accessibility help": "Language / accessibility"}
     default_need = next((need for need, value in need_barriers.items() if value == barrier), NEEDS[0])
     need = st.selectbox("Choose the help you need", NEEDS, index=NEEDS.index(default_need), key="support_need89")
     barrier = need_barriers.get(need, barrier)
-    if need in ("Food or housing", "Disability benefits"):
-        if need == "Food or housing":
-            st.markdown("[Find local food and housing help — 211](https://www.211.org/) · [Find your state SNAP office](https://www.fns.usda.gov/snap/state-directory)")
-            request = "I need help with food or stable housing. Which local services can help, what information do they need, and can someone help me with the next step? Please tell me about interpreter or accessibility assistance."
-        else:
-            st.markdown("[SSI information](https://www.ssa.gov/ssi/) · [SSDI information](https://www.ssa.gov/disability/)")
-            st.write("Use the benefits checklist below to prepare records of daily-life and work difficulties. Ask the agency or a qualified adviser about applications and keeping benefits.")
-            request = "I need help applying for or keeping disability benefits. I have a personal record of work and daily-life difficulties. Which forms, clinical records and deadlines apply? Can an adviser help me prepare?"
-        st.code(request, language=None, wrap_lines=True)
+    support_routes = {
+        "Disability benefits": (
+            "[SSDI information](https://www.ssa.gov/disability/) · [SSI information](https://www.ssa.gov/ssi/)",
+            "I need help preparing for a disability-benefits conversation. Which forms, clinical records, work-history information and deadlines apply? Can a qualified adviser and interpreter help me prepare?"),
+        "Food or free meals": (
+            "[Find a local food bank — Feeding America](https://www.feedingamerica.org/find-your-local-foodbank) · [State SNAP offices](https://www.fns.usda.gov/snap/state-directory) · [Local meal programs — 211](https://www.211.org/)",
+            "I need food or meal support. Are there nearby food pantries, community meals or delivery options? Who can use them, when are they open, and what information is needed? Can someone help me ask about SNAP and language assistance?"),
+        "Housing or rent support": (
+            "[Find shelter and housing-related resources — HUD](https://www.hud.gov/findshelter) · [Local housing and rent help — 211](https://www.211.org/)",
+            "I need help keeping stable housing. Which services can advise on rent arrears, eviction prevention or emergency shelter? What deadlines and documents apply? Please tell me about interpreter and accessibility help. I understand assistance and openings are not guaranteed."),
+        "Temporary cash assistance": (
+            "[TANF program information — ACF](https://www.acf.hhs.gov/ofa/programs/tanf) · [Find state benefits — USA.gov](https://www.usa.gov/benefit-finder) · [Local help — 211](https://www.211.org/)",
+            "My income has fallen and I need help with essential expenses. Which temporary cash or emergency-assistance programs should I ask about? What household, income, eligibility and documentation rules apply? Is application or interpreter assistance available?"),
+        "Utilities or heating help": (
+            "[Energy assistance — LIHEAP](https://www.acf.hhs.gov/ocs/programs/liheap) · [Local utility assistance — 211](https://www.211.org/)",
+            "I need help with an energy or utility bill. Are energy assistance, emergency grants or payment arrangements available? If I have a shutoff notice, whom should I contact promptly? What deadlines, eligibility rules and language assistance apply?"),
+    }
+    if need in support_routes:
+        links, request = support_routes[need]
+        st.markdown(links)
+        if need == "Disability benefits":
+            st.write("Use the Disability benefits (SSDI / SSI) section near the top of this page for the preparation checklist. A diagnosis alone does not establish eligibility.")
+        if "New York" in county:
+            if need == "Temporary cash assistance":
+                st.markdown("[New York Temporary Assistance — OTDA](https://otda.ny.gov/programs/temporary-assistance/) · [Local social-services departments](https://otda.ny.gov/workingfamilies/dss.asp)")
+            elif need == "Utilities or heating help":
+                st.markdown("[New York HEAP — OTDA](https://otda.ny.gov/programs/heap/)")
+        st.caption("These are starting points and directories, not verified appointments or current local openings. Ask about eligibility, deadlines, costs and interpreter help. Charity assistance, program funding and services vary; a Lyme diagnosis does not guarantee approval.")
+        st.write("**A request you can use:**")
+        st.write(request)
         branded_download_button("Download my support request", request.encode("utf-8"), file_name="PathwayAI_Support_Request.txt", mime="text/plain", key="support_request89")
         show_support_summary(need, request, st.session_state.get("burden_session_record"))
         return
@@ -291,7 +312,7 @@ def support89(county, barrier):
     }
     request = requests.get(barrier, "I need a medical appointment and have a short visit summary ready. What is the earliest appointment, what will I pay, and how can I apply for reduced fees if needed? Please tell me what records to bring and how to send them securely.")
     st.markdown("#### A request you can use now")
-    st.code(request, language=None, wrap_lines=True)
+    st.write(request)
     branded_download_button("Download my support request", request.encode("utf-8"),
                        file_name="PathwayAI_Support_Request.txt", mime="text/plain", key="support_request89")
     show_support_summary(need, request, st.session_state.get("burden_session_record"))

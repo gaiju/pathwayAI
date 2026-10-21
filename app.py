@@ -37,6 +37,16 @@ from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
+# Streamlit can rerun this script while an older imported module stays cached.
+# Refresh only when required exports are missing; real import failures still surface.
+import care_access as _care_access
+_CARE_ACCESS_EXPORTS = (
+    "show_care_access", "show_timely_care", "show_lyme_cost_context",
+    "show_transport_help", "EMERGENCY_REMINDER", "TIMELY_CARE_MESSAGE", "CDC_TREATMENT",
+)
+if any(not hasattr(_care_access, name) for name in _CARE_ACCESS_EXPORTS):
+    from importlib import reload as _reload_module
+    _reload_module(_care_access)
 from care_access import show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER, TIMELY_CARE_MESSAGE, CDC_TREATMENT
 from outdoor_plan import outdoor_plan_text, CDC_BOT
 from visit_summary import show_visit_summary

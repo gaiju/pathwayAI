@@ -3573,6 +3573,18 @@ elif view == "🩹 Tick Bite: What Next?":
 if view == "🌱 What’s next":
     st.header("What’s next for PathwayAI")
     st.write("We’re seeking patients, caregivers, community groups and care teams to help shape the next pilot.")
+    st.subheader("From patient voice to community action")
+    st.write("A proposed partnership with health departments and community groups: share tick-prevention education at local events, help residents find existing support, and evaluate unmet needs.")
+    st.write("Why partner? Support prevention, help residents navigate care, and bring public data together with consented experiences to inform community planning.")
+    st.info("This is a proposed pilot. Secure community reporting is not active. You can use educational information and support resources without contributing personal information.")
+    st.image(str(BASE_DIR / "images" / "community_partnership_pilot.png"),
+             caption="Proposed health department partnership pilot—not an active reporting service or a guarantee of assistance.", use_container_width=True)
+    with st.expander("Read the six proposed steps", expanded=not simple_reading_view()):
+        st.markdown("1. **Local education:** partners share tick-prevention and care resources at community events.\n2. **Voluntary participation:** explain the purpose, privacy arrangements and sharing choices before anyone joins.\n3. **Secure reporting:** in a future pilot, record expenses, missed work, caregiving and care barriers with explicit consent and agreed safeguards.\n4. **Connect with support:** offer verified care, language, transport and financial-help resources. Resource information remains available without reporting.\n5. **Community planning:** use aggregated findings with safeguards against identification alongside public data to consider resource priorities.\n6. **Evaluate and improve:** track support connections and unmet needs, then test whether burden decreases.")
+        st.caption("Partners must confirm services, capacity, staffing, privacy arrangements and resources. Participation does not guarantee care, benefits, funding or reduced costs. No HHS, CDC, LymeX or county endorsement is implied.")
+    st.download_button("Download the proposed partnership flowchart", data=(BASE_DIR / "images" / "community_partnership_pilot.png").read_bytes(),
+                       file_name="PathwayAI_Proposed_Community_Partnership.png", mime="image/png", key="community_partnership_flowchart")
+
     st.subheader("Help us make PathwayAI easier to use")
     st.write("We have invited Mandarin-, Spanish-, and English-speaking reviewers to test PathwayAI. We also welcome people whose first language is not English to join the testing. Your feedback can help us make the app clearer, easier to use, and more useful for our communities.")
     st.write("You do not need medical or technical knowledge. Please use made-up information and tell us what is helpful or confusing.")

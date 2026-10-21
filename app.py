@@ -3587,6 +3587,7 @@ paths = [
     ("After a tick bite", "Find removal steps, what to watch for and when to ask for care.", "🩹 Tick Bite: What Next?", "bite"),
     ("Prepare for care or find support", "Find uninsured-care resources, prepare a visit note in your preferred language, and record costs.", "🧭 Care & Support", "ongoing"),
     ("Explore community needs", "For community teams: compare county evidence and prepare a planning brief.", "📊 Community Burden & Action", "county"),
+    ("Review or give feedback", "Just visiting? Explore the tools or share suggestions—no personal information needed.", "💬 Share Feedback", "feedback"),
 ]
 
 available_views = ["🛡️ Learn & Prevent", "🩹 Tick Bite: What Next?", "🧭 Care & Support", "📊 Community Burden & Action", "💬 Share Feedback", "📚 Sources & Acknowledgements", "🌱 What’s next"]
@@ -3608,23 +3609,6 @@ if not st.session_state.get("pathway_open", False):
             with st.container(key="landing_photo"):
                 show_photo116("lake", "Golden sunlight filtering through a forest")
         st.caption("Educational preparation tools. Browse without entering a story; use made-up details for pilot testing.")
-    with st.expander("Just reviewing? Take a quick tour"):
-        st.write("Choose any section below. Use a made-up example if you want to try the tools.")
-        tour_steps = [
-            ("Learn & Prevent", "Plan time outdoors and learn how to prevent tick bites.", "🛡️ Learn & Prevent", "outdoors"),
-            ("Tick Bite: What Next?", "Find tick-removal steps and advice on when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
-            ("Care & Support", "Try a fictional story, review a visit summary and record costs and time.", "🧭 Care & Support", "ongoing"),
-            ("Community Burden & Action", "Explore county evidence and a community action brief.", "📊 Community Burden & Action", "county"),
-        ]
-        for label, detail, target, intent in tour_steps:
-            st.write("**" + label + ":** " + detail)
-            st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
-        st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
-    demo_col, feedback_col = st.columns(2)
-    with demo_col:
-        st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
-    with feedback_col:
-        st.button("Review or give feedback", key="landing_reviewer_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"), use_container_width=True)
 st.radio("What works for you today?", ["Short and simple", "More detail"],
          key="reading_mode", horizontal=True,
          format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
@@ -3702,6 +3686,19 @@ if not st.session_state.get("pathway_open", False):
                 with col:
                     st.button(label, key="route_"+intent, on_click=select_public_pathway, args=(target, intent), use_container_width=True)
                     st.write(detail)
+    with st.expander("Quick tour and demo"):
+        st.write("Choose any section below. Use a made-up example if you want to try the tools.")
+        tour_steps = [
+            ("Learn & Prevent", "Plan time outdoors and learn how to prevent tick bites.", "🛡️ Learn & Prevent", "outdoors"),
+            ("Tick Bite: What Next?", "Find tick-removal steps and advice on when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
+            ("Care & Support", "Try a fictional story, review a visit summary and record costs and time.", "🧭 Care & Support", "ongoing"),
+            ("Community Burden & Action", "Explore county evidence and a community action brief.", "📊 Community Burden & Action", "county"),
+        ]
+        for label, detail, target, intent in tour_steps:
+            st.write("**" + label + ":** " + detail)
+            st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
+        st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
+        st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
     st.markdown("**You can leave with:** an outdoor plan, a reviewed visit summary, or questions to ask about care and bills.")
     st.write("Write visit notes in your preferred language, including mixed languages. Optional external AI can help prepare an English summary with your permission; review it before use.")
     show_pilot_privacy()

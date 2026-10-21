@@ -1369,7 +1369,7 @@ st.markdown("""<style>
 [data-testid="stSidebarCollapsedControl"] button {min-width:48px;min-height:48px;}
 [data-testid="stMainBlockContainer"] div.stButton > button {min-height:50px;font-size:1.04rem;font-weight:600;white-space:normal;}
 .st-key-landing_paths button {min-height:60px !important;}
-[data-testid="stMainBlockContainer"]:has(.st-key-landing_paths) {padding-top:2rem !important;}
+[data-testid="stMainBlockContainer"]:has(.st-key-landing_paths) {padding-top:4.5rem !important;}
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
 .st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.75rem;}
@@ -3599,12 +3599,32 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="p
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
-        st.title("PathwayAI")
-        st.subheader("Worried about a tick bite, preparing for care, or helping someone with Lyme?")
-        st.write("Find a next step: prepare for outdoors, organize a visit note, or explore help with care and medical bills.")
-        st.caption("Making the Hidden Patient Journey Visible—and Actionable")
-        st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
-        st.caption("Educational and preparation tools—not a diagnosis or treatment decision. You can browse resources without entering a story. For pilot testing, use made-up information.")
+        welcome, photo = st.columns([1.5, 1])
+        with welcome:
+            st.title("PathwayAI")
+            st.caption("Making the Hidden Patient Journey Visible—and Actionable")
+            st.write("Find a next step after a tick bite, prepare for care, or explore practical support.")
+        with photo:
+            with st.container(key="landing_photo"):
+                show_photo116("lake", "Golden sunlight filtering through a forest")
+        st.caption("Educational preparation tools. Browse without entering a story; use made-up details for pilot testing.")
+    with st.expander("Just reviewing? Take a quick tour"):
+        st.write("Choose any section below. Use a made-up example if you want to try the tools.")
+        tour_steps = [
+            ("Learn & Prevent", "Plan time outdoors and learn how to prevent tick bites.", "🛡️ Learn & Prevent", "outdoors"),
+            ("Tick Bite: What Next?", "Find tick-removal steps and advice on when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
+            ("Care & Support", "Try a fictional story, review a visit summary and record costs and time.", "🧭 Care & Support", "ongoing"),
+            ("Community Burden & Action", "Explore county evidence and a community action brief.", "📊 Community Burden & Action", "county"),
+        ]
+        for label, detail, target, intent in tour_steps:
+            st.write("**" + label + ":** " + detail)
+            st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
+        st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
+    demo_col, feedback_col = st.columns(2)
+    with demo_col:
+        st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
+    with feedback_col:
+        st.button("Review or give feedback", key="landing_reviewer_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"), use_container_width=True)
 st.radio("What works for you today?", ["Short and simple", "More detail"],
          key="reading_mode", horizontal=True,
          format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
@@ -3684,27 +3704,6 @@ if not st.session_state.get("pathway_open", False):
                     st.write(detail)
     st.markdown("**You can leave with:** an outdoor plan, a reviewed visit summary, or questions to ask about care and bills.")
     st.write("Write visit notes in your preferred language, including mixed languages. Optional external AI can help prepare an English summary with your permission; review it before use.")
-    with st.container(key="landing_photo"):
-        show_photo116("lake", "Golden sunlight filtering through a forest")
-    st.markdown("### Just exploring or reviewing PathwayAI?")
-    st.write("Take a quick tour. You don’t need to enter personal information.")
-    with st.expander("Quick tour"):
-        st.write("Choose any section below. Use a made-up example if you want to try the tools.")
-        tour_steps = [
-            ("Learn & Prevent", "Plan time outdoors and learn how to prevent tick bites.", "🛡️ Learn & Prevent", "outdoors"),
-            ("Tick Bite: What Next?", "Find tick-removal steps and advice on when to seek care.", "🩹 Tick Bite: What Next?", "bite"),
-            ("Care & Support", "Try a fictional story, review a visit summary and record costs and time.", "🧭 Care & Support", "ongoing"),
-            ("Community Burden & Action", "Explore county evidence and a community action brief.", "📊 Community Burden & Action", "county"),
-        ]
-        for label, detail, target, intent in tour_steps:
-            st.write("**" + label + ":** " + detail)
-            st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
-        st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
-    demo_col, feedback_col = st.columns(2)
-    with demo_col:
-        st.link_button("Watch the demo", "https://www.ganjingworld.com/s/lv849qorOO", use_container_width=True)
-    with feedback_col:
-        st.button("Give feedback", key="landing_reviewer_feedback", on_click=select_public_pathway, args=("💬 Share Feedback", "feedback"), use_container_width=True)
     show_pilot_privacy()
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
@@ -3717,6 +3716,7 @@ if not st.session_state.get("pathway_open", False):
         participant_cost.metric("Average societal cost per Lyme study participant · 2016 dollars", "$2,032")
         st.caption("Different populations and periods; do not add these figures. Published costs are not personal predictions or measured county spending. See Evidence and limits below.")
     with st.expander("About PathwayAI"):
+        st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
         st.write("Prepare for outdoor activities, respond to a tick bite, organize information for care, or explore possible community support actions.")
         st.write("Visit summaries, cost-and-time records, support requests and evidence downloads work now. Personal entries stay in the current session; download your reviewed record to keep it.")
         st.write("Real shared collection is off by default. A community pilot needs consent, private storage, access and retention rules, duplicate checks and privacy-reviewed summaries. County adoption, improved health and savings have not been demonstrated.")

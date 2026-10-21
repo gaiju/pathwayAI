@@ -1372,9 +1372,9 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"]:has(.st-key-landing_paths) {padding-top:4.5rem !important;}
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
-.st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.75rem 12px;width:calc(100% + 8px);}
-.st-key-landing_photo .pathway-photo116 img {height:220px;object-fit:cover;object-position:center;}
-@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:150px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
+.st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.25rem;width:100%;}
+.st-key-landing_photo .pathway-photo116 img {height:170px;object-fit:cover;object-position:center;}
+@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:130px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */
@@ -3600,15 +3600,15 @@ view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="p
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
-        welcome, photo = st.columns([1, 1])
+        welcome, photo = st.columns([1.45, 1], gap="large")
         with welcome:
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")
-            st.write("Find a next step after a tick bite, prepare for care, or explore practical support.")
+            st.write("Prepare for outdoors, find care, or get practical support.")
+            st.caption("Browse without a story. Use made-up details when testing.")
         with photo:
             with st.container(key="landing_photo"):
                 show_photo116("lake", "Golden sunlight filtering through a forest")
-        st.caption("Educational preparation tools. Browse without entering a story; use made-up details for pilot testing.")
 st.radio("What works for you today?", ["Short and simple", "More detail"],
          key="reading_mode", horizontal=True,
          format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,

@@ -1373,8 +1373,8 @@ st.markdown("""<style>
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
 .st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.25rem;width:100%;}
-.st-key-landing_photo .pathway-photo116 img {height:190px;object-fit:cover;object-position:center;}
-@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:130px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
+.st-key-landing_photo .pathway-photo116 img {height:260px;object-fit:cover;object-position:center;}
+@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:160px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */
@@ -3598,21 +3598,27 @@ if not st.session_state.get("pathway_open", False) or st.session_state.get("path
 st.sidebar.markdown("### 🧭 Choose a section")
 view = st.sidebar.radio("Explore PathwayAI", available_views, index=None, key="pathway_view", on_change=open_sidebar_view)
 
+def show_reading_choice():
+    st.radio("What works for you today?", ["Short and simple", "More detail"],
+             key="reading_mode", horizontal=True,
+             format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
+             help="Start with fewer words. Switch any time. Your notes and amounts stay the same.")
+
+
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
-        welcome, photo = st.columns([1, 1], gap="large")
+        welcome, photo = st.columns([0.95, 1.15], gap="large")
         with welcome:
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")
-            st.write("Prepare for outdoors, find care, or get practical support.")
+            st.write("Prepare outdoors. Find care. Get support.")
             st.caption("Browse without a story. Use made-up details when testing.")
+            show_reading_choice()
         with photo:
             with st.container(key="landing_photo"):
                 show_photo116("lake", "Golden sunlight filtering through a forest")
-st.radio("What works for you today?", ["Short and simple", "More detail"],
-         key="reading_mode", horizontal=True,
-         format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
-         help="Start with fewer words. Switch any time. Your notes and amounts stay the same.")
+if st.session_state.get("pathway_open", False):
+    show_reading_choice()
 
 
 if simple_reading_view():

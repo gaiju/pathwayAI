@@ -38,7 +38,7 @@ class CommunityActionTests(unittest.TestCase):
         at = AppTest.from_file(str(Path(__file__).resolve().parents[1] / "app.py"), default_timeout=60).run()
         at.radio(key="pathway_view").set_value("📊 Community Burden & Action").run()
         self.assertFalse(list(at.exception))
-        self.assertTrue(any("Patient Voices → Community Action" in item.value for item in at.markdown))
+        self.assertTrue(any("Community Planning Templates" in item.value for item in at.markdown))
         at.selectbox(key="community_action_need").set_value("Food, housing and benefits").run()
         self.assertTrue(any("assisted applications" in item.value for item in at.markdown))
         at.number_input(key="action_trips").set_value(4).run()

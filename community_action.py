@@ -107,14 +107,14 @@ def scenario_cost(trips, cost_per_trip):
 def show_community_action_pathway(simple=True):
     import streamlit as st
 
-    st.markdown("### Patient Voices → Community Action")
-    st.write("For county and community teams: turn a support priority into a practical plan to review with patients and caregivers.")
+    st.markdown("### Community Planning Templates")
+    st.write("Choose a topic to explore with patients and community partners. Each template suggests possible actions, partners and follow-up measures.")
     st.markdown("**What you can do here**\n\n- Choose a support priority to discuss with patients and caregivers.\n- Explore a possible response and identify potential partners.\n- Download a planning brief for a team discussion or grant proposal.\n- Choose measures to track support received and needs still unmet.")
-    st.caption("Planning tool · Proposed actions for partner review")
-    need = st.selectbox("Choose a support priority", list(ACTION_OPTIONS), key="community_action_need")
+    st.caption("Prewritten planning templates · Adapt with local partners")
+    need = st.selectbox("Choose a planning topic", list(ACTION_OPTIONS), key="community_action_need")
     plan = ACTION_OPTIONS[need]
     with st.container(border=True):
-        st.markdown("**1. Understand the need**")
+        st.markdown("**1. Need to explore**")
         st.write(plan["need"] + ".")
         st.markdown("**2. Review a possible response**")
         st.write(plan["action"])

@@ -682,7 +682,7 @@ def show_session_burden():
 def policy89():
     st.header("Healthier people. Stronger communities.")
     st.write("**For county health departments and community partners:** explore where support may be needed and prepare one sourced brief to discuss with local partners.")
-    st.markdown("**Start here:** compare local evidence → choose a support priority → download a planning brief. Then confirm services, partners and resources before proposing a pilot.")
+    st.markdown("**Start here:** Compare county data, explore a support topic, and download a planning template.")
     st.caption("Patient and caregiver records make expenses, missed work and unpaid help visible. They do not automatically become county evidence. Study illustrations and Medicare context remain separate; the full long-term population burden has not been measured.")
     st.write(reading_copy("Compare Lyme reports and costs. Find a community action.", "Compare reported Lyme rates, study-based cost illustrations and local care resources. Review the assumptions and evidence to prepare a community discussion."))
     page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")

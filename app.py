@@ -417,9 +417,9 @@ def show_burden_reading_guide(community=False):
         st.write("**Public evidence:** reported county data and published studies, with different populations and years.")
         st.write("**Illustrations:** invented examples or calculations using stated assumptions; not your expected bill or measured county spending.")
         if community:
-            st.write("**Future patient contributions:** We plan to let people choose whether to contribute selected information from their personal records. With explicit consent and privacy safeguards, aggregated contributions could help communities understand unmet needs and plan support.")
-            st.caption("Available now: public-data comparisons and transparent planning illustrations. Planned next: secure, voluntary contributions from patients and caregivers. Personal entries are not automatically included in community evidence.")
-        st.caption("Keep these views separate. AI supports organization and explanation; people review the information and decisions. PathwayAI does not diagnose illness.")
+            st.write("**Planned next:** With consent and privacy safeguards, patients and caregivers could contribute selected information to help communities understand unmet needs and plan support.")
+        else:
+            st.caption("Keep these views separate. AI supports organization and explanation; people review the information and decisions. PathwayAI does not diagnose illness.")
 
 
 def show_burden_evidence_panel104():

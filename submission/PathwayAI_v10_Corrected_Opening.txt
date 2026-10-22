@@ -1,0 +1,67 @@
+As a pathologist, I studied disease through a microscope. As an epidemiologist, I studied patterns across communities.
+
+Then it became personal.
+
+After I lost my job, my family lost our health insurance. The next month, my husband was bitten by a tick and became ill with Lyme disease.
+
+Overnight, our lives were filled with questions. Where could we find affordable care? What would the tests cost? And how could he explain his symptoms in a language he wasn’t comfortable speaking?
+
+I also helped another family navigate disability benefits. When someone is ill and English is limited, understanding forms and explaining daily limitations can feel overwhelming.
+
+Those experiences led me to build PathwayAI—a web app connecting prevention, care preparation, language assistance, and practical support, while making the hidden burden on families visible.
+
+Let’s look at how it works.
+
+Choose the situation that fits you. Use “Quick and easy” for shorter steps.
+
+Planning time outdoors? Download a prevention plan. Found a tick? Find removal steps and guidance on when to seek care. Timely, appropriate treatment can help prevent Lyme disease complications.
+
+But being told to see a doctor is only the beginning. What if you have no insurance? What if you’re worried about the bill?
+
+Delayed care can bring complications and greater costs. Helping people overcome those barriers matters to families—and their communities.
+
+In Care & Support, people can find community health centers and prepare questions about fees, financial assistance, and interpreter services. They confirm services and costs with the provider.
+
+Next, let’s help them tell their story.
+
+They can write in the language they’re most comfortable using—even mixed languages, with English place names or medical terms.
+
+If they choose, built-in AI assistance helps prepare an English summary beside their original words. The app asks permission before sending their text to an AI service.
+
+The summary brings together exposure, symptoms, tests, and care received. People review it, make corrections, and select “Download my visit summary.”
+
+Here’s the PDF they can bring to an appointment, alongside their original test reports. They can also keep dated records for future support or disability-benefits conversations.
+
+Now, let’s look beyond the medical bill.
+
+Here’s an example: 180 dollars for care, 45 dollars for travel, three missed workdays, and eight hours of unpaid caregiving.
+
+Money paid, workdays, and caregiving hours stay separate—but together, they show what illness can mean for a family.
+
+People can also explore help with food, housing, transportation, and bills.
+
+AI can organize a story, but it cannot replace human judgment. Public data reveals patterns—but patient voices give those patterns meaning.
+
+PathwayAI brings them together, keeping patients at the center.
+
+So, what can a community do with this?
+
+PathwayAI combines CDC, Census, HRSA, and CMS open data with New York Lyme surveillance to describe disease patterns, healthcare resources, and barriers to care.
+
+Dutchess County reported 1,060 Lyme cases in 2024. Multiplying that count by the Hook study’s average societal cost gives an illustration of about 2.15 million dollars, in 2016 dollars—not measured county spending.
+
+County teams can compare the data, explore a support topic, and download a planning template.
+
+Our next step is a secure, consent-based reporting pilot. We’re looking for one county health department in an area with high Lyme rates and one community organization to help design it.
+
+Feedback from people affected by Lyme disease and a county health commissioner has shaped the app. We also thank our English-, Mandarin-, and Spanish-speaking testers for helping make it easier to use.
+
+We plan to keep patient access free through grants and community partnerships.
+
+A patient’s family member told me they wished they had known about PathwayAI earlier.
+
+That stayed with me.
+
+We help people prepare for care and make their voices heard. We aim to help communities allocate limited resources where support is needed most—and ultimately reduce the burden on patients and families.
+
+Thank you.

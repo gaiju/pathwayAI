@@ -409,12 +409,16 @@ def planning_scenario101():
     return notes
 
 
-def show_burden_reading_guide():
+def show_burden_reading_guide(community=False):
     with st.container(border=True):
         st.markdown("#### How to read the burden figures")
-        st.write("**Your entries:** what you or a caregiver report and review; not clinically verified.")
+        if not community:
+            st.write("**Your own record:** information you enter and review, including costs, missed work and caregiving time. Unknown amounts stay blank. This is self-reported information.")
         st.write("**Public evidence:** reported county data and published studies, with different populations and years.")
         st.write("**Illustrations:** invented examples or calculations using stated assumptions; not your expected bill or measured county spending.")
+        if community:
+            st.write("**Future patient contributions:** We plan to let people choose whether to contribute selected information from their personal records. With explicit consent and privacy safeguards, aggregated contributions could help communities understand unmet needs and plan support.")
+            st.caption("Available now: public-data comparisons and transparent planning illustrations. Planned next: secure, voluntary contributions from patients and caregivers. Personal entries are not automatically included in community evidence.")
         st.caption("Keep these views separate. AI supports organization and explanation; people review the information and decisions. PathwayAI does not diagnose illness.")
 
 
@@ -747,7 +751,7 @@ def policy89():
     <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
     </svg>""",unsafe_allow_html=True)
     show_county_rate_trend(page_note)
-    show_burden_reading_guide()
+    show_burden_reading_guide(community=True)
     show_county_burden_comparison(page_note)
     show_medicare_county_context()
     voice_action_brief = show_community_action_pathway(simple=simple_reading_view())

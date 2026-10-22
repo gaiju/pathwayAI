@@ -47,7 +47,7 @@ class CommunityActionTests(unittest.TestCase):
         metric = next(m for m in at.metric if m.label == "Illustrative travel spending for one person")
         self.assertEqual(metric.value, "$50.00")
         downloads = {d.label for d in at.get("download_button")}
-        self.assertIn("Download patient voice-to-action brief", downloads)
+        self.assertTrue(any("What you can do here" in item.value for item in at.markdown))
         self.assertIn("Download community planning brief", downloads)
 
 

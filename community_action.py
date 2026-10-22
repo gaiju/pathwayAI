@@ -108,21 +108,28 @@ def show_community_action_pathway(simple=True):
     import streamlit as st
 
     st.markdown("### Patient Voices → Community Action")
-    st.write("Look beyond bills: unpaid care, daily tasks, lost work, isolation and difficulty reaching support. People and caregivers help decide what matters.")
-    st.write("**Reported needs → county context → action to evaluate → follow-up with participants.**")
-    st.write("For county and community planners: choose one support decision to explore with patients and caregivers.")
-    need = st.selectbox("Choose a community support priority to explore", list(ACTION_OPTIONS), key="community_action_need")
+    st.write("For county and community teams: turn a support priority into a practical plan to review with patients and caregivers.")
+    st.markdown("**What you can do here**\n\n- Choose a support priority to discuss with patients and caregivers.\n- Explore a possible response and identify potential partners.\n- Download a planning brief for a team discussion or grant proposal.\n- Choose measures to track support received and needs still unmet.")
+    st.caption("Planning tool · Proposed actions for partner review")
+    need = st.selectbox("Choose a support priority", list(ACTION_OPTIONS), key="community_action_need")
     plan = ACTION_OPTIONS[need]
-    st.write("**Decision to explore:** " + plan["decision"])
-    st.write("**Need to review:** " + plan["need"])
-    st.write("**County evidence can help:** " + plan["context"])
-    st.write("**Possible action:** " + plan["action"])
-    st.write("**Who could help:** " + plan["participants"])
-    st.write("**Track progress:** " + plan["measure"])
-    st.write("**Before proposing a service:** check available appointments, staff time, cost, a possible funding source and who could take responsibility. If no resource is available, record the need as unmet.")
-    st.caption("A brief could inform a county budget discussion or grant proposal. It does not create funding, establish a county obligation to pay, or demonstrate savings. Earlier access is a goal; reduced disseminated illness and costs have not been demonstrated by this app.")
-    st.caption("Planning options, not findings about local demand or committed services. Patients, caregivers and community partners review priorities and decisions.")
-    st.caption("Needs change over time. Plan repeated check-ins; clinic counts and distance alone do not show accessible appointments, suitable transport or referral quality.")
+    with st.container(border=True):
+        st.markdown("**1. Understand the need**")
+        st.write(plan["need"] + ".")
+        st.markdown("**2. Review a possible response**")
+        st.write(plan["action"])
+        st.markdown("**3. Bring the right partners together**")
+        st.write(plan["participants"] + ".")
+        st.markdown("**4. Agree on follow-up**")
+        st.write(plan["measure"] + ".")
+    branded_download_button("Download this action brief", action_brief(need).encode("utf-8"),
+                       file_name="PathwayAI_Planning_Demonstration.txt", mime="text/plain", key="voice_action_brief")
+    with st.expander("Review feasibility and responsibilities"):
+        st.write("**Planning question:** " + plan["decision"])
+        st.write("**County context:** " + plan["context"])
+        st.write("Before proposing a service, check appointments, staff time, costs, funding and a responsible partner. Record needs that existing services cannot meet.")
+        st.write("Review priorities with patients and caregivers. Agree on a common reporting period and repeated check-ins to track changing needs.")
+        st.write("The brief can support a budget discussion or grant proposal. Services and funding require partner agreement. Health improvements and savings would need evaluation.")
     with st.expander("Evidence behind this pathway: sources, periods and limits"):
         st.dataframe(pathway_evidence(), hide_index=True, use_container_width=True)
         st.write("Patient reports, clinical records, surveillance and modeled results answer different questions. Relevance, collection method and reliability matter; a source label alone does not validate a claim.")
@@ -137,6 +144,4 @@ def show_community_action_pathway(simple=True):
         st.metric("Illustrative travel spending for one person", f"${amount:,.2f}")
         st.write(f"{trips} round trips × ${cost:,.2f} = ${amount:,.2f}. Change the assumptions to explore a different situation.")
         st.caption("Not added to patient records, published societal costs or county totals. No county demand, benefit or savings is inferred.")
-    branded_download_button("Download patient voice-to-action brief", action_brief(need).encode("utf-8"),
-                       file_name="PathwayAI_Planning_Demonstration.txt", mime="text/plain", key="voice_action_brief")
     return action_brief(need)

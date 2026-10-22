@@ -755,15 +755,14 @@ def policy89():
     show_county_burden_comparison(page_note)
     show_medicare_county_context()
     voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
-    st.markdown("#### Keep a personal record for care")
-    st.write("Keep money paid, work missed and help needed in one card. Review it, download it and bring it to a visit.")
-    st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
-              key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-    page_note("The invitation opens the existing Care & Support record, reusing session entries. Personal entries stay private in this session and are not automatically submitted to a survey or county dataset. Secure shared reporting is a future pilot phase and requires explicit consent.")
-    page_note("The project lead supplied the external survey link; live form access was blocked during this update, so its questions, consent wording, email collection and access settings have not been verified. Opening the link does not send app records to Google Forms. Survey responses are separate from private app records and are not automatically added to county estimates. A future integrated contribution flow needs explicit permission, secure storage, access and retention rules, common reporting periods and privacy-reviewed aggregate release. Existing personal entries should be reused in that future flow rather than requested again.")
-    st.markdown("### What makes up the cost?")
-    st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
-    page_note("The cost graphic illustrates categories, not numerical study findings or measured county costs. Caregiver time is recorded in hours and is not converted to a dollar cost in the current app. Published cost references appear below.")
+    with st.expander("For patients and caregivers: keep your own record"):
+        st.write("Record costs, missed work and help needed in Care & Support. Review and download your record for visits and support conversations.")
+        st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
+                  key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
+        st.write("Your personal record is separate from community evidence. Future shared reporting would require explicit consent and privacy safeguards.")
+    with st.expander("Understand the cost categories"):
+        st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
+        st.write("The graphic shows cost categories. Caregiver time is recorded in hours and kept separate from money paid. Published cost findings appear below.")
     show_session_burden()
     show_burden_evidence_panel104()
     st.markdown("### Community action")

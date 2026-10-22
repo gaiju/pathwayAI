@@ -682,8 +682,8 @@ def show_session_burden():
 def policy89():
     st.header("Healthier people. Stronger communities.")
     st.write("Public data to help county and community teams discuss Lyme prevention, care access and support needs.")
-    st.markdown("**Start here:** Compare county data, explore a support topic, and download a planning template.")
-    overview_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["Overview", "Planning templates", "Evidence & methods", "For residents"])
+    st.markdown("**Start here:** Compare county data and download a support-planning brief with suggested actions, potential partners, and follow-up measures. Adapt it with your local information.")
+    overview_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["Overview", "Plan community support", "Evidence & methods", "For residents"])
     with overview_tab:
         st.markdown("### Lyme disease and tick surveillance in New York")
         map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
@@ -733,12 +733,14 @@ def policy89():
         show_medicare_county_context()
 
     with planning_tab:
-        st.markdown("### Choose a planning template")
-        st.write("Start with a support topic. Download a prewritten action template or build a sourced discussion brief below.")
+        st.markdown("### Prepare a community support brief")
+        st.write("Use a brief to prepare for a team meeting or grant proposal. Choose a support topic to explore; no patient information is required.")
+        st.markdown("**How to use it**\n\n1. Choose a support topic, such as affordable care or transportation.\n2. Download suggested actions, potential partners and follow-up measures.\n3. Add verified local services, contacts, appointment capacity, costs and responsibilities before proposing a response.")
         voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
 
     with residents_tab:
         st.markdown("### Your personal care and support")
+        st.write("Looking for a county planning brief? Open the Plan community support tab above.")
         st.write("Record costs, missed work and help needed in Care & Support. Review and download your record for visits and support conversations.")
         st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
                   key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)

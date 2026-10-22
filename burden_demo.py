@@ -62,49 +62,51 @@ def demo_summary_csv(rows):
 def show_burden_pathway_demo(simple=True):
     import streamlit as st
 
-    st.markdown("### From individual experience to community priorities")
-    st.write("Spending, missed work and unpaid care reveal burdens that case counts alone cannot show.")
-    st.write("**SYNTHETIC DEMONSTRATION — six invented cards, not collected patient reports or actual county findings.**")
-    st.markdown("**Reviewed burden card → comparable community summary → support to evaluate**")
-    cards = fictional_cards()
-    choice = st.selectbox("Explore a fictional burden card", [card["id"] for card in cards], key="burden_demo_card")
-    card = next(card for card in cards if card["id"] == choice)
-    with st.container(border=True):
-        st.write(f"**{card['id']} · FICTIONAL CARD**")
-        st.write(f"Residence: {card['residence']} · Possible exposure: {card['possible_exposure']}")
-        st.write("Period: past 30 days · Journey phase: before diagnosis")
-        st.write("A person would review the fields and choose whether to contribute. This example is not a real consent record.")
-        medical, other = card["medical_oop"], card["other_oop"]
-        paid = medical + other if medical is not None and other is not None else None
-        first, second, third = st.columns(3)
-        first.metric("Fictional recorded spending", "Not reported" if paid is None else f"${paid:,}",
-                     help="Medical plus other patient-paid spending; excludes modeled work loss.")
-        second.metric("Fictional missed workdays", card["workdays"] if card["workdays"] is not None else "Not reported")
-        third.metric("Fictional caregiver hours", card["caregiver_hours"] if card["caregiver_hours"] is not None else "Not reported")
-        st.write("Money paid for care: " + ("Not reported" if medical is None else f"${medical:,}") +
-                 " · Other money paid: " + ("Not reported" if other is None else f"${other:,}"))
-    st.markdown("**Synthetic summary of all six cards · Dutchess residence · same phase and period**")
-    rows = aggregate_demo(cards)
-    if simple:
-        st.write("**Five fictional cards report transport as a care barrier.** Their middle "
-                 "(median) values are 3 missed workdays and 6 hours of unpaid care.")
-        with st.expander("See the fictional cost bands and time summary"):
+    st.markdown("#### How a future county pilot could work")
+    st.write("With a county and community partner, voluntary contributions could help identify support needs that case counts alone cannot show.")
+    st.markdown("- **Invite and explain:** patients and caregivers choose whether to participate.\n- **Review and consent:** participants select the information they agree to contribute.\n- **Summarize carefully:** use common reporting periods, check data quality and protect privacy.\n- **Plan and follow up:** review priorities with participants and partners, then track support received and needs still unmet.")
+    st.write("Summaries would describe participants’ experiences. They would help guide discussion rather than represent every county resident.")
+    with st.expander("See an example community summary"):
+        st.write("**Example only:** Invented records illustrate the process below. These are separate from patient entries and county findings.")
+        cards = fictional_cards()
+        choice = st.selectbox("Explore a fictional burden card", [card["id"] for card in cards], key="burden_demo_card")
+        card = next(card for card in cards if card["id"] == choice)
+        with st.container(border=True):
+            st.write(f"**{card['id']} · FICTIONAL CARD**")
+            st.write(f"Residence: {card['residence']} · Possible exposure: {card['possible_exposure']}")
+            st.write("Period: past 30 days · Journey phase: before diagnosis")
+            st.write("A person would review the fields and choose whether to contribute. This example is not a real consent record.")
+            medical, other = card["medical_oop"], card["other_oop"]
+            paid = medical + other if medical is not None and other is not None else None
+            first, second, third = st.columns(3)
+            first.metric("Fictional recorded spending", "Not reported" if paid is None else f"${paid:,}",
+                         help="Medical plus other patient-paid spending; excludes modeled work loss.")
+            second.metric("Fictional missed workdays", card["workdays"] if card["workdays"] is not None else "Not reported")
+            third.metric("Fictional caregiver hours", card["caregiver_hours"] if card["caregiver_hours"] is not None else "Not reported")
+            st.write("Money paid for care: " + ("Not reported" if medical is None else f"${medical:,}") +
+                     " · Other money paid: " + ("Not reported" if other is None else f"${other:,}"))
+        st.markdown("**Synthetic summary of all six cards · Dutchess residence · same phase and period**")
+        rows = aggregate_demo(cards)
+        if simple:
+            st.write("**Five fictional cards report transport as a care barrier.** Their middle "
+                     "(median) values are 3 missed workdays and 6 hours of unpaid care.")
+            with st.expander("See the fictional cost bands and time summary"):
+                st.dataframe(rows, hide_index=True, use_container_width=True)
+        else:
             st.dataframe(rows, hide_index=True, use_container_width=True)
-    else:
-        st.dataframe(rows, hide_index=True, use_container_width=True)
-    st.write("Five cards contain usable cost and time fields; one leaves them unknown. "
-             "Missing answers stay missing. Selecting a card changes only the preview, not the cohort.")
-    st.write("**Response to evaluate:** transport navigation. **Check:** appointments completed, "
-             "patient-paid travel spending and support still needed. Confirm actual participant needs before allocating resources.")
-    branded_download_button("Download synthetic community summary", demo_summary_csv(rows),
-                       file_name="PathwayAI_SYNTHETIC_CommunitySummary.csv", mime="text/csv",
-                       key="burden_demo_summary")
-    with st.expander("How the demonstration differs from real collection"):
+        st.write("Five cards contain usable cost and time fields; one leaves them unknown. "
+                 "Missing answers stay missing. Selecting a card changes only the preview, not the cohort.")
+        st.write("**Response to evaluate:** transport navigation. **Check:** appointments completed, "
+                 "patient-paid travel spending and support still needed. Confirm actual participant needs before allocating resources.")
+        branded_download_button("Download synthetic community summary", demo_summary_csv(rows),
+                           file_name="PathwayAI_SYNTHETIC_CommunitySummary.csv", mime="text/csv",
+                           key="burden_demo_summary")
+    with st.expander("Privacy and data-quality requirements for a real pilot"):
         st.write("This fixed fictional cohort is not a live reporting system. It reads no patient "
                  "files, sends nothing to AI and saves no contributions. Real collection needs "
                  "reviewed consent, private durable storage, duplicate handling, retention rules "
                  "and privacy-reviewed publication. A minimum count alone is not sufficient protection.")
-        st.write("Production pilot summaries group by residence, reporting period and journey phase. "
+        st.write("This example groups records by residence, reporting period and journey phase. A real pilot would agree its grouping and privacy rules before collection. "
                  "Cost bands and categories are withheld when a category is small; time medians need "
                  "five usable responses. Exposure location is separate from residence. Voluntary "
                  "reports do not establish county prevalence, causal savings or intervention effects.")

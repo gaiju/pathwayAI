@@ -133,9 +133,9 @@ def show_community_action_pathway(simple=True):
     with st.expander("Evidence behind this pathway: sources, periods and limits"):
         st.dataframe(pathway_evidence(), hide_index=True, use_container_width=True)
         st.write("Patient reports, clinical records, surveillance and modeled results answer different questions. Relevance, collection method and reliability matter; a source label alone does not validate a claim.")
-    with st.expander("See how comparable patient reports could be summarized"):
+    with st.expander("Explore a future county partnership pilot"):
         show_burden_pathway_demo(simple=simple)
-        st.write("For real contributions: ask permission, use residence and common periods, check duplicates and missing answers, and review disclosure risk. Summaries describe contributors, not county prevalence. People too ill to respond need accessible participation and appropriately authorized caregiver options.")
+
     with st.expander("Explore an assumed travel-cost scenario"):
         st.write("**ASSUMPTIONS — one invented person's next 30 days, not observed spending or a service-price quote.**")
         trips = st.number_input("Assumed round trips in 30 days", min_value=0, max_value=100, value=3, step=1, key="action_trips")

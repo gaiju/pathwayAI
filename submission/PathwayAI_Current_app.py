@@ -681,166 +681,166 @@ def show_session_burden():
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
-    st.write("**For county health departments and community partners:** explore where support may be needed and prepare one sourced brief to discuss with local partners.")
+    st.write("Public data to help county and community teams discuss Lyme prevention, care access and support needs.")
     st.markdown("**Start here:** Compare county data, explore a support topic, and download a planning template.")
-    st.caption("Patient and caregiver records make expenses, missed work and unpaid help visible. They do not automatically become county evidence. Study illustrations and Medicare context remain separate; the full long-term population burden has not been measured.")
-    st.write(reading_copy("Compare Lyme reports and costs. Find a community action.", "Compare reported Lyme rates, study-based cost illustrations and local care resources. Review the assumptions and evidence to prepare a community discussion."))
-    page_note("Appropriate early treatment can help prevent more severe Lyme disease. PathwayAI’s health benefits and savings have not yet been measured.")
-    with st.expander("How the pathways connect", expanded=False):
-        st.write("**One journey. Several ways to address the burden.**")
-        st.write("Prepare outdoors → Seek timely care → Find practical support → Inform community planning")
-        pathway_steps = [
-            ("1. Prepare outdoors", "Learn & Prevent", "Prevention information and a downloadable outdoor plan.", "Available now"),
-            ("2. Seek timely care", "Tick Bite: What Next?", "Removal information, when to contact a clinician, and optional visit notes. A clinician decides treatment.", "Available now"),
-            ("3. Find practical support", "Care & Support", "Reviewed visit summaries, language assistance, cost-and-time records, and care-access questions.", "Available now"),
-            ("4. Inform community planning", "Community Burden & Action", "Public-data comparisons and planning briefs work now. Secure, consent-based resident reporting is a future pilot.", "Public tools now; reporting proposed"),
-        ]
-        for start in range(0, len(pathway_steps), 2):
-            columns = st.columns(2)
-            for column, (title, page, purpose, status) in zip(columns, pathway_steps[start:start + 2]):
-                with column:
-                    with st.container(border=True):
-                        st.markdown("**" + title + "**")
-                        st.write(purpose)
-                        st.caption(page + " · " + status)
-        st.write("**Our goal:** Reduce the burden of Lyme disease through prevention, timely care, and practical support—helping people overcome language, insurance, and financial barriers. Help communities allocate limited resources effectively to address unmet needs and work toward reducing long-term disability.")
-        st.caption("Personal notes are not automatically sent to counties or the state. Partner teams would review privacy-protected findings and available resources before deciding priorities. Reduced costs or long-term disability have not been demonstrated by PathwayAI.")
-    st.markdown("#### Hudson Valley community focus")
-    st.write("Start with New York. Compare Dutchess and Orange in our Hudson Valley pilot view.")
-    page_note("The pilot comparison supports community learning. It does not rank county performance or represent a county partnership.")
-    # New York is the only loaded state demonstration for this page.
-    # Do not ask for a ZIP or county before displaying the statewide map.
-    st.markdown("### Lyme disease and tick surveillance in New York")
-    map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
-    if map_view == "Reported Lyme rates":
-        show_lyme_rate_map(NYS_MAP_BOUNDARIES, _geom_paths, _project_svg, page_note)
-    else:
-        show_nys_tick_density_map(zoom=False, show_details=False, show_case_overlay=False)
-    st.markdown("### Compare Dutchess and Orange counties")
-    measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context","Disability context"],horizontal=True,key="compare100")
-    measures={
-        "Reported Lyme rate":(237.0,355.5,"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),
-        "Sampled tick density":(43.2,28.8,"Nymphs per 1,000 m² · NYSDOH 2024; one sampled site in each county",50),
-        "Language context":(30.2,16.2,"Language other than English at home, age 5+ · Census ACS 2020–2024",35),
-        "Disability context":(11.7,12.2,"Any disability, all causes · Census-based figures reported in the 2025 regional assessment",15),
-    }
-    orange,dutchess,label,maximum=measures[measure]
-    suffix="%" if measure in ("Language context", "Disability context") else ""
-    st.write(label)
-    if measure == "Disability context":
-        st.write("Use this community context to plan accessible information and support.")
-        page_note("Disability comparison: Dutchess 12.2%, Orange 11.7%, checked in the supplied Mid-Hudson CHA 2025, Table 12, printed/PDF p. 34. The table cites Census ACS S1810 and reports any disability, not an under-65 measure or Lyme-attributable disability. The heading says 2023 but its source line says 2020 ACS five-year estimates; the underlying Census vintage has not been resolved. Values are displayed as reported by the assessment, not as independently verified current Census figures. Disability-type percentages use different eligible populations and should not be added. [Regional assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf) · [Census disability table S1810](https://data.census.gov/table?q=S1810)")
-    if measure == "Reported Lyme rate":
-        metrics = st.columns(3)
-        metrics[0].metric("Dutchess · cases per 100,000", "355.5")
-        metrics[1].metric("Orange · cases per 100,000", "237.0")
-        metrics[2].metric("New York State · cases per 100,000", "109.8")
-        st.write("Both counties reported higher Lyme rates than the statewide rate in 2024.")
-        page_note("County-rate source: [NYSDOH 2024 rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
-    if measure == "Reported Lyme rate":
-        page_note("Dutchess 355.5, Orange 237.0 and statewide 109.8 were checked against the user-provided NYSDOH 2024 rates PDF, page 5. These are reported case rates, not all infections or individual risk.")
-    st.markdown(f"""<svg viewBox="0 0 760 160" width="100%" role="img" aria-label="{html.escape(label)}: Orange {orange}, Dutchess {dutchess}" xmlns="http://www.w3.org/2000/svg">
-    <text x="8" y="42" fill="currentColor" font-size="18">Orange</text>
-    <rect x="120" y="18" width="{orange/maximum*500:.1f}" height="36" rx="4" fill="#C65D17"/>
-    <text x="{132+orange/maximum*500:.1f}" y="42" fill="currentColor" font-size="18" font-weight="bold">{orange:g}{suffix}</text>
-    <text x="8" y="103" fill="currentColor" font-size="18">Dutchess</text>
-    <rect x="120" y="79" width="{dutchess/maximum*500:.1f}" height="36" rx="4" fill="#2474A6"/>
-    <text x="{132+dutchess/maximum*500:.1f}" y="103" fill="currentColor" font-size="18" font-weight="bold">{dutchess:g}{suffix}</text>
-    <line x1="120" y1="132" x2="620" y2="132" stroke="currentColor" opacity=".35"/>
-    <text x="120" y="155" fill="currentColor" font-size="13">0</text>
-    <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
-    </svg>""",unsafe_allow_html=True)
-    show_county_rate_trend(page_note)
-    show_burden_reading_guide(community=True)
-    show_county_burden_comparison(page_note)
-    show_medicare_county_context()
-    voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
-    with st.expander("For patients and caregivers: keep your own record"):
+    overview_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["Overview", "Planning templates", "Evidence & methods", "For residents"])
+    with overview_tab:
+        st.markdown("### Lyme disease and tick surveillance in New York")
+        map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
+        if map_view == "Reported Lyme rates":
+            show_lyme_rate_map(NYS_MAP_BOUNDARIES, _geom_paths, _project_svg, page_note)
+        else:
+            show_nys_tick_density_map(zoom=False, show_details=False, show_case_overlay=False)
+        st.markdown("### Compare Dutchess and Orange counties")
+        measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context","Disability context"],horizontal=True,key="compare100")
+        measures={
+            "Reported Lyme rate":(237.0,355.5,"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),
+            "Sampled tick density":(43.2,28.8,"Nymphs per 1,000 m² · NYSDOH 2024; one sampled site in each county",50),
+            "Language context":(30.2,16.2,"Language other than English at home, age 5+ · Census ACS 2020–2024",35),
+            "Disability context":(11.7,12.2,"Any disability, all causes · Census-based figures reported in the 2025 regional assessment",15),
+        }
+        orange,dutchess,label,maximum=measures[measure]
+        suffix="%" if measure in ("Language context", "Disability context") else ""
+        st.write(label)
+        if measure == "Disability context":
+            st.write("Use this community context to plan accessible information and support.")
+            page_note("Disability comparison: Dutchess 12.2%, Orange 11.7%, checked in the supplied Mid-Hudson CHA 2025, Table 12, printed/PDF p. 34. The table cites Census ACS S1810 and reports any disability, not an under-65 measure or Lyme-attributable disability. The heading says 2023 but its source line says 2020 ACS five-year estimates; the underlying Census vintage has not been resolved. Values are displayed as reported by the assessment, not as independently verified current Census figures. Disability-type percentages use different eligible populations and should not be added. [Regional assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf) · [Census disability table S1810](https://data.census.gov/table?q=S1810)")
+        if measure == "Reported Lyme rate":
+            metrics = st.columns(3)
+            metrics[0].metric("Dutchess · cases per 100,000", "355.5")
+            metrics[1].metric("Orange · cases per 100,000", "237.0")
+            metrics[2].metric("New York State · cases per 100,000", "109.8")
+            st.write("Both counties reported higher Lyme rates than the statewide rate in 2024.")
+            page_note("County-rate source: [NYSDOH 2024 rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
+        if measure == "Reported Lyme rate":
+            page_note("Dutchess 355.5, Orange 237.0 and statewide 109.8 were checked against the user-provided NYSDOH 2024 rates PDF, page 5. These are reported case rates, not all infections or individual risk.")
+        st.markdown(f"""<svg viewBox="0 0 760 160" width="100%" role="img" aria-label="{html.escape(label)}: Orange {orange}, Dutchess {dutchess}" xmlns="http://www.w3.org/2000/svg">
+        <text x="8" y="42" fill="currentColor" font-size="18">Orange</text>
+        <rect x="120" y="18" width="{orange/maximum*500:.1f}" height="36" rx="4" fill="#C65D17"/>
+        <text x="{132+orange/maximum*500:.1f}" y="42" fill="currentColor" font-size="18" font-weight="bold">{orange:g}{suffix}</text>
+        <text x="8" y="103" fill="currentColor" font-size="18">Dutchess</text>
+        <rect x="120" y="79" width="{dutchess/maximum*500:.1f}" height="36" rx="4" fill="#2474A6"/>
+        <text x="{132+dutchess/maximum*500:.1f}" y="103" fill="currentColor" font-size="18" font-weight="bold">{dutchess:g}{suffix}</text>
+        <line x1="120" y1="132" x2="620" y2="132" stroke="currentColor" opacity=".35"/>
+        <text x="120" y="155" fill="currentColor" font-size="13">0</text>
+        <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
+        </svg>""",unsafe_allow_html=True)
+
+    with evidence_tab:
+        show_burden_reading_guide(community=True)
+        show_county_rate_trend(page_note)
+        show_county_burden_comparison(page_note)
+        show_medicare_county_context()
+
+    with planning_tab:
+        st.markdown("### Choose a planning template")
+        st.write("Start with a support topic. Download a prewritten action template or build a sourced discussion brief below.")
+        voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
+
+    with residents_tab:
+        st.markdown("### Your personal care and support")
         st.write("Record costs, missed work and help needed in Care & Support. Review and download your record for visits and support conversations.")
         st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
                   key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
         st.write("Your personal record is separate from community evidence. Future shared reporting would require explicit consent and privacy safeguards.")
-    with st.expander("Understand the cost categories"):
-        st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
-        st.write("The graphic shows cost categories. Caregiver time is recorded in hours and kept separate from money paid. Published cost findings appear below.")
-    show_session_burden()
-    show_burden_evidence_panel104()
-    st.markdown("### Community action")
-    st.write("Use the county findings to focus prevention, care access and financial support.")
-    st.markdown("#### Local care resources · HRSA")
-    capacity = []
-    for county_name, county_fips in (("Dutchess", "36027"), ("Orange", "36071")):
-        county_capacity = load_ahrf_county(county_fips)
-        if county_capacity:
-            row = {"County": county_name, "Data year": "2023"}
-            for field, field_label in (("pcp", "Primary-care physicians"), ("hosp", "Hospitals"), ("beds", "Hospital beds")):
-                value = county_capacity.get(field)
-                row[field_label] = int(value) if pd.notna(value) else "Unknown"
-            capacity.append(row)
-    if capacity:
-        show_readable_table(capacity, hide_index=True)
-        st.caption("Data year: 2023 · Source: [HRSA Area Health Resources Files (AHRF), 2024–2025 release](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Historical counts, not current staffing or available beds. Census-based language and disability context are available in the county comparison above.")
-    page_note("HRSA AHRF county resource counts cover general healthcare, not Lyme specialists, appointment availability or confirmed shortages. Fields: phys_nf_prim_care_pc_exc_rsdt_23, hosp_23, hosp_beds_23. [HRSA source](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Census language figures use ACS 2020–2024 QuickFacts; disability figures are reproduced from the regional assessment with unresolved Census vintage, as described in the comparison notes.")
-    with st.expander("Local health-plan context · Dutchess source"):
-        show_county_plan_context(page_note)
-    actions = st.columns(3)
-    with actions[0]:
-        st.markdown("#### Prevent bites")
-        st.write("Share tick-check and bite-prevention guidance through parks, schools and outdoor groups.")
-        st.markdown("[CDC prevention guidance](https://www.cdc.gov/ticks/prevention/index.html)")
-    with actions[1]:
-        st.markdown("#### Find care")
-        st.write("Help residents locate care and prepare for a visit. Review travel and referral barriers.")
-        st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/)")
-    with actions[2]:
-        st.markdown("#### Help with costs")
-        st.write("Help residents check coverage and assistance. Keep medical payments separate from other expenses.")
-        st.markdown("[New York health coverage](https://nystateofhealth.ny.gov/)")
-    page_note("These are community action options, not measured PathwayAI benefits or county commitments. County comparisons do not establish which services are missing.")
-    st.button("Find personal care and support →", key="county_to_personal_support",
-              on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
-    with st.expander("Build a community discussion brief"):
-        focus=st.selectbox("Choose a focus for the brief",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
-        plans={
-            "Patient-paid costs":("Which payments create financial pressure?","Connect residents with coverage and financial assistance; review cost records over the same period.","Assistance connections completed; medical payments; other expenses"),
-            "Work and caregiver time":("How does illness affect work and unpaid care?","Review workdays missed and caregiver hours alongside support needs.","Workdays missed; caregiver hours; support needs"),
-            "The diagnostic journey":("Where do residents face repeated visits or long waits?","Review appointment and referral barriers with clinical partners.","Reported wait times; completed referrals; visits"),
-            "Reaching care":("What gets in the way of a completed visit?","Review transport, cost and communication barriers; identify relevant services.","Reported barriers; completed referrals; appointments attended"),
-        }
-        question,action,measures=plans[focus]
-        st.write("**Focus:** " + question)
-        st.write("**Action:** " + action)
-        st.write("**Track:** " + measures)
-        show_combined_planning_evidence()
-    with st.expander("County cost calculations · illustrative scenarios"):
-        show_county_cost_scenario(page_note)
-    with st.expander("Group-cost calculator"):
-        scenario_notes101 = planning_scenario101()
-    rows=reference_cost_rows("Dutchess",1060) + reference_cost_rows("Orange",964)
-    if not st.session_state.get("show_medical_benchmark", False):
-        rows = [r for r in rows if r["perspective"] == "Societal per participant"]
-    brief=["PathwayAI | Dutchess and Orange community burden brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not county prevalence, a quantified local burden or a before-diagnosis unit cost.',"Verified NYSDOH 2024 reported rates per 100,000: Dutchess 355.5; Orange 237.0; statewide 109.8. County case counts were checked against the supplied NYSDOH 2024 cases PDF, page 5. Original Yu cost tables remain pending verification.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
-    for r in rows: brief.append(f"{r['county']} · {r['perspective']}: {r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
-    brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
-    brief.extend(["", "DUTCHESS HEALTH PLAN CONTEXT (GENERAL HEALTH; SOURCE COVERS DUTCHESS ONLY)",
-                  PLAN_CONTEXT["source"], PLAN_CONTEXT["source_url"],
-                  "Selected priorities: " + "; ".join(PLAN_CONTEXT["priorities"])])
-    for finding in PLAN_CONTEXT["findings"]:
-        brief.append(f"{finding['finding']} [Printed p. {finding['printed_page']}; PDF p. {finding['pdf_page']}]")
-        if finding.get("limitation"):
-            brief.append("Limit: " + finding["limitation"])
-    brief.extend(["No county adoption or referral-platform partnership is claimed. Shared local patient reporting needs a secure, consent-based pilot.", "", "COMBINED LYME EVIDENCE AND COUNTY CONTEXT"])
-    for row in combined_planning_rows():
-        for label, value in row.items():
-            brief.append(label + ": " + value)
-        brief.append("")
-    brief.append("Planning interpretations only: no county Lyme cost estimate, causal link, adopted program or measured benefit is established.")
-    brief.extend(["", voice_action_brief])
-    brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
-    branded_download_button("Download community planning brief","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
-    with st.expander("Ask AI about the public evidence"):
-        policy_ai105()
-    with st.expander("Data details, downloads and supporting research", expanded=not simple_reading_view()):
+        show_session_burden()
+
+    with evidence_tab:
+        with st.expander("Understand the cost categories"):
+            st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
+            st.write("The graphic shows cost categories. Caregiver time is recorded in hours and kept separate from money paid. Published cost findings appear below.")
+        show_burden_evidence_panel104()
+        st.markdown("### Community action")
+        st.write("Use the county findings to focus prevention, care access and financial support.")
+        st.markdown("#### Local care resources · HRSA")
+        capacity = []
+        for county_name, county_fips in (("Dutchess", "36027"), ("Orange", "36071")):
+            county_capacity = load_ahrf_county(county_fips)
+            if county_capacity:
+                row = {"County": county_name, "Data year": "2023"}
+                for field, field_label in (("pcp", "Primary-care physicians"), ("hosp", "Hospitals"), ("beds", "Hospital beds")):
+                    value = county_capacity.get(field)
+                    row[field_label] = int(value) if pd.notna(value) else "Unknown"
+                capacity.append(row)
+        if capacity:
+            show_readable_table(capacity, hide_index=True)
+            st.caption("Data year: 2023 · Source: [HRSA Area Health Resources Files (AHRF), 2024–2025 release](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Historical counts, not current staffing or available beds. Census-based language and disability context are available in the county comparison above.")
+        page_note("HRSA AHRF county resource counts cover general healthcare, not Lyme specialists, appointment availability or confirmed shortages. Fields: phys_nf_prim_care_pc_exc_rsdt_23, hosp_23, hosp_beds_23. [HRSA source](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf). Census language figures use ACS 2020–2024 QuickFacts; disability figures are reproduced from the regional assessment with unresolved Census vintage, as described in the comparison notes.")
+        with st.expander("Local health-plan context · Dutchess source"):
+            show_county_plan_context(page_note)
+
+    with overview_tab:
+        st.markdown("### Ways to support residents")
+        actions = st.columns(3)
+        with actions[0], st.container(border=True):
+            st.markdown("#### Prevent bites")
+            st.write("Share tick-check and bite-prevention guidance through parks, schools and outdoor groups.")
+            st.markdown("[CDC prevention guidance](https://www.cdc.gov/ticks/prevention/index.html)")
+        with actions[1], st.container(border=True):
+            st.markdown("#### Find care")
+            st.write("Help residents locate care and prepare for a visit. Review travel and referral barriers.")
+            st.markdown("[Find a health center](https://findahealthcenter.hrsa.gov/)")
+        with actions[2], st.container(border=True):
+            st.markdown("#### Help with costs")
+            st.write("Help residents check coverage and assistance. Keep medical payments separate from other expenses.")
+            st.markdown("[New York health coverage](https://nystateofhealth.ny.gov/)")
+        page_note("These are community action options, not measured PathwayAI benefits or county commitments. County comparisons do not establish which services are missing.")
+
+    with residents_tab:
+        st.button("Find personal care and support →", key="county_to_personal_support",
+                  on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+
+    with planning_tab:
+        with st.expander("Build a community discussion brief"):
+            focus=st.selectbox("Choose a focus for the brief",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
+            plans={
+                "Patient-paid costs":("Which payments create financial pressure?","Connect residents with coverage and financial assistance; review cost records over the same period.","Assistance connections completed; medical payments; other expenses"),
+                "Work and caregiver time":("How does illness affect work and unpaid care?","Review workdays missed and caregiver hours alongside support needs.","Workdays missed; caregiver hours; support needs"),
+                "The diagnostic journey":("Where do residents face repeated visits or long waits?","Review appointment and referral barriers with clinical partners.","Reported wait times; completed referrals; visits"),
+                "Reaching care":("What gets in the way of a completed visit?","Review transport, cost and communication barriers; identify relevant services.","Reported barriers; completed referrals; appointments attended"),
+            }
+            question,action,measures=plans[focus]
+            st.write("**Focus:** " + question)
+            st.write("**Action:** " + action)
+            st.write("**Track:** " + measures)
+            show_combined_planning_evidence()
+
+    with evidence_tab:
+        with st.expander("County cost calculations · illustrative scenarios"):
+            show_county_cost_scenario(page_note)
+        with st.expander("Group-cost calculator"):
+            scenario_notes101 = planning_scenario101()
+
+    with planning_tab:
+        rows=reference_cost_rows("Dutchess",1060) + reference_cost_rows("Orange",964)
+        if not st.session_state.get("show_medical_benchmark", False):
+            rows = [r for r in rows if r["perspective"] == "Societal per participant"]
+        brief=["PathwayAI | Dutchess and Orange community burden brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not county prevalence, a quantified local burden or a before-diagnosis unit cost.',"Verified NYSDOH 2024 reported rates per 100,000: Dutchess 355.5; Orange 237.0; statewide 109.8. County case counts were checked against the supplied NYSDOH 2024 cases PDF, page 5. Original Yu cost tables remain pending verification.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
+        for r in rows: brief.append(f"{r['county']} · {r['perspective']}: {r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
+        brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
+        brief.extend(["", "DUTCHESS HEALTH PLAN CONTEXT (GENERAL HEALTH; SOURCE COVERS DUTCHESS ONLY)",
+                      PLAN_CONTEXT["source"], PLAN_CONTEXT["source_url"],
+                      "Selected priorities: " + "; ".join(PLAN_CONTEXT["priorities"])])
+        for finding in PLAN_CONTEXT["findings"]:
+            brief.append(f"{finding['finding']} [Printed p. {finding['printed_page']}; PDF p. {finding['pdf_page']}]")
+            if finding.get("limitation"):
+                brief.append("Limit: " + finding["limitation"])
+        brief.extend(["No county adoption or referral-platform partnership is claimed. Shared local patient reporting needs a secure, consent-based pilot.", "", "COMBINED LYME EVIDENCE AND COUNTY CONTEXT"])
+        for row in combined_planning_rows():
+            for label, value in row.items():
+                brief.append(label + ": " + value)
+            brief.append("")
+        brief.append("Planning interpretations only: no county Lyme cost estimate, causal link, adopted program or measured benefit is established.")
+        brief.extend(["", voice_action_brief])
+        brief.extend(["", "REFERENCE-ONLY SCENARIO", *scenario_notes101, "", "LARGER-SURVEY REFERENCE", MYLYME_CHARTBOOK101, "Registry findings refer to selected persistent-illness participants; not Dutchess prevalence."])
+        branded_download_button("Download sourced planning template","\n".join(brief).encode("utf-8"),file_name="Community_BurdenBrief.txt",mime="text/plain",key="brief100",type="primary")
+
+    with evidence_tab:
+        with st.expander("Ask AI about the public evidence"):
+            policy_ai105()
+
+    with evidence_tab:
+        st.markdown("### Sources and supporting research")
         with st.expander("Other survey and cost resources to review"):
             st.markdown("[AHRQ Medical Expenditure Panel Survey](https://meps.ahrq.gov/mepsweb/) · medical spending and patient-payment benchmarks")
             st.markdown("[CDC National Health Interview Survey](https://www.cdc.gov/nchs/nhis/index.html) · work and daily-function context")
@@ -878,7 +878,7 @@ def policy89():
                 key="county_comparison_v120_csv",
             )
 
-        with st.expander("Other reported effects and how to interpret these findings"):
+        with st.expander("Exploratory survey comparisons · pending verification"):
             st.write("Previously supplied exploratory results — not independently recalculated from individual responses. Keep these separate from verified submission results.")
             st.markdown("#### Does a longer wait for diagnosis come with greater costs?")
             st.write(
@@ -931,7 +931,7 @@ def policy89():
         with st.expander("About access and contributions"):
             st.write("This is a working pilot web app, not a finished county service. Residents can use visit summaries and support contacts now; community teams can download discussion briefs. Real shared collection is off by default. Proposed ways to reach users are clinic handouts, patient advocates and county partners; these channels and partnerships are not yet established. Outcomes, adoption and savings have not been demonstrated.")
 
-        with st.expander("Additional local context · Dutchess sources"):
+        with st.expander("Additional local context · includes unresolved source years"):
             show_readable_table([
                 {"Source":"NYSDOH, 2024","Measure":"Reported Lyme cases","Value":"1,060","Use":'Reported illness context; not exposure location or before-diagnosis cost'},
                 {"Source":"Census QuickFacts, ACS 2020–2024","Measure":"Poverty / uninsured under 65 / disability under 65","Value":"8.4% / 4.9% / 9.2%","Use":"All-cause community context; not Lyme-attributable"},
@@ -987,16 +987,40 @@ def policy89():
             st.write("Selected for relevance to costs, disease frequency, follow-up and lived experience. Hook and Horn were checked against supplied source texts; Kugeler and Johnson citations were checked in Horn's bibliography, while their original articles still require review. Adrion is discussed in Hook and remains a candidate for original-paper review. This is a reading list rather than a ranking or identification of challenge reviewers; only checked evidence supports numerical model inputs.")
         with st.expander("Published evidence & methods"):
             evidence89(include_survey=False)
-    with st.expander("Partner with PathwayAI for healthier communities"):
-        st.write("We’re seeking community groups, clinics and public-health partners to pilot consent-based reporting. Together, we can understand local costs and care barriers, identify support needs and test practical responses.")
-        st.markdown("[Discuss a community pilot](mailto:pathwayai.feedback@gmail.com?subject=PathwayAI%20community%20pilot)")
-        st.write("Use this email for pilot enquiries and general feedback. Keep personal health cards in the agreed private reporting process.")
-        with st.expander("Community reporting details"):
-            county = st.selectbox("County for consented community reports", ["Dutchess County, New York", "Orange County, New York"], key="voice_community_county")
-            community_voice88(county)
-        page_note("Shared patient reporting is separate from the working personal-record and public-data tools. A community pilot needs participant consent, private storage, access and retention rules, duplicate checks, consistent periods, and privacy-reviewed aggregate release. These arrangements are still to be established with willing partners. The pilot enquiry email does not automatically ingest patient cards or update county estimates; a secure submission process must be agreed before collecting identifiable health records.")
-    with st.expander("Individual cost calculator · invented example"):
-        show_synthetic_cost_example()
+        with st.expander("How the pathways connect", expanded=False):
+            st.write("**One journey. Several ways to address the burden.**")
+            st.write("Prepare outdoors → Seek timely care → Find practical support → Inform community planning")
+            pathway_steps = [
+                ("1. Prepare outdoors", "Learn & Prevent", "Prevention information and a downloadable outdoor plan.", "Available now"),
+                ("2. Seek timely care", "Tick Bite: What Next?", "Removal information, when to contact a clinician, and optional visit notes. A clinician decides treatment.", "Available now"),
+                ("3. Find practical support", "Care & Support", "Reviewed visit summaries, language assistance, cost-and-time records, and care-access questions.", "Available now"),
+                ("4. Inform community planning", "Community Burden & Action", "Public-data comparisons and planning briefs work now. Secure, consent-based resident reporting is a future pilot.", "Public tools now; reporting proposed"),
+            ]
+            for start in range(0, len(pathway_steps), 2):
+                columns = st.columns(2)
+                for column, (title, page, purpose, status) in zip(columns, pathway_steps[start:start + 2]):
+                    with column:
+                        with st.container(border=True):
+                            st.markdown("**" + title + "**")
+                            st.write(purpose)
+                            st.caption(page + " · " + status)
+            st.write("**Our goal:** Reduce the burden of Lyme disease through prevention, timely care, and practical support—helping people overcome language, insurance, and financial barriers. Help communities allocate limited resources effectively to address unmet needs and work toward reducing long-term disability.")
+            st.caption("Personal notes are not automatically sent to counties or the state. Partner teams would review privacy-protected findings and available resources before deciding priorities. Reduced costs or long-term disability have not been demonstrated by PathwayAI.")
+
+    with planning_tab:
+        with st.expander("Partner with PathwayAI for healthier communities"):
+            st.write("We’re seeking community groups, clinics and public-health partners to pilot consent-based reporting. Together, we can understand local costs and care barriers, identify support needs and test practical responses.")
+            st.markdown("[Discuss a community pilot](mailto:pathwayai.feedback@gmail.com?subject=PathwayAI%20community%20pilot)")
+            st.write("Use this email for pilot enquiries and general feedback. Keep personal health cards in the agreed private reporting process.")
+            with st.expander("Community reporting details"):
+                county = st.selectbox("County for consented community reports", ["Dutchess County, New York", "Orange County, New York"], key="voice_community_county")
+                community_voice88(county)
+            page_note("Shared patient reporting is separate from the working personal-record and public-data tools. A community pilot needs participant consent, private storage, access and retention rules, duplicate checks, consistent periods, and privacy-reviewed aggregate release. These arrangements are still to be established with willing partners. The pilot enquiry email does not automatically ingest patient cards or update county estimates; a secure submission process must be agreed before collecting identifiable health records.")
+
+    with evidence_tab:
+        with st.expander("Individual cost calculator · invented example"):
+            show_synthetic_cost_example()
+
 
 # v88: concise patient flow and consented county burden summaries.
 VOICE88_COLUMNS = ["fips", "phase", "period", "medical_oop_band", "other_oop_band", "workdays", "caregiver_hours", "barrier", "consent_time"]

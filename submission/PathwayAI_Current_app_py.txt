@@ -703,7 +703,7 @@ def policy89():
                         st.markdown("**" + title + "**")
                         st.write(purpose)
                         st.caption(page + " · " + status)
-        st.write("**Long-term goal:** help people reach appropriate care and support, and evaluate whether this reduces lasting disruption to their lives.")
+        st.write("**Our goal:** Reduce the burden of Lyme disease through prevention, timely care, and practical support—helping people overcome language, insurance, and financial barriers.")
         st.caption("Personal notes are not automatically sent to counties or the state. Partner teams would review privacy-protected findings and available resources before deciding priorities. Reduced costs or long-term disability have not been demonstrated by PathwayAI.")
     st.markdown("#### Hudson Valley community focus")
     st.write("Start with New York. Compare Dutchess and Orange in our Hudson Valley pilot view.")

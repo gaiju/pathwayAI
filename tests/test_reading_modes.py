@@ -35,7 +35,7 @@ class ReadingModeTests(unittest.TestCase):
         self.assertTrue(next(x for x in at.expander if x.label == label).proto.expanded)
         self.assertEqual(at.number_input(key="medical88").value, 120)
         at.button(key="patient_to_community").click().run()
-        self.assertEqual([tab.label for tab in at.tabs[:4]], ["Overview", "Plan community support", "Evidence & methods", "For residents"])
+        self.assertEqual([tab.label for tab in at.tabs[:5]], ["Overview", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
         label = "Exploratory survey comparisons · pending verification"
         self.assertFalse(next(x for x in at.expander if x.label == label).proto.expanded)
         at.radio(key="reading_mode").set_value("Short and simple").run()

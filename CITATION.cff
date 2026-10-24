@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite this versioned software/methods framework and cite original studies for their findings."
+title: "PathwayAI: Lyme disease burden evidence framework"
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Yuwei
+version: 0.1.0
+date-released: 2026-10-23
+repository-code: "https://github.com/gaiju/pathwayAI"
+url: "https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.1.0"
+abstract: "Patient preparation and public evidence tools for Lyme disease burden. Published study references and county illustrations remain separate from personal records."

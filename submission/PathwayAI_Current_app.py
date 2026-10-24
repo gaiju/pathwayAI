@@ -29,6 +29,7 @@ from benefits_preparation import show_benefits_preparation
 from support_summary import NEEDS, show_support_summary
 from share_pathway import show_share_pathway
 from evidence_scope import EVIDENCE_SCOPE
+from burden_framework import show_us_burden
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison
 from medicare_county_context import show_medicare_county_context
@@ -114,6 +115,10 @@ def show_sources_and_acknowledgements():
         st.markdown("**Who and what the evidence covers**")
         show_readable_table(EVIDENCE_SCOPE, hide_index=True)
         st.markdown("**Research references**")
+        with st.expander("U.S. burden framework and citation"):
+            st.write("Open Community Burden & Action → U.S. burden for published national benchmarks, the burden inventory and a downloadable methods brief.")
+            from burden_framework import CITATION
+            st.write(CITATION)
         st.markdown("**Federal data:** [Census ACS](https://data.census.gov/) · [HRSA Area Health Resources Files](https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf) · [CDC PLACES](https://www.cdc.gov/places/) · [CMS Medicare Geographic Variation](https://data.cms.gov/summary-statistics-on-use-and-payments/medicare-geographic-comparisons/medicare-geographic-variation-by-national-state-county)")
         st.markdown("- **CMS Medicare Geographic Variation:** 2014–2024 supplied extract for Dutchess and Orange, county of beneficiary residence, All Original Medicare age group. Inpatient and hospital outpatient payments per beneficiary; actual and standardized payment comparisons stay separate. Definitions checked against the supplied CMS dictionary; the full CSV was not independently re-downloaded. These are not Lyme-specific costs, patient bills, or all-payer spending. **Blue Button is not connected.**")
         st.caption("Evidence uses different reporting years, not one live feed. CDC historical county case files cover 2019–2022; the New York county comparison uses 2024 surveillance. The survey remains an October 3, 2026 supplied summary. Unresolved items include the regional assessment’s Census disability year labels and original Yu study tables. No missing source or value is silently substituted.")
@@ -681,9 +686,11 @@ def show_session_burden():
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
-    st.write("Public data to help county and community teams discuss Lyme prevention, care access and support needs.")
+    st.write("County comparisons and published U.S. evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
     st.markdown("**Start here:** Compare county data and download a support-planning brief with suggested actions, potential partners, and follow-up measures. Adapt it with your local information.")
-    overview_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["Overview", "Plan community support", "Evidence & methods", "For residents"])
+    overview_tab, national_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["Overview", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
+    with national_tab:
+        show_us_burden(simple=simple_reading_view())
     with overview_tab:
         st.markdown("### Lyme disease and tick surveillance in New York")
         map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
@@ -986,7 +993,7 @@ def policy89():
             st.markdown("[Kugeler et al. (2021) · estimated U.S. diagnoses](https://wwwnc.cdc.gov/eid/article/27/2/20-2731_article)")
             st.markdown("[Johnson et al. (2014) · quality-of-life survey](https://peerj.com/articles/322/)")
             st.markdown("[Adrion et al. (2015) · healthcare costs and utilization](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0116767)")
-            st.write("Selected for relevance to costs, disease frequency, follow-up and lived experience. Hook and Horn were checked against supplied source texts; Kugeler and Johnson citations were checked in Horn's bibliography, while their original articles still require review. Adrion is discussed in Hook and remains a candidate for original-paper review. This is a reading list rather than a ranking or identification of challenge reviewers; only checked evidence supports numerical model inputs.")
+            st.write("Selected for relevance to costs, disease frequency, follow-up and lived experience. Hook, Horn, Johnson (2014), and Adrion (2015) were checked against supplied source documents. The Kugeler citation was checked in Horn's bibliography; its original article still requires review. This is a reading list rather than a ranking or identification of challenge reviewers; only checked evidence supports numerical model inputs.")
         with st.expander("Published evidence & methods"):
             evidence89(include_survey=False)
         with st.expander("How the pathways connect", expanded=False):

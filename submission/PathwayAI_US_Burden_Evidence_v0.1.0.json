@@ -1,0 +1,149 @@
+{
+  "title": "PathwayAI Lyme disease burden evidence framework",
+  "version": "0.1.0",
+  "review_date": "2026-10-23",
+  "citation": "Zhang, Y. (2026). PathwayAI: Lyme disease burden evidence framework (Version 0.1.0) [Software and methods]. https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.1.0",
+  "measures": [
+    {
+      "measure": "Published national societal-cost illustration: lower endpoint",
+      "value": 345000000,
+      "unit": "USD",
+      "geography": "United States",
+      "perspective": "Societal",
+      "period": "Annual national illustration published in Hook 2022",
+      "dollar_year": 2016,
+      "source_id": "hook2022",
+      "interpretation": "Author-reported historical illustration; not a current national measurement, lifetime total or confidence limit.",
+      "framework_version": "0.1.0",
+      "review_date": "2026-10-23",
+      "source_url": "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
+    },
+    {
+      "measure": "Published national societal-cost illustration: upper endpoint",
+      "value": 968000000,
+      "unit": "USD",
+      "geography": "United States",
+      "perspective": "Societal",
+      "period": "Annual national illustration published in Hook 2022",
+      "dollar_year": 2016,
+      "source_id": "hook2022",
+      "interpretation": "Author-reported historical illustration; not added to lower endpoint. Original national arithmetic is not recomputed here.",
+      "framework_version": "0.1.0",
+      "review_date": "2026-10-23",
+      "source_url": "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
+    },
+    {
+      "measure": "Societal cost per study participant",
+      "value": 2032,
+      "unit": "USD per participant",
+      "geography": "Four high-incidence U.S. states",
+      "perspective": "Societal",
+      "period": "Study follow-up; recruitment 2014\u20132016",
+      "dollar_year": 2016,
+      "source_id": "hook2022",
+      "interpretation": "Includes medical, nonmedical and productivity components; not a lifetime total.",
+      "framework_version": "0.1.0",
+      "review_date": "2026-10-23",
+      "source_url": "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
+    },
+    {
+      "measure": "Adjusted excess total medical cost: Lyme group vs matched controls",
+      "value": 2968,
+      "unit": "USD adjusted difference per person",
+      "geography": "U.S. commercial-insurance study",
+      "perspective": "Medical insurer-allowed amounts",
+      "period": "12-month outcome; claims 2006\u20132010",
+      "dollar_year": "Not established from reviewed text",
+      "source_id": "adrion2015",
+      "interpretation": "Historical association; comparison groups differ. Do not sum with other references or use as current patient bills.",
+      "framework_version": "0.1.0",
+      "review_date": "2026-10-23",
+      "source_url": "https://doi.org/10.1371/journal.pone.0116767"
+    },
+    {
+      "measure": "Adjusted excess cost within Lyme group: >=1 PTLDS-related code vs none",
+      "value": 3798,
+      "unit": "USD adjusted difference per person",
+      "geography": "U.S. commercial-insurance study",
+      "perspective": "Medical insurer-allowed amounts",
+      "period": "12-month outcome; claims 2006\u20132010",
+      "dollar_year": "Not established from reviewed text",
+      "source_id": "adrion2015",
+      "interpretation": "Historical association; comparison groups differ. Do not sum with other references or use as current patient bills.",
+      "framework_version": "0.1.0",
+      "review_date": "2026-10-23",
+      "source_url": "https://doi.org/10.1371/journal.pone.0116767"
+    }
+  ],
+  "impact_inventory": [
+    {
+      "Component": "Medical care",
+      "Available evidence": "Hook societal medical component; Adrion claims-based costs; entered patient payments",
+      "Coverage / next evidence needed": "Different perspectives and horizons; current Lyme-specific county spending remains unmeasured."
+    },
+    {
+      "Component": "Travel and other household spending",
+      "Available evidence": "Optional personal cost records; part of Hook nonmedical costs",
+      "Coverage / next evidence needed": "Comparable local records and reporting periods; no representative county average."
+    },
+    {
+      "Component": "Work disruption",
+      "Available evidence": "Missed workdays; optional valuation; Johnson selected survey",
+      "Coverage / next evidence needed": "Reduced hours, stopped work, reduced effectiveness and duration; prevent overlapping loss estimates."
+    },
+    {
+      "Component": "Unpaid caregiving",
+      "Available evidence": "Optional hours entered in personal records",
+      "Coverage / next evidence needed": "Agreed time period and valuation method; no current county dollar estimate."
+    },
+    {
+      "Component": "Daily function and quality of life",
+      "Available evidence": "Patient descriptions; Johnson survey; Horn follow-up",
+      "Coverage / next evidence needed": "Repeated, standardized measures; symptoms, limitations and benefits receipt are different outcomes."
+    },
+    {
+      "Component": "Longer-term disability and continuing costs",
+      "Available evidence": "Selected illness studies; separate HRSA/Census all-cause context",
+      "Coverage / next evidence needed": "Appropriate probability, duration, affected population and incremental cost. Not estimated from three-month symptoms or selected-survey percentages."
+    }
+  ],
+  "sources": [
+    {
+      "id": "hook2022",
+      "citation": "Hook SA et al. (2022). Economic Burden of Reported Lyme Disease in High-Incidence Areas, United States, 2014\u20132016. Emerging Infectious Diseases, 28(6).",
+      "url": "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article",
+      "status": "Previously reviewed supplied article text; linked tables not separately retrieved."
+    },
+    {
+      "id": "adrion2015",
+      "citation": "Adrion ER, Aucott J, Lemke KW, Weiner JP. (2015). Health Care Costs, Utilization and Patterns of Care following Lyme Disease. PLOS ONE, 10(2):e0116767.",
+      "url": "https://doi.org/10.1371/journal.pone.0116767",
+      "status": "Uploaded full PDF reviewed."
+    },
+    {
+      "id": "johnson2014",
+      "citation": "Johnson L, Wilcox S, Mankoff J, Stricker RB. (2014). Severity of chronic Lyme disease compared to other chronic conditions: a quality of life survey. PeerJ, 2:e322.",
+      "url": "https://doi.org/10.7717/peerj.322",
+      "status": "Uploaded full PDF reviewed; table/narrative discrepancies recorded."
+    },
+    {
+      "id": "horn2025",
+      "citation": "Horn EJ et al. (2025). Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023. Frontiers in Medicine, 12:1577936.",
+      "url": "https://doi.org/10.3389/fmed.2025.1577936",
+      "status": "Uploaded full PDF reviewed."
+    },
+    {
+      "id": "panel2016",
+      "citation": "Sanders GD et al. (2016). Recommendations for Conduct, Methodological Practices, and Reporting of Cost-effectiveness Analyses: Second Panel on Cost-Effectiveness in Health and Medicine. JAMA, 316(10):1093\u20131103.",
+      "url": "https://doi.org/10.1001/jama.2016.12195",
+      "status": "Bibliographic reference and supplied summary; full article not retrieved. Framework is adapted, not a claim of complete Panel compliance."
+    }
+  ],
+  "scope": {
+    "current_national_estimate": false,
+    "global_cost_total": null,
+    "county_lyme_disability_estimate": null,
+    "patient_entries_included": false,
+    "note": "Published evidence and planning illustrations; no live national feed, new population estimate, proven savings or cost-effectiveness analysis."
+  }
+}

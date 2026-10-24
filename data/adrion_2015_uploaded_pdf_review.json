@@ -1,0 +1,41 @@
+{
+  "citation": "Adrion ER, Aucott J, Lemke KW, Weiner JP (2015). Health Care Costs, Utilization and Patterns of Care following Lyme Disease. PLOS ONE 10(2):e0116767.",
+  "doi": "10.1371/journal.pone.0116767",
+  "source_url": "https://doi.org/10.1371/journal.pone.0116767",
+  "verification": "Uploaded full PDF reviewed, including methods, Tables 2 and 4 and limitations.",
+  "uploaded_pdf_sha256": "d459f5056a4491972227a312e50780bb109ffa13e344ba0892ecfbd8906dae7c",
+  "claims_years": "2006\u20132010",
+  "lyme_n": 52795,
+  "matched_controls_n": 263975,
+  "population": "Commercially insured ages 0\u201364, continuous enrollment required",
+  "cost_metric": "Insurer allowed amounts over 12 months; not patient out-of-pocket alone or gross charges",
+  "price_year_status": "A single inflation-adjusted dollar year was not identified in reviewed text; publication year must not be substituted.",
+  "findings": [
+    {
+      "measure": "Adjusted excess total medical cost: Lyme group vs matched controls",
+      "usd": 2968,
+      "ci95_usd": [
+        2807,
+        3128
+      ],
+      "source": "PDF page 7/Table 2 page 8"
+    },
+    {
+      "measure": "Adjusted excess cost within Lyme group: >=1 PTLDS-related code vs none",
+      "usd": 3798,
+      "ci95_usd": [
+        3542,
+        4055
+      ],
+      "source": "Abstract and Table 4 PDF page 10"
+    }
+  ],
+  "limitations": [
+    "Symptom-related diagnosis codes are not a validated PTLDS diagnosis or demonstrated functional decline",
+    "No medical-record confirmation of each Lyme case",
+    "Excludes uninsured people, Medicare-age adults and many people with interrupted coverage",
+    "Only 12-month costs; no lifetime economic burden or work-loss valuation",
+    "Two adjusted differences use different comparison groups; do not add them or combine with Hook societal totals",
+    "Historical associations do not establish app savings or causal treatment-delay effects"
+  ]
+}

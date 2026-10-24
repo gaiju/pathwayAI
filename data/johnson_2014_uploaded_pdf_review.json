@@ -1,0 +1,48 @@
+{
+  "citation": "Johnson L, Wilcox S, Mankoff J, Stricker RB (2014). Severity of chronic Lyme disease compared to other chronic conditions: a quality of life survey. PeerJ 2:e322.",
+  "doi": "10.7717/peerj.322",
+  "source_url": "https://doi.org/10.7717/peerj.322",
+  "verification": "Uploaded full PDF text reviewed; specific tables and narrative distinguished.",
+  "uploaded_pdf_sha256": "0f673373bcb48c1be0253d2d00ceefad409b3633d3d04c7fdfc63f9d0cc32597",
+  "survey_year": 2013,
+  "respondents_before_selection": 5357,
+  "analysis_n": 3090,
+  "scope": "Selected online respondents reporting persistent symptoms >6 months after antibiotic treatment; diagnoses and outcomes self-reported, not independently confirmed. Not representative county incident Lyme cases.",
+  "findings": [
+    {
+      "measure": "Stopped working",
+      "value": 41.3,
+      "unit": "percent",
+      "source": "PDF page 7, Table 4, full working sample column",
+      "note": "Narrative page 12 says approximately 42%; retain table and narrative distinction."
+    },
+    {
+      "measure": "Changed work hours or role",
+      "value": 29.2,
+      "unit": "percent",
+      "source": "PDF page 7, Table 4",
+      "note": "Narrative page 12 gives 25%; do not silently reconcile."
+    },
+    {
+      "measure": "At least $5,000 annual Lyme-related out-of-pocket expenses",
+      "value": 43.2,
+      "unit": "percent",
+      "source": "PDF page 7, Table 4",
+      "note": "Narrative page 11 approximately 43%; discussion gives 46%. Table 4 is used for this extraction."
+    },
+    {
+      "measure": "Reported receiving disability as a result of CLD",
+      "value": 24,
+      "unit": "percent",
+      "source": "PDF page 12, narrative",
+      "note": "Self-reported; does not establish adjudicated SSA eligibility or disability risk among all Lyme cases."
+    }
+  ],
+  "limitations": [
+    "Self-selected online sample enriched for persistent illness",
+    "Cross-sectional, self-reported; comorbidities not addressed",
+    "Cannot estimate the probability of chronic disability among newly diagnosed county cases",
+    "Does not quantify total societal costs; annual spending bands are not means",
+    "Some table/narrative values differ; do not combine them as consistent estimates"
+  ]
+}

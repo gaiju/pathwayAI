@@ -122,6 +122,8 @@ def methods_text():
         lines += [source['citation'], source['url'], 'Review status: ' + source['status'], 'Use in PathwayAI: ' + SOURCE_APPLICATIONS[source['id']], '']
     lines += ['CITE THIS FRAMEWORK', CITATION,
               'Cite the original study for its findings. This citation identifies software/methods, not a peer-reviewed study, government estimate, endorsement or DOI-registered archive.']
+    from burden_journey import journey_text
+    lines += ['', journey_text()]
     return '\n'.join(lines)
 
 
@@ -139,23 +141,19 @@ def show_us_burden(simple=True):
                   f"${national['median_based']/1e6:,.0f}–{national['mean_based']/1e6:,.0f} million")
         st.write('2016 U.S. dollars · Historical published illustrations, not current national spending or a confidence interval.')
         st.markdown('[Read the original study](' + SOURCES[0]['url'] + ')')
-    st.markdown('**Read the burden at three levels**\n\n- **New illness:** reported cases and study-based episode costs.\n- **Ongoing effects:** continuing symptoms, work disruption and unpaid care, including illness from earlier years.\n- **Community needs:** access to care and support, informed by local evidence and future consented contributions.')
-    branded_download_button('Download U.S. burden evidence and methods', methods_text().encode('utf-8'),
-                            file_name='PathwayAI_US_Burden_Methods.txt', mime='text/plain', key='us_burden_methods', type='primary')
+    from burden_journey import show_burden_journey
+    show_burden_journey()
     with st.expander('What the burden includes', expanded=not simple):
         st.dataframe(impact_inventory(), hide_index=True, use_container_width=True)
         st.write('Keep societal totals, household payments and medical-spending studies separate. Existing totals already include some of the components above.')
-    with st.expander('Medical spending and lasting functional effects'):
-        st.write('Adrion et al. (2015): Lyme cases were associated with 2,968 dollars in higher adjusted medical costs than matched controls over 12 months. In a separate within-Lyme comparison, symptom-related diagnoses were associated with 3,798 dollars in higher costs. These are separate historical allowed-amount comparisons, not amounts to add.')
-        st.write('Johnson et al. (2014) describes work and functional impacts in a selected persistent-illness survey. Horn et al. (2025) supports follow-up questions. Neither establishes a county long-term disability rate.')
-        for source in SOURCES[1:4]:
-            st.markdown('[' + source['citation'] + '](' + source['url'] + ')')
     with st.expander('International comparisons'):
         st.write('A useful international comparison preserves each country’s case definition, reporting coverage, local costs and price year. U.S. prices cannot simply be multiplied by worldwide cases.')
         st.write('This version presents U.S. evidence and a framework for country-specific comparisons. A global economic total requires additional compatible data.')
         st.markdown('[Explore ECDC Lyme borreliosis resources](https://www.ecdc.europa.eu/en/borreliosis)')
         st.caption('Discovery resource; no international numerical estimates are imported from this portal.')
     with st.expander('Sources, downloads and citation'):
+        branded_download_button('Download U.S. burden evidence and methods', methods_text().encode('utf-8'),
+                                file_name='PathwayAI_US_Burden_Methods.txt', mime='text/plain', key='us_burden_methods', type='primary')
         st.write('Evidence framework ' + VERSION + ' · Reviewed ' + REVIEW_DATE)
         for source in SOURCES:
             st.markdown('[' + source['citation'] + '](' + source['url'] + ')')

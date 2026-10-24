@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
+<title id="title">How Lyme disease burden can change</title>
+<desc id="desc">Hook study mean societal cost: localized disease 1307 dollars; disseminated disease 3251 dollars, in 2016 dollars. Separate boxes describe no illness, ongoing symptoms and longer-term support. This is not a progression or a risk prediction.</desc>
+<rect width="1200" height="780" rx="24" fill="#102039"/>
+<g font-family="Arial, sans-serif" fill="#f7f9fc">
+<text x="48" y="66" font-size="34" font-weight="700">Different situations, different support needs</text>
+<text x="48" y="105" font-size="22" fill="#9bdceb">Different situations. Different needs. Opportunities to help.</text>
+<rect x="40" y="134" width="1120" height="304" rx="16" fill="#203550"/>
+<text x="64" y="174" font-size="24" font-weight="700">Two illness groups in the same cost study</text>
+<text x="64" y="206" font-size="19" fill="#ced9e8">Mean societal cost per case · medical, nonmedical and productivity costs</text>
+<text x="64" y="259" font-size="22">Localized disease</text>
+<rect x="380" y="232" width="229" height="40" rx="6" fill="#86d7e9"/>
+<text x="624" y="260" font-size="26" font-weight="700">$1,307</text>
+<text x="64" y="326" font-size="22">Disseminated disease</text>
+<rect x="380" y="298" width="570" height="40" rx="6" fill="#f3c65a"/>
+<text x="965" y="327" font-size="26" font-weight="700">$3,251</text>
+<text x="64" y="379" font-size="19" fill="#ced9e8">Hook et al., 2022 · 2016 U.S. dollars · study averages, not expected bills</text>
+<text x="64" y="411" font-size="19" fill="#ced9e8">Group differences do not establish savings from earlier treatment.</text>
+<text x="48" y="482" font-size="24" font-weight="700">Other situations need their own evidence</text>
+<rect x="40" y="504" width="356" height="160" rx="14" fill="#203550"/>
+<rect x="422" y="504" width="356" height="160" rx="14" fill="#203550"/>
+<rect x="804" y="504" width="356" height="160" rx="14" fill="#203550"/>
+<g font-size="22" font-weight="700" fill="#9bdceb">
+<text x="62" y="544">No illness develops</text>
+<text x="444" y="544">Ongoing symptoms</text>
+<text x="826" y="544">Longer-term support</text></g>
+<g font-size="20">
+<text x="62" y="582">Expenses vary; a tick bite</text><text x="62" y="613">does not automatically</text><text x="62" y="644">mean a zero-cost event.</text>
+<text x="444" y="582">Follow-up, work and daily</text><text x="444" y="613">function matter. Symptoms</text><text x="444" y="644">alone are not disability.</text>
+<text x="826" y="582">Needs and eligibility vary.</text><text x="826" y="613">No single disability cost</text><text x="826" y="644">is assigned here.</text></g>
+<text x="48" y="707" font-size="19" fill="#ced9e8">These are distinct situations, not an inevitable sequence or a prediction of individual risk.</text>
+<text x="48" y="746" font-size="18" fill="#9bdceb">PathwayAI · Making the Hidden Patient Journey Visible—and Actionable</text>
+</g></svg>

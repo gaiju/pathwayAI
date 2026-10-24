@@ -90,3 +90,7 @@ Use in PathwayAI: Impact inventory and explicit perspectives, assumptions, uncer
 CITE THIS FRAMEWORK
 Zhang, Y. (2026). PathwayAI: Lyme disease burden evidence framework (Version 0.2.0) [Software and methods]. https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.2.0
 Cite the original study for its findings. This citation identifies software/methods, not a peer-reviewed study, government estimate, endorsement or DOI-registered archive.
+
+## Illness situations and opportunities for support
+
+The U.S. burden tab compares Hook localized and disseminated societal group means (2016 USD), with no transition probabilities or causal savings assigned. Separate situations cover tick bites without illness, continuing symptoms, and longer-term support. Horn follow-up, Adrion historical claims, and Johnson selected-survey findings remain separate evidence rather than components of one total. A public action table connects these situations to preparation tools and possible community support. SVG, PDF and CSV downloads contain only public study information and planning suggestions.

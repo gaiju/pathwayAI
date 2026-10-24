@@ -3678,7 +3678,8 @@ if not st.session_state.get("pathway_open", False):
         with welcome:
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")
-            st.write("Prepare outdoors. Find care. Get support.")
+            st.markdown("**A small tick bite can have a big impact on your life.**")
+            st.write("Prepare for time outdoors, find care and support, and make the hidden costs of illness visible.")
             st.caption("Browse without a story. Use made-up details when testing.")
             show_reading_choice()
         with photo:

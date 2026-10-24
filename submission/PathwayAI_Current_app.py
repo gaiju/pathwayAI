@@ -25,6 +25,8 @@ from lyme_testing import show_lyme_testing
 from tick_encounter import show_tick_encounter
 from story_prefill import story_burden_defaults88, apply_story_burden_defaults88
 from caregiver_record import REPORTERS, show_reporter, show_daily_life, reporting_lines
+from daily_observations import show_daily_observations, session_observations_text
+from county_explanation import explanation_fields, explanation_text
 from benefits_preparation import show_benefits_preparation
 from support_summary import NEEDS, show_support_summary
 from share_pathway import show_share_pathway
@@ -60,7 +62,7 @@ PAGE_NOTES = []
 # defaults None so deliberately clearing a field remains a valid operation.
 _BURDEN_WIDGET_KEYS = (
     "medical88", "other88", "workdays88", "caregiver88", "dayvalue88",
-    "period88", "phase88", "barrier88", "question96",
+    "period88", "phase88", "barrier88", "question96", "include_daily_observations",
 )
 for _burden_widget_key in _BURDEN_WIDGET_KEYS:
     if _burden_widget_key in st.session_state:
@@ -170,7 +172,7 @@ def reference_cost_rows(county, cases):
     if cases is None or not math.isfinite(float(cases)) or float(cases) < 0:
         return []
     return [
-        {"county": county, "case_year": 2024, "reported_cases": int(cases),
+        {**explanation_fields(county, cases, unit, year, perspective), "county": county, "case_year": 2024, "reported_cases": int(cases),
          "perspective": perspective, "unit_cost_usd": unit, "dollar_year": year,
          "illustrative_total_usd": int(cases) * unit, "source": source,
          "source_url": url, "case_source_url": "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf",
@@ -388,6 +390,9 @@ def planning_scenario101():
         "formula": "hypothetical_people * published_unit_cost_usd",
         "source_url": url,
         "limitation": 'Not a county estimate, before-diagnosis estimate, savings, or patient prediction',
+        "calculation_assumptions": "User-selected hypothetical group × selected study-group mean; no inflation, underreporting or observed local case-mix adjustment. Perspectives remain separate.",
+        "additional_burden_to_measure": "Longer-term function, disability, continuing costs and separately valued caregiving beyond the selected study scope; check overlap before adding costs.",
+        "provenance": "Reference constants in app.py planning_scenario101; Hook checked in data/hook_2022_article_verification.json; original Yu tables still require verification.",
     }])
     branded_download_button(
         "Download this scenario as CSV (with source and assumptions)",
@@ -688,7 +693,7 @@ def policy89():
     st.header("Healthier people. Stronger communities.")
     st.write("County comparisons and published U.S. evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
     st.markdown("**Start here:** Compare county data and download a support-planning brief with suggested actions, potential partners, and follow-up measures. Adapt it with your local information.")
-    overview_tab, national_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["Overview", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
+    overview_tab, national_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["County comparison", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
     with national_tab:
         show_us_burden(simple=simple_reading_view())
     with overview_tab:
@@ -825,7 +830,9 @@ def policy89():
         if not st.session_state.get("show_medical_benchmark", False):
             rows = [r for r in rows if r["perspective"] == "Societal per participant"]
         brief=["PathwayAI | Dutchess and Orange community burden brief","FOCUS: "+focus,"QUESTION: "+question,"PROPOSED NEXT STEP: "+action,"MEASURES: "+measures,"Suggested participants: county/community evaluation team and willing clinical/support partners. No adopted program or measured benefit is claimed.","","BURDEN EVIDENCE",'Previously supplied survey themes identify spending, time lost and diagnostic delay as needs to investigate. Current denominators and reporting periods require verification. These themes are not county prevalence, a quantified local burden or a before-diagnosis unit cost.',"Verified NYSDOH 2024 reported rates per 100,000: Dutchess 355.5; Orange 237.0; statewide 109.8. County case counts were checked against the supplied NYSDOH 2024 cases PDF, page 5. Original Yu cost tables remain pending verification.","","COST REFERENCES",*published_reference_text(),"","COUNTY COST ILLUSTRATIONS"]
-        for r in rows: brief.append(f"{r['county']} · {r['perspective']}: {r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
+        for r in rows:
+            brief.append(f"{r['county']} · {r['perspective']}: {r['reported_cases']:,} × ${r['unit_cost_usd']:,} = ${r['illustrative_total_usd']:,} ({r['dollar_year']} USD). {r['source_url']}")
+            brief.append(explanation_text(r))
         brief += [COST_CONTEXT_CAVEAT,"","EVALUATION","Use the same reporting period at baseline and follow-up; report missing answers. Before/after change alone does not establish causality or ROI.","","DATA SOURCES","https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf","https://www.census.gov/quickfacts/dutchesscountynewyork","https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf","https://doi.org/10.3389/fmed.2025.1577936"]
         brief.extend(["", "DUTCHESS HEALTH PLAN CONTEXT (GENERAL HEALTH; SOURCE COVERS DUTCHESS ONLY)",
                       PLAN_CONTEXT["source"], PLAN_CONTEXT["source_url"],
@@ -1193,6 +1200,7 @@ def compact_care88(quick, story):
         for col, (label, value) in zip(st.columns(len(entered)), entered):
             col.metric(label, f"${value:,.0f}")
     daily_context = show_daily_life()
+    show_daily_observations()
     questions = st.text_input("Question for your clinician (optional)", value=st.session_state.get("question96", saved.get("question96", "")), key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
     record[1] = "Based on information entered by the user. Not independently verified. Not a diagnosis or prediction. Bring original test reports for your clinician to review."
@@ -1209,7 +1217,7 @@ def compact_care88(quick, story):
     paid = medical + other if medical is not None and other is not None else None
     record.append("Recorded patient-paid spending: " + ("Incomplete: one or both spending fields not reported" if paid is None else f"${paid:,.2f}"))
     record += [f"Missed workdays: {workdays if workdays is not None else 'Not reported'}",f"Caregiver hours: {caregiver if caregiver is not None else 'Not reported'}","Main barrier: " + barrier,"Modeled work loss = missed workdays × chosen value/day; not added to out-of-pocket.","", "These are your reported amounts for the stated period, not a comparison with study averages."]
-    seed="\n".join(record)
+    seed=session_observations_text("\n".join(record))
     if st.session_state.get("summary88_seed") != seed:
         st.session_state["summary88_text"]=seed
         st.session_state["summary88_seed"]=seed
@@ -1218,7 +1226,7 @@ def compact_care88(quick, story):
             visual = personal_cost_svg(medical, other, workdays, caregiver, modeled, period)
             st.image(visual, use_container_width=True)
             branded_download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
-        reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=12000)
+        reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=300000)
         branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
     st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
     st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
@@ -4789,7 +4797,7 @@ if st.session_state.get("appointment_seed63") != summary_seed:
     st.session_state["appointment_seed63"] = summary_seed
 with st.expander("Review and download your appointment summary"):
     appointment_text = st.text_area("Correct the summary before sharing", key="appointment_edit63", height=280, max_chars=8000)
-    branded_download_button("Download story summary (full cost download below)", appointment_text.encode("utf-8"), file_name="MyJourney.txt", mime="text/plain", key="appointment_download63")
+    branded_download_button("Download story summary (full cost download below)", appointment_text.encode("utf-8"), file_name="MyJourney.txt", mime="text/plain", key="appointment_download63", include_daily_observations=True)
 
 # OPTIONAL LOCAL SUPPORT — ask only after the story/AI value exchange.
 st.markdown("### Find support near you")
@@ -5201,6 +5209,7 @@ def _num0(value):
 scenario_savings = 0.0
 
 # GENERATE CARD
+show_daily_observations()
 
 if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary"):
 
@@ -5456,7 +5465,7 @@ if st.button("Generate Full Journey & Burden Card (Optional)", type="secondary")
         "Work-loss formula: days missed × user-entered value/day; separate modeled value, not a bill.",
         "Count each payment once. Missing remains missing. These entries do not assign causality to Lyme disease.", "",
     ] + ["Personal entries are not compared with published study averages in this visit record."])
-    full_appointment_summary = appointment_text + "\n" + "\n".join(full_cost_summary)
+    full_appointment_summary = session_observations_text(appointment_text + "\n" + "\n".join(full_cost_summary))
     with st.expander("Review appointment summary with costs and published references", expanded=False):
         st.text(full_appointment_summary)
         branded_download_button("Download full appointment summary with costs", full_appointment_summary.encode("utf-8"), file_name="MyJourneyWithCosts.txt", mime="text/plain", key="full_appointment_cost_download")

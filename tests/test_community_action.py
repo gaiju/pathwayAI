@@ -49,7 +49,7 @@ class CommunityActionTests(unittest.TestCase):
         downloads = {d.label for d in at.get("download_button")}
         self.assertTrue(any("What you can do here" in item.value for item in at.markdown))
         self.assertIn("Download sourced planning template", downloads)
-        self.assertEqual([tab.label for tab in at.tabs[:5]], ["Overview", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
+        self.assertEqual([tab.label for tab in at.tabs[:5]], ["County comparison", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
 
 
 if __name__ == "__main__":

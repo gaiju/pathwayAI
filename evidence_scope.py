@@ -16,4 +16,13 @@ EVIDENCE_SCOPE = [
     {"Source": "NYSDOH county surveillance", "Population / count": "Dutchess 1,060; Orange 964 reported Lyme cases",
      "Period / scope": "2024 reports; county of residence",
      "Key limit": "Case counts, not survey sample sizes or exposure locations. Rates and modeled costs have different meanings."},
+    {"Source": "Johnson et al. (2014) / PeerJ e322", "Population / count": "3,090 selected online respondents; 5,357 initial responses",
+     "Period / scope": "2013 survey; persistent symptoms after treatment; uploaded PDF reviewed",
+     "Key limit": "Self-selected, self-reported sample. Work changes inform dated personal records; percentages are not county disability probabilities. Some table and narrative values differ."},
+    {"Source": "Adrion et al. (2015) / PLOS ONE e0116767", "Population / count": "52,795 Lyme cases and 263,975 matched controls",
+     "Period / scope": "Commercially insured ages 0–64; claims 2006–2010; 12-month outcomes; uploaded PDF reviewed",
+     "Key limit": "Allowed medical amounts, separate from patient payments and societal costs. Symptom-related codes do not establish clinical PTLDS or disability. A single price year was not established."},
+    {"Source": "Sanders et al. (2016) / Second Panel", "Population / count": "Methodological recommendations; no patient cohort",
+     "Period / scope": "Impact inventory, perspectives, assumptions and reporting; supplied summary and bibliographic reference",
+     "Key limit": "Guides framework design, not numerical burden inputs. Full article not retrieved; no claim of full Panel compliance or cost-effectiveness analysis."},
 ]

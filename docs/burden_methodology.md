@@ -1,7 +1,7 @@
 # PathwayAI Lyme disease burden evidence framework
 
 PathwayAI | U.S. Lyme burden evidence and methods
-Version: 0.1.0
+Version: 0.2.0
 Evidence review: 2026-10-23
 
 PURPOSE
@@ -36,8 +36,25 @@ Component: Medical care | Available evidence: Hook societal medical component; A
 Component: Travel and other household spending | Available evidence: Optional personal cost records; part of Hook nonmedical costs | Coverage / next evidence needed: Comparable local records and reporting periods; no representative county average.
 Component: Work disruption | Available evidence: Missed workdays; optional valuation; Johnson selected survey | Coverage / next evidence needed: Reduced hours, stopped work, reduced effectiveness and duration; prevent overlapping loss estimates.
 Component: Unpaid caregiving | Available evidence: Optional hours entered in personal records | Coverage / next evidence needed: Agreed time period and valuation method; no current county dollar estimate.
-Component: Daily function and quality of life | Available evidence: Patient descriptions; Johnson survey; Horn follow-up | Coverage / next evidence needed: Repeated, standardized measures; symptoms, limitations and benefits receipt are different outcomes.
+Component: Daily function and quality of life | Available evidence: Optional dated personal observations; Johnson survey; Horn follow-up | Coverage / next evidence needed: Repeated, standardized measures; symptoms, limitations and benefits receipt are different outcomes.
 Component: Longer-term disability and continuing costs | Available evidence: Selected illness studies; separate HRSA/Census all-cause context | Coverage / next evidence needed: Appropriate probability, duration, affected population and incremental cost. Not estimated from three-month symptoms or selected-survey percentages.
+
+FOUR-PART COUNTY EXPLANATIONS
+STUDY-BASED COUNTY BURDEN ILLUSTRATION
+REPORTED CASES: Dutchess, New York; FIPS 36027; 1,060 reported resident cases in 2024. Source: https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf
+PUBLISHED COST: USD 2,032.00 per participant/episode, 2016 dollars; medical, nonmedical and productivity costs. Hook et al. (2022): societal analysis n=613; reported cases in four high-incidence U.S. states; recruitment 2014–2016. Source: https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article
+CALCULATION ASSUMPTIONS: Reported cases × selected published unit cost. Transfer of study experience to the county is assumed. No underreporting or inflation adjustment. No local case-mix adjustment. Populations and periods differ. Keep medical, household and societal perspectives separate; do not add Yu and Hook totals or interpret their difference as savings.
+ADDITIONAL BURDEN TO MEASURE: Complete pre-diagnosis history; continuing costs and disability beyond the study horizon; separately measured caregiver time and valuation; and effects in populations excluded from the source. Some components are already included in a societal mean: identify overlap before adding any new cost.
+PROVENANCE: Cases: data/ny_lyme_cases_2024_verification.json, supplied NYSDOH PDF page 5. Costs: data/hook_2022_article_verification.json. See docs/burden_methodology.md; framework version 0.2.0.
+STUDY-BASED COUNTY BURDEN ILLUSTRATION
+REPORTED CASES: Orange, New York; FIPS 36071; 964 reported resident cases in 2024. Source: https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf
+PUBLISHED COST: USD 2,032.00 per participant/episode, 2016 dollars; medical, nonmedical and productivity costs. Hook et al. (2022): societal analysis n=613; reported cases in four high-incidence U.S. states; recruitment 2014–2016. Source: https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article
+CALCULATION ASSUMPTIONS: Reported cases × selected published unit cost. Transfer of study experience to the county is assumed. No underreporting or inflation adjustment. No local case-mix adjustment. Populations and periods differ. Keep medical, household and societal perspectives separate; do not add Yu and Hook totals or interpret their difference as savings.
+ADDITIONAL BURDEN TO MEASURE: Complete pre-diagnosis history; continuing costs and disability beyond the study horizon; separately measured caregiver time and valuation; and effects in populations excluded from the source. Some components are already included in a societal mean: identify overlap before adding any new cost.
+PROVENANCE: Cases: data/ny_lyme_cases_2024_verification.json, supplied NYSDOH PDF page 5. Costs: data/hook_2022_article_verification.json. See docs/burden_methodology.md; framework version 0.2.0.
+
+DATED PATIENT RECORDS
+Optional dated daily-life observations stay in the private app session and selected personal downloads. Observations are not automatically totaled, sent to AI, or included in public evidence packages. Overlapping periods remain separate. These custom preparation questions are not a validated disability instrument.
 
 UNCERTAINTY AND EVIDENCE STATUS
 Scenario ranges require documented assumptions. Statistical uncertainty needs an appropriate model; arbitrary ranges are not confidence intervals. Current references do not establish PathwayAI savings, resource-allocation effects or disability reduction.
@@ -48,23 +65,28 @@ REFERENCES
 Hook SA et al. (2022). Economic Burden of Reported Lyme Disease in High-Incidence Areas, United States, 2014–2016. Emerging Infectious Diseases, 28(6).
 https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article
 Review status: Previously reviewed supplied article text; linked tables not separately retrieved.
+Use in PathwayAI: Societal cost components and county illustrations, with study population and dollar year preserved.
 
 Adrion ER, Aucott J, Lemke KW, Weiner JP. (2015). Health Care Costs, Utilization and Patterns of Care following Lyme Disease. PLOS ONE, 10(2):e0116767.
 https://doi.org/10.1371/journal.pone.0116767
 Review status: Uploaded full PDF reviewed.
+Use in PathwayAI: A separate 12-month medical-spending reference; never added to societal totals.
 
 Johnson L, Wilcox S, Mankoff J, Stricker RB. (2014). Severity of chronic Lyme disease compared to other chronic conditions: a quality of life survey. PeerJ, 2:e322.
 https://doi.org/10.7717/peerj.322
 Review status: Uploaded full PDF reviewed; table/narrative discrepancies recorded.
+Use in PathwayAI: Work changes and daily-activity topics in optional dated personal records; selected-survey percentages are not county disability probabilities.
 
 Horn EJ et al. (2025). Lyme Disease Biobank: 10 years of 3 month follow-up visits from 2014 to 2023. Frontiers in Medicine, 12:1577936.
 https://doi.org/10.3389/fmed.2025.1577936
 Review status: Uploaded full PDF reviewed.
+Use in PathwayAI: Dated follow-up preparation and questions about continuing needs; three-month symptoms are not long-term disability.
 
 Sanders GD et al. (2016). Recommendations for Conduct, Methodological Practices, and Reporting of Cost-effectiveness Analyses: Second Panel on Cost-Effectiveness in Health and Medicine. JAMA, 316(10):1093–1103.
 https://doi.org/10.1001/jama.2016.12195
 Review status: Bibliographic reference and supplied summary; full article not retrieved. Framework is adapted, not a claim of complete Panel compliance.
+Use in PathwayAI: Impact inventory and explicit perspectives, assumptions, uncertainty and provenance; adapted from the supplied summary rather than a claim of full cost-effectiveness analysis.
 
 CITE THIS FRAMEWORK
-Zhang, Y. (2026). PathwayAI: Lyme disease burden evidence framework (Version 0.1.0) [Software and methods]. https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.1.0
+Zhang, Y. (2026). PathwayAI: Lyme disease burden evidence framework (Version 0.2.0) [Software and methods]. https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.2.0
 Cite the original study for its findings. This citation identifies software/methods, not a peer-reviewed study, government estimate, endorsement or DOI-registered archive.

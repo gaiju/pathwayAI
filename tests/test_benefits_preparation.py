@@ -59,7 +59,7 @@ class BenefitsPreparationTests(unittest.TestCase):
         self.assertTrue(any(e.label == "Open SSDI, SSI or food-assistance checklist" for e in at.expander))
         self.assertFalse(list(at.text))
         content = "\n".join(str(x.value) for x in at.markdown)
-        self.assertLess(content.index("Disability benefits (SSDI / SSI)"), content.index("Tell us what happened"))
+        self.assertLess(content.index("Tell us what happened"), content.index("### 5. Find benefits and everyday support"))
         self.assertNotIn("### 2. Your costs", content)
         self.assertNotIn("### 3. Find support", content)
         at.sidebar.radio(key="pathway_view").set_value("📚 Sources & Acknowledgements").run()

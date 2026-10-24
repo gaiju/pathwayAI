@@ -84,6 +84,9 @@ def show_benefits_preparation(record=None):
             st.session_state["saved_benefits_functional_history"] = history
             context["functional_history"] = history
         text = preparation_checklist(program, context)
+        if program != "SNAP / food assistance":
+            from daily_observations import session_observations_text
+            text = session_observations_text(text)
         with st.expander("Preview the downloadable checklist"):
             st.markdown(text.replace("\n", "\n\n"))
         branded_download_button("Download my preparation checklist", text.encode("utf-8"),

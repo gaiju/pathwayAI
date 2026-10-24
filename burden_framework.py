@@ -5,11 +5,11 @@ import io
 import json
 
 BASE = Path(__file__).resolve().parent
-VERSION = '0.1.0'
+VERSION = '0.2.0'
 REVIEW_DATE = '2026-10-23'
-SNAPSHOT = 'https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.1.0'
+SNAPSHOT = 'https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.2.0'
 CITATION = ('Zhang, Y. (2026). PathwayAI: Lyme disease burden evidence framework '
-            '(Version 0.1.0) [Software and methods]. ' + SNAPSHOT)
+            '(Version 0.2.0) [Software and methods]. ' + SNAPSHOT)
 SOURCES = [
     {'id': 'hook2022', 'citation': 'Hook SA et al. (2022). Economic Burden of Reported Lyme Disease in High-Incidence Areas, United States, 2014–2016. Emerging Infectious Diseases, 28(6).',
      'url': 'https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article', 'status': 'Previously reviewed supplied article text; linked tables not separately retrieved.'},
@@ -22,6 +22,15 @@ SOURCES = [
     {'id': 'panel2016', 'citation': 'Sanders GD et al. (2016). Recommendations for Conduct, Methodological Practices, and Reporting of Cost-effectiveness Analyses: Second Panel on Cost-Effectiveness in Health and Medicine. JAMA, 316(10):1093–1103.',
      'url': 'https://doi.org/10.1001/jama.2016.12195', 'status': 'Bibliographic reference and supplied summary; full article not retrieved. Framework is adapted, not a claim of complete Panel compliance.'},
 ]
+
+
+SOURCE_APPLICATIONS = {
+    'hook2022': 'Societal cost components and county illustrations, with study population and dollar year preserved.',
+    'adrion2015': 'A separate 12-month medical-spending reference; never added to societal totals.',
+    'johnson2014': 'Work changes and daily-activity topics in optional dated personal records; selected-survey percentages are not county disability probabilities.',
+    'horn2025': 'Dated follow-up preparation and questions about continuing needs; three-month symptoms are not long-term disability.',
+    'panel2016': 'Impact inventory and explicit perspectives, assumptions, uncertainty and provenance; adapted from the supplied summary rather than a claim of full cost-effectiveness analysis.'
+}
 
 
 def evidence_rows():
@@ -48,7 +57,7 @@ def impact_inventory():
         {'Component': 'Travel and other household spending', 'Available evidence': 'Optional personal cost records; part of Hook nonmedical costs', 'Coverage / next evidence needed': 'Comparable local records and reporting periods; no representative county average.'},
         {'Component': 'Work disruption', 'Available evidence': 'Missed workdays; optional valuation; Johnson selected survey', 'Coverage / next evidence needed': 'Reduced hours, stopped work, reduced effectiveness and duration; prevent overlapping loss estimates.'},
         {'Component': 'Unpaid caregiving', 'Available evidence': 'Optional hours entered in personal records', 'Coverage / next evidence needed': 'Agreed time period and valuation method; no current county dollar estimate.'},
-        {'Component': 'Daily function and quality of life', 'Available evidence': 'Patient descriptions; Johnson survey; Horn follow-up', 'Coverage / next evidence needed': 'Repeated, standardized measures; symptoms, limitations and benefits receipt are different outcomes.'},
+        {'Component': 'Daily function and quality of life', 'Available evidence': 'Optional dated personal observations; Johnson survey; Horn follow-up', 'Coverage / next evidence needed': 'Repeated, standardized measures; symptoms, limitations and benefits receipt are different outcomes.'},
         {'Component': 'Longer-term disability and continuing costs', 'Available evidence': 'Selected illness studies; separate HRSA/Census all-cause context', 'Coverage / next evidence needed': 'Appropriate probability, duration, affected population and incremental cost. Not estimated from three-month symptoms or selected-survey percentages.'},
     ]
 
@@ -62,9 +71,11 @@ def csv_bytes(rows):
 
 
 def evidence_package():
+    from county_explanation import explanation_fields
+    county_rows = [dict(county=name, reported_cases=cases, case_year=2024, unit_cost_usd=2032, dollar_year=2016, illustrative_total_usd=cases*2032, **explanation_fields(name, cases, 2032, 2016, 'societal')) for name, cases in [('Dutchess',1060),('Orange',964)]]
     return {'title': 'PathwayAI Lyme disease burden evidence framework', 'version': VERSION,
-            'review_date': REVIEW_DATE, 'citation': CITATION,
-            'measures': evidence_rows(), 'impact_inventory': impact_inventory(), 'sources': SOURCES,
+            'review_date': REVIEW_DATE, 'citation': CITATION, 'source_applications': SOURCE_APPLICATIONS,
+            'measures': evidence_rows(), 'county_illustrations': county_rows, 'impact_inventory': impact_inventory(), 'sources': SOURCES,
             'scope': {'current_national_estimate': False, 'global_cost_total': None,
                       'county_lyme_disability_estimate': None,
                       'patient_entries_included': False,
@@ -96,13 +107,19 @@ def methods_text():
              '', 'BURDEN INVENTORY']
     for row in impact_inventory():
         lines.append(' | '.join(f'{k}: {v}' for k, v in row.items()))
+    from county_explanation import explanation_fields, explanation_text
+    lines += ['', 'FOUR-PART COUNTY EXPLANATIONS']
+    for county, cases in [('Dutchess', 1060), ('Orange', 964)]:
+        lines.append(explanation_text(explanation_fields(county, cases, 2032, 2016, 'societal')))
+    lines += ['', 'DATED PATIENT RECORDS',
+              'Optional dated daily-life observations stay in the private app session and selected personal downloads. Observations are not automatically totaled, sent to AI, or included in public evidence packages. Overlapping periods remain separate. These custom preparation questions are not a validated disability instrument.']
     lines += ['', 'UNCERTAINTY AND EVIDENCE STATUS',
               'Scenario ranges require documented assumptions. Statistical uncertainty needs an appropriate model; arbitrary ranges are not confidence intervals. Current references do not establish PathwayAI savings, resource-allocation effects or disability reduction.',
               'Sources use different populations, periods and price years. New web downloads were blocked. Paper verification is based on supplied documents; original studies, not PathwayAI, generated the cited findings.',
               'Hook excluded non-English speakers and nonacute disease. The evidence inventory therefore highlights important gaps for the communities PathwayAI aims to serve.',
               '', 'REFERENCES']
     for source in SOURCES:
-        lines += [source['citation'], source['url'], 'Review status: ' + source['status'], '']
+        lines += [source['citation'], source['url'], 'Review status: ' + source['status'], 'Use in PathwayAI: ' + SOURCE_APPLICATIONS[source['id']], '']
     lines += ['CITE THIS FRAMEWORK', CITATION,
               'Cite the original study for its findings. This citation identifies software/methods, not a peer-reviewed study, government estimate, endorsement or DOI-registered archive.']
     return '\n'.join(lines)
@@ -143,9 +160,10 @@ def show_us_burden(simple=True):
         for source in SOURCES:
             st.markdown('[' + source['citation'] + '](' + source['url'] + ')')
             st.caption(source['status'])
+            st.write('Use in PathwayAI: ' + SOURCE_APPLICATIONS[source['id']])
         st.markdown('**Suggested citation for the framework**')
         st.write(CITATION)
         st.caption('Cite original papers for their findings. This framework is software and methods, not a peer-reviewed economic estimate.')
-        st.download_button('Download evidence values CSV', csv_bytes(evidence_rows()), file_name='PathwayAI_US_Burden_Evidence_v0.1.0.csv', mime='text/csv', key='us_burden_csv')
-        st.download_button('Download burden inventory CSV', csv_bytes(impact_inventory()), file_name='PathwayAI_Burden_Inventory_v0.1.0.csv', mime='text/csv', key='us_burden_inventory')
-        st.download_button('Download reproducible evidence package', json.dumps(evidence_package(), indent=2).encode('utf-8'), file_name='PathwayAI_Burden_Evidence_v0.1.0.json', mime='application/json', key='us_burden_package')
+        st.download_button('Download evidence values CSV', csv_bytes(evidence_rows()), file_name='PathwayAI_US_Burden_Evidence_v0.2.0.csv', mime='text/csv', key='us_burden_csv')
+        st.download_button('Download burden inventory CSV', csv_bytes(impact_inventory()), file_name='PathwayAI_Burden_Inventory_v0.2.0.csv', mime='text/csv', key='us_burden_inventory')
+        st.download_button('Download reproducible evidence package', json.dumps(evidence_package(), indent=2).encode('utf-8'), file_name='PathwayAI_Burden_Evidence_v0.2.0.json', mime='application/json', key='us_burden_package')

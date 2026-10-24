@@ -76,6 +76,9 @@ def show_support_summary(need, request, record=None):
             if not story:
                 st.info("Organize your current notes first to include a reviewed visit summary. No old summary has been included.")
         seed = support_summary(need, request, context, include and need in ("Paying for care", "Disability benefits"), story)
+        if include:
+            from daily_observations import session_observations_text
+            seed = session_observations_text(seed)
         if st.session_state.get("support_summary_seed") != seed:
             st.session_state["support_summary_text"] = seed
             st.session_state["support_summary_seed"] = seed

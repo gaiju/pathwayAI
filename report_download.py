@@ -23,11 +23,15 @@ def branded_qr(data):
 def branded_download_button(label, data, *args, **kwargs):
     import streamlit as st
     state_code = kwargs.pop("pdf_state_code", None)
+    include_observations = kwargs.pop("include_daily_observations", False)
     mime = kwargs.get("mime", "")
     name = kwargs.get("file_name", "")
     if mime == "text/plain" or str(name).lower().endswith((".txt", ".md")):
         binary = isinstance(data, bytes)
         text = data.decode("utf-8") if binary else data
+        if include_observations:
+            from daily_observations import session_observations_text
+            text = session_observations_text(text)
         if isinstance(text, str) and TAGLINE not in text:
             text = TAGLINE + "\n\n" + text
         from pdf_report import report_pdf

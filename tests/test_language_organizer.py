@@ -77,7 +77,7 @@ class LanguageOrganizerTests(unittest.TestCase):
             self.assertFalse(list(at.exception))
             self.assertEqual(mocked.call_count, 1)
             self.assertIn("positive blood test", at.text_area(key="bilingual_edit").value)
-            at.button(key="care_to_tick_bite").click().run()
+            at.sidebar.radio(key="pathway_view").set_value("🩹 Tick Bite: What Next?").run()
             self.assertFalse(list(at.exception))
             self.assertEqual(at.selectbox(key="notes_language").value, "中文 / Chinese")
             self.assertEqual(at.text_area(key="quick_story_value").value, "血检阳性。两周后发病。")

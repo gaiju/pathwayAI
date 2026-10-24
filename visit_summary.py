@@ -88,5 +88,5 @@ def show_visit_summary(story, details):
     edited = st.text_area("Review and edit your visit summary", key="visit_summary_edit", height=350, max_chars=60000)
     st.session_state["visit_summary_reviewed"] = edited
     branded_download_button("Download my visit summary", edited.encode("utf-8"),
-                       file_name="PathwayAI_Visit_Summary.txt", mime="text/plain", key="visit_summary_download")
+                       file_name="PathwayAI_Visit_Summary.txt", mime="text/plain", key="visit_summary_download", include_daily_observations=True)
     st.caption("The timeline comes first; your original notes are retained at the end. Add costs and time below for a separate appointment and cost card.")

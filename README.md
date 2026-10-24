@@ -95,9 +95,16 @@ The Community Burden & Action page includes a **U.S. burden** tab with historica
 
 - Methods: [docs/burden_methodology.md](docs/burden_methodology.md)
 - Machine-readable citation: [CITATION.cff](CITATION.cff)
-- Evidence package: [submission/PathwayAI_US_Burden_Evidence_v0.1.0.json](submission/PathwayAI_US_Burden_Evidence_v0.1.0.json)
+- Evidence package: [submission/PathwayAI_US_Burden_Evidence_v0.2.0.json](submission/PathwayAI_US_Burden_Evidence_v0.2.0.json)
 - Reproduce JSON with `burden_framework.evidence_package()` and the methods brief with `burden_framework.methods_text()`.
 - Cite original studies for their findings. The PathwayAI citation identifies a software/methods version, not a peer-reviewed economic estimate or registered DOI.
-- Versioned source snapshot: https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.1.0
+- Versioned source snapshot: https://github.com/gaiju/pathwayAI/tree/burden-evidence-v0.2.0
 
 National reference values retain original source dollar years and assumptions. International comparison resources are discovery links, not verified global numerical inputs.
+
+
+### Dated personal records and county calculation explanations
+
+Care & Support offers an optional dated daily-life observation form in both the concise and detailed paths. Observations are session-only, can be removed, and are never automatically summed into cumulative cost or time fields. Users can include/exclude them in personal record downloads, and can download the dated record separately. They are not inputs to AI or public county evidence. No persistent analytics were added.
+
+County illustrations and CSVs include reported-case context, published-cost context, calculation assumptions, additional burden to measure, and source-file provenance. Societal and medical perspectives remain separate. The evidence framework is version 0.2.0; the earlier 0.1.0 snapshot remains available.

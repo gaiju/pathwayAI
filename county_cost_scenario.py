@@ -1,5 +1,6 @@
 """Transparent scenario arithmetic; no fitted model or survey-derived mean."""
 from report_download import branded_download_button
+from county_explanation import explanation_fields, show_county_explanation
 
 import math
 import json
@@ -20,7 +21,7 @@ def county_cost_categories():
     hook = json.loads((Path(__file__).resolve().parent / "data" / "hook_2022_article_verification.json").read_text())
     medical = hook["societal_medical_mean"]
     other_and_productivity = hook["societal_mean"] - medical
-    return [{"County": county, "Reported cases · 2024": cases,
+    return [{**explanation_fields(county, cases, hook["societal_mean"], 2016, "societal"), "County": county, "Reported cases · 2024": cases,
              "Reported cases per 100,000 · 2024": rate,
              "Medical costs · 2016 USD": cases * medical,
              "Other expenses and lost productivity · 2016 USD": cases * other_and_productivity,
@@ -55,6 +56,7 @@ def county_scenario(disseminated_share=None, perspective="medical"):
     reference_column = ("Societal reference per participant" if perspective == "societal" else "Medical reference per episode") + f" · {dollar_year} USD"
     amount_column = ("Illustrative societal amount" if perspective == "societal" else "Illustrative medical amount") + f" · {dollar_year} USD"
     return [{
+        **explanation_fields(county, cases, unit, dollar_year, perspective, disseminated_share),
         "County": county, "Reported cases · 2024": cases,
         "Reported cases per 100,000 · 2024": rate,
         reference_column: round(unit, 2),
@@ -99,7 +101,7 @@ def show_county_burden_comparison(note):
     import pandas as pd
     import streamlit as st
 
-    st.markdown("### Community cost illustration: Dutchess and Orange")
+    st.markdown("### Study-based county burden illustration")
     st.write("Study-based societal illustration · 2024 reported cases × $2,032 per participant · 2016 dollars.")
     st.write("The study reference includes medical care, other expenses and lost productivity.")
     frame = pd.DataFrame(county_scenario(perspective="societal"))
@@ -108,6 +110,7 @@ def show_county_burden_comparison(note):
     for col, (_, row) in zip(cols, frame.iterrows()):
         col.metric(row["County"] + " · societal illustration", f"${row[amount] / 1_000_000:.2f}M")
     cols[2].metric("Both counties · societal illustration", f"${frame[amount].sum() / 1_000_000:.2f}M")
+    show_county_explanation(county_scenario(perspective="societal"), key="county_comparison_explanation")
     with st.expander("How PathwayAI calculates these figures"):
         st.markdown("1. **Personal record:** add entered payments for the same reporting period. In a fictional example, $180 for care + $45 for travel = $225 paid. Missed workdays and caregiving hours stay separate.\n2. **County illustration:** 1,060 reported Dutchess cases in 2024 × Hook’s $2,032 societal mean = $2,153,920, in 2016 dollars. This assumes study costs apply to reported county cases; it is not measured county spending or proven savings.\n3. **Medicare context:** display CMS payment figures separately. They are not Lyme-specific and are never added to the Lyme illustration.")
         st.caption("Arithmetic calculates; optional AI organizes language. People review. Study societal costs already include medical, nonmedical and productivity costs, so do not add those costs again.")
@@ -190,7 +193,7 @@ def show_county_cost_scenario(note):
     import pandas as pd
     import streamlit as st
 
-    st.markdown("#### County burden calculations")
+    st.markdown("#### Study-based county burden illustration")
     st.write("Start with reported cases. Apply one published cost reference. "
              "Compare the result across counties using the same assumptions.")
     st.write("**Illustrative calculation · reported cases × study cost reference**")
@@ -217,7 +220,9 @@ def show_county_cost_scenario(note):
         share = percent / 100
     if perspective == "societal":
         st.write("$2,032 per participant · 2016 dollars · medical care, other expenses and lost productivity.")
-    frame = pd.DataFrame(county_scenario(share, perspective=perspective))
+    scenario_rows = county_scenario(share, perspective=perspective)
+    show_county_explanation(scenario_rows, key="county_scenario_explanation")
+    frame = pd.DataFrame(scenario_rows)
     columns = [key for key in frame.columns if not key[0].islower()]
     st.dataframe(frame[columns], hide_index=True, use_container_width=True)
     amount = next(column for column in frame.columns if column.startswith("Illustrative ") and "amount ·" in column)

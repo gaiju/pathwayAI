@@ -691,9 +691,10 @@ def show_session_burden():
 
 def policy89():
     st.header("Healthier people. Stronger communities.")
-    st.write("County comparisons and published U.S. evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
-    st.markdown("**Start here:** Compare county data and download a support-planning brief with suggested actions, potential partners, and follow-up measures. Adapt it with your local information.")
-    overview_tab, national_tab, planning_tab, evidence_tab, residents_tab = st.tabs(["County comparison", "U.S. burden", "Plan community support", "Evidence & methods", "For residents"])
+    st.write("U.S. and county evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
+    st.markdown("**Start here:** Understand the national picture, compare counties, and download a support-planning brief to adapt locally.")
+    st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+    national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"])
     with national_tab:
         show_us_burden(simple=simple_reading_view())
     with overview_tab:
@@ -750,15 +751,6 @@ def policy89():
         st.markdown("**How to use it**\n\n1. Choose a support topic, such as affordable care or transportation.\n2. Download suggested actions, potential partners and follow-up measures.\n3. Add verified local services, contacts, appointment capacity, costs and responsibilities before proposing a response.")
         voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
 
-    with residents_tab:
-        st.markdown("### Your personal care and support")
-        st.write("Looking for a county planning brief? Open the Plan community support tab above.")
-        st.write("Record costs, missed work and help needed in Care & Support. Review and download your record for visits and support conversations.")
-        st.button("Review my cost-and-time record →" if st.session_state.get("burden_session_record") else "Keep a personal cost-and-time record →",
-                  key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"), use_container_width=True)
-        st.write("Your personal record is separate from community evidence. Future shared reporting would require explicit consent and privacy safeguards.")
-        show_session_burden()
-
     with evidence_tab:
         with st.expander("Understand the cost categories"):
             st.image(str(BASE_DIR / "images" / "lyme_cost_categories.png"), use_container_width=True)
@@ -799,10 +791,6 @@ def policy89():
             st.write("Help residents check coverage and assistance. Keep medical payments separate from other expenses.")
             st.markdown("[New York health coverage](https://nystateofhealth.ny.gov/)")
         page_note("These are community action options, not measured PathwayAI benefits or county commitments. County comparisons do not establish which services are missing.")
-
-    with residents_tab:
-        st.button("Find personal care and support →", key="county_to_personal_support",
-                  on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
 
     with planning_tab:
         with st.expander("Build a community discussion brief"):
@@ -1440,8 +1428,8 @@ st.markdown("""<style>
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
 .st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.25rem;width:100%;}
-.st-key-landing_photo .pathway-photo116 img {height:260px;object-fit:cover;object-position:center;}
-@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:160px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
+.st-key-landing_photo .pathway-photo116 img {height:360px;object-fit:cover;object-position:center;}
+@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:200px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */
@@ -3682,7 +3670,7 @@ def show_reading_choice():
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
-        welcome, photo = st.columns([0.95, 1.15], gap="large")
+        welcome, photo = st.columns([0.9, 1.2], gap="large")
         with welcome:
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")

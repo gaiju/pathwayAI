@@ -43,7 +43,7 @@ class BurdenFrameworkTests(unittest.TestCase):
         at.text_area(key='quick_story_value').set_value(secret).run()
         at.button(key='patient_to_community').click().run()
         self.assertFalse(list(at.exception))
-        self.assertEqual(at.tabs[1].label, 'U.S. burden')
+        self.assertEqual(at.tabs[0].label, 'U.S. burden')
         self.assertTrue(any('$345–968 million' == item.value for item in at.metric))
         self.assertNotIn(secret, json.dumps(evidence_package()))
         self.assertNotIn(secret, methods_text())

@@ -4,6 +4,7 @@ import csv
 import io
 import json
 
+BURDEN_JOURNEY_REVISION = 1
 BASE = Path(__file__).resolve().parent
 VERSION = '0.2.0'
 REVIEW_DATE = '2026-10-23'

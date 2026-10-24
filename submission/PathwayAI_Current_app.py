@@ -31,6 +31,12 @@ from benefits_preparation import show_benefits_preparation
 from support_summary import NEEDS, show_support_summary
 from share_pathway import show_share_pathway
 from evidence_scope import EVIDENCE_SCOPE
+# A running Streamlit process may retain the pre-journey evidence module.
+# Reload once when the required presentation revision is missing.
+import burden_framework as _burden_framework
+if getattr(_burden_framework, "BURDEN_JOURNEY_REVISION", 0) < 1:
+    from importlib import reload as _reload_burden_framework
+    _reload_burden_framework(_burden_framework)
 from burden_framework import show_us_burden
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison

@@ -3702,6 +3702,7 @@ if not st.session_state.get("pathway_open", False):
             st.markdown("**A small tick bite can have a big impact on your life.**")
             st.write("PathwayAI helps people prevent tick bites and helps patients and caregivers prepare for care, find support resources, and record the costs and daily-life effects of Lyme disease.")
             st.write("Write your story in the language you prefer, including mixed languages. Review and download a visit summary or support record to share when you choose.")
+            st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning.")
             st.caption("Browse without a story. Use made-up details when testing.")
             show_reading_choice()
         with photo:

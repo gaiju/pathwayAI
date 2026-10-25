@@ -3700,7 +3700,8 @@ if not st.session_state.get("pathway_open", False):
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")
             st.markdown("**A small tick bite can have a big impact on your life.**")
-            st.write("Prepare for time outdoors, find care and support, and make the hidden costs of illness visible.")
+            st.write("PathwayAI helps patients and caregivers affected by Lyme disease prepare for care, find support resources, and keep a record of illness-related costs and daily-life changes.")
+            st.write("Write your story in the language you prefer, including mixed languages. Review and download a visit summary or support record to share when you choose.")
             st.caption("Browse without a story. Use made-up details when testing.")
             show_reading_choice()
         with photo:

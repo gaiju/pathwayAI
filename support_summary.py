@@ -42,6 +42,7 @@ def show_support_summary(need, request, record=None):
         st.write("Use what you already entered. Choose what to include, then check the summary before sharing.")
         context = dict(record or {})
         if need == "Paying for care":
+            st.write("You can use your reviewed record to prepare for a conversation with an assistance organization about testing or treatment costs. Ask what documents it requires, whether applications are open, and which expenses it can cover. The organization decides eligibility; nothing is submitted through PathwayAI.")
             with st.expander("Add details of one bill (optional)"):
                 st.write("Leave unknown amounts blank. These entries are not added to your spending totals. Do not enter account numbers, birth dates or other identifiers.")
                 bill_keys = ("bill_organization", "bill_date", "bill_total", "bill_paid", "bill_balance", "bill_assistance")

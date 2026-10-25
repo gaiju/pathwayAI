@@ -3777,7 +3777,7 @@ if not st.session_state.get("pathway_open", False):
             st.write("**" + label + ":** " + detail)
             st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
         st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
-        st.link_button("Watch the demo", "https://www.ganjingworld.com/video/1iucf3km7rk5VJ8ROGXlXAhYA1u31c", use_container_width=True)
+        st.link_button("Watch the demo", "https://www.ganjingworld.com/s/Gjz4X1QAVZ", use_container_width=True)
     show_pilot_privacy()
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")

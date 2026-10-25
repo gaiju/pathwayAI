@@ -4,7 +4,7 @@ import csv
 import io
 import json
 
-BURDEN_JOURNEY_REVISION = 1
+BURDEN_JOURNEY_REVISION = 2
 BASE = Path(__file__).resolve().parent
 VERSION = '0.2.0'
 REVIEW_DATE = '2026-10-23'
@@ -124,7 +124,8 @@ def methods_text():
     lines += ['CITE THIS FRAMEWORK', CITATION,
               'Cite the original study for its findings. This citation identifies software/methods, not a peer-reviewed study, government estimate, endorsement or DOI-registered archive.']
     from burden_journey import journey_text
-    lines += ['', journey_text()]
+    from inflation_context import inflation_text
+    lines += ['', journey_text(), '', inflation_text()]
     return '\n'.join(lines)
 
 

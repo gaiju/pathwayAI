@@ -1,0 +1,110 @@
+{
+  "series": "CPIAUCNS",
+  "bls_series": "CUUR0000SA0",
+  "description": "All Items CPI-U, U.S. City Average, not seasonally adjusted; 1982\u201384=100",
+  "source_url": "https://fred.stlouisfed.org/series/CPIAUCNS",
+  "bls_url": "https://data.bls.gov/timeseries/CUUR0000SA0",
+  "source_file": "User-supplied CPIAUCNS.xlsx",
+  "source_sha256": "346ef77b0f6cc7bb59c42d27be2c802a5aefb3f518339191e9320a1cb105d28a",
+  "file_created": "2026-10-24 7:44 pm CDT",
+  "data_updated": "2026-10-14",
+  "verification": "Parsed uploaded workbook; official annual-average treatment not independently verified.",
+  "observations": [
+    {
+      "date": "2016-01-01",
+      "value": 236.916
+    },
+    {
+      "date": "2016-02-01",
+      "value": 237.111
+    },
+    {
+      "date": "2016-03-01",
+      "value": 238.132
+    },
+    {
+      "date": "2016-04-01",
+      "value": 239.261
+    },
+    {
+      "date": "2016-05-01",
+      "value": 240.229
+    },
+    {
+      "date": "2016-06-01",
+      "value": 241.018
+    },
+    {
+      "date": "2016-07-01",
+      "value": 240.628
+    },
+    {
+      "date": "2016-08-01",
+      "value": 240.849
+    },
+    {
+      "date": "2016-09-01",
+      "value": 241.428
+    },
+    {
+      "date": "2016-10-01",
+      "value": 241.729
+    },
+    {
+      "date": "2016-11-01",
+      "value": 241.353
+    },
+    {
+      "date": "2016-12-01",
+      "value": 241.432
+    },
+    {
+      "date": "2025-01-01",
+      "value": 317.671
+    },
+    {
+      "date": "2025-02-01",
+      "value": 319.082
+    },
+    {
+      "date": "2025-03-01",
+      "value": 319.799
+    },
+    {
+      "date": "2025-04-01",
+      "value": 320.795
+    },
+    {
+      "date": "2025-05-01",
+      "value": 321.465
+    },
+    {
+      "date": "2025-06-01",
+      "value": 322.561
+    },
+    {
+      "date": "2025-07-01",
+      "value": 323.048
+    },
+    {
+      "date": "2025-08-01",
+      "value": 323.976
+    },
+    {
+      "date": "2025-09-01",
+      "value": 324.8
+    },
+    {
+      "date": "2025-10-01",
+      "value": null
+    },
+    {
+      "date": "2025-11-01",
+      "value": 324.122
+    },
+    {
+      "date": "2025-12-01",
+      "value": 324.054
+    }
+  ]
+}

@@ -110,6 +110,8 @@ def show_county_burden_comparison(note):
     for col, (_, row) in zip(cols, frame.iterrows()):
         col.metric(row["County"] + " · societal illustration", f"${row[amount] / 1_000_000:.2f}M")
     cols[2].metric("Both counties · societal illustration", f"${frame[amount].sum() / 1_000_000:.2f}M")
+    from inflation_context import show_inflation_comparison
+    show_inflation_comparison("county_inflation", county_only=True)
     show_county_explanation(county_scenario(perspective="societal"), key="county_comparison_explanation")
     with st.expander("How PathwayAI calculates these figures"):
         st.markdown("1. **Personal record:** add entered payments for the same reporting period. In a fictional example, $180 for care + $45 for travel = $225 paid. Missed workdays and caregiving hours stay separate.\n2. **County illustration:** 1,060 reported Dutchess cases in 2024 × Hook’s $2,032 societal mean = $2,153,920, in 2016 dollars. This assumes study costs apply to reported county cases; it is not measured county spending or proven savings.\n3. **Medicare context:** display CMS payment figures separately. They are not Lyme-specific and are never added to the Lyme illustration.")

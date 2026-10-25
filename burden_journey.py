@@ -88,6 +88,8 @@ def show_burden_journey():
     st.markdown("### How the burden can change")
     st.write("PathwayAI helps people find their next step—from prevention and seeking care to managing ongoing needs—and helps communities identify where support is needed.")
     st.image(journey_svg(), use_container_width=True)
+    from inflation_context import show_inflation_comparison
+    show_inflation_comparison("journey_inflation")
     with st.expander("Read the figure as a table"):
         st.dataframe(study_comparison(), hide_index=True, use_container_width=True)
         st.write("No illness: costs vary. Ongoing symptoms: follow-up and function matter. Longer-term support: needs and eligibility require individual assessment.")

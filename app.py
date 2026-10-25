@@ -34,9 +34,13 @@ from evidence_scope import EVIDENCE_SCOPE
 # A running Streamlit process may retain the pre-journey evidence module.
 # Reload once when the required presentation revision is missing.
 import burden_framework as _burden_framework
-if getattr(_burden_framework, "BURDEN_JOURNEY_REVISION", 0) < 1:
+if getattr(_burden_framework, "BURDEN_JOURNEY_REVISION", 0) < 2:
     from importlib import reload as _reload_burden_framework
     _reload_burden_framework(_burden_framework)
+    import sys as _burden_sys
+    for _related_module in ("burden_journey", "county_cost_scenario"):
+        if _related_module in _burden_sys.modules:
+            _reload_burden_framework(_burden_sys.modules[_related_module])
 from burden_framework import show_us_burden
 from personal_cost_visual import personal_cost_svg
 from county_cost_scenario import show_county_cost_scenario, show_county_burden_comparison

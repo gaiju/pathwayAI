@@ -94,3 +94,8 @@ Cite the original study for its findings. This citation identifies software/meth
 ## Illness situations and opportunities for support
 
 The U.S. burden tab compares Hook localized and disseminated societal group means (2016 USD), with no transition probabilities or causal savings assigned. Separate situations cover tick bites without illness, continuing symptoms, and longer-term support. Horn follow-up, Adrion historical claims, and Johnson selected-survey findings remain separate evidence rather than components of one total. A public action table connects these situations to preparation tools and possible community support. SVG, PDF and CSV downloads contain only public study information and planning suggestions.
+
+
+## Optional general-inflation comparison
+
+The uploaded FRED CPIAUCNS workbook supplies 12 monthly observations for 2016 and 11 for 2025 (October missing). The optional comparison uses available-month means: 240.0071666667 and 321.943; factor 1.341389111297371. This is a disclosed general-purchasing-power comparison, not a verified official annual-average CPI restatement. No imputation is performed. Original study-year charts and patient entries remain unchanged. Only Hook societal references and the associated two-county illustrations are restated. CSV and PDF include provenance and missing-month treatment; other studies are not automatically adjusted.

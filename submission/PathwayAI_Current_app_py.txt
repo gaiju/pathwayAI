@@ -67,6 +67,15 @@ from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, transl
 
 PAGE_NOTES = []
 
+
+def show_peoples_choice_invitation():
+    """Optional public-showcase link, separate from care and feedback tasks."""
+    with st.container(border=True):
+        st.markdown("**Support PathwayAI**")
+        st.write("Help make the hidden burden of illness visible. Vote for PathwayAI in the TOPx HHS People’s Choice Awards.")
+        st.link_button("Vote for PathwayAI", "https://invisibleillness.crowdicity.com/post/896900", use_container_width=True)
+        st.caption("Create or sign in to a Crowdicity account to vote.")
+
 # Keep reviewed burden widgets alive while their page is not rendered. Reassigning
 # also sends the retained value back to the browser on return. Keep numeric
 # defaults None so deliberately clearing a field remains a valid operation.
@@ -3778,6 +3787,7 @@ if not st.session_state.get("pathway_open", False):
             st.button("Open " + label, key="tour_" + intent, on_click=select_public_pathway, args=(target, intent))
         st.write("Was it easy to find your next step? Was anything confusing? Please share your suggestions.")
         st.link_button("Watch the demo", "https://www.ganjingworld.com/s/Gjz4X1QAVZ", use_container_width=True)
+        show_peoples_choice_invitation()
     show_pilot_privacy()
     st.markdown("### Why make the burden visible?")
     st.write("Lyme disease can bring medical bills, missed work and unpaid care. Personal records and public evidence show different parts of that burden.")
@@ -3852,6 +3862,7 @@ def show_brief_feedback():
 
 if view == "💬 Share Feedback":
     show_brief_feedback()
+    show_peoples_choice_invitation()
     show_share_pathway("feedback_share")
     page_note('Patient Voice is separate: review and consent to sharing structured fields in Care & Support.')
     st.button("Choose another path", key="bottom_path71_" + view, on_click=return_to_path_choices)

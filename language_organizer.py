@@ -4,7 +4,10 @@ import json
 import urllib.request
 
 LANGUAGES = ("English", "Español / Spanish", "中文 / Chinese", "Français / French",
-             "Kreyòl ayisyen / Haitian Creole", "العربية / Arabic", "Other / not sure")
+             "Kreyòl ayisyen / Haitian Creole", "العربية / Arabic",
+             "Tiếng Việt / Vietnamese", "Tagalog / Filipino", "한국어 / Korean",
+             "Русский / Russian", "Português / Portuguese", "हिन्दी / Hindi",
+             "Other / not sure")
 FIELDS = {
     "exposure": "Exposure place and time",
     "tick": "Tick bite and removal details",
@@ -21,6 +24,8 @@ Input may mix languages. Preserve English place names, medicine names and unfami
 
 # Short entry/consent aids, not translations of clinical advice or the full app.
 AIDS = {
+    "Tiếng Việt / Vietnamese": ("Viết ghi chú bằng ngôn ngữ bạn quen dùng; có thể kết hợp tiếng Việt và tiếng Anh. Không nhập tên hoặc thông tin liên hệ.",
+        "Nếu bạn đồng ý, ghi chú sẽ được gửi đến dịch vụ AI bên ngoài để dịch và sắp xếp thành bản tóm tắt tiếng Anh, đồng thời giữ lại nội dung gốc. Hãy kiểm tra và chỉnh sửa trước khi chia sẻ; AI không thay thế phiên dịch viên y tế."),
     "Español / Spanish": ("Escriba sus síntomas y preguntas en su idioma. No incluya nombres ni datos de contacto.",
                            "Con su permiso, estas notas se enviarán a un servicio externo de IA para traducirlas al inglés. Puede haber errores; revise el resultado. No sustituye a un intérprete médico."),
     "中文 / Chinese": ("请用您熟悉的语言描述症状和问题，不要填写姓名或联系方式。",
@@ -35,6 +40,7 @@ AIDS = {
 
 
 CONTROLS = {
+    "Tiếng Việt / Vietnamese": ("Tôi đồng ý gửi ghi chú này đến dịch vụ AI bên ngoài để dịch sang tiếng Anh", "Dịch và sắp xếp ghi chú sang tiếng Anh"),
     "Español / Spanish": ("Acepto enviar estas notas a un servicio externo de IA para traducirlas al inglés", "Traducir y organizar en inglés"),
     "中文 / Chinese": ("我同意将这些笔记发送给外部 AI 服务，翻译并整理为英语", "翻译并整理为英语"),
     "Français / French": ("Je consens à envoyer ces notes à un service d’IA externe pour une traduction anglaise", "Traduire et organiser en anglais"),

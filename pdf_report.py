@@ -11,7 +11,11 @@ def _fonts():
     from reportlab.pdfbase import pdfmetrics
     from reportlab.pdfbase.ttfonts import TTFont
     from reportlab.pdfbase.cidfonts import UnicodeCIDFont
-    pdfmetrics.registerFont(TTFont('PathwayText', str(Path(reportlab.__file__).parent / 'fonts' / 'Vera.ttf')))
+    # Bundle extended Latin coverage so Vietnamese accents survive cloud exports.
+    font_path = Path(__file__).parent / 'fonts' / 'DejaVuSans.ttf'
+    if not font_path.exists():
+        font_path = Path(reportlab.__file__).parent / 'fonts' / 'Vera.ttf'
+    pdfmetrics.registerFont(TTFont('PathwayText', str(font_path)))
     pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
 

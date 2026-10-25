@@ -63,6 +63,12 @@ if any(not hasattr(_care_access, name) for name in _CARE_ACCESS_EXPORTS):
 from care_access import show_billing_help, show_care_access, show_timely_care, show_lyme_cost_context, show_transport_help, EMERGENCY_REMINDER, TIMELY_CARE_MESSAGE, CDC_TREATMENT
 from outdoor_plan import outdoor_plan_text, CDC_BOT
 from visit_summary import show_visit_summary
+import language_organizer as _language_organizer
+if "Tiếng Việt / Vietnamese" not in _language_organizer.LANGUAGES:
+    from importlib import reload as _reload_language_module
+    _reload_language_module(_language_organizer)
+    import pdf_report as _language_pdf_report
+    _reload_language_module(_language_pdf_report)
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
 
 PAGE_NOTES = []

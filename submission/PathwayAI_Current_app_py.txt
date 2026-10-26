@@ -730,39 +730,46 @@ def policy89():
         else:
             show_nys_tick_density_map(zoom=False, show_details=False, show_case_overlay=False)
         st.markdown("### Compare Dutchess and Orange counties")
-        measure=st.radio("Compare",["Reported Lyme rate","Sampled tick density","Language context","Disability context"],horizontal=True,key="compare100")
         measures={
             "Reported Lyme rate":(237.0,355.5,"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),
             "Sampled tick density":(43.2,28.8,"Nymphs per 1,000 m² · NYSDOH 2024; one sampled site in each county",50),
             "Language context":(30.2,16.2,"Language other than English at home, age 5+ · Census ACS 2020–2024",35),
             "Disability context":(11.7,12.2,"Any disability, all causes · Census-based figures reported in the 2025 regional assessment",15),
         }
-        orange,dutchess,label,maximum=measures[measure]
-        suffix="%" if measure in ("Language context", "Disability context") else ""
-        st.write(label)
-        if measure == "Disability context":
-            st.write("Use this community context to plan accessible information and support.")
-            page_note("Disability comparison: Dutchess 12.2%, Orange 11.7%, checked in the supplied Mid-Hudson CHA 2025, Table 12, printed/PDF p. 34. The table cites Census ACS S1810 and reports any disability, not an under-65 measure or Lyme-attributable disability. The heading says 2023 but its source line says 2020 ACS five-year estimates; the underlying Census vintage has not been resolved. Values are displayed as reported by the assessment, not as independently verified current Census figures. Disability-type percentages use different eligible populations and should not be added. [Regional assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf) · [Census disability table S1810](https://data.census.gov/table?q=S1810)")
-        if measure == "Reported Lyme rate":
+        selected_comparisons = st.multiselect("Choose comparisons", list(measures),
+            default=["Reported Lyme rate", "Language context"], key="county_comparisons_selected",
+            help="Select one or more measures. Every selected comparison appears below, with its own units and scale.")
+        st.caption("Each chart uses its own units and a zero-based scale.")
+        if not selected_comparisons:
+            st.info("Choose at least one comparison above to display its chart.")
+        if "Reported Lyme rate" in selected_comparisons:
             metrics = st.columns(3)
             metrics[0].metric("Dutchess · cases per 100,000", "355.5")
             metrics[1].metric("Orange · cases per 100,000", "237.0")
             metrics[2].metric("New York State · cases per 100,000", "109.8")
-            st.write("Both counties reported higher Lyme rates than the statewide rate in 2024.")
-            page_note("County-rate source: [NYSDOH 2024 rates](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
-        if measure == "Reported Lyme rate":
-            page_note("Dutchess 355.5, Orange 237.0 and statewide 109.8 were checked against the user-provided NYSDOH 2024 rates PDF, page 5. These are reported case rates, not all infections or individual risk.")
-        st.markdown(f"""<svg viewBox="0 0 760 160" width="100%" role="img" aria-label="{html.escape(label)}: Orange {orange}, Dutchess {dutchess}" xmlns="http://www.w3.org/2000/svg">
-        <text x="8" y="42" fill="currentColor" font-size="18">Orange</text>
-        <rect x="120" y="18" width="{orange/maximum*500:.1f}" height="36" rx="4" fill="#C65D17"/>
-        <text x="{132+orange/maximum*500:.1f}" y="42" fill="currentColor" font-size="18" font-weight="bold">{orange:g}{suffix}</text>
-        <text x="8" y="103" fill="currentColor" font-size="18">Dutchess</text>
-        <rect x="120" y="79" width="{dutchess/maximum*500:.1f}" height="36" rx="4" fill="#2474A6"/>
-        <text x="{132+dutchess/maximum*500:.1f}" y="103" fill="currentColor" font-size="18" font-weight="bold">{dutchess:g}{suffix}</text>
-        <line x1="120" y1="132" x2="620" y2="132" stroke="currentColor" opacity=".35"/>
-        <text x="120" y="155" fill="currentColor" font-size="13">0</text>
-        <text x="620" y="155" text-anchor="end" fill="currentColor" font-size="13">{maximum:g}{suffix}</text>
-        </svg>""",unsafe_allow_html=True)
+            st.caption("Reported Lyme rates · NYSDOH 2024. Both counties were above the statewide rate.")
+        from county_comparison_chart import comparison_chart
+        comparison_items = [(name, measures[name]) for name in selected_comparisons]
+        for first in range(0, len(comparison_items), 2):
+            chart_columns = st.columns(2, gap="large")
+            for chart_column, (measure, values) in zip(chart_columns, comparison_items[first:first+2]):
+                orange, dutchess, label, maximum = values
+                suffix = "%" if measure in ("Language context", "Disability context") else ""
+                with chart_column, st.container(border=True):
+                    st.markdown("#### " + measure)
+                    st.caption(label)
+                    st.altair_chart(comparison_chart(orange, dutchess, label, maximum, suffix), use_container_width=True)
+                    if measure == "Sampled tick density":
+                        st.caption("One sampled site per county; not countywide tick density or personal infection risk.")
+                    elif measure == "Language context":
+                        st.caption("Language spoken at home does not establish English proficiency or interpreter need.")
+                    elif measure == "Disability context":
+                        st.caption("All-cause disability, not Lyme-related disability. The assessment’s underlying Census year is unresolved.")
+        with st.expander("County comparison sources and interpretation"):
+            st.markdown("**Lyme rates:** NYSDOH 2024: Dutchess 355.5, Orange 237.0, statewide 109.8 per 100,000. Reported cases, not all infections or individual risk. [Source](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
+            st.write("Tick observations: NYSDOH 2024; one sampled site in each county. These observations do not represent the entire county.")
+            st.markdown("**Language:** Census ACS 2020–2024, age 5+. [Dutchess](https://www.census.gov/quickfacts/dutchesscountynewyork) · [Orange](https://www.census.gov/quickfacts/orangecountynewyork)")
+            st.markdown("**Disability:** 12.2% Dutchess and 11.7% Orange, reproduced from the 2025 regional assessment, Table 12, page 34. Its heading says 2023, while the source line cites 2020 ACS five-year estimates; the underlying vintage remains unverified. These are all-cause measures, not Lyme-attributable disability. [Assessment](https://www.dutchessny.gov/Departments/DBCH/Docs/MHRCHA2025.pdf)")
 
     with evidence_tab:
         show_burden_reading_guide(community=True)

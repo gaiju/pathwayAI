@@ -731,7 +731,7 @@ def show_session_burden():
 def policy89():
     st.header("Healthier people. Stronger communities.")
     st.write("U.S. and county evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
-    st.markdown("**Start here:** Understand the national picture, compare counties, and download a support-planning brief to adapt locally.")
+    st.markdown("**Start here:** Understand the national picture, compare counties, and download a sourced county burden and action report.")
     st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
     national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"])
     with national_tab:
@@ -792,7 +792,10 @@ def policy89():
         show_medicare_county_context()
 
     with planning_tab:
-        st.markdown("### Prepare a community support brief")
+        from county_burden_report import show_county_report
+        show_county_report()
+        st.divider()
+        st.markdown("### Explore other planning templates")
         st.write("Use a brief to prepare for a team meeting or grant proposal. Choose a support topic to explore; no patient information is required.")
         st.markdown("**How to use it**\n\n1. Choose a support topic, such as affordable care or transportation.\n2. Download suggested actions, potential partners and follow-up measures.\n3. Add verified local services, contacts, appointment capacity, costs and responsibilities before proposing a response.")
         voice_action_brief = show_community_action_pathway(simple=simple_reading_view())
@@ -3692,7 +3695,7 @@ paths = [
     ("I found a tick on my skin", "Tick Bite: What Next? — removal steps and when to contact a clinician.", "🩹 Tick Bite: What Next?", "bite"),
     ("I need care or support", "Care & Support — find resources, prepare a visit note, or ask about benefits and bills.", "🧭 Care & Support", "ongoing"),
     ("I’m planning time outdoors", "Learn & Prevent — create and download a tick-prevention plan.", "🛡️ Learn & Prevent", "outdoors"),
-    ("I’m planning community support", "Community Burden & Action — compare county evidence and prepare a planning brief.", "📊 Community Burden & Action", "county"),
+    ("I’m planning community support", "Community Burden & Action — compare county evidence and download a burden and action report.", "📊 Community Burden & Action", "county"),
     ("I’m reviewing or giving feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
 ]
 
@@ -3700,7 +3703,7 @@ landing_details = {
     "bite": ("Start with tick-removal steps, what to record, and when to contact a clinician. You can then prepare a visit note or continue to Care & Support.", "Removal and care information, plus an optional downloadable visit summary."),
     "ongoing": ("Find care-access, disability-benefits and essential-support resources without writing a story. If useful, organize a visit note in your preferred language and record costs and time.", "A reviewed visit summary, cost-and-time record, or questions to ask about assistance."),
     "outdoors": ("Enter a destination ZIP code, month and activity. Review prevention steps and available exposure context, then download your outdoor plan.", "A tick-prevention PDF. It does not predict your personal infection risk."),
-    "county": ("Compare county surveillance, healthcare resources and published cost illustrations. Review sources and assumptions, then select a support priority to discuss with partners.", "A sourced planning brief. It is not measured county spending or a funded service."),
+    "county": ("Compare county surveillance, healthcare resources and published cost illustrations. Review sources and assumptions, then select a support priority to discuss with partners.", "A county burden and action report with sources, calculations, evidence gaps and follow-up measures."),
     "feedback": ("Explore any route using made-up information, watch the walkthrough, or tell us what is helpful or confusing. Reviewers do not need to enter personal health information.", "A way to share feedback or discuss a future pilot."),
 }
 
@@ -3762,7 +3765,9 @@ if view == "🌱 What’s next":
 
     with st.expander("What reviewers helped improve"):
         st.write("People living with Lyme disease and a county health commissioner reviewed the working app. Feedback helped us simplify instructions, make care-access resources available without a story, and clarify useful next steps.")
-        st.write("Russian-language testing also helped identify PDF font issues and improve the clarity of cost periods and downloadable records.")
+        st.markdown("""- **Tester-reported:** entered amounts and a complete dated observation appeared in the PDF; overall and observation-specific caregiving hours stayed separate.
+- **Tester-reported:** values remained after navigation and editing another field.
+- **Improved after feedback:** Russian PDF font handling, a prominent cost period and optional compact PDFs. Local checks passed; confirmation from the original tester is still pending.""")
         st.caption("These are formative usability reviews, not clinical validation or proof of improved outcomes. Other language reviews remain ongoing.")
     with st.expander("How we would run the next pilot"):
         st.markdown("1. **Agree on one use case** with a patient group, health center or community team.\n2. **Confirm responsibilities and resources**, including service availability, privacy arrangements and language review.\n3. **Test usefulness:** check summary accuracy, task completion, support connections and unmet needs.\n4. **Review results with partners** before claiming better health or savings.")

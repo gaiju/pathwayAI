@@ -99,3 +99,8 @@ The U.S. burden tab compares Hook localized and disseminated societal group mean
 ## Optional general-inflation comparison
 
 The uploaded FRED CPIAUCNS workbook supplies 12 monthly observations for 2016 and 11 for 2025 (October missing). The optional comparison uses available-month means: 240.0071666667 and 321.943; factor 1.341389111297371. This is a disclosed general-purchasing-power comparison, not a verified official annual-average CPI restatement. No imputation is performed. Original study-year charts and patient entries remain unchanged. Only Hook societal references and the associated two-county illustrations are restated. CSV and PDF include provenance and missing-month treatment; other studies are not automatically adjusted.
+
+
+## County burden and action report
+
+The Plan community support tab exports a county-specific PDF and flat CSV with reported cases and rates, Hook societal arithmetic in original 2016 dollars, optional explicitly limited CPI restatement, missing burden dimensions, a selected proposed support decision, feasibility checks and follow-up measures. County selection changes official counts and rates; support selection changes proposed actions, not observed demand. The builder is independent of Streamlit session state and imports no patient records or synthetic demonstration cards. This is a reproducible discussion brief, not a comprehensive county burden estimate, funded plan or proof of savings. Formative usability evidence and retest status are documented separately in docs/usability_evidence.md.

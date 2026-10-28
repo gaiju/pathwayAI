@@ -1482,14 +1482,20 @@ st.markdown("""<style>
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
 /* Homepage only: roomy, uncropped 16:9 image and compact introduction. */
-.st-key-landing_intro h1 {font-size:clamp(2rem,3vw,2.8rem);line-height:1.15;padding-top:0;}
+.st-key-landing_intro h1 {font-size:clamp(1.65rem,2.3vw,2.15rem);line-height:1.18;padding-top:0;}
+.st-key-landing_intro .pathway-recognition {color:#fff;background:#163b50;border-radius:8px;padding:0.55rem 0.7rem;font-size:0.9rem;font-weight:650;}
+.st-key-landing_paths button {background:#163b50;color:#fff;border:2px solid #163b50;}
+.st-key-landing_paths button:hover {background:#23546d;color:#fff;border-color:#23546d;}
+.st-key-landing_paths button:focus-visible {outline:3px solid #d99819;outline-offset:3px;}
+.st-key-landing_paths button p {color:inherit;}
+.st-key-landing_intro [data-testid="stCaptionContainer"] {color:var(--text-color);opacity:0.85;}
 .st-key-landing_intro [data-testid="stHorizontalBlock"] {align-items:center;}
 .st-key-landing_photo .pathway-photo116 {margin:0;width:100%;aspect-ratio:16/9;}
 .st-key-landing_photo [data-testid="stImage"] {width:100%;}
 .st-key-landing_photo [data-testid="stImage"] img {width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;border-radius:14px;}
 .st-key-landing_photo .pathway-photo116 img {width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;}
 .st-key-landing_intro [data-testid="stMarkdownContainer"] p {line-height:1.5;}
-@media(max-width:700px) {
+@media(max-width:1000px) {
  .st-key-landing_intro [data-testid="stHorizontalBlock"] {flex-direction:column;gap:0.75rem;}
  .st-key-landing_intro [data-testid="stColumn"] {width:100% !important;flex:1 1 100% !important;min-width:0 !important;}
  .st-key-landing_photo .pathway-photo116 {max-width:100%;margin:0;}
@@ -3702,11 +3708,11 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("I found a tick on my skin", "Tick Bite: What Next? — removal steps and when to contact a clinician.", "🩹 Tick Bite: What Next?", "bite"),
-    ("I need care or support", "Care & Support — find resources, prepare a visit note, or ask about benefits and bills.", "🧭 Care & Support", "ongoing"),
-    ("I’m planning time outdoors", "Learn & Prevent — create and download a tick-prevention plan.", "🛡️ Learn & Prevent", "outdoors"),
-    ("I’m planning community support", "Community Burden & Action — compare county evidence and download a burden and action report.", "📊 Community Burden & Action", "county"),
-    ("I’m reviewing or giving feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
+    ("Community Burden & Action", "Compare county evidence and download a burden and action report.", "📊 Community Burden & Action", "county"),
+    ("Care & Support", "Find resources, prepare a visit note, or ask about benefits and bills.", "🧭 Care & Support", "ongoing"),
+    ("Tick Prevention", "Create and download a tick-prevention plan for time outdoors.", "🛡️ Learn & Prevent", "outdoors"),
+    ("Review & Feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
+    ("Tick Bite: What Next?", "Find removal steps and guidance on when to contact a clinician.", "🩹 Tick Bite: What Next?", "bite"),
 ]
 
 landing_details = {
@@ -3736,10 +3742,10 @@ if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
         welcome, photo = st.columns([0.8, 1.5], gap="medium")
         with welcome:
-            st.title("PathwayAI")
-            st.caption("Making the Hidden Patient Journey Visible—and Actionable")
-            st.markdown("**A small tick bite can have a big impact on your life.**")
-            st.write("Prevent tick bites. Prepare for care. Find support and record how Lyme disease affects daily life.")
+            st.markdown("**PathwayAI · Public Health Intelligence & Action Platform**")
+            st.title("Making the Hidden Burden of Lyme Disease Visible—and Actionable")
+            st.write("Connecting patient experiences, public health data, and community resources to support better-informed decisions.")
+            st.markdown('<p class="pathway-recognition">HHS TOPx Phase I Winner | AI &amp; Invisible Illness.</p>', unsafe_allow_html=True)
             with st.expander("For patients, caregivers and community teams"):
                 st.write("Write in your preferred language, including mixed languages. Review and download a visit summary or support record to share when you choose.")
                 st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning.")
@@ -3814,7 +3820,7 @@ if view == "📚 Sources & Acknowledgements":
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_paths"):
         st.subheader("What would help you today?")
-        st.write("Choose the sentence that fits you. You do not need to visit every page.")
+        st.write("Choose the help you need. You do not need to visit every page.")
         for start in range(0, len(paths), 2):
             cols = st.columns(2)
             for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):

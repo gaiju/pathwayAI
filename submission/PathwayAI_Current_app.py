@@ -173,7 +173,7 @@ def show_sources_and_acknowledgements():
 
     with st.expander("Acknowledgements", expanded=True):
         st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
-        st.write("Special thanks to our Russian-speaking testers for checking notes, PDF downloads and saved records. Their feedback helped improve multilingual PDF handling, reporting-period clarity and compact downloads.")
+        st.write("Special thanks to our Chinese-, English-, Spanish-, and Russian-speaking testers for reviewing notes, PDF downloads and saved records. Your feedback helps make PathwayAI clearer and easier to use across languages.")
         st.markdown("""
 - **Elizabeth J. (Liz) Horn** — Principal Investigator, Lyme Disease Biobank
 - [Allison Weber](https://www.linkedin.com/in/allison-weber-aw1/) — Data Scientist, Lyme Disease Biobank
@@ -3770,7 +3770,7 @@ if view == "🌱 What’s next":
         st.caption("The record structure could be adapted to other illnesses after condition-specific review. FHIR and Blue Button are not connected; any future integration needs a defined use case, permissions and technical validation.")
 
     st.subheader("Help us make PathwayAI easier to use")
-    st.write("We have invited Mandarin-, Spanish-, and English-speaking reviewers to test PathwayAI. We also welcome people whose first language is not English to join the testing. Your feedback can help us make the app clearer, easier to use, and more useful for our communities.")
+    st.write("Chinese-, English-, Spanish-, and Russian-speaking testers have helped review PathwayAI. We welcome more people whose first language is not English to join the testing. Your feedback can help us make the app clearer, easier to use, and more useful for our communities.")
     st.write("Language, cost, and difficulty reaching care can make some experiences harder to share—and easier to miss in community planning. We welcome immigrants, people from racial and ethnic minority communities, and anyone who finds these tools difficult to use. Your feedback can help us identify barriers we might otherwise miss.")
     st.caption("People’s experiences vary. Speaking another language at home does not necessarily mean someone needs language assistance. Write in the language you prefer; optional AI assistance still requires permission and review.")
     st.write("You do not need medical or technical knowledge. Please use made-up information and tell us what is helpful or confusing.")

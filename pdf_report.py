@@ -4,6 +4,8 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 from functools import lru_cache
 
+PDF_FONT_REVISION = 2
+
 
 @lru_cache(maxsize=1)
 def _fonts():
@@ -14,8 +16,8 @@ def _fonts():
     # Bundle extended Latin coverage so Vietnamese accents survive cloud exports.
     font_path = Path(__file__).parent / 'fonts' / 'DejaVuSans.ttf'
     if not font_path.exists():
-        font_path = Path(reportlab.__file__).parent / 'fonts' / 'Vera.ttf'
-    pdfmetrics.registerFont(TTFont('PathwayText', str(font_path)))
+        raise RuntimeError('The bundled multilingual PDF font is missing. Please restore fonts/DejaVuSans.ttf.')
+    pdfmetrics.registerFont(TTFont('PathwayUnicodeV2', str(font_path)))
     pdfmetrics.registerFont(UnicodeCIDFont('STSong-Light'))
 
 
@@ -37,7 +39,7 @@ def report_pdf(text, *, state_code=None):
     from reportlab.lib.pagesizes import A4
     _fonts()
     output=BytesIO()
-    style=ParagraphStyle('Report',fontName='PathwayText',fontSize=10,leading=15,
+    style=ParagraphStyle('Report',fontName='PathwayUnicodeV2',fontSize=10,leading=15,
                          textColor=colors.HexColor('#163149'),splitLongWords=True,wordWrap='CJK')
     title=ParagraphStyle('ReportTitle',parent=style,fontSize=14,leading=20,spaceAfter=12)
     flow=[]
@@ -51,7 +53,7 @@ def report_pdf(text, *, state_code=None):
                 flow.extend([badge, Spacer(1,10)])
     def footer(canvas,doc):
         canvas.saveState()
-        canvas.setFont('PathwayText',8)
+        canvas.setFont('PathwayUnicodeV2',8)
         canvas.drawString(42,26,'PathwayAI | Reviewed personal record / educational material')
         canvas.drawRightString(A4[0]-42,26,str(doc.page))
         canvas.restoreState()

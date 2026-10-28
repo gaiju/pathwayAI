@@ -1,5 +1,5 @@
 """Opt-in note translation; no diagnosis, inference, image input or shared storage."""
-from report_download import branded_download_button
+from report_download import branded_download_button, personal_pdf_options
 import json
 import urllib.request
 
@@ -166,7 +166,8 @@ def show_bilingual_organizer(story, language, reporter, translate):
             st.session_state["bilingual_reviewed"] = edited
         # Original is appended separately too, so removing it from the editable summary cannot lose it from the download.
         export = bilingual_export(edited, story)
-        branded_download_button("Download original and English summary", export.encode("utf-8"), file_name="PathwayAI_Bilingual_Visit_Summary.txt", mime="text/plain", key="bilingual_download", include_daily_observations=True)
+        compact = personal_pdf_options("bilingual_pdf_layout")
+        branded_download_button("Download original and English summary", export.encode("utf-8"), file_name="PathwayAI_Bilingual_Visit_Summary.txt", mime="text/plain", key="bilingual_download", include_daily_observations=True, compact_personal_pdf=compact)
         st.caption("AI can mistranslate. Check positive/negative results, dates, medication names and uncertainty with a qualified interpreter or clinician. AI does not replace medical interpretation. This English document does not automatically fill the cost or clinical fields below.")
     elif st.session_state.get("translation_source") == fingerprint and st.session_state.get("translation_error"):
         st.warning(st.session_state["translation_error"])

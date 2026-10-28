@@ -1,4 +1,13 @@
-from report_download import branded_download_button
+# Refresh older imported report helpers before using new PDF controls.
+import report_download as _personal_pdf_download
+if getattr(_personal_pdf_download, "PERSONAL_PDF_LAYOUT_REVISION", 0) < 1:
+    from importlib import reload as _reload_personal_pdf
+    import sys as _personal_pdf_sys
+    _reload_personal_pdf(_personal_pdf_download)
+    for _pdf_related in ("pdf_report", "visit_summary", "language_organizer"):
+        if _pdf_related in _personal_pdf_sys.modules:
+            _reload_personal_pdf(_personal_pdf_sys.modules[_pdf_related])
+from report_download import branded_download_button, personal_pdf_options
 # PathwayAI v116 — concise care flow, consented Community Voice, submission-ready cost context
 import streamlit as st
 import streamlit.components.v1 as components
@@ -69,6 +78,10 @@ if "Tiếng Việt / Vietnamese" not in _language_organizer.LANGUAGES:
     _reload_language_module(_language_organizer)
     import pdf_report as _language_pdf_report
     _reload_language_module(_language_pdf_report)
+import pdf_report as _pdf_report_current
+if getattr(_pdf_report_current, "PDF_FONT_REVISION", 0) < 2:
+    from importlib import reload as _reload_pdf_font
+    _reload_pdf_font(_pdf_report_current)
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
 
 PAGE_NOTES = []
@@ -1199,7 +1212,7 @@ def compact_care88(quick, story):
             st.write("Out-of-pocket means money the person receiving care paid, separate from insurer payments. Keep the caregiver's own losses separate.")
         else:
             st.write("Out-of-pocket means money you paid yourself, not money your insurer paid.")
-        period = st.selectbox("Time covered by these entries", ["Not reported", "Past 30 days", "Past 90 days", "Since symptoms started"], index=selected_burden_index("period88", ['Not reported', 'Past 30 days', 'Past 90 days', 'Since symptoms started']), key="period88")
+        period = st.selectbox("Time covered by these entries", ["Not reported", "Past 7 days", "Past 30 days", "Past 90 days", "Since symptoms started"], index=selected_burden_index("period88", ['Not reported', 'Past 7 days', 'Past 30 days', 'Past 90 days', 'Since symptoms started']), key="period88")
         phase = st.selectbox("When did these costs happen?", ["Not reported", "Before diagnosis (Stage 0)", "After diagnosis", "Both before and after diagnosis"], index=selected_burden_index("phase88", ['Not reported', 'Before diagnosis (Stage 0)', 'After diagnosis', 'Both before and after diagnosis']), key="phase88", format_func=lambda value: "Before diagnosis" if value == "Before diagnosis (Stage 0)" else value)
         st.write('Use one period. Leave unknown amounts blank. Count each payment once.')
         a,b=st.columns(2)
@@ -1219,12 +1232,16 @@ def compact_care88(quick, story):
         entered = [(label, value) for label, value in zip(labels, [medical, other, modeled]) if value is not None]
         for col, (label, value) in zip(st.columns(len(entered)), entered):
             col.metric(label, f"${value:,.0f}")
+    st.markdown("**Cost-and-time period: " + period + "**")
+    if period == "Not reported" and any(v is not None for v in (medical, other, workdays, caregiver)):
+        st.warning("Choose the period covered by your costs and time above. A dated observation’s period is separate and is not automatically used for these totals.")
     daily_context = show_daily_life()
     show_daily_observations()
     questions = st.text_input("Question for your clinician (optional)", value=st.session_state.get("question96", saved.get("question96", "")), key="question96")
     record=["PathwayAI | Appointment and burden summary","Patient-reviewed record; not a diagnosis or prediction.","", "STORY",story or "Not reported","", "STRUCTURED JOURNEY"]
     record[1] = "Based on information entered by the user. Not independently verified. Not a diagnosis or prediction. Bring original test reports for your clinician to review."
-    record[2:2] = reporting_lines(role, daily_context)
+    record[2:2] = ["COST-AND-TIME PERIOD: " + period,
+        "Dated observations have their own periods; they do not set the period for these totals."] + reporting_lines(role, daily_context)
     for label,value in [("Exposure",encounter["exposure"] or quick.get("exposure_location")),("Duration",quick.get("duration_text")),("Symptoms",", ".join(quick.get("symptoms") or [])),("Professionals seen",quick.get("providers_seen"))]:
         record.append(f"{label}: {value if value is not None and value != '' else 'Not reported'}")
     record += ["", "OPTIONAL TICK OBSERVATION (PATIENT-REPORTED, UNVERIFIED)",
@@ -1247,7 +1264,8 @@ def compact_care88(quick, story):
             st.image(visual, use_container_width=True)
             branded_download_button("Download my money-and-time image", visual.encode("utf-8"), file_name="PathwayAI_MoneyAndTime.svg", mime="image/svg+xml", key="personal_cost_visual_download")
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=300000)
-        branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download")
+        compact = personal_pdf_options("cost_pdf_layout")
+        branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download",compact_personal_pdf=compact)
     st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
     st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
     st.markdown("### 5. Find benefits and everyday support")

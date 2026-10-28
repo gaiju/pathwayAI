@@ -173,6 +173,7 @@ def show_sources_and_acknowledgements():
 
     with st.expander("Acknowledgements", expanded=True):
         st.write("Thank you to our contributors, patients, caregivers and community members for their guidance, feedback and outreach.")
+        st.write("Special thanks to our Russian-speaking testers for checking notes, PDF downloads and saved records. Their feedback helped improve multilingual PDF handling, reporting-period clarity and compact downloads.")
         st.markdown("""
 - **Elizabeth J. (Liz) Horn** — Principal Investigator, Lyme Disease Biobank
 - [Allison Weber](https://www.linkedin.com/in/allison-weber-aw1/) — Data Scientist, Lyme Disease Biobank
@@ -3761,7 +3762,8 @@ if view == "🌱 What’s next":
 
     with st.expander("What reviewers helped improve"):
         st.write("People living with Lyme disease and a county health commissioner reviewed the working app. Feedback helped us simplify instructions, make care-access resources available without a story, and clarify useful next steps.")
-        st.caption("These are formative reviews, not a clinical trial or proof of improved outcomes. Invitations to Mandarin-, Spanish-, and English-speaking reviewers do not establish completed multilingual validation.")
+        st.write("Russian-language testing also helped identify PDF font issues and improve the clarity of cost periods and downloadable records.")
+        st.caption("These are formative usability reviews, not clinical validation or proof of improved outcomes. Other language reviews remain ongoing.")
     with st.expander("How we would run the next pilot"):
         st.markdown("1. **Agree on one use case** with a patient group, health center or community team.\n2. **Confirm responsibilities and resources**, including service availability, privacy arrangements and language review.\n3. **Test usefulness:** check summary accuracy, task completion, support connections and unmet needs.\n4. **Review results with partners** before claiming better health or savings.")
         st.write("The working app is publicly accessible. We plan outreach through patient groups, health centers and public-health partners. Free patient access through grants and partnerships is a proposed sustainability model.")

@@ -1481,9 +1481,19 @@ st.markdown("""<style>
 [data-testid="stMainBlockContainer"]:has(.st-key-landing_paths) {padding-top:4.5rem !important;}
 .st-key-landing_paths button p {font-size:1.15rem !important;font-weight:650 !important;line-height:1.4 !important;}
 .st-key-landing_paths [data-testid="stMarkdownContainer"] p {font-size:1rem;line-height:1.6;}
-.st-key-landing_photo .pathway-photo116 {margin:0.25rem 0 0.25rem;width:100%;}
-.st-key-landing_photo .pathway-photo116 img {height:360px;object-fit:cover;object-position:center;}
-@media(max-width:640px) {.st-key-landing_photo .pathway-photo116 {margin-left:0;width:100%;} .st-key-landing_photo .pathway-photo116 img {height:200px;} .st-key-landing_intro h3 {font-size:1.25rem;line-height:1.4;}}
+/* Homepage only: roomy, uncropped 16:9 image and compact introduction. */
+.st-key-landing_intro h1 {font-size:clamp(2rem,3vw,2.8rem);line-height:1.15;padding-top:0;}
+.st-key-landing_intro [data-testid="stHorizontalBlock"] {align-items:center;}
+.st-key-landing_photo .pathway-photo116 {margin:0;width:100%;aspect-ratio:16/9;}
+.st-key-landing_photo [data-testid="stImage"] {width:100%;}
+.st-key-landing_photo [data-testid="stImage"] img {width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;border-radius:14px;}
+.st-key-landing_photo .pathway-photo116 img {width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;}
+.st-key-landing_intro [data-testid="stMarkdownContainer"] p {line-height:1.5;}
+@media(max-width:700px) {
+ .st-key-landing_intro [data-testid="stHorizontalBlock"] {flex-direction:column;gap:0.75rem;}
+ .st-key-landing_intro [data-testid="stColumn"] {width:100% !important;flex:1 1 100% !important;min-width:0 !important;}
+ .st-key-landing_photo .pathway-photo116 {max-width:100%;margin:0;}
+}
 @media(max-width:640px) {.pathway-hero img{max-height:240px;} [data-testid="stSidebar"] {min-width:0;}}
 
 /* v124: precomposed wide banners; show entire image without crop, blur, or empty bars. */
@@ -3724,19 +3734,21 @@ def show_reading_choice():
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
-        welcome, photo = st.columns([0.9, 1.2], gap="large")
+        welcome, photo = st.columns([0.8, 1.5], gap="medium")
         with welcome:
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")
             st.markdown("**A small tick bite can have a big impact on your life.**")
-            st.write("PathwayAI helps people prevent tick bites and helps patients and caregivers prepare for care, find support resources, and record the costs and daily-life effects of Lyme disease.")
-            st.write("Write your story in the language you prefer, including mixed languages. Review and download a visit summary or support record to share when you choose.")
-            st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning.")
+            st.write("Prevent tick bites. Prepare for care. Find support and record how Lyme disease affects daily life.")
+            with st.expander("For patients, caregivers and community teams"):
+                st.write("Write in your preferred language, including mixed languages. Review and download a visit summary or support record to share when you choose.")
+                st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning.")
             st.caption("Browse without a story. Use made-up details when testing.")
             show_reading_choice()
         with photo:
             with st.container(key="landing_photo"):
-                show_photo116("lake", "Golden sunlight filtering through a forest")
+                st.image(str(BASE_DIR / "assets" / "homepage_forest.png"),
+                         caption=None, use_container_width=True)
 if st.session_state.get("pathway_open", False):
     show_reading_choice()
 

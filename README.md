@@ -50,13 +50,13 @@ rather than uploading `app.py` alone.
 - Short-and-simple or more-detailed reading views.
 - Outdoor planning and county context at the ZIP lookup point.
 - Visit preparation, optional local story organization and burden recording.
-- Organizing a story immediately shows an editable visit summary and its TXT
+- Organizing a story immediately shows an editable visit summary and its PDF
   download before testing guidance or cost forms. Editing the original story
   requires organizing it again before a summary is marked ready.
 - Reviewed, downloadable visit and cost/time summaries.
 - Lyme testing preparation, report vocabulary and cost-estimate questions.
 - Sourced public-data comparisons and illustrative scenario exports.
-- A map-first Community page with comparisons, planning options and cost evidence.
+- A Hudson Valley–first Community page with regional context, multi-select county comparisons, economic evidence and a sourced county action brief.
 - Private reuse of earlier patient cost/time entries, without repeat questions.
 - Optional public evidence Q&A and an admin-only Research & Strategy Agent.
 
@@ -108,3 +108,8 @@ National reference values retain original source dollar years and assumptions. I
 Care & Support offers an optional dated daily-life observation form in both the concise and detailed paths. Observations are session-only, can be removed, and are never automatically summed into cumulative cost or time fields. Users can include/exclude them in personal record downloads, and can download the dated record separately. They are not inputs to AI or public county evidence. No persistent analytics were added.
 
 County illustrations and CSVs include reported-case context, published-cost context, calculation assumptions, additional burden to measure, and source-file provenance. Societal and medical perspectives remain separate. The evidence framework is version 0.2.0; the earlier 0.1.0 snapshot remains available.
+
+
+## Hudson Valley community review
+
+See [review scope and limitations](docs/hudson_valley_review.md). The initial regional demonstration covers Dutchess and Orange counties; it does not imply county participation or endorsement. County briefs use a dedicated structured renderer with clickable sources; personal PDF rendering remains separate.

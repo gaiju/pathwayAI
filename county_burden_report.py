@@ -4,23 +4,26 @@ import json
 from decimal import Decimal
 from community_action import ACTION_OPTIONS
 from inflation_context import inflation_metadata
+from county_evidence import county_surveillance, state_surveillance, healthcare_capacity, language_context, HRSA_URL
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.0'
+REPORT_VERSION='1.1'
 COUNTIES={'Dutchess':'36027','Orange':'36071'}
 
 
 def build_report(county, priority, restate=False):
     if county not in COUNTIES or priority not in ACTION_OPTIONS:
         raise ValueError('Choose a supported county and planning priority.')
-    cases=json.loads((BASE/'data/ny_lyme_cases_2024_verification.json').read_text())
-    rates=json.loads((BASE/'data/ny_lyme_rates_2024_verification.json').read_text())
+    local = next(row for row in county_surveillance() if row['county'] == county)
+    state = state_surveillance()
+    cases = {'source_url': local['case_source']}
+    rates = {'source_url': local['rate_source'], 'verified_rates': {county: local['reported_rate'], 'NYS TOTAL': state['reported_rate']}}
     hook=json.loads((BASE/'data/hook_2022_article_verification.json').read_text())
-    count=cases['verified_lyme_case_counts'][county]
+    count=local['reported_cases']
     unit=hook['societal_mean']
     total=count*unit
     result={
-        'report_version':REPORT_VERSION,'county':county,'state':'New York','county_fips':COUNTIES[county],
+        'report_version':REPORT_VERSION,'region':'Hudson Valley demonstration: Dutchess and Orange only','county':county,'state':'New York','county_fips':COUNTIES[county],
         'reported_cases':count,'case_year':2024,'reported_rate_per_100000':rates['verified_rates'][county],
         'state_reported_rate_per_100000':rates['verified_rates']['NYS TOTAL'],
         'study_societal_mean_usd':unit,'study_dollar_year':2016,'illustrative_total_2016_usd':total,
@@ -40,8 +43,23 @@ def build_report(county, priority, restate=False):
         ],
         'privacy':'Public evidence and proposed planning actions only. No session stories, personal records or synthetic patient cards are included.',
         'scope':'Discussion brief, not a county demand assessment, benefits decision, funded service or adopted county plan.',
+         'comparison': [{'county': row['county'], 'reported_cases':row['reported_cases'], 'reported_rate':row['reported_rate'], 'year':2024}
+                       for row in [*county_surveillance(),state]],
+        'denominator_status':local['denominator_status'],
+        'local_context': {'healthcare':healthcare_capacity()[county], 'language':language_context(county)},
+        'social_burden':[
+            'Work changes, unpaid caregiving, travel and daily-life limitations can affect households beyond medical bills.',
+            'Hook societal costs already contain some of these components; do not add them again.',
+            'Horn (2025) describes selected three-month follow-up participants, not county disability risk. Johnson (2014) describes a selected persistent-illness survey, not all new Lyme cases.',
+            'The project’s voluntary 33-person survey snapshot is across locations; question-level denominators remain unverified. No survey percentages or dollar amounts are extrapolated to this county.'],
         'inflation':None,
     }
+    result['sources'] += [
+        {'purpose':'General healthcare resources', 'period':'2023 fields; AHRF 2024–2025 release', 'url':HRSA_URL, 'status':result['local_context']['healthcare']['status']},
+        {'purpose':'Language spoken at home, age 5+', 'period':'ACS 2020–2024', 'url':result['local_context']['language']['source_url'], 'status':result['local_context']['language']['status']},
+        {'purpose':'Published follow-up context', 'period':'Horn et al. 2025', 'url':'https://doi.org/10.3389/fmed.2025.1577936', 'status':'Supplied full PDF reviewed; not a county disability estimate.'},
+        {'purpose':'Published work and function context', 'period':'Johnson et al. 2014; 2013 survey', 'url':'https://doi.org/10.7717/peerj.322', 'status':'Supplied full PDF reviewed; selected self-reported persistent-illness sample.'},
+    ]
     if restate:
         meta=inflation_metadata()
         result['inflation']={**meta,'restated_unit_usd':float(Decimal(unit)*Decimal(meta['factor'])),
@@ -79,6 +97,13 @@ def report_text(report):
     for source in r['sources']:
         lines += [source['purpose']+' · '+source['period'],source['url'],source['status']]
     lines += ['',r['privacy'],r['scope']]
+    lines += ['', 'COUNTY COMPARISON · 2024 REPORTED SURVEILLANCE']
+    for row in r['comparison']:
+        lines.append(f"{row['county']}: {row['reported_cases']:,} cases; {row['reported_rate']:g} per 100,000 residents.")
+    context=r['local_context']
+    lines += ['', 'LOCAL RESOURCE AND LANGUAGE CONTEXT',
+              str(context['healthcare']), str(context['language']), r['denominator_status'],
+              '', 'SOCIAL BURDEN · PUBLISHED AND PATIENT-REPORTED CONTEXT'] + r['social_burden']
     return '\n'.join(lines)
 
 
@@ -112,7 +137,8 @@ def show_county_report():
         st.write(f"Study-based illustration: USD {report['illustrative_total_2016_usd']:,.0f} · 2016 dollars.")
         st.write('Planning question: '+report['planning']['decision'])
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
-    branded_download_button('Download county burden & action report (PDF)',report_text(report).encode(),file_name=f'PathwayAI_{county}_County_Burden_Action_Report.txt',mime='text/plain',key='county_report_pdf',type='primary')
+    from county_report_pdf import county_report_pdf
+    st.download_button('Download county burden & action report (PDF)',county_report_pdf(report),file_name=f'PathwayAI_{county}_County_Burden_Action_Report.pdf',mime='application/pdf',key='county_report_pdf',type='primary')
     with st.expander('Inspect calculations, sources and report data'):
         st.text(report['formula'])
         st.write(report['transfer_assumption'])

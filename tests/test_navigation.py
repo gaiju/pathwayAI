@@ -17,13 +17,13 @@ class NavigationTests(unittest.TestCase):
         for _ in range(2):
             at.radio(key="pathway_view").set_value("📊 Community Burden & Action").run()
             self.assertFalse(list(at.exception))
-            self.assertTrue(any("Healthier people. Stronger communities." in e.value
+            self.assertTrue(any("Hudson Valley Burden & Action" in e.value
                                 for e in at.get("header")))
             at.button(key="change_path").click().run()
             self.assertIsNone(at.radio(key="pathway_view").value)
         at.button(key="route_county").click().run()
         self.assertFalse(list(at.exception))
-        self.assertTrue(any("Healthier people. Stronger communities." in e.value
+        self.assertTrue(any("Hudson Valley Burden & Action" in e.value
                             for e in at.get("header")))
 
     def test_bite_notes_return_through_home_with_restored_widget_default(self):

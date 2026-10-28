@@ -10,10 +10,8 @@ CASE_SOURCE = "https://www.health.ny.gov/statistics/diseases/communicable/2024/d
 RATE_SOURCE = "https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf"
 COST_SOURCE = "https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2843880"
 HOOK_SOURCE = "https://wwwnc.cdc.gov/eid/article/28/6/21-1335_article"
-COUNTIES = (
-    ("Dutchess", 1060, 355.5),
-    ("Orange", 964, 237.0),
-)
+from county_evidence import county_surveillance
+COUNTIES = tuple((row['county'], row['reported_cases'], row['reported_rate']) for row in county_surveillance())
 
 
 def county_cost_categories():

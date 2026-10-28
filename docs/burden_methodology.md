@@ -104,3 +104,8 @@ The uploaded FRED CPIAUCNS workbook supplies 12 monthly observations for 2016 an
 ## County burden and action report
 
 The Plan community support tab exports a county-specific PDF and flat CSV with reported cases and rates, Hook societal arithmetic in original 2016 dollars, optional explicitly limited CPI restatement, missing burden dimensions, a selected proposed support decision, feasibility checks and follow-up measures. County selection changes official counts and rates; support selection changes proposed actions, not observed demand. The builder is independent of Streamlit session state and imports no patient records or synthetic demonstration cards. This is a reproducible discussion brief, not a comprehensive county burden estimate, funded plan or proof of savings. Formative usability evidence and retest status are documented separately in docs/usability_evidence.md.
+
+
+## Hudson Valley report revision 1.1
+
+The regional route presents Dutchess and Orange as the initial examples, not the whole Hudson Valley. Shared county source access is in county_evidence.py. The existing report builder now includes the neighboring county and statewide rates, 2023 HRSA resource counts, ACS 2020–2024 language context, source verification status and explicitly separate social burden evidence. The dedicated county_report_pdf.py produces public-data briefs with clickable references and an appropriate footer. It does not modify patient-report rendering or include session records. Official surveillance rates are retained: their exact denominator population and vintage have not been independently verified. See docs/hudson_valley_review.md for the complete review scope.

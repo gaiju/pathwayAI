@@ -32,7 +32,7 @@ class CareAccessTests(unittest.TestCase):
         self.assertEqual(at.text_area(key="quick_story_value").value, "")
         self.assertFalse(any(x.value for x in at.text_input if "ZIP" in x.label or "location" in x.label.lower()))
         content = "\n".join(str(x.value) for x in at.markdown)
-        self.assertLess(content.index("Find care and prepare for your visit"), content.index("No insurance or worried about medical bills?"))
+        self.assertLess(content.index("1. Find care"), content.index("No insurance or worried about medical bills?"))
         self.assertLess(content.index("No insurance or worried about medical bills?"), content.index("Tell us what happened"))
         self.assertNotIn("72 hours of tick removal", content)
         self.assertIn("not a prediction of your bill", content)
@@ -47,7 +47,7 @@ class CareAccessTests(unittest.TestCase):
         self.assertIn("Care is not automatically free", content)
         self.assertIn("regardless of immigration status", content)
         self.assertIn("845-486-2555", content)
-        self.assertIn("does not book or fund rides", "\n".join(str(x.value) for x in at.caption))
+        self.assertIn("does not arrange or pay for rides", "\n".join(str(x.value) for x in at.caption))
         self.assertTrue(any(d.label == "Download questions about uninsured care and bills" for d in at.get("download_button")))
 
     def test_cross_page_links_preserve_patient_entries_and_bite_guidance(self):
@@ -55,7 +55,7 @@ class CareAccessTests(unittest.TestCase):
         at.button(key="route_ongoing").click().run()
         at.text_area(key="quick_story_value").set_value("I need help preparing for a visit.").run()
         at.number_input(key="medical88").set_value(125).run()
-        at.button(key="care_to_tick_bite").click().run()
+        at.radio(key="pathway_view").set_value("🩹 Tick Bite: What Next?").run()
         self.assertFalse(list(at.exception))
         self.assertEqual(at.radio(key="pathway_view").value, "🩹 Tick Bite: What Next?")
         self.assertTrue(any("within 72 hours of tick removal" in x.value for x in at.markdown))

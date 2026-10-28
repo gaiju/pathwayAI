@@ -1,0 +1,6 @@
+Full local suite: 99 tests passed.
+Desktop: 1440 x 1000; mobile: 390 x 844.
+Community navigation, multi-selection and report download passed.
+County PDFs: two pages, seven clickable source links; eight with optional CPI comparison.
+Existing patient-support regressions passed.
+No live deployment verification, clinical validation or new official-source retrieval claimed.

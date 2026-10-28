@@ -729,25 +729,26 @@ def show_session_burden():
 
 
 def policy89():
-    st.header("Healthier people. Stronger communities.")
-    st.write("U.S. and county evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
-    st.markdown("**Start here:** Understand the national picture, compare counties, and download a sourced county burden and action report.")
-    st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
-    national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"])
+    st.header("Hudson Valley Burden & Action")
+    st.write("Local Lyme evidence and support planning, starting with Dutchess and Orange counties.")
+    regional_tab, overview_tab, evidence_tab, planning_tab = st.tabs(["Region", "Compare", "Burden", "Plan"])
+    national_tab = evidence_tab
+    with regional_tab:
+        from county_evidence import show_regional_overview
+        show_regional_overview()
+    with regional_tab:
+        st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
     with national_tab:
-        show_us_burden(simple=simple_reading_view())
+        with st.expander("U.S. context and published evidence framework", expanded=False):
+            show_us_burden(simple=simple_reading_view())
     with overview_tab:
-        st.markdown("### Lyme disease and tick surveillance in New York")
-        map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
-        if map_view == "Reported Lyme rates":
-            show_lyme_rate_map(NYS_MAP_BOUNDARIES, _geom_paths, _project_svg, page_note)
-        else:
-            show_nys_tick_density_map(zoom=False, show_details=False, show_case_overlay=False)
         st.markdown("### Compare Dutchess and Orange counties")
+        from county_evidence import county_surveillance, language_context
+        comparison_evidence = {row['county']: row for row in county_surveillance()}
         measures={
-            "Reported Lyme rate":(237.0,355.5,"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),
+            "Reported Lyme rate":(comparison_evidence['Orange']['reported_rate'],comparison_evidence['Dutchess']['reported_rate'],"Reported Lyme cases per 100,000 residents · NYSDOH 2024",400),
             "Sampled tick density":(43.2,28.8,"Nymphs per 1,000 m² · NYSDOH 2024; one sampled site in each county",50),
-            "Language context":(30.2,16.2,"Language other than English at home, age 5+ · Census ACS 2020–2024",35),
+            "Language context":(language_context("Orange")["percent"],language_context("Dutchess")["percent"],"Language other than English at home, age 5+ · Census ACS 2020–2024",35),
             "Disability context":(11.7,12.2,"Any disability, all causes · Census-based figures reported in the 2025 regional assessment",15),
         }
         selected_comparisons = st.multiselect("Choose comparisons", list(measures),
@@ -779,6 +780,13 @@ def policy89():
                         st.caption("Language spoken at home does not establish English proficiency or interpreter need.")
                     elif measure == "Disability context":
                         st.caption("All-cause disability, not Lyme-related disability. The assessment’s underlying Census year is unresolved.")
+        with st.expander("New York map and tick observations", expanded=not simple_reading_view()):
+            st.markdown("### Lyme disease and tick surveillance in New York")
+            map_view = st.radio("Map view", ["Reported Lyme rates", "Sampled tick observations"], horizontal=True, key="community_map_view")
+            if map_view == "Reported Lyme rates":
+                show_lyme_rate_map(NYS_MAP_BOUNDARIES, _geom_paths, _project_svg, page_note)
+            else:
+                show_nys_tick_density_map(zoom=False, show_details=False, show_case_overlay=False)
         with st.expander("County comparison sources and interpretation"):
             st.markdown("**Lyme rates:** NYSDOH 2024: Dutchess 355.5, Orange 237.0, statewide 109.8 per 100,000. Reported cases, not all infections or individual risk. [Source](https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf)")
             st.write("Tick observations: NYSDOH 2024; one sampled site in each county. These observations do not represent the entire county.")
@@ -794,7 +802,8 @@ def policy89():
     with planning_tab:
         from county_burden_report import show_county_report
         show_county_report()
-        st.divider()
+        advanced_planning = st.expander("Additional planning templates", expanded=False)
+    with advanced_planning:
         st.markdown("### Explore other planning templates")
         st.write("Use a brief to prepare for a team meeting or grant proposal. Choose a support topic to explore; no patient information is required.")
         st.markdown("**How to use it**\n\n1. Choose a support topic, such as affordable care or transportation.\n2. Download suggested actions, potential partners and follow-up measures.\n3. Add verified local services, contacts, appointment capacity, costs and responsibilities before proposing a response.")
@@ -841,7 +850,7 @@ def policy89():
             st.markdown("[New York health coverage](https://nystateofhealth.ny.gov/)")
         page_note("These are community action options, not measured PathwayAI benefits or county commitments. County comparisons do not establish which services are missing.")
 
-    with planning_tab:
+    with advanced_planning:
         with st.expander("Build a community discussion brief"):
             focus=st.selectbox("Choose a focus for the brief",["Patient-paid costs","Work and caregiver time","The diagnostic journey","Reaching care"],key="focus100")
             plans={
@@ -862,7 +871,7 @@ def policy89():
         with st.expander("Group-cost calculator"):
             scenario_notes101 = planning_scenario101()
 
-    with planning_tab:
+    with advanced_planning:
         rows=reference_cost_rows("Dutchess",1060) + reference_cost_rows("Orange",964)
         if not st.session_state.get("show_medical_benchmark", False):
             rows = [r for r in rows if r["perspective"] == "Societal per participant"]
@@ -3695,7 +3704,7 @@ paths = [
     ("I found a tick on my skin", "Tick Bite: What Next? — removal steps and when to contact a clinician.", "🩹 Tick Bite: What Next?", "bite"),
     ("I need care or support", "Care & Support — find resources, prepare a visit note, or ask about benefits and bills.", "🧭 Care & Support", "ongoing"),
     ("I’m planning time outdoors", "Learn & Prevent — create and download a tick-prevention plan.", "🛡️ Learn & Prevent", "outdoors"),
-    ("I’m planning community support", "Community Burden & Action — compare county evidence and download a burden and action report.", "📊 Community Burden & Action", "county"),
+    ("Explore Hudson Valley Burden & Action", "Start with Dutchess and Orange: compare local evidence, explore support priorities and download a county brief.", "📊 Community Burden & Action", "county"),
     ("I’m reviewing or giving feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
 ]
 
@@ -3703,7 +3712,7 @@ landing_details = {
     "bite": ("Start with tick-removal steps, what to record, and when to contact a clinician. You can then prepare a visit note or continue to Care & Support.", "Removal and care information, plus an optional downloadable visit summary."),
     "ongoing": ("Find care-access, disability-benefits and essential-support resources without writing a story. If useful, organize a visit note in your preferred language and record costs and time.", "A reviewed visit summary, cost-and-time record, or questions to ask about assistance."),
     "outdoors": ("Enter a destination ZIP code, month and activity. Review prevention steps and available exposure context, then download your outdoor plan.", "A tick-prevention PDF. It does not predict your personal infection risk."),
-    "county": ("Compare county surveillance, healthcare resources and published cost illustrations. Review sources and assumptions, then select a support priority to discuss with partners.", "A county burden and action report with sources, calculations, evidence gaps and follow-up measures."),
+    "county": ("Compare county surveillance, healthcare resources and published cost illustrations. Review sources and assumptions, then select a support priority to discuss with partners.", "A Hudson Valley demonstration and a county brief with sources, comparisons and practical planning questions."),
     "feedback": ("Explore any route using made-up information, watch the walkthrough, or tell us what is helpful or confusing. Reviewers do not need to enter personal health information.", "A way to share feedback or discuss a future pilot."),
 }
 
@@ -3738,7 +3747,11 @@ if not st.session_state.get("pathway_open", False):
             with st.container(key="landing_photo"):
                 show_photo116("lake", "Golden sunlight filtering through a forest")
 if st.session_state.get("pathway_open", False):
-    show_reading_choice()
+    if view == "📊 Community Burden & Action":
+        with st.expander("Reading options", expanded=False):
+            show_reading_choice()
+    else:
+        show_reading_choice()
 
 
 

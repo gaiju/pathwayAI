@@ -129,6 +129,21 @@ def render_page_notes():
         PAGE_NOTES.clear()
 
 
+def show_story_privacy_notice():
+    """Keep essential choices visible; detailed practices are expandable below."""
+    st.caption(
+        "**Before sharing:** Use fictional information for this pilot; leave out identifying or confidential details. "
+        "Notes are optional and held in this app’s server session. Hosting-log and backup retention remain unverified. "
+        "Optional AI sends submitted notes to OpenAI after your choice and a button click; store=false does not guarantee zero retention. "
+        "Notes are not automatically sent to county teams. Clearing the session does not erase downloads, shared contributions or external records. "
+        "See ‘About this pilot and your privacy’ below."
+    )
+    if PATIENT_VOICE_STORAGE_ENABLED:
+        st.caption("Shared Patient Voice storage is enabled: reviewed structured contributions require separate consent. Use fictional information only.")
+    else:
+        st.caption("Shared Patient Voice collection is disabled.")
+
+
 def show_pilot_privacy():
     with st.expander("About this pilot and your privacy"):
         st.write("Project lead: Yuwei Zhang. For privacy questions, corrections or pilot feedback, contact pathwayai.feedback@gmail.com. No agency or county endorsement is implied.")
@@ -733,7 +748,7 @@ def policy89():
     st.write("U.S. and county evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
     st.markdown("**Start here:** Understand the national picture, compare counties, and download a sourced county burden and action report.")
     st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
-    national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"])
+    overview_tab, planning_tab, national_tab, evidence_tab = st.tabs(["County comparison", "Plan community support", "U.S. burden", "Evidence & methods"])
     with national_tab:
         show_us_burden(simple=simple_reading_view())
     with overview_tab:
@@ -2866,6 +2881,7 @@ def show_visit_organizer():
     st.session_state["last_visit_note_page"] = current_page
     reuse_note = bool(st.session_state.get(reuse_key) and saved_note.strip())
     st.markdown("### Your saved visit note" if reuse_note else "### Tell us what happened")
+    show_story_privacy_notice()
     if reuse_note:
         st.success("Your saved visit note is already here. You do not need to answer the same questions again.")
         st.write(saved_note[:240] + ("…" if len(saved_note) > 240 else ""))
@@ -2912,7 +2928,7 @@ def show_visit_organizer():
         )
         st.session_state["saved_story_text"] = quick_story
         if quick_story.strip():
-            st.caption("Your notes are saved for this browser session. You can use the same notes on the bite and care pages; a new tab or a cleared session starts a separate record.")
+            st.caption("Your notes are held in this server-side app session and reused on the bite and care pages. This is not durable storage; disconnects or restarts may lose the record. Clearing the session removes app session entries, not downloaded or externally shared copies.")
 
     st.sidebar.button("Clear this session and return to start", key="clear_session77", on_click=clear_session_and_return)
     if chinese_notes_in_english_mode(quick_story, language):
@@ -3739,7 +3755,7 @@ if not st.session_state.get("pathway_open", False):
             st.title("PathwayAI")
             st.caption("Making the Hidden Patient Journey Visible—and Actionable")
             st.markdown("**A small tick bite can have a big impact on your life.**")
-            st.write("Prevent tick bites. Prepare for care. Find support and record how Lyme disease affects daily life.")
+            st.write("PathwayAI helps patients and caregivers prevent tick bites, prepare for care, and find practical support. You can organize visit notes, record costs and daily-life impacts, and download a summary to review and share. You can also browse without entering a personal story.")
             with st.expander("For patients, caregivers and community teams"):
                 st.write("Write in your preferred language, including mixed languages. Review and download a visit summary or support record to share when you choose.")
                 st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning.")

@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "counties": [
+    {"name": "Dutchess", "state": "New York", "fips": "36027", "year": 2024, "cases_record": "ny_lyme_cases_2024_verification.json", "rates_record": "ny_lyme_rates_2024_verification.json", "county_key": "Dutchess", "state_rate_key": "NYS TOTAL"},
+    {"name": "Orange", "state": "New York", "fips": "36071", "year": 2024, "cases_record": "ny_lyme_cases_2024_verification.json", "rates_record": "ny_lyme_rates_2024_verification.json", "county_key": "Orange", "state_rate_key": "NYS TOTAL"}
+  ]
+}

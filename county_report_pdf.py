@@ -29,6 +29,8 @@ def county_report_pdf(report):
     add('PathwayAI | Hudson Valley',heading)
     add(r['county']+' County\nLyme Burden & Action Brief',title)
     add('Public evidence for a practical support discussion · Version '+r['report_version'],small)
+    add('Prepared: '+r['prepared_date']+' · Surveillance: 2024 · Study costs: 2016 dollars',small)
+    add('Starting point for a county discussion. Newer official county releases have not been verified for this brief.',small)
     add('1. OBSERVED PUBLIC EVIDENCE',heading)
     table([['Area','Reported cases · 2024','Reported rate per 100,000']]+[[x['county'],f"{x['reported_cases']:,}",f"{x['reported_rate']:g}"] for x in r['comparison']],[205,140,166])
     add('County of residence, not exposure location. '+r['denominator_status'],small)
@@ -36,6 +38,7 @@ def county_report_pdf(report):
     table([['Calculation · original 2016 dollars','Illustrative amount'],[f"{r['reported_cases']:,} reported cases × USD {r['study_societal_mean_usd']:,}",f"USD {r['illustrative_total_2016_usd']:,.0f}"]],[345,166])
     add('Hook et al. (2022): '+r['study_population']+' '+r['cost_perspective'],small)
     add(r['transfer_assumption']+' '+r['other_assumptions'],small)
+    add(r['cost_currency_note'],small)
     if r['inflation']:
         m=r['inflation']
         add(f"Optional purchasing-power comparison: USD {m['restated_total_usd']:,.0f} in 2025 dollars. Factor {float(m['factor']):.9f}. General inflation using 11 available 2025 months; October missing, no imputation. Not a verified official annual-average restatement.",small)
@@ -67,14 +70,14 @@ def county_report_pdf(report):
         flow.append(Paragraph(f'{i}. {escape(source["purpose"])} · {escape(source["period"])} · <link href="{escape(url)}" color="#17648a"><u>Open source</u></link>',small))
     if r['inflation']:
         m=r['inflation'];flow.append(Paragraph('CPI: <link href="'+escape(m['source_url'])+'" color="#17648a"><u>FRED / BLS CPI-U source</u></link>. Available-month means: '+escape(m['base_index'])+' (2016) and '+escape(m['target_index'])+' (2025).',small))
-    add('The source ledger and CSV retain source URLs, review status, periods, assumptions and inflation provenance. Official source pages have not been freshly retrieved in this review.',small)
+    add('The source ledger and CSV retain source URLs, reporting periods, review status, calculation assumptions and inflation provenance.',small)
     add(r['privacy'],small)
     add('Public-data demonstration. No county or organizational endorsement is implied.',small)
     out=BytesIO()
     def footer(canvas,doc):
         canvas.saveState();canvas.setFont('PathwayUnicodeV2',7)
         canvas.setFillColor(navy)
-        canvas.drawString(42,25,'PathwayAI | Hudson Valley public-data discussion brief')
+        canvas.drawString(42,25,'PathwayAI | County public-data planning brief')
         canvas.drawRightString(A4[0]-42,25,str(doc.page));canvas.restoreState()
     SimpleDocTemplate(out,pagesize=A4,leftMargin=42,rightMargin=42,topMargin=32,bottomMargin=42,
                       title=r['county']+' County Lyme Burden & Action Brief',author='PathwayAI').build(flow,onFirstPage=footer,onLaterPages=footer)

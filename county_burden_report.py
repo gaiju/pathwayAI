@@ -2,12 +2,14 @@
 from pathlib import Path
 import json
 from decimal import Decimal
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from community_action import ACTION_OPTIONS
 from inflation_context import inflation_metadata
 from county_evidence import county_surveillance, state_surveillance, healthcare_capacity, language_context, HRSA_URL
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.1'
+REPORT_VERSION='1.2'
 COUNTIES={'Dutchess':'36027','Orange':'36071'}
 
 
@@ -23,6 +25,9 @@ def build_report(county, priority, restate=False):
     unit=hook['societal_mean']
     total=count*unit
     result={
+        'prepared_date':datetime.now(ZoneInfo('America/New_York')).date().isoformat(),
+        'data_status':'Surveillance year: 2024. Economic illustration: 2016 dollars. Newer official county releases have not been verified for this brief.',
+        'cost_currency_note':'The published study illustrates scale; it is not a current local cost estimate. Inflation changes purchasing power, not treatment patterns or local representativeness.',
         'report_version':REPORT_VERSION,'region':'Hudson Valley demonstration: Dutchess and Orange only','county':county,'state':'New York','county_fips':COUNTIES[county],
         'reported_cases':count,'case_year':2024,'reported_rate_per_100000':rates['verified_rates'][county],
         'state_reported_rate_per_100000':rates['verified_rates']['NYS TOTAL'],
@@ -37,9 +42,9 @@ def build_report(county, priority, restate=False):
         'feasibility_checks':['Confirm local demand with residents and caregivers, including assisted/offline participation.','Verify current services, eligibility, interpreter access and appointment capacity.','Agree who is responsible and estimate staff time, program costs and a funding source.','Define consent, minimal data collection, access, retention and deletion before any collection.'],
         'evaluation':'Agree a common reporting period and baseline, record missing answers, measure support received and unresolved needs. Before/after changes alone do not establish causality or savings.',
         'sources':[
-            {'purpose':'Reported cases, county of residence','period':'2024','url':cases['source_url'],'status':'Previously checked supplied official PDF, page 5.'},
-            {'purpose':'Reported rates per 100,000','period':'2024','url':rates['source_url'],'status':'Previously checked supplied official PDF, page 5.'},
-            {'purpose':'Societal study mean','period':'2016 dollars; recruitment 2014–2016','url':hook['source_url'],'status':hook['verification']},
+            {'purpose':'Reported cases, county of residence','period':'2024','url':cases['source_url'],'status':'NYSDOH official county table, page 5; 2024 reporting year.'},
+            {'purpose':'Reported rates per 100,000','period':'2024','url':rates['source_url'],'status':'NYSDOH official county table, page 5; 2024 reporting year.'},
+            {'purpose':'Societal study mean','period':'2016 dollars; recruitment 2014–2016','url':hook['source_url'],'status':'Hook et al., published 2022; recruitment 2014–2016; costs expressed in 2016 dollars.'},
         ],
         'privacy':'Public evidence and proposed planning actions only. No session stories, personal records or synthetic patient cards are included.',
         'scope':'Discussion brief, not a county demand assessment, benefits decision, funded service or adopted county plan.',
@@ -72,11 +77,12 @@ def report_text(report):
     r=report
     lines=[f"PathwayAI | {r['county']} County Lyme Burden & Action Report",
            TAGLINE, 'New York · Public evidence and support planning · Report version '+r['report_version'],
+           'Prepared: '+r['prepared_date'],r['data_status'],
            '', '1. OBSERVED PUBLIC EVIDENCE',
            f"Reported Lyme cases: {r['reported_cases']:,} · {r['case_year']} · county FIPS {r['county_fips']}.",
            f"Reported rate: {r['reported_rate_per_100000']:g} per 100,000 residents. New York State: {r['state_reported_rate_per_100000']:g}.",
            'Surveillance describes reported cases by residence, not all infections or where exposure occurred.',
-           '', '2. STUDY-BASED ECONOMIC ILLUSTRATION',r['formula'],r['study_population'],r['cost_perspective'],r['transfer_assumption'],r['other_assumptions'],
+           '', '2. STUDY-BASED ECONOMIC ILLUSTRATION',r['formula'],r['study_population'],r['cost_perspective'],r['transfer_assumption'],r['other_assumptions'],r['cost_currency_note'],
            'Hook excluded non-English speakers and nonacute disease; the study does not represent every local household.']
     if r['inflation']:
         m=r['inflation']

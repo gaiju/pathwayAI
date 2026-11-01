@@ -3708,8 +3708,8 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("Community Burden & Action", "Compare county evidence and download a burden and action report.", "📊 Community Burden & Action", "county"),
-    ("Care & Support", "Find resources, prepare a visit note, or ask about benefits and bills.", "🧭 Care & Support", "ongoing"),
+    ("Community Burden & Action", "For community teams: compare Dutchess and Orange County evidence and download a planning brief.", "📊 Community Burden & Action", "county"),
+    ("Care & Support", "For patients and caregivers: prepare a visit summary, record costs and daily-life impacts, or find support.", "🧭 Care & Support", "ongoing"),
     ("Tick Prevention", "Create and download a tick-prevention plan for time outdoors.", "🛡️ Learn & Prevent", "outdoors"),
     ("Review & Feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
     ("Tick Bite: What Next?", "Find removal steps and guidance on when to contact a clinician.", "🩹 Tick Bite: What Next?", "bite"),
@@ -3740,7 +3740,7 @@ def show_reading_choice():
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
-        welcome, photo = st.columns([0.8, 1.5], gap="medium")
+        welcome, photo = st.columns([1.0, 1.5], gap="medium")
         with welcome:
             st.markdown("**PathwayAI · Public Health Intelligence & Action Platform**")
             st.title("Making the Hidden Burden of Lyme Disease Visible—and Actionable")
@@ -3748,9 +3748,10 @@ if not st.session_state.get("pathway_open", False):
             st.markdown('<p class="pathway-recognition">HHS TOPx Phase I Winner | AI &amp; Invisible Illness.</p>', unsafe_allow_html=True)
             with st.expander("For patients, caregivers and community teams"):
                 st.write("Write in your preferred language, including mixed languages. Review and download a visit summary or support record to share when you choose.")
-                st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning.")
+                st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning. Personal records remain separate from community evidence.")
             st.caption("Browse without a story. Use made-up details when testing.")
-            show_reading_choice()
+            with st.expander("Reading options", expanded=False):
+                show_reading_choice()
         with photo:
             with st.container(key="landing_photo"):
                 st.image(str(BASE_DIR / "assets" / "homepage_forest.png"),
@@ -3820,7 +3821,7 @@ if view == "📚 Sources & Acknowledgements":
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_paths"):
         st.subheader("What would help you today?")
-        st.write("Choose the help you need. You do not need to visit every page.")
+        st.write("Start with community evidence or help for yourself or someone you care for. You do not need to visit every page.")
         for start in range(0, len(paths), 2):
             cols = st.columns(2)
             for col, (label, detail, target, intent) in zip(cols, paths[start:start+2]):

@@ -8,6 +8,7 @@ from community_action_summary import (AUDIENCE_ACTIONS, ACTION_AREAS, EVIDENCE_T
                                       SURVEY_CONTEXT, audience_actions, healthcare_context, CDC_URL, HRSA_URL)
 from community_action import ACTION_OPTIONS
 from inflation_context import inflation_metadata
+from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
 REPORT_VERSION='1.1-community-action'
@@ -54,6 +55,12 @@ def build_report(county, priority, restate=False, audience='Public health depart
         'scope':'Discussion brief, not a county demand assessment, benefits decision, funded service or adopted county plan.',
         'inflation':None,
     }
+    result['additional_public_context'] = planning_indicators(county)
+    known_urls = {source['url'] for source in result['sources']}
+    for source in result['additional_public_context']['sources']:
+        if source['url'] not in known_urls:
+            result['sources'].append({**source, 'status':'Existing source snapshot; no fresh retrieval.'})
+            known_urls.add(source['url'])
     if restate:
         meta=inflation_metadata()
         result['inflation']={**meta,'restated_unit_usd':float(Decimal(unit)*Decimal(meta['factor'])),
@@ -78,7 +85,7 @@ def report_text(report):
            '', 'Healthcare resource context · HRSA AHRF 2024–2025 release · 2023 fields']
     for label, value in access['indicators'].items():
         lines.append(label+': '+('Not available' if value is None else f'{value:,.0f}'))
-    lines += [access['status'], access['limits'],
+    lines += [access['status'], access['limits'], '', planning_context_text(r['additional_public_context']),
               '', '2. PUBLISHED RESEARCH ESTIMATES AND COUNTY ILLUSTRATION',
               r['formula'], 'Hook et al. (published 2022): '+r['study_population'],
               r['cost_perspective'],r['transfer_assumption'],r['other_assumptions'],
@@ -148,6 +155,7 @@ def show_county_report(audience='Public health departments'):
         st.write('Audience: '+report['audience'])
         st.caption('Also included: available HRSA resource indicators, small self-selected survey context, and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
+    show_planning_indicators(report['additional_public_context'])
     from pdf_report import report_pdf
     st.download_button('Download county burden & action report (PDF)',
                        report_pdf(report_text(report), footer_label='PathwayAI | County public-data planning brief', link_urls=True),

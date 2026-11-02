@@ -56,16 +56,20 @@ def county_brief_pdf(r):
     add('Study-based illustration, not measured county spending or predicted savings. Sources ['+', '.join(map(str,cost_refs))+']; calculation and methods: page 3.', small)
     add('Mid-Hudson counties and state comparison', heading)
     table([['Area','Reported cases · 2024','Rate per 100,000 · 2024']]+[[x['Area'],number(x['Reported cases']),number(x['Reported cases per 100,000'])] for x in context['comparison']], [205,145,161], padding=2)
+    add('All comparison rates use the same NYSDOH 2024 published source and reporting year; reported rates are not personal risk estimates.',small)
     add('Healthcare resources and population context', heading)
     rows=[['Indicator','Value','Period']]
     rows += [[label,number(value),'2023'] for label,value in r['healthcare_context']['indicators'].items()]
-    rows += [[x['measure']+(' · population with poverty status determined' if x['field']=='pers_povty_pct_23' else ''),number(x['value'],'%'),str(x['year'])] for x in context['socioeconomic_context']]
+    rows += [[('Poverty (population with poverty status determined)' if x['field']=='pers_povty_pct_23' else x['measure']),number(x['value'],'%'),str(x['year'])] for x in context['socioeconomic_context']]
     language=context['language_context']
     rows.append(['Language other than English at home · age 5+',number(language['value'],'%'),'ACS 2020–2024'])
     table(rows,[295,80,136])
     add('General resource/population context, not Lyme-attributable need, appointment availability or interpreter demand. Selected insurance/poverty fields supply no margin of error.',small)
     add('Reported Lyme rates by year · per 100,000 residents',heading)
-    table([['2022','2023','2024'],[number(row['Reported cases per 100,000']) for row in context['rate_trend']]],[170,170,171])
+    if all(row['Reported cases per 100,000'] is None for row in context['rate_trend'][:2]):
+        add('2024 rate: '+number(context['rate_trend'][-1]['Reported cases per 100,000'])+' per 100,000. The 2022–2023 rates are not available in the verified source records used for this brief.',small)
+    else:
+        table([['2022','2023','2024'],[number(row['Reported cases per 100,000']) for row in context['rate_trend']]],[170,170,171])
     add('County of residence, not exposure location. Pre-2022 rates excluded because surveillance definitions changed. Different sources do not establish causes. References and limitations: page 3.',small)
     flow.append(PageBreak())
     add('From evidence to community action',title)

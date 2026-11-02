@@ -38,12 +38,15 @@ def county_brief_pdf(r):
     add('PathwayAI | '+r['county']+' County', heading)
     add('Lyme Disease Burden & Community Action', title)
     add('Prepared '+r['prepared_date']+' · Public-data planning brief · Version '+r['report_version'], small)
+    add('For local planning discussions · Proposed actions for review',small)
     table([['Reported cases · 2024','County rate per 100,000 · 2024','State rate per 100,000 · 2024'],
            [number(r['reported_cases']),number(r['reported_rate_per_100000']),number(r['state_reported_rate_per_100000'])]],[170,170,171])
     add('Illustrative economic burden estimate', heading)
     if r['inflation']:
         add(f"USD {r['inflation']['restated_total_usd']/1_000_000:.2f} million", amount)
-        add('2025 purchasing-power comparison · 11 available CPI months · general inflation', small)
+        add('Optional 2025 purchasing-power comparison · 11 available CPI months · general inflation', small)
+        table([['Original study basis · 2016 dollars','Optional 2025 comparison · approximately 1.34×'],
+               [f"USD {r['illustrative_total_2016_usd']/1_000_000:.2f} million",f"USD {r['inflation']['restated_total_usd']/1_000_000:.2f} million"]],[255,256])
     else:
         add(f"USD {r['illustrative_total_2016_usd']/1_000_000:.2f} million", amount)
         add('Original study-dollar basis · 2016 dollars', small)
@@ -53,14 +56,14 @@ def county_brief_pdf(r):
     add('Healthcare resources and population context', heading)
     rows=[['Indicator','Value','Period']]
     rows += [[label,number(value),'2023'] for label,value in r['healthcare_context']['indicators'].items()]
-    rows += [[x['measure'],number(x['value'],'%'),str(x['year'])] for x in context['socioeconomic_context']]
+    rows += [[x['measure']+(' · population with poverty status determined' if x['field']=='pers_povty_pct_23' else ''),number(x['value'],'%'),str(x['year'])] for x in context['socioeconomic_context']]
     language=context['language_context']
     rows.append(['Language other than English at home · age 5+',number(language['value'],'%'),'ACS 2020–2024'])
     table(rows,[295,80,136])
     add('General resource/population context, not Lyme-attributable need, appointment availability or interpreter demand. Selected insurance/poverty fields supply no margin of error.',small)
     add('Reported Lyme rate over time · per 100,000 residents',heading)
     table([['2022','2023','2024'],[number(row['Reported cases per 100,000']) for row in context['rate_trend']]],[170,170,171])
-    add('County of residence, not exposure location. Reporting years and data sources differ; trends do not establish causes. Detailed references and limitations: page 3.',small)
+    add('County of residence, not exposure location. Pre-2022 rates excluded because surveillance definitions changed. Different sources do not establish causes. References and limitations: page 3.',small)
     flow.append(PageBreak())
     add('From evidence to community action',title)
     plan=r['planning']

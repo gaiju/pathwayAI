@@ -11,7 +11,7 @@ from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.3'
+REPORT_VERSION='1.4'
 COUNTIES={'Dutchess':'36027','Orange':'36071'}
 
 

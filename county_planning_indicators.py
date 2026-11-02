@@ -95,7 +95,7 @@ def planning_indicators(county, base=None):
         'sources': [
             {'purpose': 'County/state reported cases', 'period': '2024', 'url': CASE_URL},
             {'purpose': 'County/state reported rates', 'period': '2024', 'url': RATE_URL},
-            {'purpose': 'Reported rate trend, Figure 147, page 219', 'period': '2022–2023; regional assessment published 2025', 'url': regional.get('source_url', TREND_URL)},
+            {'purpose': 'Shared Mid-Hudson regional assessment (Dutchess and Orange), Figure 147, page 219', 'period': '2022–2023; regional assessment published 2025', 'url': regional.get('source_url', TREND_URL)},
             {'purpose': 'Insurance and poverty context', 'period': 'AHRF insurance field 2022; poverty field 2023; AHRF 2024–2025 release', 'url': HRSA_URL},
             {'purpose': 'Language spoken at home, age 5+', 'period': 'ACS 2020–2024', 'url': census_url}],
     }

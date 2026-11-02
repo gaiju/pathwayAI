@@ -12,7 +12,7 @@ from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.8'
+REPORT_VERSION='1.9'
 
 
 def build_report(county, priority, restate=False, audience='Public health departments'):
@@ -219,9 +219,10 @@ def show_county_report(audience='Public health departments'):
         st.caption('Also included: county comparisons, HRSA indicators, language context and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
     with st.container(border=True):
-        st.markdown('**What this means for local planning**')
-        for note in report['local_planning_notes']:
-            st.markdown('**'+note['title']+'**')
+        st.markdown('### What This Means for Local Planning')
+        for index,note in enumerate(report['local_planning_notes'],1):
+            label='A local action to review' if index==3 else note['title']
+            st.markdown('**'+str(index)+'. '+label+'**')
             st.write(note['text'])
             if note['source_url']:
                 st.markdown('['+note['period']+']('+note['source_url']+')')

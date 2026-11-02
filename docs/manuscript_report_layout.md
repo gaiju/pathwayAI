@@ -1,0 +1,7 @@
+# Version 1.9 — report layout review
+
+Reorganized the existing PDF: page 1 county evidence; page 2 action plan; page 3 local planning and published research; page 4 references and detailed methods. Main text uses concise numbered clickable citations. Full source URLs are removed from the main pages; descriptive numbered reference entries remain clickable in the final source register. Reference font is 7.5 points with 10-point line spacing; substantive population caveats remain readable beside the relevant evidence. No data, arithmetic or source years changed.
+
+“What This Means for Local Planning” now appears near the top of page 3 in the same subtitle style as other report subtitles, with three distinct numbered bold points: prevention outreach, care access and a local action to review. The corresponding app report-preview heading uses a consistent level-three subtitle and numbered points. The source-linked methods CSV remains available for audit and retains exact URLs.
+
+Validation: all 210 county/priority/audience/inflation PDFs checked for four pages, numbered planning points on page 3, references last, clickable research links, no full URLs in pages 1–3 and no text outside page bounds. Two local-planning data/missingness tests and Python compilation passed. No full-suite or deployed-browser recheck for this presentation change. No merge or deployment. Subsequent development rather than original-submission functionality.

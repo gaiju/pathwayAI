@@ -94,17 +94,25 @@ def show_community_action_summary():
     import streamlit as st
     with st.container(key='community_action_summary'):
         st.subheader('From Lyme Disease Burden to Community Action')
-        st.write('Use public evidence and patient perspectives to explore prevention, care access and practical support. Choose an audience below for steps to discuss locally.')
-        for start in range(0, len(ACTION_AREAS), 2):
-            for column, (title, description) in zip(st.columns(2), ACTION_AREAS[start:start + 2]):
-                with column, st.container(border=True):
-                    st.markdown('#### ' + title)
+        st.write('Explore county evidence, choose a support priority, and download a planning brief.')
+        st.markdown('**Four support areas to consider**')
+        display_areas = (
+            ('Prevention', 'Share tick-prevention information.'),
+            ('Access to care', 'Explore appointments, transport and affordability.'),
+            ('Costs and caregiving', 'Recognize missed work, unpaid care and support needs.'),
+            ('Language and local support', 'Make information and resources easier to access.'),
+        )
+        for start in range(0, len(display_areas), 2):
+            for column, (title, description) in zip(st.columns(2), display_areas[start:start + 2]):
+                with column:
+                    st.markdown('**' + title + '**')
                     st.write(description)
-        audience = st.selectbox('Who are you planning with?', list(AUDIENCE_ACTIONS), key='community_action_audience')
+        audience = st.selectbox('Choose your organization type', list(AUDIENCE_ACTIONS), key='community_action_audience')
         st.markdown('**Actions to discuss**')
         for action in audience_actions(audience):
             st.markdown('- ' + action)
-        st.caption('The county brief includes your selected audience and these suggestions. Personal records stay separate; no personal information is needed here.')
+        st.markdown('**Next:** Open **Plan community support**, choose a county and support priority, then download the brief.')
+        st.caption('Suggestions appear in your county brief. No personal information is needed here.')
         with st.expander('How the evidence fits together'):
             st.write('CDC and NYSDOH describe surveillance patterns; HRSA provides healthcare-resource context; patient-reported experiences identify burdens to investigate; published research provides cost estimates with defined populations and years.')
             for title, description in EVIDENCE_TYPES:

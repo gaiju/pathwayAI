@@ -743,6 +743,8 @@ def show_session_burden():
 
 
 def policy89():
+    from community_runtime import ensure_current_community_modules
+    ensure_current_community_modules()
     st.header("Healthier people. Stronger communities.")
     st.write("U.S. and county evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
     st.markdown("**Start here:** Understand the national picture, compare counties, and download a sourced county burden and action report.")

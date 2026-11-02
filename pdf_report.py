@@ -32,7 +32,7 @@ def _markup(line):
     return ''.join(chunks) or '&#160;'
 
 
-def report_pdf(text, *, state_code=None):
+def report_pdf(text, *, state_code=None, footer_label='PathwayAI | Reviewed personal record / educational material', link_urls=False):
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib import colors
@@ -44,7 +44,10 @@ def report_pdf(text, *, state_code=None):
     title=ParagraphStyle('ReportTitle',parent=style,fontSize=14,leading=20,spaceAfter=12)
     flow=[]
     for index,line in enumerate(text.splitlines()):
-        flow.append(Paragraph(_markup(line),title if index==0 else style))
+        markup = _markup(line)
+        if link_urls and line.startswith('https://') and not any(char.isspace() for char in line):
+            markup = '<link href="'+escape(line, {'"': '&quot;'})+'" color="#17648a"><u>'+markup+'</u></link>'
+        flow.append(Paragraph(markup,title if index==0 else style))
         flow.append(Spacer(1,4 if line else 7))
         if index == 0 and state_code:
             from state_badge import state_badge
@@ -54,7 +57,7 @@ def report_pdf(text, *, state_code=None):
     def footer(canvas,doc):
         canvas.saveState()
         canvas.setFont('PathwayUnicodeV2',8)
-        canvas.drawString(42,26,'PathwayAI | Reviewed personal record / educational material')
+        canvas.drawString(42,26,footer_label)
         canvas.drawRightString(A4[0]-42,26,str(doc.page))
         canvas.restoreState()
     SimpleDocTemplate(output,pagesize=A4,leftMargin=42,rightMargin=42,topMargin=42,

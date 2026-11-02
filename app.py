@@ -733,6 +733,8 @@ def policy89():
     st.write("U.S. and county evidence to understand Lyme disease burden and discuss prevention, care access and support needs.")
     st.markdown("**Start here:** Understand the national picture, compare counties, and download a sourced county burden and action report.")
     st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+    from community_action_summary import show_community_action_summary
+    community_audience = show_community_action_summary()
     national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"])
     with national_tab:
         show_us_burden(simple=simple_reading_view())
@@ -793,7 +795,7 @@ def policy89():
 
     with planning_tab:
         from county_burden_report import show_county_report
-        show_county_report()
+        show_county_report(audience=community_audience)
         st.divider()
         st.markdown("### Explore other planning templates")
         st.write("Use a brief to prepare for a team meeting or grant proposal. Choose a support topic to explore; no patient information is required.")

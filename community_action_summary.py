@@ -3,6 +3,7 @@ from functools import lru_cache
 from pathlib import Path
 import math
 import zipfile
+from mid_hudson_counties import COUNTIES
 
 BASE = Path(__file__).resolve().parent
 HRSA_URL = 'https://data.hrsa.gov/topics/health-workforce/nchwa/ahrf'
@@ -62,10 +63,10 @@ def _nonnegative(value):
     return result if math.isfinite(result) and result >= 0 else None
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=16)
 def healthcare_context(county, asset_path=None):
     """Read existing AHRF fields by county FIPS; missing values stay unavailable."""
-    fips = {'Dutchess': '36027', 'Orange': '36071'}
+    fips = COUNTIES
     if county not in fips:
         raise ValueError('Unsupported county.')
     fields = {'Primary-care physicians': 'phys_nf_prim_care_pc_exc_rsdt_23',

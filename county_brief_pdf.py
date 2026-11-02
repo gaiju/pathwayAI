@@ -22,9 +22,9 @@ def county_brief_pdf(r):
     def add(text, style=body): flow.append(paragraph(text, style))
     def number(value, suffix=''):
         return 'Not available' if value is None else f'{value:,g}'+suffix
-    def table(rows, widths):
+    def table(rows, widths, padding=5):
         t=Table([[paragraph(cell, small) for cell in row] for row in rows], colWidths=widths, repeatRows=1, hAlign='LEFT')
-        t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),pale),('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),.6,navy),('LINEBELOW',(0,1),(-1,-1),.3,colors.HexColor('#d8e1e5')),('LEFTPADDING',(0,0),(-1,-1),6),('RIGHTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5)]))
+        t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),pale),('VALIGN',(0,0),(-1,-1),'TOP'),('LINEBELOW',(0,0),(-1,0),.6,navy),('LINEBELOW',(0,1),(-1,-1),.3,colors.HexColor('#d8e1e5')),('LEFTPADDING',(0,0),(-1,-1),6),('RIGHTPADDING',(0,0),(-1,-1),6),('TOPPADDING',(0,0),(-1,-1),padding),('BOTTOMPADDING',(0,0),(-1,-1),padding)]))
         flow.extend([t, Spacer(1,4)])
     context=r['additional_public_context']
     sources=list(r['sources'])
@@ -42,7 +42,10 @@ def county_brief_pdf(r):
     table([['Reported cases · 2024','County rate per 100,000 · 2024','State rate per 100,000 · 2024'],
            [number(r['reported_cases']),number(r['reported_rate_per_100000']),number(r['state_reported_rate_per_100000'])]],[170,170,171])
     add('Illustrative economic burden estimate', heading)
-    if r['inflation']:
+    if r['reported_cases'] is None:
+        add('Not available', amount)
+        add('Economic total requires a verified case count. No count is reconstructed from the published rate.',small)
+    elif r['inflation']:
         add(f"USD {r['inflation']['restated_total_usd']/1_000_000:.2f} million", amount)
         add('Optional 2025 purchasing-power comparison · 11 available CPI months · general inflation', small)
         table([['Original study basis · 2016 dollars','Optional 2025 comparison · approximately 1.34×'],
@@ -51,8 +54,8 @@ def county_brief_pdf(r):
         add(f"USD {r['illustrative_total_2016_usd']/1_000_000:.2f} million", amount)
         add('Original study-dollar basis · 2016 dollars', small)
     add('Study-based illustration, not measured county spending or predicted savings. Sources ['+', '.join(map(str,cost_refs))+']; calculation and methods: page 3.', small)
-    add('Neighboring county and state comparison', heading)
-    table([['Area','Reported cases · 2024','Rate per 100,000 · 2024']]+[[x['Area'],number(x['Reported cases']),number(x['Reported cases per 100,000'])] for x in context['comparison']], [205,145,161])
+    add('Mid-Hudson counties and state comparison', heading)
+    table([['Area','Reported cases · 2024','Rate per 100,000 · 2024']]+[[x['Area'],number(x['Reported cases']),number(x['Reported cases per 100,000'])] for x in context['comparison']], [205,145,161], padding=2)
     add('Healthcare resources and population context', heading)
     rows=[['Indicator','Value','Period']]
     rows += [[label,number(value),'2023'] for label,value in r['healthcare_context']['indicators'].items()]
@@ -61,7 +64,7 @@ def county_brief_pdf(r):
     rows.append(['Language other than English at home · age 5+',number(language['value'],'%'),'ACS 2020–2024'])
     table(rows,[295,80,136])
     add('General resource/population context, not Lyme-attributable need, appointment availability or interpreter demand. Selected insurance/poverty fields supply no margin of error.',small)
-    add('Reported Lyme rate over time · per 100,000 residents',heading)
+    add('Reported Lyme rates by year · per 100,000 residents',heading)
     table([['2022','2023','2024'],[number(row['Reported cases per 100,000']) for row in context['rate_trend']]],[170,170,171])
     add('County of residence, not exposure location. Pre-2022 rates excluded because surveillance definitions changed. Different sources do not establish causes. References and limitations: page 3.',small)
     flow.append(PageBreak())
@@ -87,6 +90,8 @@ def county_brief_pdf(r):
     add('References & methods',title)
     add('Original study basis',heading)
     add(r['formula'],small)
+    if r['reported_cases'] is None:
+        add(f"Published study reference: USD {r['study_societal_mean_usd']:,} per participant in 2016 dollars; no county total calculated without a verified case count.",small)
     add('Hook et al. (published 2022): '+r['study_population']+' '+r['cost_perspective'],small)
     add(r['transfer_assumption']+' '+r['other_assumptions'],small)
     add('Hook excluded non-English speakers and nonacute disease. The study does not represent every local household or continuing lifetime costs.',small)
@@ -105,7 +110,7 @@ def county_brief_pdf(r):
         flow.append(Paragraph('<link href="'+url+'" color="#17648a"><u>'+escape(source['url'])+'</u></link>',small))
     add('Verification and interpretation',heading)
     add('Existing source snapshots; newer official releases have not been verified for this brief. Official rates are reproduced; exact rate-denominator vintage is not independently verified. Pre-2022 rates are excluded because surveillance definitions changed.',small)
-    add('Census language context is an existing QuickFacts snapshot, not a fresh pull or a measure of English proficiency. HRSA field years are not substituted with newer Census periods. Initiative links require current local verification; no listing does not mean no services exist.',small)
+    add(('Census language context is an existing QuickFacts snapshot, not a fresh pull or a measure of English proficiency. ' if context['language_context']['value'] is not None else 'County language context has not been verified and remains unavailable. ')+'HRSA field years are not substituted with newer Census periods. Initiative links require current local verification; no listing does not mean no services exist.',small)
     add(r['privacy'],small)
     add(r['scope']+' No county or organizational endorsement is implied.',small)
     out=BytesIO()

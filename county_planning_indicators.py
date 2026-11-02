@@ -5,9 +5,9 @@ from functools import lru_cache
 import zipfile
 from community_action_summary import _nonnegative, HRSA_URL
 from pathlib import Path
+from mid_hudson_counties import COUNTIES, surveillance, regional_coverage
 
 BASE = Path(__file__).resolve().parent
-COUNTIES = {'Dutchess': '36027', 'Orange': '36071'}
 LANGUAGE_HOME = {'Dutchess': 16.2, 'Orange': 30.2}
 CASE_URL = 'https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/cases.pdf'
 RATE_URL = 'https://www.health.ny.gov/statistics/diseases/communicable/2024/docs/rates.pdf'
@@ -21,7 +21,7 @@ def _read_json(path):
         return {}
 
 
-@lru_cache(maxsize=4)
+@lru_cache(maxsize=16)
 def socioeconomic_context(county, asset_path=None):
     if county not in COUNTIES:
         raise ValueError('Choose a supported county.')
@@ -58,14 +58,15 @@ def planning_indicators(county, base=None):
     cases = _read_json(root / 'data/ny_lyme_cases_2024_verification.json')
     rates = _read_json(root / 'data/ny_lyme_rates_2024_verification.json')
     regional = _read_json(root / 'data/mid_hudson_lyme_rates_verification.json')
-    comparison = []
-    for area in [*COUNTIES, 'New York State']:
-        comparison.append({'Area': area, 'Year': 2024,
-                           'Reported cases': cases.get('verified_lyme_case_counts', {}).get(area),
-                           'Reported cases per 100,000': rates.get('verified_rates', {}).get('NYS TOTAL' if area == 'New York State' else area)})
+    comparison = [{'Area': row['county'], 'Year': 2024, 'Reported cases': row['reported_cases'],
+                   'Reported cases per 100,000': row['reported_rate']}
+                  for row in regional_coverage(base=root)]
+    comparison.append({'Area': 'New York State', 'Year': 2024,
+                       'Reported cases': cases.get('verified_lyme_case_counts', {}).get('New York State'),
+                       'Reported cases per 100,000': rates.get('verified_rates', {}).get('NYS TOTAL')})
     trend = [{'Year': year, 'Reported cases per 100,000': regional.get('rates', {}).get(str(year), {}).get(county)}
              for year in (2022, 2023)]
-    trend.append({'Year': 2024, 'Reported cases per 100,000': rates.get('verified_rates', {}).get(county)})
+    trend.append({'Year': 2024, 'Reported cases per 100,000': surveillance(county, base=root)['reported_rate']})
     initiatives = []
     try:
         with (root / 'pathwayai_county_assets.csv').open(newline='') as source:
@@ -75,19 +76,19 @@ def planning_indicators(county, base=None):
     except OSError:
         pass
     census_url = 'https://www.census.gov/quickfacts/' + county.lower() + 'countynewyork'
-    return {
+    result = {
         'county': county, 'comparison': comparison, 'rate_trend': trend,
         'socioeconomic_context': socioeconomic_context(county, str(root / 'AHRF_2024-2025_CSV.zip')),
-        'language_context': {'value': LANGUAGE_HOME[county], 'unit': 'percent',
+        'language_context': {'value': LANGUAGE_HOME.get(county), 'unit': 'percent',
                              'measure': 'Language other than English spoken at home',
-                             'population': 'Residents age 5 and older', 'period': 'ACS 2020–2024',
+                             'population': 'Residents age 5 and older', 'period': 'ACS 2020–2024' if county in LANGUAGE_HOME else 'Not available',
                              'source_url': census_url,
-                             'status': 'Existing app QuickFacts snapshot; not freshly retrieved.',
+                             'status': 'Existing app QuickFacts snapshot; not freshly retrieved.' if county in LANGUAGE_HOME else 'Not available for this county; no value copied from another county.',
                              'limits': 'Not a measure of English proficiency, immigration status or interpreter demand.'},
         'listed_initiatives': initiatives,
         'initiative_status': 'Existing public directory snapshot; current contacts, activity, eligibility and availability must be verified. No listing does not mean no services exist.',
         'planning_questions': [
-            'How do the reported rate and case count compare with the neighboring county and state?',
+            'How does the reported rate compare across the region and state, and which case counts still need verification?',
             'Which prevention and outreach questions should residents and partners explore in light of the reported-rate trend?',
             'Which languages and communication formats do residents actually prefer?',
             'Could existing county initiatives help, and what staffing, service capacity or support gaps need checking?'],
@@ -99,6 +100,12 @@ def planning_indicators(county, base=None):
             {'purpose': 'Insurance and poverty context', 'period': 'AHRF insurance field 2022; poverty field 2023; AHRF 2024–2025 release', 'url': HRSA_URL},
             {'purpose': 'Language spoken at home, age 5+', 'period': 'ACS 2020–2024', 'url': census_url}],
     }
+
+    if county not in LANGUAGE_HOME:
+        result['sources'] = [source for source in result['sources'] if source['url'] != census_url]
+    if not any(row['Reported cases per 100,000'] is not None for row in trend[:2]):
+        result['sources'] = [source for source in result['sources'] if source['url'] != regional.get('source_url', TREND_URL)]
+    return result
 
 
 def _display(value, suffix=''):
@@ -145,7 +152,10 @@ def show_planning_indicators(context):
         st.dataframe([{'Indicator': item['measure'], 'Percent': _display(item['value'], '%'), 'Field year': item['year'], 'Population': item['population']} for item in context['socioeconomic_context']], hide_index=True, use_container_width=True)
         st.caption('Historical field years, not ACS 2020–2024 substitutes. Margins of error are not supplied in these fields. These are population context, not Lyme-attributable needs or individual eligibility.')
         language = context['language_context']
-        st.write('**Language context:** '+_display(language['value'], '%')+' speak a language other than English at home · age 5+ · '+language['period']+'.')
+        if language['value'] is None:
+            st.write('**Language context:** Not available for this county.')
+        else:
+            st.write('**Language context:** '+_display(language['value'], '%')+' speak a language other than English at home · age 5+ · '+language['period']+'.')
         st.caption(language['status']+' '+language['limits'])
         st.markdown('**Existing county initiatives to check**')
         if not context['listed_initiatives']:

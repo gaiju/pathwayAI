@@ -7,7 +7,29 @@
   "verified_lyme_case_counts": {
     "Dutchess": 1060,
     "Orange": 964,
-    "New York State": 21632
+    "New York State": 21632,
+    "Putnam": 294,
+    "Rockland": 461,
+    "Sullivan": 385,
+    "Ulster": 841,
+    "Westchester": 1125
   },
-  "scope": "Matched Lyme disease column in supplied official county case-count PDF. Reported counts by residence; not all infections or exposure locations."
+  "scope": "Verified stored counts for the seven Mid-Hudson counties and New York State from the supplied official 2024 case-count PDF, page 5. Reported counts, not all infections or economic spending.",
+  "mid_hudson_verification": {
+    "checked_on": "2026-11-01",
+    "counties": [
+      "Dutchess",
+      "Orange",
+      "Putnam",
+      "Rockland",
+      "Sullivan",
+      "Ulster",
+      "Westchester"
+    ],
+    "pdf_page": 5,
+    "column": "Lyme disease",
+    "method": "County row/column text coordinates checked against the Lyme heading and rendered page 5.",
+    "source_file": "data/evidence/NYSDOH_cases_2024.pdf",
+    "source_sha256": "e87c5b554fac5b62f76dba18adda9da7f6f5e9a7da40347ec4a8a4cb6a34ba56"
+  }
 }

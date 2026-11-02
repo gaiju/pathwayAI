@@ -9,7 +9,9 @@ class CountyPlanningIndicatorTests(unittest.TestCase):
     def test_comparison_trend_and_language_match_existing_sources(self):
         dutchess = planning_indicators('Dutchess')
         orange = planning_indicators('Orange')
-        self.assertEqual([r['Reported cases'] for r in dutchess['comparison']], [1060, 964, 21632])
+        self.assertEqual([r['Reported cases'] for r in dutchess['comparison'][:2]], [1060, 964])
+        self.assertEqual(dutchess['comparison'][-1]['Reported cases'], 21632)
+        self.assertEqual(len(dutchess['comparison']), 8)
         self.assertEqual([r['Reported cases per 100,000'] for r in dutchess['rate_trend']], [394.6, 358.9, 355.5])
         self.assertEqual([r['Reported cases per 100,000'] for r in orange['rate_trend']], [231.6, 296.9, 237.0])
         self.assertEqual(dutchess['language_context']['value'], 16.2)

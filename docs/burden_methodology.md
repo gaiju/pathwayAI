@@ -104,3 +104,21 @@ The uploaded FRED CPIAUCNS workbook supplies 12 monthly observations for 2016 an
 ## County burden and action report
 
 The Plan community support tab exports a county-specific PDF and flat CSV with reported cases and rates, Hook societal arithmetic in original 2016 dollars, optional explicitly limited CPI restatement, missing burden dimensions, a selected proposed support decision, feasibility checks and follow-up measures. County selection changes official counts and rates; support selection changes proposed actions, not observed demand. The builder is independent of Streamlit session state and imports no patient records or synthetic demonstration cards. This is a reproducible discussion brief, not a comprehensive county burden estimate, funded plan or proof of savings. Formative usability evidence and retest status are documented separately in docs/usability_evidence.md.
+
+## County planning source alignment (subsequent review update)
+
+This documentation accompanies the unmerged county planning-indicators branch, not a change to the original HHS submission or a live deployment. No numeric source values or calculation methods are changed by this source-page update.
+
+| Source | Reporting period | What it supports and what it does not |
+| --- | --- | --- |
+| NYSDOH county tables | 2024 | Dutchess/Orange reported cases and published rates, plus state comparison; no reconstructed denominator or all-infection estimate. |
+| CDC historical county file | 2019–2022 | Separate historical context; not merged with NYSDOH 2024 totals. |
+| HRSA AHRF 2024–2025 release | Uninsured under 65: 2022; poverty and healthcare resources: 2023 | General population and resource context; not Lyme-attributable need or confirmed service demand. Selected insurance/poverty fields supply no MOE. |
+| Census QuickFacts language snapshot | ACS 2020–2024; residents age 5+ | Language other than English at home; not English proficiency, immigration status or interpreter demand. Existing snapshot, not fresh retrieval. |
+| Mid-Hudson regional assessment | 2022–2023 reported rates; published 2025 | Figure 147/page 219 supplies the earlier two points in the 2022–2024 county trend. No pre-2022 trend or causal inference. |
+| Hook et al. (2022) | Recruitment 2014–2016; 2016 dollars | Study-based societal-cost illustration; not measured county spending or projected savings. Components already included must not be added again. |
+| BLS CPI-U via supplied FRED file | 12 monthly observations for 2016; 11 available months for 2025 | Optional general purchasing-power comparison; October 2025 missing, no imputation. Not a verified official full-year average or medical-care inflation adjustment. |
+| PathwayAI supplied survey snapshot | October 3, 2026; 33 respondents | Small, self-selected sample across locations. Raw responses, question-level denominators and cost/time periods remain unverified. No county/U.S. generalization or inferred dollar total. |
+| County initiative directory | Current status unverified | Public links to investigate. Current activity, contacts, eligibility and availability need local confirmation. No listing does not mean no services exist. |
+
+Correct Census landing pages: https://www.census.gov/quickfacts/dutchesscountynewyork and https://www.census.gov/quickfacts/orangecountynewyork. Newer insurance/poverty and broadband additions remain deferred until exact-table verification of measures, periods, denominators and MOEs. They do not replace stored AHRF fields. Source dates, release dates and cost dollar years are different concepts and remain separately labeled.

@@ -49,3 +49,10 @@ Language values (ACS 2020–2024) and 2022–2023 trend points are available onl
 - `docs/review/mid_hudson_coverage_desktop.png`.
 
 These are study-based county illustrations, not measured spending, clinical recommendations, validated savings or adopted county programs. Newer Census estimates and broadband additions remain deferred. No county or organizational endorsement is implied.
+
+
+## Owner-approved publication validation
+
+The owner approved publication of the reviewed community and seven-county updates. Before publication, the three pre-existing stale Care & Support test expectations were updated to the current headings, transport wording and sidebar route; all original saved-entry, resource and bite-guidance checks were retained. The complete suite then passed: 105 tests, no errors. All seven browser county selections, mobile layout and the optional-comparison PDF download passed. The 210 export-layout checks remain valid. No patient/clinical application behavior was changed to satisfy the tests.
+
+This supersedes the earlier review-only status for this approved release. GitHub main publication is separate from independent verification of the live Streamlit rebuild; live access is restricted in this environment.

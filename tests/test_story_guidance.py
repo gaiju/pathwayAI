@@ -20,7 +20,7 @@ class StoryGuidanceTests(unittest.TestCase):
         self.assertIn(story, at.text_area(key="visit_summary_edit").value)
         self.assertTrue(any(d.label == "Download my visit summary" for d in at.get("download_button")))
         content = "\n".join(str(x.value) for x in at.markdown)
-        self.assertLess(content.index("Your organized visit summary"), content.index("Your costs, time and visit summary"))
+        self.assertLess(content.index("Your organized visit summary"), content.index("4. Get help with bills and costs"))
         corrected = at.text_area(key="visit_summary_edit").value + "\nMy question: what follow-up is appropriate?"
         at.text_area(key="visit_summary_edit").set_value(corrected).run()
         at.number_input(key="medical88").set_value(200).run()

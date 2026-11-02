@@ -1,0 +1,19 @@
+Subject: Would you review PathwayAI's evidence and practical usefulness?
+
+Hi [Name],
+
+I'd value your perspective on PathwayAI, an HHS TOPx Phase I winning project that helps families document Lyme disease burden and helps community teams explore support priorities. Optional AI helps organize mixed-language patient notes into summaries users review and correct.
+
+I've attached a sample county PDF and an Excel workbook with the figures, sources, methods and space for feedback. Could you share your thoughts on:
+
+1. Are the sources, years and populations clear?
+2. Are the cost calculations and assumptions reasonable for an illustration?
+3. Would the patient tools or county brief be useful in your work?
+4. What is the most important missing information or improvement?
+
+Feedback on the overall platform is welcome too: https://pathwayai.streamlit.app/
+
+Thank you for any time you can spare. I would ask your permission before quoting your feedback publicly.
+
+Best,
+Yuwei

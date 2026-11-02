@@ -12,7 +12,7 @@ from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.7'
+REPORT_VERSION='1.8'
 
 
 def build_report(county, priority, restate=False, audience='Public health departments'):
@@ -86,6 +86,8 @@ def build_report(county, priority, restate=False, audience='Public health depart
         meta=inflation_metadata()
         result['inflation']={**meta,'restated_unit_usd':float(Decimal(unit)*Decimal(meta['factor'])),
                              'restated_total_usd':float(Decimal(total)*Decimal(meta['factor'])) if total is not None else None}
+    from community_pathway import local_planning_notes
+    result['local_planning_notes'] = local_planning_notes(result)
     return result
 
 
@@ -136,6 +138,9 @@ def report_text(report):
     lines += ['', 'WHAT PUBLISHED RESEARCH ADDS', 'External study populations, not county patient findings. These studies are not added together or used to infer local disability rates.']
     for study in r['published_research_context']:
         lines += [study['study']+' · '+study['sample'],study['period'],study['contribution'],study['limit'],study['url']]
+    lines += ['', 'WHAT THIS MEANS FOR LOCAL PLANNING']
+    for note in r['local_planning_notes']:
+        lines += [note['title']+': '+note['text'],note['period']] + ([note['source_url']] if note['source_url'] else [])
     lines += ['', '3. RESIDENT PRIORITIES TO DISCUSS',
               'Confirm priorities with residents and caregivers before choosing a response.',
               r['local_patient_reports_status'],
@@ -213,6 +218,15 @@ def show_county_report(audience='Public health departments'):
             st.info('Economic total not calculated: the official 2024 case count needs verification. Available rates and HRSA population/resource context are included.')
         st.caption('Also included: county comparisons, HRSA indicators, language context and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
+    with st.container(border=True):
+        st.markdown('**What this means for local planning**')
+        for note in report['local_planning_notes']:
+            st.markdown('**'+note['title']+'**')
+            st.write(note['text'])
+            if note['source_url']:
+                st.markdown('['+note['period']+']('+note['source_url']+')')
+            else:
+                st.caption(note['period'])
     with st.expander('What published research adds'):
         st.caption('External study populations, not county patient findings. Study costs are not added together; survey findings are not applied to county case counts.')
         for study in report['published_research_context']:

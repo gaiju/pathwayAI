@@ -127,6 +127,8 @@ def show_community_action_summary():
     with st.container(key='community_action_summary'):
         st.subheader('From Lyme Disease Burden to Community Action')
         st.write('Explore county evidence, choose a support priority, and download a planning brief.')
+        from community_pathway import show_pathway
+        show_pathway()
         show_public_health_review_invitation()
         st.caption(AI_ROLE)
         st.markdown('**Four support areas to consider**')

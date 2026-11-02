@@ -136,6 +136,14 @@ def county_brief_pdf(r):
         add('Population and limits: '+study['limit'],small)
         url=escape(study['url'], {'"':'&quot;'})
         flow.append(Paragraph('<link href="'+url+'" color="#17648a"><u>'+escape(study['url'])+'</u></link>',small))
+    add('What this means for local planning',heading)
+    for note in r['local_planning_notes']:
+        add(note['title']+': '+note['text'],small)
+        if note['source_url']:
+            url=escape(note['source_url'], {'"':'&quot;'})
+            flow.append(Paragraph('<link href="'+url+'" color="#17648a"><u>'+escape(note['period'])+'</u></link>',small))
+        else:
+            add(note['period'],small)
     add('How to use this evidence',heading)
     add('Use these studies to discuss spending, work disruption and daily-life impacts with local residents. Hook remains the sole study-cost basis for the county illustration. No local disability rate, causal savings or added cost total is inferred.',small)
     add('The project survey is excluded from this county brief. County-specific patient findings would require a defined local collection and review process.',small)

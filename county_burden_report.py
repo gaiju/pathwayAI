@@ -177,6 +177,12 @@ def show_county_report(audience='Public health departments'):
     with st.expander('Check regional data coverage'):
         st.dataframe([{'County': row['county'], '2024 reported rate per 100,000': row['reported_rate'], '2024 verified cases': _value(row['reported_cases']), 'Case-count status':row['case_count_status']} for row in regional_coverage()], hide_index=True, use_container_width=True)
     st.write('Take a sourced report to a team discussion: reported cases, study-based costs, evidence gaps and one support decision to explore.')
+    from zip_county_connection import apply_county_hint
+    hint = apply_county_hint(st.session_state)
+    if hint and hint['county']:
+        st.caption(f"Suggested from your {hint['source'].replace('_', ' ')} ZIP {hint['zip']}: {hint['county']} County. Confirm or change the county below. Only location is carried over; personal records remain separate.")
+    elif hint:
+        st.caption('Your ZIP could not be matched to a county in this seven-county pilot. Choose a pilot county below to explore its public evidence.')
     a,b=st.columns(2)
     with a:
         county=st.selectbox('County for the report',list(COUNTIES),key='county_report_county')

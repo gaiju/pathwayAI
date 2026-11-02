@@ -3708,6 +3708,21 @@ def select_public_pathway(target, intent):
     st.session_state["public_pathway_intent"] = intent
     st.session_state["pathway_open"] = True
 
+def show_zip_county_connection(zip_value, resolved, source):
+    from zip_county_connection import remember_location
+    hint = remember_location(st.session_state, zip_value, resolved, load_us_county_geojson(), source)
+    if not hint:
+        return
+    if hint['county']:
+        st.caption(f"ZIP {hint['zip']} suggests {hint['county']} County. ZIP codes can cross county lines; confirm the county in the report selector.")
+        st.button("Explore this county’s burden & action report", key="county_connection_" + source,
+                  on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
+    else:
+        st.caption("County reports currently cover seven Mid-Hudson counties in New York. This ZIP could not be matched to a pilot county; you can still explore the pilot through Community Burden & Action.")
+        st.button("Explore the New York pilot", key="county_connection_" + source,
+                  on_click=select_public_pathway, args=("📊 Community Burden & Action", "county"))
+
+
 def return_to_path_choices():
     keep_visit_draft()
     st.session_state["pathway_open"] = False
@@ -4009,6 +4024,7 @@ if view == "🛡️ Learn & Prevent":
     )
     travel_destination = destination_label(travel_zip)
     travel_geo = resolve_us_zip(travel_zip) if len(normalize_zip(travel_zip)) == 5 else None
+    show_zip_county_connection(travel_zip, travel_geo, "outdoor_destination")
     if len(normalize_zip(travel_zip)) == 5 and travel_geo is None:
         page_note("ZIP accepted. The city could not be resolved from the geographic lookup service; PathwayAI will not guess a city or county.")
     if len(normalize_zip(travel_zip)) == 5:
@@ -4898,6 +4914,7 @@ current_location_start = st.text_input(
 care_location = current_location_start.strip()
 care_zip = care_location if re.fullmatch(r"[0-9]{5}", care_location) else ""
 valid_care_zip = bool(care_zip)
+show_zip_county_connection(care_zip, resolve_us_zip(care_zip) if care_zip else None, "care_location")
 st.markdown("#### Find nearby care")
 health_center_url = "https://findahealthcenter.hrsa.gov/" + ("?" + urlencode({"zip": care_zip, "radius": 25}) if care_zip else "")
 if care_location and not (care_location.isdigit() and not care_zip):

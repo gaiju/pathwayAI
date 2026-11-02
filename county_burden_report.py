@@ -9,7 +9,7 @@ from inflation_context import inflation_metadata
 from county_evidence import county_surveillance, state_surveillance, healthcare_capacity, language_context, HRSA_URL
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.2'
+REPORT_VERSION='1.3'
 COUNTIES={'Dutchess':'36027','Orange':'36071'}
 
 
@@ -38,9 +38,9 @@ def build_report(county, priority, restate=False):
         'transfer_assumption':'Applying this study mean to reported county cases is an assumption; the result is not measured local spending.',
         'other_assumptions':'No adjustment for underreporting or local case mix. No causal savings or disability probabilities are inferred.',
         'priority':priority,'planning':dict(ACTION_OPTIONS[priority]),
-        'evidence_gaps':['Lyme-attributable county disability and duration','Continuing costs beyond the study follow-up','Local unmet care and support needs','Experiences of people excluded or underrepresented in the source study'],
-        'feasibility_checks':['Confirm local demand with residents and caregivers, including assisted/offline participation.','Verify current services, eligibility, interpreter access and appointment capacity.','Agree who is responsible and estimate staff time, program costs and a funding source.','Define consent, minimal data collection, access, retention and deletion before any collection.'],
-        'evaluation':'Agree a common reporting period and baseline, record missing answers, measure support received and unresolved needs. Before/after changes alone do not establish causality or savings.',
+        'evidence_gaps':['How many residents have Lyme-related disability, and for how long','Costs that continue beyond the study follow-up','Care and support residents still need','Experiences of residents not well represented in the study'],
+        'feasibility_checks':['Ask residents and caregivers what help they need. Offer ways to participate by phone or in person.','Check which services are available, who qualifies, whether interpreters are offered, and whether appointments are available.','Decide who will do the work, how much staff time and money it needs, and how it could be funded.','Before collecting information, agree on consent, what is needed, who can see it, how long it is kept, and how it is deleted.'],
+        'evaluation':'Choose a follow-up period, such as 30 days. Record appointments attended, help with applications, financial-assistance decisions, and needs still unmet, as relevant to the selected support priority. Compare these with each person’s starting situation. Keep unanswered questions marked as unknown. Use the findings to improve support; further evaluation is needed to establish cost savings or health benefits.',
         'sources':[
             {'purpose':'Reported cases, county of residence','period':'2024','url':cases['source_url'],'status':'NYSDOH official county table, page 5; 2024 reporting year.'},
             {'purpose':'Reported rates per 100,000','period':'2024','url':rates['source_url'],'status':'NYSDOH official county table, page 5; 2024 reporting year.'},
@@ -65,6 +65,11 @@ def build_report(county, priority, restate=False):
         {'purpose':'Published follow-up context', 'period':'Horn et al. 2025', 'url':'https://doi.org/10.3389/fmed.2025.1577936', 'status':'Supplied full PDF reviewed; not a county disability estimate.'},
         {'purpose':'Published work and function context', 'period':'Johnson et al. 2014; 2013 survey', 'url':'https://doi.org/10.7717/peerj.322', 'status':'Supplied full PDF reviewed; selected self-reported persistent-illness sample.'},
     ]
+    if priority == 'Care without insurance and medical bills':
+        result['planning'].update(
+            decision='Could existing services help residents without insurance reach affordable care, or are there gaps that need an additional response?',
+            action='Review income-based health-center fees, help applying for coverage, and hospital financial assistance with residents. Check staffing, appointments, costs and possible funding before proposing a new service.',
+            measure='Appointments attended; help applying for coverage; financial-assistance applications approved, denied or pending; bills and support needs still unresolved over the same follow-up period')
     if restate:
         meta=inflation_metadata()
         result['inflation']={**meta,'restated_unit_usd':float(Decimal(unit)*Decimal(meta['factor'])),
@@ -78,7 +83,7 @@ def report_text(report):
     lines=[f"PathwayAI | {r['county']} County Lyme Burden & Action Report",
            TAGLINE, 'New York · Public evidence and support planning · Report version '+r['report_version'],
            'Prepared: '+r['prepared_date'],r['data_status'],
-           '', '1. OBSERVED PUBLIC EVIDENCE',
+           '', '1. WHAT THE COUNTY DATA SHOW',
            f"Reported Lyme cases: {r['reported_cases']:,} · {r['case_year']} · county FIPS {r['county_fips']}.",
            f"Reported rate: {r['reported_rate_per_100000']:g} per 100,000 residents. New York State: {r['state_reported_rate_per_100000']:g}.",
            'Surveillance describes reported cases by residence, not all infections or where exposure occurred.',
@@ -91,14 +96,14 @@ def report_text(report):
                   'General inflation only. 2016 mean CPI: '+m['base_index']+'; 2025 available-month mean: '+m['target_index']+'; factor: '+m['factor'],
                   '2025 has 11 observed months; October is missing. No imputation. This is not a verified official annual-average restatement.',
                   m['source_url'],'Source workbook SHA-256: '+m['source_sha256']]
-    lines += ['', '3. ADDITIONAL BURDEN TO MEASURE']+['- '+x for x in r['evidence_gaps']]
+    lines += ['', '3. WHAT WE STILL NEED TO UNDERSTAND']+['- '+x for x in r['evidence_gaps']]
     plan=r['planning']
-    lines += ['', '4. SUPPORT DECISION TO EXPLORE',r['priority'],
+    lines += ['', '4. A SUPPORT QUESTION TO DISCUSS',r['priority'],
               'Planning question: '+plan['decision'],'Possible response: '+plan['action'],
-              'Potential partners to approach: '+plan['participants'],
+              'Who could help: '+plan['participants'],
               'These are proposed discussion topics, not findings about local demand or commitments from partners.',
-              '', '5. CHECK FEASIBILITY BEFORE A PILOT']+['- '+x for x in r['feasibility_checks']]
-    lines += ['', '6. AGREE ON FOLLOW-UP','Candidate measures: '+plan['measure'],r['evaluation'],
+              '', '5. WHAT TO CHECK BEFORE STARTING A PILOT']+['- '+x for x in r['feasibility_checks']]
+    lines += ['', '6. CHECK WHETHER PEOPLE RECEIVED SUPPORT',r['evaluation'],'For this support priority, check: '+plan['measure'],
               '', 'SOURCES AND METHODS']
     for source in r['sources']:
         lines += [source['purpose']+' · '+source['period'],source['url'],source['status']]

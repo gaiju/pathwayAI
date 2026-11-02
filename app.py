@@ -3743,8 +3743,8 @@ if not st.session_state.get("pathway_open", False):
         welcome, photo = st.columns([1.0, 1.5], gap="medium")
         with welcome:
             st.markdown("**PathwayAI · Public Health Intelligence & Action Platform**")
-            st.title("Making the Hidden Burden of Lyme Disease Visible—and Actionable")
-            st.write("Connecting patient experiences, public health data, and community resources to support better-informed decisions.")
+            st.title("Making the Hidden Burden of Lyme Disease Visible")
+            st.write("PathwayAI combines U.S. open data, patient experiences, and AI to make the hidden health and economic burden of Lyme disease visible—and help communities turn evidence into practical action.")
             st.markdown('<p class="pathway-recognition">HHS TOPx Phase I Winner | AI &amp; Invisible Illness.</p>', unsafe_allow_html=True)
             with st.expander("For patients, caregivers and community teams"):
                 st.write("Write in your preferred language, including mixed languages. Review and download a visit summary or support record to share when you choose.")

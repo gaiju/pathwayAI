@@ -1,0 +1,12 @@
+{
+  "current_main": {
+    "commit": "9d44822fc6fd3eef118e7440a1ec5d315869f93a",
+    "app_txt": "PathwayAI_Current_Main_app.py.txt",
+    "sha256": "90fc518aba4aee545e0f9e9691caab2f0678ec852c72f1a6dac4e686cf4076b6"
+  },
+  "proposed_community": {
+    "commit": "c2abcb4ff0c2f79a7e75324a4857685aabd6e1a0",
+    "app_txt": "PathwayAI_Proposed_Community_app.py.txt",
+    "sha256": "3850878ab576685e75cb91020ccc0d71828b4e03efaa18eb9d74ade626c2fd72"
+  }
+}

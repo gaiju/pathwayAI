@@ -1,0 +1,48 @@
+PATHWAYAI — COMPARISON FOR EXTERNAL REVIEW
+
+Basis: five competitor descriptions supplied by the project lead. These are claimed capabilities, not independently verified product tests, clinical validation, rankings or judging results.
+
+1. ImpactAtlas — Pranisha Karki's team
+Focus: voice/text patient journeys, 15 burden dimensions, multiple conditions, reports, geographic comparisons and modeled scenarios; reports Spanish interaction.
+Overlap: patient stories, household costs, federal data, multilingual support and community ambitions.
+Lesson: make the patient output and missing-data labels easy to understand.
+
+2. Pricing the Invisible, Valuing the Cure — Manuel Duenas
+Focus: national policy valuation, initially Long COVID; treatment reach/effectiveness scenarios, quality-of-life valuation, source registers, sensitivity analysis and community-reported experience. Describes expansion to Lyme and other conditions.
+Overlap: public evidence and burden beyond medical bills.
+Lesson: show the source, population, price year and assumptions behind each number. A national treatment-value model is a different task from county support planning.
+
+3. ImpactFile — Greg Michaelson
+Focus: a longitudinal record reused for medical leave, disability, insurance appeals and tax documentation; describes on-device AI and encrypted iPhone storage.
+Overlap: dated functional-impact records and documentation for support conversations.
+Lesson: show how a downloaded record helps its next recipient. Do not imply PathwayAI's preparation record is a certified or approved benefits application.
+
+4. DBbun — Uri Kartoun
+Focus: study-based Lyme/Long COVID what-if simulators, observed/assumed/projected labels, federal context and transparent inflation comparisons.
+Overlap: published cost references, scenario assumptions and source-linked calculations.
+Lesson: retain original study-year dollars alongside optional CPI comparisons; do not convert selected-study findings into verified county totals or invent uncertainty distributions.
+
+5. Health Worth — Trisha Rawlings
+Focus: condition-based care journeys, episode pricing, insurance context and cost-of-delay scenarios; explicitly includes Lyme disease among its conditions.
+Overlap: care preparation, financial barriers and journeys.
+Lesson: make the user's next step clear and keep scenarios separate from individual predictions.
+
+PATHWAYAI POSITIONING
+
+PathwayAI combines practical Lyme prevention, care preparation, mixed-language records, household burden documentation and county public-evidence planning. The useful distinction is its focused workflow connecting what families need to what community teams should investigate, starting with Dutchess and Orange. County/community interest is not exclusive to PathwayAI.
+
+CURRENT VERSUS PROPOSED
+
+- Current main: existing patient tools, county comparisons, original-dollar cost illustrations and optional inflation comparison. A GitHub source snapshot is not independent confirmation of the live Streamlit deployment.
+- Proposed community update: four community action areas, three audience choices, enhanced county brief with existing HRSA fields and explicitly limited survey context. Unmerged and not deployed.
+- Patient records do not automatically become community evidence. Consent-based shared reporting is a future development proposal.
+- Top-ten New York expansion is not complete or deployed. Verified counts for additional counties are still required before economic totals can be calculated.
+- No demonstrated reductions in costs, delays or disability are claimed. No adopted county partnership or program is implied.
+
+QUESTIONS FOR THE REVIEWER
+
+1. Are public surveillance, research estimates, survey context and suggested actions clearly separated?
+2. Are cost perspectives, reporting periods, dollar years and overlapping components handled correctly?
+3. Is the patient download useful for a visit or support conversation?
+4. Could a community team use the county brief to identify one practical question and the information needed next?
+5. What one improvement should be prioritized before adding more features?

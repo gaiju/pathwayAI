@@ -119,6 +119,9 @@ def show_care_access(include_bills=True):
 def show_billing_help():
     import streamlit as st
 
+    st.markdown("**Need help paying for Lyme testing or treatment?**")
+    st.link_button("Apply for grants — Lyme Treatment Foundation (U.S.)", "https://lymetreatmentfoundation.org/united-states-application")
+    st.caption("Check the foundation’s current eligibility, application requirements and funding availability. Applications are reviewed by the foundation; funding is not guaranteed.")
     with st.expander("Already have a high medical bill?"):
         st.write("Emergency care may still be billed. Ask the hospital about financial assistance; do not delay emergency care because of cost.")
         st.markdown("1. **Ask for an itemized bill.** Check unfamiliar, duplicate or incorrect charges with the billing office.\n2. **Ask about financial assistance or charity care.** Request the written policy, application and deadlines. Nonprofit hospitals must have a financial-assistance policy for emergency and other medically necessary hospital care; eligibility and covered providers vary. Ask separately about outside clinician and laboratory bills.\n3. **Ask about collections and payment options.** Ask whether collection activity can pause during review. If a balance remains, ask about self-pay discounts or an interest-free plan. Get agreements in writing.")

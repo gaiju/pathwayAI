@@ -40,5 +40,6 @@ class CountyPlanningIndicatorTests(unittest.TestCase):
             self.assertEqual(context['county'], county)
             self.assertIn(county+' reported-rate trend', report_text(report))
             self.assertIn('Not a measure of English proficiency', report_text(report))
-            self.assertIn('self-selected', report_text(report))
+            self.assertNotIn('33 respondents', report_text(report))
+            self.assertNotIn('patient_reported_context', report_csv_rows(report)[0])
             self.assertEqual(len({s['url'] for s in report['sources']}), len(report['sources']))

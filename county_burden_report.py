@@ -4,14 +4,14 @@ import json
 from decimal import Decimal
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from community_action_summary import (AUDIENCE_ACTIONS, ACTION_AREAS, EVIDENCE_TYPES,
-                                      SURVEY_CONTEXT, audience_actions, healthcare_context, CDC_URL, HRSA_URL)
+from community_action_summary import (ACTION_AREAS, EVIDENCE_TYPES,
+                                      audience_actions, healthcare_context, CDC_URL, HRSA_URL)
 from community_action import ACTION_OPTIONS
 from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.2'
+REPORT_VERSION='1.3'
 COUNTIES={'Dutchess':'36027','Orange':'36071'}
 
 
@@ -29,8 +29,9 @@ def build_report(county, priority, restate=False, audience='Public health depart
         'prepared_date':datetime.now(ZoneInfo('America/New_York')).date().isoformat(),
         'audience':audience, 'audience_actions':audience_actions(audience),
         'community_action_areas':[dict(title=title, description=description) for title, description in ACTION_AREAS],
-        'evidence_types':[dict(label=label, description=description) for label, description in EVIDENCE_TYPES],
-        'healthcare_context':access, 'patient_reported_context':dict(SURVEY_CONTEXT),
+        'evidence_types':[dict(label=label, description=description) for label, description in EVIDENCE_TYPES if label != 'Patient survey findings'],
+        'healthcare_context':access,
+        'local_patient_reports_status':'No county-specific patient-reported findings are established in this brief.',
         'report_version':REPORT_VERSION,'county':county,'state':'New York','county_fips':COUNTIES[county],
         'reported_cases':count,'case_year':2024,'reported_rate_per_100000':rates['verified_rates'][county],
         'state_reported_rate_per_100000':rates['verified_rates']['NYS TOTAL'],
@@ -76,7 +77,6 @@ def report_text(report):
     from report_download import TAGLINE
     r=report
     access=r['healthcare_context']
-    survey=r['patient_reported_context']
     lines=[f"PathwayAI | {r['county']} County Lyme Burden & Action Report",
            TAGLINE, 'Public evidence and support planning · Version '+r['report_version'],
            'Prepared: '+r['prepared_date'],
@@ -109,9 +109,9 @@ def report_text(report):
                   '2025 has 11 observed months; October is missing. No imputation. This is not a verified official annual-average restatement.',
                   'Inflation changes purchasing power, not treatment patterns or local representativeness.',
                   m['source_url'],'Source workbook SHA-256: '+m['source_sha256']]
-    lines += ['', '3. PATIENT SURVEY FINDINGS · NOT COUNTY ESTIMATES',
-              f"Snapshot: {survey['snapshot_date']} · {survey['sample_size']} respondents",
-              survey['sampling'],survey['themes'],survey['limits'],survey['source'],survey['privacy'],
+    lines += ['', '3. RESIDENT PRIORITIES TO DISCUSS',
+              'Confirm priorities with residents and caregivers before choosing a response.',
+              r['local_patient_reports_status'],
               '', 'What we still need to understand']+['- '+x for x in r['evidence_gaps']]
     lines += ['', '4. FROM LYME DISEASE BURDEN TO COMMUNITY ACTION',
               'Suggested actions for local review, not clinical advice or adopted programs.']
@@ -168,12 +168,12 @@ def show_county_report(audience='Public health departments'):
         st.write(f"Study-based illustration: USD {report['illustrative_total_2016_usd']:,.0f} · 2016 dollars.")
         st.write('Planning question: '+report['planning']['decision'])
         st.write('Audience: '+report['audience'])
-        st.caption('Also included: available HRSA resource indicators, small self-selected survey context, and suggested community actions.')
+        st.caption('Also included: county comparisons, HRSA indicators, language context and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
     show_planning_indicators(report['additional_public_context'])
-    from pdf_report import report_pdf
+    from county_brief_pdf import county_brief_pdf
     st.download_button('Download county burden & action report (PDF)',
-                       report_pdf(report_text(report), footer_label='PathwayAI | County public-data planning brief', link_urls=True),
+                       county_brief_pdf(report),
                        file_name=f'PathwayAI_{county}_County_Burden_Action_Report.pdf',mime='application/pdf',key='county_report_pdf',type='primary')
     with st.expander('Inspect calculations, sources and report data'):
         st.text(report['formula'])

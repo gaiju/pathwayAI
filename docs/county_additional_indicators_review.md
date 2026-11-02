@@ -26,3 +26,12 @@ Newer Census/QuickFacts insurance and poverty estimates, broadband, shortage-des
 - No fresh retrieval of official source pages; these are reused source snapshots, not claims of latest releases or current service availability.
 
 External verification request: for uninsured residents under 65, poverty and households without broadband, supply the exact official table/link, estimate, reporting period, population/denominator and margin of error if available for both counties. Local service verification needs a county staff member or navigator to confirm current contacts and availability.
+
+
+## Formal export revision (version 1.3)
+
+County PDFs now use a dedicated numbers-first layout, reusing the existing multilingual font utilities. Page 1 presents rounded key figures and local indicators, page 2 presents planning actions and resident-engagement questions, and page 3 uses smaller readable text for linked references and methods. Price basis and illustrative status stay next to the headline amount. Original arithmetic and full-precision CPI provenance remain in Methods/CSV.
+
+The noncounty 33-person survey has been removed from county PDF, text and CSV outputs to avoid geographic ambiguity. It remains in the broader community Evidence & Methods context, with its original sampling limitations. County exports record that county-specific patient-reported findings have not been established; suggested resident priorities are questions, not collected findings. This supersedes earlier review documentation describing noncounty survey context inside county downloads.
+
+All 60 county/priority/audience/inflation combinations produced three-page PDFs with text inside page bounds. Eight targeted data/UI/privacy/export tests passed. No shared patient PDF defaults changed. No merge or deployment.

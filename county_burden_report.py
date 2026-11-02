@@ -93,8 +93,11 @@ def report_text(report):
     for label, value in access['indicators'].items():
         lines.append(label+': '+('Not available' if value is None else f'{value:,.0f}'))
     lines += [access['status'], access['limits'], '', planning_context_text(r['additional_public_context']),
-              '', '2. PUBLISHED RESEARCH ESTIMATES AND COUNTY ILLUSTRATION',
-              r['formula'], 'Hook et al. (published 2022): '+r['study_population'],
+              '', '2. STUDY-BASED COUNTY COST ILLUSTRATION',
+              *([f"2025 purchasing-power illustration: {r['reported_cases']:,} reported cases × inflation-adjusted study mean ≈ USD {r['inflation']['restated_total_usd']:,.0f}.",
+                 f"Inflation-adjusted study mean: approximately USD {r['inflation']['restated_unit_usd']:,.0f} per participant (rounded for display).",
+                 'General inflation comparison using 11 available 2025 months; calculations use unrounded values. Original source calculation and study population are in Methods.']
+                if r['inflation'] else [r['formula'], 'Hook et al. (published 2022): '+r['study_population']]),
               r['cost_perspective'],r['transfer_assumption'],r['other_assumptions'],
               'This illustrates scale, not today’s local costs. Hook excluded non-English speakers and nonacute disease; the study does not represent every local household.']
     if r['inflation']:
@@ -127,6 +130,9 @@ def report_text(report):
               'Use findings to improve support. Before/after changes alone do not establish that the tool caused improvements or saved money.',
               '', '8. DATA SOURCES AND METHODS',
               'Source status: Existing source snapshots. Newer official releases have not been verified for this brief.']
+    if r['inflation']:
+        lines += ['', 'Original study basis (retained for traceability)',r['formula'],
+                  'Hook et al. (published 2022): '+r['study_population']]
     for source in r['sources']:
         lines += [source['purpose']+' · '+source['period'],source['url'],source['status']]
     lines += ['',r['privacy'],r['scope']]

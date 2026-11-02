@@ -11,7 +11,7 @@ from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.1-community-action'
+REPORT_VERSION='1.2'
 COUNTIES={'Dutchess':'36027','Orange':'36071'}
 
 
@@ -79,8 +79,11 @@ def report_text(report):
     survey=r['patient_reported_context']
     lines=[f"PathwayAI | {r['county']} County Lyme Burden & Action Report",
            TAGLINE, 'Public evidence and support planning · Version '+r['report_version'],
-           'Prepared: '+r['prepared_date']+' · County surveillance: 2024 · Study costs: 2016 dollars',
-           'Newer official county releases have not been verified for this brief.',
+           'Prepared: '+r['prepared_date'],
+           'Data years: Lyme surveillance 2024 · HRSA insurance 2022 · HRSA poverty and resources 2023',
+           f"Original study-based cost illustration: USD {r['illustrative_total_2016_usd']:,.0f} in 2016 dollars.",
+           *([f"Optional 2025 purchasing-power comparison: USD {r['inflation']['restated_total_usd']:,.0f} · 11 available months; general inflation."] if r['inflation'] else []),
+           'Illustrations of scale, not measured county spending.',
            '', '1. OBSERVED PUBLIC HEALTH DATA',
            f"Reported Lyme cases: {r['reported_cases']:,} · {r['case_year']} · county FIPS {r['county_fips']}.",
            f"Reported rate: {r['reported_rate_per_100000']:g} per 100,000 residents. New York State: {r['state_reported_rate_per_100000']:g}.",
@@ -96,9 +99,10 @@ def report_text(report):
               'This illustrates scale, not today’s local costs. Hook excluded non-English speakers and nonacute disease; the study does not represent every local household.']
     if r['inflation']:
         m=r['inflation']
-        lines += ['', 'Optional purchasing-power comparison',
-                  f"Per case: USD {m['restated_unit_usd']:,.0f}; county illustration: USD {m['restated_total_usd']:,.0f}.",
-                  'General inflation only. 2016 mean CPI: '+m['base_index']+'; 2025 available-month mean: '+m['target_index']+'; factor: '+m['factor'],
+        lines += ['', 'Optional 2025 purchasing-power comparison · 11 available months',
+                  f"2025 purchasing power: USD {m['restated_unit_usd']:,.0f} per participant; county illustration: USD {m['restated_total_usd']:,.0f}.",
+                  f"General inflation only. 2016 mean CPI: {float(m['base_index']):.3f}; 2025 available-month mean: {float(m['target_index']):.3f}; factor approximately {float(m['factor']):.2f}.",
+                  'Calculations use the full-precision factor retained in the methods CSV.',
                   '2025 has 11 observed months; October is missing. No imputation. This is not a verified official annual-average restatement.',
                   'Inflation changes purchasing power, not treatment patterns or local representativeness.',
                   m['source_url'],'Source workbook SHA-256: '+m['source_sha256']]
@@ -121,7 +125,8 @@ def report_text(report):
               'Choose a common follow-up period, such as 30 days. Record the starting situation and support received. Keep unanswered questions marked as unknown.',
               'For this priority, check: '+plan['measure'],
               'Use findings to improve support. Before/after changes alone do not establish that the tool caused improvements or saved money.',
-              '', '8. DATA SOURCES AND METHODS']
+              '', '8. DATA SOURCES AND METHODS',
+              'Source status: Existing source snapshots. Newer official releases have not been verified for this brief.']
     for source in r['sources']:
         lines += [source['purpose']+' · '+source['period'],source['url'],source['status']]
     lines += ['',r['privacy'],r['scope']]

@@ -6,13 +6,13 @@ from mid_hudson_counties import COUNTIES, REGION, surveillance, regional_coverag
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from community_action_summary import (ACTION_AREAS, EVIDENCE_TYPES,
-                                      audience_actions, healthcare_context, CDC_URL, HRSA_URL)
+                                      audience_actions, healthcare_context, CDC_URL, HRSA_URL, professional_review_link, REVIEW_QUESTIONS, AI_ROLE)
 from community_action import ACTION_OPTIONS
 from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.5'
+REPORT_VERSION='1.6'
 
 
 def build_report(county, priority, restate=False, audience='Public health departments'):
@@ -25,8 +25,14 @@ def build_report(county, priority, restate=False, audience='Public health depart
     count=observed['reported_cases']
     unit=hook['societal_mean']
     total=count*unit if count is not None else None
+    medical = hook.get('societal_medical_mean')
+    other = unit - medical if medical is not None and 0 <= medical <= unit else None
     access = healthcare_context(county)
     result={
+        'study_components':{'medical_mean':medical,'other_expenses_and_productivity':other,'total_societal_mean':unit,'caregiving_separate_amount':None,'dollar_year':2016,'method':'Other expenses and productivity is the societal mean minus medical mean; it is a derived residual, not a separately reported mean.','limits':'Nonmedical, productivity and caregiving costs cannot be independently separated from this supplied overall mean. Do not add components to the total again.'},
+        'professional_review_url':professional_review_link(county),
+        'professional_review_questions':list(REVIEW_QUESTIONS),
+        'ai_role':AI_ROLE,
         'prepared_date':datetime.now(ZoneInfo('America/New_York')).date().isoformat(),
         'audience':audience, 'audience_actions':audience_actions(audience),
         'community_action_areas':[dict(title=title, description=description) for title, description in ACTION_AREAS],
@@ -143,6 +149,11 @@ def report_text(report):
     if r['inflation']:
         lines += ['', 'Original study basis (retained for traceability)',r['formula'],
                   'Hook et al. (published 2022): '+r['study_population']]
+    components=r['study_components']
+    lines += ['', 'Published cost components · per participant · 2016 dollars',
+              'Medical: USD '+_value(components['medical_mean'])+'; other expenses and lost productivity combined: USD '+_value(components['other_expenses_and_productivity'])+'; total societal mean: USD '+_value(components['total_societal_mean'])+'.',
+              components['method'],components['limits'],'Caregiving monetary cost: not separately estimated here.',
+              '', 'Professional review: pathwayai.feedback@gmail.com']+list(r['professional_review_questions'])
     for source in r['sources']:
         lines += [source['purpose']+' · '+source['period'],source['url'],source['status']]
     lines += ['',r['privacy'],r['scope']]
@@ -185,6 +196,12 @@ def show_county_report(audience='Public health departments'):
             st.info('Economic total not calculated: the official 2024 case count needs verification. Available rates and HRSA population/resource context are included.')
         st.caption('Also included: county comparisons, HRSA indicators, language context and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
+    with st.expander('What makes up the published cost figure?'):
+        components=report['study_components']
+        st.write('Published study mean per participant · 2016 dollars. These are not patient bills or independently measured county costs.')
+        st.dataframe([{'Component':'Medical costs','Mean · 2016 USD':_value(components['medical_mean'])}, {'Component':'Other expenses and lost productivity combined','Mean · 2016 USD':_value(components['other_expenses_and_productivity'])}, {'Component':'Total societal mean (components already included)','Mean · 2016 USD':_value(components['total_societal_mean'])}, {'Component':'Caregiving separately valued','Mean · 2016 USD':'Not separately estimated'}], hide_index=True, use_container_width=True)
+        st.caption(components['method']+' '+components['limits'])
+    st.link_button('Review this county brief by email', report['professional_review_url'])
     show_planning_indicators(report['additional_public_context'])
     from county_brief_pdf import county_brief_pdf
     st.download_button('Download county burden & action report (PDF)',

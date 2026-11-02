@@ -73,6 +73,10 @@ def county_brief_pdf(r):
     add('County of residence, not exposure location. Pre-2022 rates excluded because surveillance definitions changed. Different sources do not establish causes. References and limitations: page 3.',small)
     flow.append(PageBreak())
     add('From evidence to community action',title)
+    c=r['study_components']
+    add('Published components · per participant · 2016 dollars',heading)
+    add('Medical: USD '+number(c['medical_mean'])+'; other expenses and productivity combined: USD '+number(c['other_expenses_and_productivity'])+'; total: USD '+number(c['total_societal_mean'])+'.',small)
+    add('The combined component is a derived residual, not a separately reported mean. A separate caregiving amount is not established here; do not add components to the total again.',small)
     plan=r['planning']
     add('Support priority: '+r['priority'],heading)
     add('Question: '+plan['decision'])
@@ -90,6 +94,10 @@ def county_brief_pdf(r):
     add('Choose a common follow-up period, such as 30 days. Record the starting situation, help received and needs still unmet. Keep unanswered questions unknown.',small)
     add('For this priority: '+plan['measure'],small)
     add('Further evaluation is needed to establish health benefits or savings. Actions are proposals for local review, not adopted programs or commitments.',small)
+    add('Professional review',heading)
+    add('Public-health, health-economics and Lyme-care reviewers: please comment on source clarity, cost assumptions, practical usefulness and missing local factors.',small)
+    review_url=escape(r['professional_review_url'], {'"':'&quot;'})
+    flow.append(Paragraph('<link href="'+review_url+'" color="#17648a"><u>Email feedback: pathwayai.feedback@gmail.com</u></link>',small))
     flow.append(PageBreak())
     add('References & methods',title)
     add('Original study basis',heading)

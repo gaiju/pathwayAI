@@ -1,6 +1,9 @@
 """Additional public context for the two-county pilot; no patient aggregation."""
 import csv
 import json
+from functools import lru_cache
+import zipfile
+from community_action_summary import _nonnegative, HRSA_URL
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
@@ -16,6 +19,36 @@ def _read_json(path):
         return json.loads(path.read_text())
     except (OSError, ValueError):
         return {}
+
+
+@lru_cache(maxsize=4)
+def socioeconomic_context(county, asset_path=None):
+    if county not in COUNTIES:
+        raise ValueError('Choose a supported county.')
+    definitions = [
+        {'measure': 'Uninsured residents under age 65', 'field': 'pers_noins_lt65_pct_22',
+         'year': 2022, 'population': 'Residents under age 65; AHRF field population'},
+        {'measure': 'People below poverty level', 'field': 'pers_povty_pct_23',
+         'year': 2023, 'population': 'Population for whom poverty status is determined'},
+    ]
+    rows = [{**item, 'value': None, 'unit': 'percent', 'source_url': HRSA_URL,
+             'status': 'Not available in the supplied AHRF file.',
+             'margin_of_error': None} for item in definitions]
+    try:
+        import pandas as pd
+        with zipfile.ZipFile(asset_path or BASE / 'AHRF_2024-2025_CSV.zip') as archive:
+            name = next(n for n in archive.namelist() if n.endswith('AHRF2025.csv'))
+            names = {'fips_st_cnty', *(item['field'] for item in definitions)}
+            frame = pd.read_csv(archive.open(name), usecols=lambda key: key in names, dtype={'fips_st_cnty': str})
+        selected = frame[frame['fips_st_cnty'].str.zfill(5) == COUNTIES[county]]
+        if len(selected) == 1:
+            for row in rows:
+                value = _nonnegative(selected.iloc[0].get(row['field']))
+                row['value'] = value if value is not None and value <= 100 else None
+                row['status'] = 'Existing HRSA AHRF 2024–2025 release; field year shown, not an ACS 2020–2024 substitute. Margin of error not supplied in these fields.'
+    except (OSError, ValueError, KeyError, StopIteration, zipfile.BadZipFile):
+        pass
+    return rows
 
 
 def planning_indicators(county, base=None):
@@ -44,6 +77,7 @@ def planning_indicators(county, base=None):
     census_url = 'https://www.census.gov/quickfacts/' + county.lower() + 'countynewyork'
     return {
         'county': county, 'comparison': comparison, 'rate_trend': trend,
+        'socioeconomic_context': socioeconomic_context(county, str(root / 'AHRF_2024-2025_CSV.zip')),
         'language_context': {'value': LANGUAGE_HOME[county], 'unit': 'percent',
                              'measure': 'Language other than English spoken at home',
                              'population': 'Residents age 5 and older', 'period': 'ACS 2020–2024',
@@ -62,6 +96,7 @@ def planning_indicators(county, base=None):
             {'purpose': 'County/state reported cases', 'period': '2024', 'url': CASE_URL},
             {'purpose': 'County/state reported rates', 'period': '2024', 'url': RATE_URL},
             {'purpose': 'Reported rate trend, Figure 147, page 219', 'period': '2022–2023; regional assessment published 2025', 'url': regional.get('source_url', TREND_URL)},
+            {'purpose': 'Insurance and poverty context', 'period': 'AHRF insurance field 2022; poverty field 2023; AHRF 2024–2025 release', 'url': HRSA_URL},
             {'purpose': 'Language spoken at home, age 5+', 'period': 'ACS 2020–2024', 'url': census_url}],
     }
 
@@ -78,6 +113,10 @@ def planning_context_text(context):
         lines.append(row['Area']+': '+_display(row['Reported cases'])+' reported cases; '+_display(row['Reported cases per 100,000'])+' per 100,000 residents.')
     lines += ['', context['county']+' reported-rate trend · cases per 100,000']
     lines += [str(row['Year'])+': '+_display(row['Reported cases per 100,000']) for row in context['rate_trend']]
+    lines += ['', 'Insurance and poverty context · HRSA AHRF 2024–2025']
+    for item in context['socioeconomic_context']:
+        lines.append(item['measure']+': '+_display(item['value'], '%')+' · '+str(item['year'])+' · '+item['population'])
+    lines += ['Different field years; not Lyme-attributable burden or measured demand. Margins of error are not supplied in these fields.']
     language = context['language_context']
     lines += [context['limits'], '', language['measure']+': '+_display(language['value'], '%'),
               language['population']+' · '+language['period'], language['status'], language['limits'],
@@ -102,6 +141,9 @@ def show_planning_indicators(context):
         st.dataframe([{'Year': row['Year'], 'Reported cases per 100,000': _display(row['Reported cases per 100,000'])}
                       for row in context['rate_trend']], hide_index=True, use_container_width=True)
         st.caption(context['limits'])
+        st.markdown('**Insurance and poverty context · HRSA AHRF 2024–2025**')
+        st.dataframe([{'Indicator': item['measure'], 'Percent': _display(item['value'], '%'), 'Field year': item['year'], 'Population': item['population']} for item in context['socioeconomic_context']], hide_index=True, use_container_width=True)
+        st.caption('Historical field years, not ACS 2020–2024 substitutes. Margins of error are not supplied in these fields. These are population context, not Lyme-attributable needs or individual eligibility.')
         language = context['language_context']
         st.write('**Language context:** '+_display(language['value'], '%')+' speak a language other than English at home · age 5+ · '+language['period']+'.')
         st.caption(language['status']+' '+language['limits'])

@@ -8,13 +8,14 @@ This extends the unmerged `feature/community-action-summary` branch. It is not d
 - Selected-county 2022–2024 rate history, reusing the regional-assessment and NYSDOH source values already used by the app. No pre-2022 trend or causal interpretation.
 - Census language-other-than-English-at-home percentages for residents age 5+, ACS 2020–2024, reusing the app's existing QuickFacts snapshots (Dutchess 16.2%; Orange 30.2%). Not English proficiency, immigration status or interpreter demand.
 - Existing county initiative links from `pathwayai_county_assets.csv`. Dutchess has three listings. Orange has none in this file; this is missing directory information, not absence of services. Contacts, activity and availability require verification.
+- HRSA AHRF uninsured-under-65 rates (2022: Dutchess 4.7%, Orange 5.5%) and poverty rates (2023: Dutchess 8.0%, Orange 12.7%), read from their named fields rather than relabeled as ACS 2020–2024. The selected file fields do not supply MOEs. These are general population context, not Lyme-attributable needs.
 - Four plain-language planning questions that connect these indicators to local investigation. No recommendation to allocate resources solely from these values.
 
 The county planning view has a collapsed additional-data section. Both county PDF and methods CSV contain the selected county context and source provenance. Existing original-dollar cost calculations, optional inflation method, county selection, audience actions and patient-record separation are unchanged.
 
 ## Deferred
 
-New insurance, poverty, broadband, shortage-designation and disability figures are not added until the specific measure, denominator, source and reporting period are checked. No underreporting adjustment, risk score, ranking, savings, population-level survey extrapolation or patient-data collection is introduced. Top-ten county work remains incomplete.
+Newer Census/QuickFacts insurance and poverty estimates, broadband, shortage-designation and disability figures are deferred until the specific measure, denominator, source and reporting period are checked. The newly extracted older AHRF insurance/poverty figures remain explicitly year-labeled. No underreporting adjustment, risk score, ranking, savings, population-level survey extrapolation or patient-data collection is introduced. Top-ten county work remains incomplete.
 
 ## Checks
 

@@ -1,7 +1,7 @@
 import json
 from tempfile import TemporaryDirectory
 import unittest
-from county_planning_indicators import planning_indicators, planning_context_text
+from county_planning_indicators import planning_indicators, planning_context_text, socioeconomic_context
 from county_burden_report import build_report, report_text, report_csv_rows
 
 
@@ -14,6 +14,9 @@ class CountyPlanningIndicatorTests(unittest.TestCase):
         self.assertEqual([r['Reported cases per 100,000'] for r in orange['rate_trend']], [231.6, 296.9, 237.0])
         self.assertEqual(dutchess['language_context']['value'], 16.2)
         self.assertEqual(orange['language_context']['value'], 30.2)
+        self.assertEqual([row['value'] for row in dutchess['socioeconomic_context']], [4.7, 8.0])
+        self.assertEqual([row['value'] for row in orange['socioeconomic_context']], [5.5, 12.7])
+        self.assertEqual([row['year'] for row in orange['socioeconomic_context']], [2022, 2023])
         self.assertEqual(len(dutchess['listed_initiatives']), 3)
         self.assertEqual(orange['listed_initiatives'], [])
         self.assertIn('No listing does not mean no services', orange['initiative_status'])
@@ -25,6 +28,7 @@ class CountyPlanningIndicatorTests(unittest.TestCase):
             self.assertTrue(all(row['Reported cases per 100,000'] is None for row in context['rate_trend']))
             self.assertIn('Not available', planning_context_text(context))
             self.assertEqual(context['listed_initiatives'], [])
+            self.assertTrue(all(row['value'] is None for row in context['socioeconomic_context']))
         with self.assertRaises(ValueError):
             planning_indicators('Unsupported')
 

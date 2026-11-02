@@ -56,6 +56,10 @@ def build_report(county, priority, restate=False, audience='Public health depart
         'inflation':None,
     }
     result['additional_public_context'] = planning_indicators(county)
+    for source in result['sources']:
+        if source['url'] == HRSA_URL:
+            source['purpose'] = 'Healthcare resources, insurance and poverty context'
+            source['period'] = '2022 insurance fields; 2023 healthcare and poverty fields; AHRF 2024–2025 release'
     known_urls = {source['url'] for source in result['sources']}
     for source in result['additional_public_context']['sources']:
         if source['url'] not in known_urls:

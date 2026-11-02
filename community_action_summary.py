@@ -2,6 +2,7 @@
 from functools import lru_cache
 from pathlib import Path
 import math
+from urllib.parse import quote, urlencode
 import zipfile
 from mid_hudson_counties import COUNTIES
 
@@ -47,6 +48,37 @@ SURVEY_CONTEXT = {
     'source': 'Project-lead-supplied summary already documented in the app; not a new analysis of raw responses.',
     'privacy': 'Only this aggregate context is included. Personal app entries are not included in community evidence.',
 }
+
+
+
+REVIEW_EMAIL = 'pathwayai.feedback@gmail.com'
+REVIEW_QUESTIONS = (
+    'Are the sources, years and populations clear?',
+    'Are the cost calculations and assumptions reasonable for a study-based illustration?',
+    'Would the patient tools or county brief be useful in your work?',
+    'What is the most important missing information or improvement?',
+)
+AI_ROLE = 'Optional AI helps organize mixed-language patient notes into summaries users review and correct.'
+
+
+def professional_review_link(county=None):
+    if county is not None and county not in COUNTIES:
+        raise ValueError('Choose a supported county.')
+    subject = 'PathwayAI professional review' + (' — '+county+' County' if county else '')
+    body = ('Reviewing: '+county+' County\n\n' if county else 'Reviewing: [county or workflow]\n\n')
+    body += '\n\n'.join(str(i)+'. '+question+'\nComments: ' for i, question in enumerate(REVIEW_QUESTIONS,1))
+    body += '\n\nPlease do not include patient information. May we quote your comments publicly? [Yes / No; please specify attribution.]'
+    return 'mailto:'+REVIEW_EMAIL+'?'+urlencode({'subject':subject,'body':body},quote_via=quote)
+
+
+def show_public_health_review_invitation():
+    import streamlit as st
+    with st.container(border=True, key='public_health_partner_review'):
+        st.markdown('**For public-health partners**')
+        st.write('Review county briefs alongside your local priorities. We welcome feedback on sources, assumptions, missing local factors and practical usefulness.')
+        st.caption('NYSDOH 2024 · HRSA insurance 2022; poverty/resources 2023. Costs are study-based illustrations, not measured local spending. Verify current local services.')
+        st.link_button('Email a professional review', professional_review_link())
+        st.caption('Opens your email app with four review questions. Nothing is submitted automatically; please omit patient information.')
 
 
 def audience_actions(audience):
@@ -95,6 +127,10 @@ def show_community_action_summary():
     with st.container(key='community_action_summary'):
         st.subheader('From Lyme Disease Burden to Community Action')
         st.write('Explore county evidence, choose a support priority, and download a planning brief.')
+        from community_pathway import show_pathway
+        show_pathway()
+        show_public_health_review_invitation()
+        st.caption(AI_ROLE)
         st.markdown('**Four support areas to consider**')
         display_areas = (
             ('Prevention', 'Share tick-prevention information.'),

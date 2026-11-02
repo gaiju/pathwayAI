@@ -6,13 +6,13 @@ from mid_hudson_counties import COUNTIES, REGION, surveillance, regional_coverag
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from community_action_summary import (ACTION_AREAS, EVIDENCE_TYPES,
-                                      audience_actions, healthcare_context, CDC_URL, HRSA_URL)
+                                      audience_actions, healthcare_context, CDC_URL, HRSA_URL, professional_review_link, REVIEW_QUESTIONS, AI_ROLE)
 from community_action import ACTION_OPTIONS
 from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.5'
+REPORT_VERSION='1.9'
 
 
 def build_report(county, priority, restate=False, audience='Public health departments'):
@@ -25,8 +25,22 @@ def build_report(county, priority, restate=False, audience='Public health depart
     count=observed['reported_cases']
     unit=hook['societal_mean']
     total=count*unit if count is not None else None
+    medical = hook.get('societal_medical_mean')
+    other = unit - medical if medical is not None and 0 <= medical <= unit else None
+    adrion=json.loads((BASE/'data/adrion_2015_uploaded_pdf_review.json').read_text())
+    johnson=json.loads((BASE/'data/johnson_2014_uploaded_pdf_review.json').read_text())
+    research=[
+        {'study':'Hook et al. (2022)', 'sample':f"{hook['patient_analysis_n']:,} patient-cost participants; {hook['societal_analysis_n']:,} societal-cost participants", 'period':'Recruitment 2014–2016; 2016 dollars', 'contribution':'Medical, nonmedical and productivity costs inform the existing illustration.', 'limit':'Selected reported cases in four high-incidence states; excluded non-English speakers and nonacute disease.', 'url':hook['source_url']},
+        {'study':'Adrion et al. (2015)', 'sample':f"{adrion['lyme_n']:,} Lyme patients; {adrion['matched_controls_n']:,} matched controls", 'period':'Claims 2006–2010; 12-month follow-up', 'contribution':'Documents healthcare spending and utilization after Lyme diagnosis.', 'limit':'Commercially insured ages 0–64; not uninsured patients or a full household-cost estimate.', 'url':adrion['source_url']},
+        {'study':'Johnson et al. (2014)', 'sample':f"{johnson['analysis_n']:,} selected survey respondents", 'period':'Survey 2013; persistent symptoms after treatment', 'contribution':'Documents reported work disruption, expenses and quality-of-life impacts.', 'limit':'Self-selected, self-reported persistent-illness sample; not all Lyme cases or a county disability rate.', 'url':johnson['source_url']},
+    ]
     access = healthcare_context(county)
     result={
+        'published_research_context':research,
+        'study_components':{'medical_mean':medical,'other_expenses_and_productivity':other,'total_societal_mean':unit,'caregiving_separate_amount':None,'dollar_year':2016,'method':'Other expenses and productivity is the societal mean minus medical mean; it is a derived residual, not a separately reported mean.','limits':'Nonmedical, productivity and caregiving costs cannot be independently separated from this supplied overall mean. Do not add components to the total again.'},
+        'professional_review_url':professional_review_link(county),
+        'professional_review_questions':list(REVIEW_QUESTIONS),
+        'ai_role':AI_ROLE,
         'prepared_date':datetime.now(ZoneInfo('America/New_York')).date().isoformat(),
         'audience':audience, 'audience_actions':audience_actions(audience),
         'community_action_areas':[dict(title=title, description=description) for title, description in ACTION_AREAS],
@@ -72,6 +86,8 @@ def build_report(county, priority, restate=False, audience='Public health depart
         meta=inflation_metadata()
         result['inflation']={**meta,'restated_unit_usd':float(Decimal(unit)*Decimal(meta['factor'])),
                              'restated_total_usd':float(Decimal(total)*Decimal(meta['factor'])) if total is not None else None}
+    from community_pathway import local_planning_notes
+    result['local_planning_notes'] = local_planning_notes(result)
     return result
 
 
@@ -119,6 +135,12 @@ def report_text(report):
                   '2025 has 11 observed months; October is missing. No imputation. This is not a verified official annual-average restatement.',
                   'Inflation changes purchasing power, not treatment patterns or local representativeness.',
                   m['source_url'],'Source workbook SHA-256: '+m['source_sha256']]
+    lines += ['', 'WHAT PUBLISHED RESEARCH ADDS', 'External study populations, not county patient findings. These studies are not added together or used to infer local disability rates.']
+    for study in r['published_research_context']:
+        lines += [study['study']+' · '+study['sample'],study['period'],study['contribution'],study['limit'],study['url']]
+    lines += ['', 'WHAT THIS MEANS FOR LOCAL PLANNING']
+    for note in r['local_planning_notes']:
+        lines += [note['title']+': '+note['text'],note['period']] + ([note['source_url']] if note['source_url'] else [])
     lines += ['', '3. RESIDENT PRIORITIES TO DISCUSS',
               'Confirm priorities with residents and caregivers before choosing a response.',
               r['local_patient_reports_status'],
@@ -143,6 +165,11 @@ def report_text(report):
     if r['inflation']:
         lines += ['', 'Original study basis (retained for traceability)',r['formula'],
                   'Hook et al. (published 2022): '+r['study_population']]
+    components=r['study_components']
+    lines += ['', 'Published cost components · per participant · 2016 dollars',
+              'Medical: USD '+_value(components['medical_mean'])+'; other expenses and lost productivity combined: USD '+_value(components['other_expenses_and_productivity'])+'; total societal mean: USD '+_value(components['total_societal_mean'])+'.',
+              components['method'],components['limits'],'Caregiving monetary cost: not separately estimated here.',
+              '', 'Professional review: pathwayai.feedback@gmail.com']+list(r['professional_review_questions'])
     for source in r['sources']:
         lines += [source['purpose']+' · '+source['period'],source['url'],source['status']]
     lines += ['',r['privacy'],r['scope']]
@@ -166,6 +193,12 @@ def show_county_report(audience='Public health departments'):
     with st.expander('Check regional data coverage'):
         st.dataframe([{'County': row['county'], '2024 reported rate per 100,000': row['reported_rate'], '2024 verified cases': _value(row['reported_cases']), 'Case-count status':row['case_count_status']} for row in regional_coverage()], hide_index=True, use_container_width=True)
     st.write('Take a sourced report to a team discussion: reported cases, study-based costs, evidence gaps and one support decision to explore.')
+    from zip_county_connection import apply_county_hint
+    hint = apply_county_hint(st.session_state)
+    if hint and hint['county']:
+        st.caption(f"Suggested from your {hint['source'].replace('_', ' ')} ZIP {hint['zip']}: {hint['county']} County. Confirm or change the county below. Only location is carried over; personal records remain separate.")
+    elif hint:
+        st.caption('Your ZIP could not be matched to a county in this seven-county pilot. Choose a pilot county below to explore its public evidence.')
     a,b=st.columns(2)
     with a:
         county=st.selectbox('County for the report',list(COUNTIES),key='county_report_county')
@@ -185,6 +218,29 @@ def show_county_report(audience='Public health departments'):
             st.info('Economic total not calculated: the official 2024 case count needs verification. Available rates and HRSA population/resource context are included.')
         st.caption('Also included: county comparisons, HRSA indicators, language context and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
+    with st.container(border=True):
+        st.markdown('### What This Means for Local Planning')
+        for index,note in enumerate(report['local_planning_notes'],1):
+            label='A local action to review' if index==3 else note['title']
+            st.markdown('**'+str(index)+'. '+label+'**')
+            st.write(note['text'])
+            if note['source_url']:
+                st.markdown('['+note['period']+']('+note['source_url']+')')
+            else:
+                st.caption(note['period'])
+    with st.expander('What published research adds'):
+        st.caption('External study populations, not county patient findings. Study costs are not added together; survey findings are not applied to county case counts.')
+        for study in report['published_research_context']:
+            st.markdown('**'+study['study']+' · '+study['sample']+'**')
+            st.write(study['contribution'])
+            st.caption(study['period']+'. '+study['limit'])
+            st.link_button('Read '+study['study'],study['url'])
+    with st.expander('What makes up the published cost figure?'):
+        components=report['study_components']
+        st.write('Published study mean per participant · 2016 dollars. These are not patient bills or independently measured county costs.')
+        st.dataframe([{'Component':'Medical costs','Mean · 2016 USD':_value(components['medical_mean'])}, {'Component':'Other expenses and lost productivity combined','Mean · 2016 USD':_value(components['other_expenses_and_productivity'])}, {'Component':'Total societal mean (components already included)','Mean · 2016 USD':_value(components['total_societal_mean'])}, {'Component':'Caregiving separately valued','Mean · 2016 USD':'Not separately estimated'}], hide_index=True, use_container_width=True)
+        st.caption(components['method']+' '+components['limits'])
+    st.link_button('Review this county brief by email', report['professional_review_url'])
     show_planning_indicators(report['additional_public_context'])
     from county_brief_pdf import county_brief_pdf
     st.download_button('Download county burden & action report (PDF)',

@@ -88,6 +88,7 @@ def show_visit_summary(story, details):
     edited = st.text_area("Review and edit your visit summary", key="visit_summary_edit", height=350, max_chars=60000)
     st.session_state["visit_summary_reviewed"] = edited
     compact = personal_pdf_options("visit_pdf_layout")
+    st.caption("Review and correct this personal record before sharing it with a clinician or support service. Each program determines its own documentation requirements and eligibility.")
     branded_download_button("Download my visit summary", edited.encode("utf-8"),
                        file_name="PathwayAI_Visit_Summary.txt", mime="text/plain", key="visit_summary_download", include_daily_observations=True, compact_personal_pdf=compact)
     st.caption("The timeline comes first; your original notes are retained at the end. Add costs and time below for a separate appointment and cost card.")

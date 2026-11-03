@@ -1288,6 +1288,7 @@ def compact_care88(quick, story):
         reviewed=st.text_area("Correct the summary before sharing",key="summary88_text",height=150,max_chars=300000)
         compact = personal_pdf_options("cost_pdf_layout")
         branded_download_button("Download appointment and cost summary",reviewed.encode("utf-8"),file_name="PathwayAI_AppointmentSummary.txt",mime="text/plain",key="summary88_download",compact_personal_pdf=compact)
+        st.caption("Review and correct this personal record before sharing it with a clinician or support service. Each program determines its own documentation requirements and eligibility.")
     st.markdown('<span id="find-support"></span>', unsafe_allow_html=True)
     st.markdown('<span id="benefits-help"></span>', unsafe_allow_html=True)
     st.markdown("### 5. Find benefits and everyday support")

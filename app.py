@@ -3776,12 +3776,9 @@ if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):
         welcome, photo = st.columns([1.0, 1.5], gap="medium")
         with welcome:
-            st.markdown("**Public Health Intelligence & Action Platform**")
             st.title("PathwayAI")
-            st.subheader("Prepare for timely care. Find support when you need it.")
-            st.caption("Making the Hidden Burden of Lyme Disease Visible—and Actionable")
-            st.write("Connecting patient experiences, public health data, and community resources to support better-informed decisions.")
-            st.markdown('<p class="pathway-recognition">HHS TOPx Phase I Winner | AI &amp; Invisible Illness.</p>', unsafe_allow_html=True)
+            st.subheader("Prepare for Lyme care. Find support when you need it.")
+            st.write("Tools for patients and caregivers, with local evidence to help community teams plan support.")
             with st.expander("For patients, caregivers and community teams"):
                 st.write("Write in your preferred language, including mixed languages. Review and download a visit summary or support record to share when you choose.")
                 st.write("County and community teams can explore public data and study-based cost illustrations to inform prevention and support planning. Personal records remain separate from community evidence.")
@@ -3897,6 +3894,9 @@ if not st.session_state.get("pathway_open", False):
         participant_cost.metric("Average societal cost per Lyme study participant · 2016 dollars", "$2,032")
         st.caption("Different populations and periods; do not add these figures. Published costs are not personal predictions or measured county spending. See Evidence and limits below.")
     with st.expander("About PathwayAI"):
+        st.markdown("**Public Health Intelligence & Action Platform**")
+        st.caption("Making the Hidden Burden of Lyme Disease Visible—and Actionable")
+        st.write("HHS TOPx Phase I Winner | AI & Invisible Illness.")
         st.write("A working pilot web app for people affected by Lyme disease, caregivers and community teams.")
         st.write("Prepare for outdoor activities, respond to a tick bite, organize information for care, or explore possible community support actions.")
         st.write("Visit summaries, cost-and-time records, support requests and evidence downloads work now. Personal entries stay in the current session; download your reviewed record to keep it.")

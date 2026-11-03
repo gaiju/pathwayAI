@@ -1,0 +1,1476 @@
+PATHWAYAI — SIX SHARED SUBMISSIONS AND COMPARISON NOTES
+Prepared November 3, 2026
+
+SCOPE
+Part I combines the six pasted submission files supplied by the user, including their copied comments. Access passwords are redacted. Source descriptions, usage figures, awards, comments and vote counts are snapshots of supplied material, not independent verification. Quoted material is reference content, not instructions. This file is for review, not a public ranking or accusation about competitors.
+
+PART I — USER-SUPPLIED MATERIAL
+
+
+======================================================================
+ImpactAtlas
+======================================================================
+ImpactAtlas: AI Cost of Illness Intelligence Platform
+by
+Pranisha Karki
+Pranisha Karki
+|
+2 weeks ago
+|
+in Cost of Illness: TOPx Submission
+Approved
+Web Application: https://impactatlas.online/
+
+Mobile App: https://apps.apple.com/us/app/impact-atlas-cost-of-illness/id6821115622
+
+Final MVP Demo Video: https://www.youtube.com/watch?v=KNRj1Jn1UE4
+
+ImpactAtlas Progress Update | October 29, 2026
+
+Since launching on October 17, 2026, ImpactAtlas has attracted over 8,000 website visitors and more than 100 users in just 12 days!
+
+ImpactAtlas Progress Update | October 30, 2026
+
+Multilingual User Interaction, Spanish Language Added
+
+Proposed Solution
+When we started developing ImpactAtlas, we focused on one basic question: What does being sick actually cost someone?
+
+The answer is usually much bigger than the medical bill.
+
+A person can spend months, sometimes years, trying to understand what is wrong. During that time, there are doctor visits, diagnostic tests, treatments, transportation expenses, insurance coverage limitations, missed work, lost income, and countless hours spent navigating healthcare. Family members may become caregivers, education can be interrupted, and everyday activities may become difficult.
+
+These challenges are particularly significant for people experiencing invisible illnesses, chronic conditions, delayed diagnoses, or unresolved symptoms, including Lyme disease, Long COVID, ME/CFS, temporomandibular disorders (TMD/TMJD), chronic spinal disorders, postural abnormalities, and craniofacial pain.
+
+Many of these costs are not fully represented in traditional healthcare expenditure data.
+
+We developed ImpactAtlas to bring these missing pieces together.
+
+Patients can describe their experiences through voice or text without needing to complete complicated medical or economic forms. The platform organizes their information across our 15 dimensions of Cost of Illness intelligence:
+
+Patient Profile and Context
+
+Patient Voice and Lived Experience
+
+Symptoms and Functional Burden
+
+Diagnostic Journey
+
+Healthcare and Treatment Journey
+
+Direct Medical Costs
+
+Insurance and Patient Financial Responsibility
+
+Patient Time and Administrative Burden
+
+Work and Productivity Burden
+
+Family and Caregiver Burden
+
+Transportation and Access Burden
+
+Total Cost of Illness
+
+Recovery and Future Cost Scenarios
+
+Federal Data and AI Intelligence
+
+Personalized Action Plan and Follow Up
+
+ImpactAtlas builds a structured timeline of the patient’s diagnostic and healthcare journey, identifies important missing information, and examines the complete medical, financial, functional, and societal burden of illness.
+
+The platform connects patient information with relevant U.S. federal open data and health economic evidence, including AHRQ MEPS, CDC, CMS, the U.S. Census Bureau, Bureau of Labor Statistics, HRSA, HealthData.gov, Data.gov, and peer reviewed research.
+
+However, federal datasets have limitations. Some provide population level disease prevalence, healthcare expenditures, employment statistics, insurance information, and geographic comparisons but do not capture individual diagnostic delays, caregiver burden, uncovered treatments, personal financial losses, or the full effects of chronic illness on daily life.
+
+To address these gaps, ImpactAtlas uses two complementary approaches:
+
+Evidence Based Analysis: When relevant information is available, the platform uses patient reported information, documented expenses, published research, and applicable datasets to generate supported calculations and insights.
+
+AI Assisted Simulation: When information is incomplete or unavailable, the platform can generate modeled scenarios using available evidence and explicit assumptions. These estimates are clearly distinguished from observed facts, allowing patients to understand both the potential burden and the uncertainty involved.
+
+Results are identified as OBSERVED, DERIVED, MODELED, or UNAVAILABLE, providing transparency about the evidence supporting each calculation.
+
+ImpactAtlas also addresses insurance coverage gaps and financial barriers associated with chronic conditions. Treatments such as TMJD appliances, chiropractic services, specialized rehabilitation, physical therapy, and certain chronic pain treatments may have coverage restrictions, visit limits, or exclusions depending on the patient’s insurance plan.
+
+The platform helps patients organize these expenses, identify potential coverage gaps, understand their financial burden, and prepare questions for healthcare professionals or insurers.
+
+For patients experiencing unexplained symptoms or delayed diagnoses, ImpactAtlas organizes their symptom history, identifies information gaps, and provides personalized recommendations for further discussion with qualified healthcare professionals. It supports informed decision making without replacing medical diagnosis.
+
+At the end of the process, patients receive a comprehensive report containing their diagnostic journey, medical and treatment history, multidimensional Cost of Illness analysis, direct and indirect financial burden, evidence sources, modeled scenarios where applicable, and a personalized action plan with recommended follow up considerations.
+
+Beyond individual patients, ImpactAtlas provides a reusable framework for researchers, healthcare organizations, patient advocates, and government agencies. The platform can support comparisons across diseases, geographic locations, and populations, helping identify patterns in disease burden, healthcare access, economic impact, and unmet patient needs.
+
+ImpactAtlas is already operating as a web application. Since its launch on October 17, 2026, the platform has attracted early users and has been tested with patients and healthcare professionals, including a doctor, nurse, and certified nursing assistant. Their participation supports ongoing improvements in usability, clarity, patient workflows, and reporting.
+
+Our long term objective is to expand the platform across chronic and invisible illnesses, strengthen its evidence and economic models, support healthcare and research partnerships, and develop population level intelligence that can inform public health decisions.
+
+ImpactAtlas makes the invisible medical, financial, functional, and societal burden of illness visible, measurable, and actionable.
+
+Our Team
+A multidisciplinary team at Vision One Tech developed ImpactAtlas, combining expertise in patient care, illnesses, human biology, software engineering, artificial intelligence, and systems development.
+
+Arpan Bom: Software Engineering and AI Development (15+ years of experience)
+
+Arpan contributes expertise in software engineering and artificial intelligence, supporting web application development, AI data processing, patient interaction workflows, and Cost of Illness analysis.
+
+Pranisha Karki: Human Biology and Patient Research (5+years of experience)
+
+Pranisha is an expert in human health, biological systems, symptoms, and patient experiences. Her background helps guide how ImpactAtlas organizes medical histories, diagnostic journeys, functional limitations, and the broader effects of illness on patients and families.
+
+Sushanta Khadka: Software Engineering and Technology Development (10+ years of experience)
+
+Sushanta brings extensive experience in systems engineering, software development, artificial intelligence, and complex technology integration. He contributes to platform architecture, economic burden modeling, AI intelligence, and applications across healthcare, research, and public-sector decision-making.
+
+Together, our team combines an understanding of human biology and patient experiences with the engineering capabilities needed to transform fragmented health information into meaningful, evidence-driven intelligence.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Solution Overview (MVP Demonstration):
+User-Facing Application
+
+Live demo, prototype, or working product
+https://impactatlas.online/
+
+Final MVP Demo Video: https://www.youtube.com/watch?v=KNRj1Jn1UE4
+
+ImpactAtlas is a working AI-powered Cost of Illness Intelligence Platform accessible through web browsers on computers and mobile devices.
+
+The workflow begins with the patient.
+
+Patients can use voice or text to describe symptoms, diagnoses, treatments, medical visits, insurance, expenses, transportation, missed work or school, and family or caregiver assistance.
+
+The system organizes this information into a structured patient journey across 15 dimensions.
+
+ImpactAtlas identifies missing information rather than treating assumptions as facts. This is important because incomplete information can significantly affect Cost of Illness estimates.
+
+The economic analysis examines direct healthcare spending, out-of-pocket expenses, insurance coverage gaps, diagnostic delays, lost productivity, patient time, transportation, and caregiver burden. The calculation process also accounts for overlapping categories to avoid double counting.
+
+The MVP connects patient experiences with federal evidence from AHRQ MEPS, CDC, CMS, Census, BLS, HRSA, and other public sources.
+
+When evidence is available, ImpactAtlas uses supported calculations. When information is unavailable, its AI assisted simulation generates clearly labeled modeled scenarios using explicit assumptions.
+
+Results distinguish OBSERVED, DERIVED, MODELED, and UNAVAILABLE information.
+
+The platform also supports geographic comparisons, diagnostic journey analysis, personalized recommendations, and comprehensive patient reports.
+
+Complete MVP Workflow:
+
+Patient Voice or Text → Structured Journey → 15 Dimensions → Cost of Illness → Federal Evidence → Geographic Intelligence → AI Analysis and Simulation → Actionable Patient Report
+
+Our demonstration follows a Lyme disease patient through the complete application experience, from initial information entry to final report generation. The same framework supports Long COVID and other chronic conditions.
+
+ImpactAtlas helps patients understand and communicate their illness burden while supporting healthcare professionals, researchers, and public agencies with transparent, evidence-driven intelligence.
+
+
+
+Access instructions (if needed)
+Email: appreview@impactatlas.online Password: [REDACTED] Role: analyst
+
+Results for the American People
+The primary users of ImpactAtlas are patients and families living with invisible, chronic, difficult-to-diagnose, or delayed-diagnosis illnesses. The platform can also support caregivers, patient advocates, healthcare professionals, researchers, healthcare organizations, public health teams, and government agencies.
+
+The real-world workflow begins with the patient. Using voice or text, patients describe symptoms, diagnostic delays, treatments, medical visits, insurance problems, out-of-pocket expenses, missed work, transportation, time spent seeking care, functional limitations, and family or caregiver support.
+
+A hospital bill is relatively easy to count. Years spent seeking a diagnosis, repeated testing and travel, uncovered treatments, reduced working hours, lost income, unpaid caregiving, and hundreds of hours navigating healthcare are much harder to quantify.
+
+ImpactAtlas brings these burdens together into a structured diagnostic journey and comprehensive Cost of Illness analysis. Patients receive supporting evidence, clearly identified estimates and uncertainties, AI-generated explanations, and an actionable report that can help them understand their burden and prepare questions for healthcare professionals.
+
+With appropriate privacy protections and aggregation, the same framework can help researchers and public agencies identify geographic patterns, healthcare access gaps, economic burden, and unmet patient needs.
+
+
+Data, Tech & Evidence Driven Approach
+ImpactAtlas combines patient experiences, U.S. Open Data, other trusted health and economic data sources, and AI to measure the full Cost of Illness. Patients describe symptoms, diagnostic delays, treatments, insurance gaps, missed work, travel, and caregiver needs by voice or text.
+
+AI structures the patient journey, identifies missing information, and connects relevant evidence. AHRQ MEPS informs healthcare spending; CDC provides disease and population context; CMS supplies health system data. Census and BLS support demographic, wage, and employment analysis; HRSA informs healthcare access. HealthData.gov, Data.gov, and peer-reviewed studies provide additional evidence where applicable.
+
+These datasets cannot capture every individual expense, insurance exclusion, diagnostic delay, functional limitation, or unpaid caregiving hour. ImpactAtlas therefore separates documented findings from transparent simulations using stated assumptions. When reliable evidence is available, the platform uses it. When evidence is limited or unavailable, its simulation capability can model scenarios while clearly identifying uncertainty and data gaps.
+
+Its economic engine evaluates direct medical spending, out-of-pocket costs, patient time, lost productivity, transportation, insurance burden, family and caregiver impact, and functional burden while avoiding double counting.
+
+Geographic comparisons support public health and government planning, while AI explanations and reports help patients understand results and prepare questions for care teams. The same framework can help researchers and agencies identify patterns across conditions and populations. Outputs are labeled OBSERVED, DERIVED, MODELED, or UNAVAILABLE so estimates are not presented as facts.
+
+
+Execution, Efficiency & Delivery
+ImpactAtlas delivers a working, publicly accessible MVP that brings patient experiences, healthcare costs, federal data, and AI analysis into one system.
+
+Patients can describe their illness through voice or text, including symptoms, diagnostic delays, treatment expenses, insurance gaps, missed work, transportation, and caregiver needs. The platform organizes this information into a structured journey and identifies missing details.
+
+This reduces the need to manually assemble records, calculate expenses, and explain complex experiences repeatedly. Patients and families receive understandable reports showing medical, financial, time, productivity, and caregiving burdens. These reports can support preparation for healthcare appointments and discussions with care teams.
+
+Researchers, advocates, and public health organizations can use the same framework to examine disease burden, geographic differences, access barriers, and economic impact. Decision makers gain a more consistent foundation for evaluating needs, prioritizing resources, and identifying evidence gaps.
+
+ImpactAtlas distinguishes OBSERVED, DERIVED, MODELED, and UNAVAILABLE results. When reliable information is missing, the platform identifies the gap or provides clearly labeled scenarios.
+
+The MVP is already deployed at https://impactatlas.online, demonstrating immediate usability without requiring a lengthy development cycle. Its reusable workflow supports expansion across invisible and chronic illnesses.
+
+
+Scalability, Reuse & Societal Impact:
+ImpactAtlas is designed to scale beyond a single disease or patient group. Its 15 dimension framework can be reused across chronic and invisible conditions while preserving differences in symptoms, diagnostic journeys, healthcare use, work impact, caregiving, and cost.
+
+The platform is already operational across web, with active users providing an initial real world foundation for continued validation and improvement.
+
+The same architecture can scale from an individual patient to a condition, community, county, state, or national population. This makes ImpactAtlas reusable for patients, researchers, healthcare organizations and government programs.
+
+Next, we plan to expand the user base, test across more conditions and populations, integrate additional federal datasets, strengthen longitudinal analysis, and continue validating Cost of Illness models through real world use. The modular architecture also supports future interoperability.
+
+As adoption grows, patient consent, privacy protection, representative data, transparent economic methods, and responsible aggregation will remain central. Key assumptions include sufficient user participation, access to reliable data, and continued validation of modeled estimates.
+
+Our long term goal is to establish a reusable framework for measuring burdens traditional healthcare spending often misses, turning individual experiences into aggregated evidence that can support research, resource allocation, and public health action.
+
+
+Filesimpact atlas software architecture.pdflyme disease demo report.pdfimpactatlasimpactatlas
+Videos
+Idea image
+edited on Oct 31, 2026 by Pranisha Karki
++1
+123
+VOTES
+Idea Stats
+
+ Total Votes
+123
+ Views
+779
+ Comments
+75
+ Subscribers
+79
+Funnel advancement
+
+Subscribers (79)
+
+Sushant KhadkaPranisha KarkiSunitaGokarnaBedan RaiMaya YAlex CTyler LPhillis FManoj Adhikarijack MirDavid Rich+68Alex MEEMock DwerAlex JonOliver AliHenry vMateo MateoLucas vSimran UhSophia Darkalex alexalex meerRobert SingEleanor aliHarper MEvelyn EvelynMiler mejack moonGreg Crellermacko altjack tomEliana Eliana ElianaFatiaa Elianamindset masteryShmaper Moonalex parkerMoon lightmircal mirqBella QABALTheodoreEvelynNomeBasmaalex marvelTwinsbjordenOliverWilliamEleanorMadfiiAsherBanwtnSilasEnzoJackLeviGraysonloganIsaiahAndrewJeremiahMicahEithanColtonEastonEmmettJonahNOORmapemaRobertSamuelAlexanderRobertAlexJamesJulianEzraJosephSubscribe
+Tags
+
+ImpactAtlas CostOfIllnessArtificialIntelligenceHealthAIhealthtechInvisibleIllnessChronicIllnessPatientExperiencePatientVoiceHealthEconomicsOpenDataFederalDataDigitalHealthEconomicBurdenHealthcareCostsPatientBurdenPublicHealthHealthDataPatientCareHealthcareInnovation
+Public (26)
+Pranisha Karki
+﻿
+
+Drag and drop or click button to attach files
+
+Attach files
+
+@ 
+Notify individual users
+
+
+======================================================================
+Pricing the Invisible, Valuing the Cure
+======================================================================
+Pricing the Invisible, Valuing the Cure
+by
+Manuel Duenas
+Manuel Duenas
+|
+2 weeks ago
+|
+in Cost of Illness: TOPx Submission
+Approved
+Quantifying the Human and Economic Costs of Invisible Illness
+
+A Health Policy Decision Console by Healthful Data
+
+Overview
+Invisible illnesses are costly and poorly counted, so they are hard to fund or prioritize. We built a working policy console that answers one question for Long COVID: what would a cure be worth to the United States?
+
+A policymaker or analyst sets a few levers: treatment effectiveness, share of the affected population reached, time horizon (1, 10, or 20 years), and discounted or undiscounted value. The console returns a national value with a range. In our base case, a hypothetical treatment that is 75% effective and reaches 65% of people living with Long COVID is worth $5.32 trillion over 20 years at a 3% discount rate. The range is $3.09T to $7.55T if any single parameter is taken to its evidence extreme. The widest driver is willingness to pay per QALY.
+
+The model is built to be audited and disputed. Every number traces to a source, and an analyst can switch sources on or off, add their own, and see how the result changes.
+
+Alongside the national burden and decision console, we built a community-led data-collection layer: the Community-Led Long COVID Burden Index (CLCBI) built off our team's expertise in developing and deploying similar models globally for the HIV pandemic and vetted by a half dozen individuals living with ME/CFS and Long COVID via the Science 4 Me (S4Me.info) forum and A Million Points of Light, a campaign and map that lets people with invisible illness be counted that includes several real lived experiences from individuals living with invisible illness from our team's sister nonprofit, Healthful Stories (HealthfulHeroes.com).
+
+1. Results for the American People
+The problem. Federal data systems capture invisible illness poorly. Claims and diagnosis codes miss most people with Long COVID, and the most severely affected are the least likely to appear in any survey. Without a defensible cost-of-illness figure, the burden is easy to overlook in funding and policy decisions.
+
+What we delivered.
+
+A national valuation of the human and economic burden of Long COVID. It covers value of health recovered (QALYs), medical spending avoided, national lost earnings, and wages recovered.
+
+Three distinct definitions of the affected population, so policymakers can see how much the answer depends on who is counted:
+
+People who self-report Long COVID, whether or not they were symptomatic at the time of infection.
+
+People with symptomatic COVID-19 who self-report Long COVID.
+
+Diagnosed Long COVID, identified by U09 ICD-10 codes. We expect this scope to substantially undercount.
+
+Quality-of-life loss per person, measured against age-matched population utility.
+
+Burden modeled over time, including the annual rate of change in prevalence for each population definition.
+
+Lived experience. The CLCBI is a community-led instrument. It invites caretakers to respond on behalf of people in their care, and we state openly that the most severely affected remain under-represented, so burden is likely under-quantified. A Million Points of Light adds a public, persistent map where people see they are not alone, with each of 17 invisible illnesses glowing a different color. Both are designed so lived experience feeds the model directly.
+
+Of note, the Community-Led COVID Burden Index is designed for anyone who has ever been diagnosed with a COVID infection. For those who are unaware of Long COVID, it provides a knowledge assessment and offers recommendations on how they might increase their knowledge. It also offers a risk score based on modifiable and unmodifiable features of risk to ensure that individuals with higher risk of contracting Long COVID are aware of those risks. Uniquely, those who we establish as having features of Long COVID can be activated toward care.
+
+Note that the CLCBI was also vetted with input from the Science 4 ME (S4Me.info forum) and after conversations with leading experts such as Professor Lenny Jason and Professor Matt Mazewski among others.
+
+2. Data, Tech & Evidence-Driven Innovation
+U.S. open data. We wired in MEPS and Household Pulse Survey data directly and reviewed each by hand to build the population scopes and prevalence trends. Our evidence pipeline screened roughly 6,500 data sources. We ingested the clinical trial landscape (ClinicalTrials.gov) to show where treatment development stands, and we connect the fragmented sources into one valuation.
+
+AI-accelerated evidence runner. An AI-assisted literature-discovery and extraction pipeline (PubMed and ClinicalTrials.gov) pulls candidate estimates for each parameter. It combines multiple sources using inverse-variance pooling and records the disagreement range between them.
+
+Source register and transparency. A searchable register shows every candidate source, its extracted value, the supporting quote, a link, and its review status. Analysts can include or exclude sources, add their own, and watch the headline update.
+
+Sensitivity analysis. A tornado chart shows how much each parameter moves the result. This makes the evidence gaps visible. Several key multipliers still rest on a single source, and the console flags them as validation priorities.
+
+Discounting. Discount rates are set by scenario and sourced through the same evidence runner. The headline range shows how far the answer moves under different assumptions.
+
+3. Execution, Efficiency & Delivery
+Working today.
+
+The live decision console runs end to end. It includes the calculation view, source register, breakdown, and a “How it works” explainer.
+
+The CLCBI is live on the Healthful platform, and the Million Points of Light signup page and map are live.
+
+Thrive.JoinHealthful.com has already served over 12,000 individuals in the US and with proper financing, we are excited to expand it to create a longitudinal cohort of 10,000 individuals living with Long COVID over the two years.
+
+Near-term use. An analyst can use the console today to:
+
+test how a cure or treatment scenario changes national value;
+
+find which assumptions drive the answer;
+
+justify where new data collection would reduce uncertainty most.
+
+What we scoped deliberately. The MVP covers the core valuation and the time view. Additional modules (cure R&D return, cure timeline, downstream excess disease risk, program costs) are specified and sequenced on top of the same evidence-runner architecture.
+
+4. Scalability, Reuse & Societal Impact
+Reusable by design. Nothing in the architecture is specific to Long COVID. The condition selector, population scopes, utility estimates, cost parameters, and evidence runner are generic components. Adding ME/CFS or another chronic condition means supplying new population, utility, and cost inputs, not rebuilding the model. The selector already lists additional conditions as demonstration entries “in development.”
+
+Policy application. The same logic supports:
+
+research prioritization across conditions, comparing cure value per dollar of R&D;
+
+coverage and program decisions, by showing medical spending avoided;
+
+regulatory and benefit-cost analysis, using a transparent QALY valuation including those supported by US HHS.
+
+Standards alignment. The CLCBI and the evidence register use structured, auditable records that can be mapped to federal data standards. Downloads are structured into FHIR format
+
+Community scale. A Million Points of Light is an open invitation for people with invisible illness to be counted, and it works across all 17 listed conditions. It gives the model a growing, community-sourced base for future parameters. The Community Led COVID Burden Index runs on the same platform that has already proven valuable to over 12,000 users and delivers value regardless of Long COVID, ME/CFS, or other invisible illness status. That is, for the many millions who remain undiagnosed, a risk score helps to encourage them to take precautions or seek clinical evaluation for symptoms which persist 12 or more weeks after COVID infection. We can adjust these triggers over time as the science evolves.
+
+Every figure on this page can be traced back to a document or a dataset, and every stage below is built so the trace cannot break quietly. That is the architecture in one sentence: it is designed to make an untraceable number impossible rather than unlikely.
+
+Solution Overview (MVP Demonstration):
+User-Facing Application
+
+Live demo, prototype, or working product
+Our approach is a complete, live user-facing data and AI system with interactive visualization and backend integration with 3 (Three) fully operational and deployed platforms that integrate and complement each other:
+
+1) A Health Policy Decision Console built with AI, US Open Data, and after review of ~6,500 data sources - Pricing the Invisible, Valuing the Cure - Quantifying the Human and Economic Costs of Invisible Illness - Representing the team's combined 70+ years in HEOR and data science modeling and AI and ML engineering: https://pricing-the-invisible.thrive.joinhealthful.com ;; https://yellow-pebble-0a19a980f.6.azurestaticapps.net Password: [REDACTED]
+
+2) A Million Points of Light: A Campaign that Supports Sharing and Visualization of Lived Experience, with Several 20-minute or Longer Stories from Real People Living with Invisible Illness: https://thrive.joinhealthful.com/shine-light
+
+3) The Community-Led Long COVID Burden Index: Built leveraging decades of team experience supporting similar work for the global HIV pandemic, expertise in patient-reported outcomes: https://thrive.joinhealthful.com/module/module-details/6aa8a7e4a0acc5a18d7373af
+
+Access instructions (if needed)
+https://yellow-pebble-0a19a980f.6.azurestaticapps.net Password: [REDACTED]
+
+Results for the American People
+Target users. Federal health economists and budget analysts (ASPE, CMS, NIH, CBO), congressional and agency staff building the case for research funding, state health departments, and patient advocacy organizations who need a defensible number rather than an anecdote.
+
+The workflow it fits. An analyst is asked what a Long COVID treatment would be worth, and has days, not months.
+
+Today that means assembling scattered published estimates, inheriting each author’s population definition, and producing a figure nobody downstream can interrogate.
+
+With the console, the analyst opens one page and:
+
+Picks the population definition — self-reported, symptomatic-and-self-reported, or U09-diagnosed — and sees how much the answer depends on who is counted.
+
+Sets effectiveness, reach, horizon, and discount rate to match the scenario being costed.
+
+Clicks any number to see the source behind it, the verbatim quote, and the analyst who verified it.
+
+Disagrees. Switches a source off, adds their own, and regenerates the total rather than rebuilding the model.
+
+Reads the tornado chart to see which evidence gap moves the result, which tells them where new data collection is worth funding.
+
+Exports a FHIR R4B bundle so the figure arrives in their own system with its derivation intact.
+
+For patients and advocates, the Community-Led Long COVID Burden Index and A Million Points of Light turn lived experience into counted evidence, so the people the number describes help produce it.
+
+
+Data, Tech & Evidence Driven Approach
+Our model uses open federal data, calculated from primary sources rather than secondary reports. Seventeen connectors pull raw data from NHIS and MEPS microdata, the Census Household Pulse Survey, BLS earnings series, Census population projections, NIH RePORTER, openFDA, ClinicalTrials.gov, and other sources; each computes its own values. We calculate variance using each survey’s design, including published strata and primary sampling units or replicate weights. Each pull logs a SHA-256 hash. Automated tests continually re-pull and recalculate data, breaking the build if a source number changes.
+
+AI is used only for peer-reviewed literature. It searches databases, screens abstracts against parameter definitions, and proposes values with verbatim quotes and page locators. In the latest run, it screened 6,019 papers across 6,492 decisions, logged 6,339 distinct exclusion reasons, and found four usable records. Rejections are visible in the tool. AI cannot decide: each proposal stays in a review queue until a named analyst verifies and promotes it, logging their name, timestamp, and reason. A separate check re-fetches documents to confirm quotes verbatim (25 of 25 in use; none unreachable). Nineteen more checks test whether valid numbers are believable, catching double-counted samples and dollar figures without a price year.
+
+We also include one proprietary dataset: a COVID health-impact assessment hosted on Healthful. We query it read-only through an allow-listed crosswalk and aggregate outputs above strict minimum cell thresholds.
+
+The pipeline exports as a 140-entry FHIR R4B Bundle, validated in tests and at runtime. Each Observation links to its source via derivedFrom, letting anyone trace final math to the raw survey file or exact sentence in a paper.
+
+
+Execution, Efficiency & Delivery
+
+The most useful thing the tool shows is where the money is not. Of a $635.2 billion annual burden for long COVID, medical spending is 7.2%. Lost earnings are 31.3% and lost quality of life is 61.5%, so any analysis counting only healthcare costs misses nine-tenths of the problem and goes looking for savings in the smallest layer. The second is proportion. Mean NIH funding for the condition was $251 million a year across FY2020 to FY2026, read from RePORTER. The annual burden is about 2,500 times that. For a decision maker the answer is not one number but a dependency. The horizon and the discount rate are controls, so the same evidence can be read over one, ten or twenty years, discounted at OMB's 3% or not at all, and the published range of $3.09 trillion to $7.55 trillion names willingness to pay per QALY as the input that moves it most. That tells a budget holder what to argue about. Because every figure clicks through to the sentence it came from, disagreement gets specific instead of general. An independently published model estimates 865,000 QALYs lost a year; ours implies 891,593, which we found afterwards rather than by tuning. The export is a FHIR R4B Bundle, so another system can ingest the result and walk the arithmetic behind it. Where an input is missing the tool shows the layers it can compute and names what is absent, which is what makes the numbers it does show worth using.
+
+
+Scalability, Reuse & Societal Impact:
+Chronic illness carries a hidden price tag. By counting only hospital bills and prescriptions, policymakers miss over 90% of the cost to American families: lost wages, daily function, and quality of life. We built this platform to make that burden visible and verifiable.
+
+Rather than create a one-disease calculator, we built shared public infrastructure for chronic illness research. Our live MongoDB backend and automated validation engine run over 1,300 continuous checks. Because the engine is disease-agnostic, new conditions require configuration, not custom engineering. We expanded from Long COVID to Lyme disease and ME/CFS without changing core code. Open YAML and standard FHIR formats let patient organizations and research teams use our work.
+
+Honest science means naming blind spots. Formal diagnoses make our numbers reflect healthcare access, not everyone who is sick. Black Americans, for example, face Lyme exposure risks comparable to White Americans but are diagnosed far less often. We also rely too heavily on cross-sectional snapshots and limited quality-of-life studies. Next, we’ll add validated quality-of-life instruments to patient surveys, state-level CDC data for local health departments, and evaluations of real-world clinical programs that help patients today—not just the abstract value of a total cure.
+
+
+Videos
+Idea image
+Idea image
+Idea image
+edited on Nov 1, 2026 by Manuel Duenas
++1
+32
+VOTES
+Idea Stats
+
+ Total Votes
+32
+ Views
+457
+ Comments
+34
+ Subscribers
+1
+Funnel advancement
+
+Subscribers (1)
+
+Manuel DuenasSubscribe
+Tags
+
+Invisible IllnessLong COVIDCost of illnessBurden of disease assessmentburden estimationHealth EconomicsHealth Economics and PolicyHealth Policy Decision SupportFederal Policylived experiencePatient AdvocacyPricing the InvisibleValuing the Cure
+Public (8)
+Manuel Duenas
+﻿
+
+Drag and drop or click button to attach files
+
+Attach files
+
+@ 
+Notify individual users
+Post publicly
+
+Only show comments from moderators
+Sort comments
+
+Oldest first
+
+Manuel Duenas
+2 weeks ago
+
+The Community-Led COVID Impact Assessment - the link above was a link to a different assessment.
+
+Reply
+0
+
+
+
+Manuel Duenas
+1 week ago
+(edited)
+Note that if we were to be fortunate to be recognized with a $1M award, our team would dedicate funding towards ensuring the map we created for A Million Points of Light ends up with at least 25,000 points of light and the Community-Led COVID Burden Index is completed longitudinally by a nationally representative sample of at least 10,000 individuals over two years.
+
+We have removed the password requirement for the Pricing the Invisible, Valuing the Cure Decision Console:
+
+https://pricing-the-invisible.joinhealthful.com/
+
+As a reminder, if you have ever had a COVID infection, whether or not you had any symptoms or believe you have Long COVID, you are eligible to contribute to the Community-Led COVID Burden Index. 20 minutes can make the difference for how Long COVID is identified and burden is quantified in the US.
+
+Light your light for invisible illness. Share what you wish others knew about living with your invisible illness through our map, A Million Points of Light. All that is required is a first name, a valid email address, and less than two minutes of your time. Together we can raise awareness, reduce stigma, and ensure that invisible illness is impossible to ignore.
+
+If you would like a quick overview of what we have built, watch our 3-minute highlight reel here.
+
+If an appropriate analyst would like to be added to our roster of vetted policy users, please email our team at contact@healthfuldata.com.
+
+======================================================================
+ImpactFile
+======================================================================
+ImpactFile: Build Evidence. Submit Proof.
+by
+Greg Michaelson
+Greg Michaelson
+|
+2 weeks ago
+|
+in Cost of Illness: TOPx Submission
+Approved
+ImpactFile — Build Evidence. Submit Proof.
+
+ImpactFile is a working iPhone application that transforms everyday experiences of illness into organized, shareable evidence packets for medical leave, disability benefits, insurance appeals, and tax documentation.
+
+The Output: ImpactFile currently supports four purpose-built documentation packets:
+
+FMLA: Medical leave documentation covering symptoms, treatment, functional limitations, and missed work.
+
+Social Security Disability: Evidence supporting disability applications, including medical history, daily limitations, and work capacity.
+
+Health Insurance Appeals: Organized evidence to support challenges to denied insurance claims.
+
+Federal Taxes: Medical expense documentation supporting eligible tax deductions.
+
+More packet types can easily be added using the same underlying evidence, without requiring users to start over or repeatedly enter their information.
+
+How It Works: Users record voice check-ins, type updates, take photos, or answer guided questions. On-device AI converts their experiences into structured, reviewable facts, creating a longitudinal record that can be reused across multiple documentation needs.
+
+The Technology: Federal O*NET and BLS occupational data provide work-related context. HL7 FHIR-aligned structures support interoperability. On-device AI organizes information, while AES-256 encryption protects sensitive records stored on the device.
+
+The Value: ImpactFile replaces the stressful process of reconstructing months of medical, financial, and employment history with continuous evidence collection and on-demand packet generation.
+
+One record of your life. Multiple ways to use it.
+
+Build Evidence. Submit Proof.
+
+Solution Overview (MVP Demonstration):
+User-Facing Application
+
+Live demo, prototype, or working product
+ImpactFile is a fully functional native iPhone application. A recorded demonstration of the working product is attached, showing onboarding, voice-based evidence collection, on-device AI, and documentation packet generation.
+
+Access instructions (if needed)
+A video demonstration of the working application is included with this submission. Judges who wish to test ImpactFile directly can request access through Apple TestFlight. Individual invitations can be arranged upon request, subject to TestFlight eligibility and availability.
+
+Results for the American People
+ImpactFile is an iPhone app that generates evidence packets for FMLA medical leave, Social Security disability, health insurance appeals, and federal medical-expense taxes. More packet types can easily be added.
+
+Who It Serves: Americans with chronic illnesses, invisible disabilities, and other health conditions who need to document their impact on work, finances, and daily life.
+
+The Problem: Medical records rarely capture the full consequences of illness. Reconstructing months of symptoms, missed work, expenses, and limitations is difficult, especially for people experiencing pain, fatigue, or cognitive challenges.
+
+Accessible by Design: Users can simply talk about their experiences instead of completing complicated forms. Guided AI interviews ask relevant questions to capture important details. Voice, text, and photo options accommodate different abilities and energy levels.
+
+The Output: On-device AI organizes these experiences into structured evidence and generates purpose-built packets for benefits, medical leave, insurance appeals, and taxes.
+
+The Result: Less paperwork, more complete evidence, and an easier path to employment protections, healthcare coverage, and financial support.
+
+Data, Tech & Evidence Driven Approach
+ImpactFile combines federal open data, on-device AI, healthcare standards, and AES-256 encryption to transform personal experiences into actionable evidence packets.
+
+Federal Open Data: ImpactFile uses U.S. Department of Labor BLS and O*NET occupational data to identify job demands and provide objective context for illness-related work limitations. This connects personal evidence to real employment requirements, strengthening the relevance of disability and medical-leave documentation.
+
+On-Device AI: Converts voice and text check-ins into structured, reviewable records of symptoms, missed work, expenses, and functional limitations without sending sensitive information to cloud AI services.
+
+Healthcare Interoperability: HL7 FHIR-aligned data structures enable standardized health records, evidence reuse, and future healthcare integrations.
+
+Privacy: AES-256 encryption protects sensitive information stored on the device.
+
+Actionable Outputs: These technologies support four documentation packet types: FMLA, Social Security disability, insurance appeals, and federal medical-expense taxes. Additional packets can be added using the same evidence architecture.
+
+The result: Federal data adds context, AI organizes personal evidence, and secure, interoperable records become documentation people can use to pursue benefits, protections, and financial support.
+
+Execution, Efficiency & Delivery
+ImpactFile is a working iPhone application that dramatically reduces the time and effort required to prepare documentation for medical leave, disability benefits, insurance appeals, and medical-expense taxes.
+
+Functional MVP: Delivers personalized onboarding, voice and text check-ins, on-device AI, encrypted evidence storage, and four purpose-built documentation packet workflows.
+
+Efficiency: Users capture experiences in seconds rather than reconstructing months of symptoms, missed work, expenses, and functional limitations. Evidence is automatically organized and reusable across multiple packets.
+
+Better Decisions: Chronological records and federal occupational data help users, healthcare providers, and other reviewers better understand the impact of illness on employment and daily life.
+
+Immediate Value: Users can move from a spoken check-in to organized, shareable documentation without manually assembling records or repeatedly entering information.
+
+The result: Less paperwork, more complete evidence, and a faster path to requesting employment protections, pursuing benefits, challenging insurance denials, and preparing tax documentation.
+
+Scalability, Reuse & Societal Impact:
+ImpactFile is designed for nationwide deployment with low operating costs, strong privacy protections, and a reusable evidence architecture that supports new documentation needs without rebuilding the application.
+
+Scalable Deployment: Native iOS distribution enables direct access to users without specialized hardware. On-device AI and AES-256 encrypted local storage reduce dependence on expensive cloud infrastructure.
+
+Reusable Architecture: One longitudinal evidence record currently supports four packet workflows: FMLA, Social Security disability, insurance appeals, and federal medical-expense taxes. Additional packet types can be added by defining new evidence requirements and document templates.
+
+Broad Applicability: The platform can serve people across medical conditions, occupations, and geographic regions. FHIR-aligned structures provide a foundation for future healthcare integrations.
+
+Next Steps: Expand packet coverage, validate outputs with patients and healthcare professionals, improve accessibility, and evaluate multilingual and Android support.
+
+Societal Impact: ImpactFile can reduce administrative barriers to employment protections, benefits, insurance coverage, and financial assistance, particularly for people whose illnesses are difficult to document through traditional medical records.
+
+Videos
+Idea image
++1
+18
+VOTES
+Idea Stats
+
+ Total Votes
+18
+ Views
+207
+ Comments
+14
+ Subscribers
+0
+Funnel advancement
+
+Subscribers (0)
+
+Subscribe
+Tags
+
+Cost of illnessInvisible IllnessChronic IllnessDigital Healthpatient empowermentdocumentationmedical documentationdisabilitytaxesFMLAinsuranceexpense trackingOpen dataFHIREvidenceEvidence-Based Decision Support
+Public (8)
+Greg Michaelson
+﻿
+
+Drag and drop or click button to attach files
+
+Attach files
+
+@ 
+Notify individual users
+Post publicly
+
+Only show comments from moderators
+Sort comments
+
+Oldest first
+
+Uri Kartoun
+1 week ago
+
+Greg, two numbers that speak directly to your insurance-appeal and disability packets: in a survey of 2,424 U.S. residents with chronic Lyme disease, 39.9% reported being denied new insurance coverage after their diagnosis, and 38.6% reported being denied disability benefits for not following guidelines (chart attached). It was an online survey from 2009 to 2010 with self-selected respondents, so it describes that group and not everyone with Lyme disease, but it shows why organized, dated evidence matters at the moment someone applies or appeals.
+
+These figures come from simulator 11 in my entry (Johnson et al., Health Policy 2011), where each value is labeled as observed, assumed or projected, so a reader can tell which is which. My entry is here if you’d like to look: https://invisibleillness.crowdicity.com/post/896844
+
+I’d also be glad to hear the views of Bo, whose Waypoint Ledger also builds packets for leave, disability and appeals, and Trisha, whose Health Worth looks at what insurance does and doesn’t cover.
+
+Using federal occupational data from O*NET and BLS to tie illness-related limits to real job demands is a smart move. I hope the TestFlight reviewers find it as useful as it looks.
+
+
+
+
+
+Users tagged:
+
+Avatar for Greg Michaelson
+Greg Michaelson
+Avatar for Bo Peng
+Bo Peng
+Avatar for Trisha Rawlings
+Trisha Rawlings
+Reply
+0
+
+
+
+Sulamit Berkovits
+1 week ago
+Uri, thanks for sharing this. Those numbers are pretty eye-opening, even considering the limitations of the study. It's hard enough dealing with chronic Lyme, and then having to fight for insurance coverage or disability benefits just adds to the frustration.
+
+Working on my own project, LymeSignal AI by Ace, I've come to appreciate how important it is to bring together the right information so patients and healthcare providers can make better-informed decisions. While my project focuses on a different part of the Lyme journey, I see a real connection here. Greg's approach to documenting what people go through could help fill another important gap, especially when medical records don't tell the whole story.
+
+I'm curious, have you come across any more recent research showing whether better documentation actually improves someone's chances of getting disability benefits or winning an insurance appeal? I think there's a lot we could learn from that, and potentially some interesting ways our different projects could complement one another.
+
+Really appreciate you sharing this, Uri...
+
+Users tagged:
+
+Avatar for Trisha Rawlings
+Trisha Rawlings
+Avatar for Greg Michaelson
+Greg Michaelson
+Reply
+0
+
+View all replies (6)
+
+Sulamit Berkovits
+1 week ago
+
+Hi there Greg, the more I read about ImpactFile, the more I appreciate what you're trying to accomplish. People dealing with chronic illnesses already have enough on their plate without having to reconstruct months of symptoms, missed work, and daily struggles when it's time to apply for benefits or appeal a denial.
+
+I did a little reading on this, and something really caught my attention. According to KFF, fewer than 1% of denied in-network claims among HealthCare.gov plans were appealed in 2024. That's remarkable. Social Security also places considerable importance on how a condition affects someone's everyday activities and ability to work, not just their medical diagnosis. It really reinforces why your approach of capturing someone's experiences as they happen could be so valuable.
+
+I especially like the simplicity of letting people record a quick voice update and having AI turn it into organized documentation they can actually use. The fact that you're keeping sensitive information on the device is another big plus.
+
+I'm curious about something: have you considered working directly with disability advocates or people who have gone through the appeals process to test whether ImpactFile could help them submit more complete documentation and potentially avoid some of the common reasons applications get delayed or denied?
+
+Really impressive work, Greg. I think you're addressing a problem that deserves much more attention, and I'd love to see where you take this!
+
+Reply
+1
+
+
+
+Sulamit Berkovits
+1 week ago
+
+I found myself wondering what happens on the other side of the desk when someone hands over one of these packets for the first time, whether the reviewer even opens it in that form.
+
+If a packet is returned for a clinician signature, reformatted, or set aside in favor of standard forms, that is the deployment result, even if the packet itself is complete. I would want to see, for a handful of real FMLA, disability, or appeal submissions, which sections draw questions, the O*NET job-demand mapping, an AI-summarized voice note versus the underlying dated entry, a photo or an expense, and what exact wording or missing item triggered it. That would tell you whether the packet is trusted as filed, or just makes the same paper neater.
+
+Reply
+0
+
+
+
+Latina Wright-Booker
+6 days ago
+
+Hi Greg, ImpactFile's focus on turning everyday experiences into meaningful documentation really resonated with me. What have you learned about making that process manageable for individuals who are already navigating significant health and administrative burdens?
+
+Reply
+0
+
+
+
+Brent Martin
+4 days ago
+
+Great job Greg! I really loved the presentation and execution! So helpful and needed! (coming over from Chrysalis). Good luck with the awards!
+
+Users tagged:
+
+Avatar for Greg Michaelson
+Greg Michaelson
+Reply
+0
+
+
+
+Pranisha Karki
+3 days ago
+
+Hi Greg, turning voice check-ins into FMLA, SSDI, appeal and tax packets is very practical. Is there an App Store or public TestFlight link people can try? Also, have you been able to show a packet to someone who reviews disability claims or insurance appeals, to check the format matches what they look for?
+
+Reply
+0
+
+
+
+Pranisha Karki
+2 days ago
+
+Hi Greg, "One record of your life. Multiple ways to use it." is a lovely way to describe ImpactFile. Would you be open to a small collaboration with ImpactAtlas? One possibility is an ImpactFile section on our site, with a button and your team's name, where visitors could watch your demo video. Our Return-to-work and disability benefits page could be a natural spot for that button, since it already points people to official disability and leave resources. Only if it feels right to you, and we'd welcome your thoughts.
+
+Reply
+0
+
+
+
+Pranisha Karki
+12 hours ago
+
+Hi Greg, using O*NET and BLS data to add work context is a clever touch for leave and disability packets. Of the four packets, which one do people ma
+
+======================================================================
+Visible Burden AI
+======================================================================
+Visible Burden AI: Making the Full Burden of Invisible Illness Visible Over Time
+by
+Latina Wright-Booker
+Latina Wright-Booker
+|
+2 weeks ago
+|
+in Cost of Illness: TOPx Submission
+Approved
+Wright-Booker Innovation Lab (WBIL) is an intergenerational innovation team committed to developing practical, human-centered solutions that improve lives through data, technology, and systems thinking. Our guiding principle is Innovation with Purpose. Solutions with Impact.
+
+Our team brings experience in public service, psychology, strategic planning, systems navigation, community engagement, research synthesis, and technology-assisted problem solving.
+
+Our Phase 2 solution, Visible Burden AI (VBAI), addresses a critical gap in how invisible illness is understood.
+
+People living with Long COVID and other invisible illnesses experience consequences that extend far beyond clinical symptoms or medical expenses. Employment disruptions, financial strain, caregiving responsibilities, healthcare navigation, lost time, and emotional impacts are frequently documented separately or not documented at all.
+
+The burden isn't simply invisible. It's fragmented.
+
+VBAI is a patient-centered, interactive web application designed to make these disconnected experiences understandable through a multidimensional Burden Portrait.
+
+The prototype captures self-reported experiences across seven dimensions: health, financial, employment, caregiving, navigation, time, and emotional/social impact. It also demonstrates how burden can change over time and incorporates U.S. Census Bureau American Community Survey data to provide relevant population level context.
+
+Importantly, VBAI maintains a clear separation between an individual's reported experience and federal population statistics. Community data provides context; it does not determine or validate an individual's burden.
+
+Our initial focus is Long COVID, with a design intended to accommodate additional invisible illnesses.
+
+A medical encounter captures a moment. Visible Burden AI helps reveal what happens between the moments.
+
+The ultimate goal is to help individuals better understand and communicate the cumulative impact of illness while supporting future opportunities for informed conversations with caregivers, clinicians, employers, and benefits navigators.
+
+Solution Overview (MVP Demonstration):
+User-Facing Application
+
+Live demo, prototype, or working product
+https://visible-burden-ai.streamlit.app/
+
+Access instructions (if needed)
+Visible Burden AI is a browser-based prototype. Open the application using the provided link; no installation is required.
+
+Begin with the introductory screen, then navigate to the Daily Check-In to enter sample experiences across the burden dimensions. Generate the Burden Portrait to view the multidimensional summary.
+
+Explore the longitudinal demonstration to see how burden may change over time, and review Community Context to see county-level U.S. Census American Community Survey measures displayed separately from individual responses.
+
+The longitudinal examples use synthetic demonstration data. VBAI is a decision support prototype, not a diagnostic or clinically validated assessment tool.
+
+Note: We will revise these instructions if the deployed application's navigation differs from this description.
+
+Results for the American People
+Millions of Americans living with invisible illnesses experience burdens that extend beyond medical symptoms and expenses. Yet these impacts are often fragmented across healthcare, employment, caregiving, and household systems.
+
+Visible Burden AI (VBAI) is designed primarily for adults living with invisible illnesses, beginning with Long COVID. Potential secondary users include caregivers, clinicians, employers, and benefits navigators.
+
+In a typical workflow, an individual completes a brief Daily Check-In describing how illness affects different areas of life. VBAI translates these self-reported experiences into a seven-dimensional Burden Portrait covering health, financial, employment, caregiving, navigation, time, and emotional/social impacts.
+
+A longitudinal view demonstrates how burden can fluctuate over time. Separate Census-based Community Context helps users understand relevant population conditions without treating those averages as personal circumstances.
+
+VBAI offers a more complete picture of what illness is costing a person's life not simply what medical care costs.
+
+The intended benefit is greater awareness, clearer communication, and more informed conversations about support needs.
+
+A medical encounter captures a moment. VBAI helps reveal what happens between the moments.
+
+Data, Tech & Evidence Driven Approach
+Visible Burden AI combines structured self-reported information, transparent prototype logic, longitudinal visualization, and federal open data context.
+
+The working MVP is built in Python using Streamlit. Users enter experiences through a Daily Check-In, which organizes responses into seven burden dimensions and generates an interactive Burden Portrait.
+
+The current prototype uses rules-based processing rather than a clinically validated scoring instrument or deployed generative AI model. Synthetic data demonstrates how an individual's burden may fluctuate across time.
+
+VBAI integrates publicly available U.S. Census Bureau American Community Survey (ACS) data to provide county level economic and healthcare access context, including household income, employment, and health insurance indicators.
+
+Federal population statistics remain explicitly separate from self-reported individual burden. They provide context but do not calculate, validate, or determine a person's experience.
+
+Development has been informed by five qualitative stakeholder perspectives: patient, caregiver, employer, clinician, and benefits navigator along with federal expert and patient-advocate feedback during the Sprint.
+
+This feedback shaped the seven-dimensional Burden Portrait, longitudinal demonstration, and contextual data presentation.
+
+The architecture supports future development of responsible AI-assisted interpretation, additional federal datasets, accessibility enhancements, and interoperability pathways. These capabilities are prospective and are not represented as completed integrations.
+
+Execution, Efficiency & Delivery
+Visible Burden AI demonstrates a practical approach to making the fragmented consequences of invisible illness easier to recognize and communicate.
+
+The MVP converts structured daily experiences into a multidimensional Burden Portrait, reducing the need to interpret disconnected information across separate areas of life.
+
+Its longitudinal demonstration illustrates how burden can change between medical encounters, revealing patterns that a single appointment or expense estimate may overlook.
+
+County-level Census context adds relevant population information while preserving the distinction between public statistics and individual experience.
+
+The project progressed through concept development, qualitative stakeholder research, Alpha prototyping, and a working Beta demonstration. Federal expert and patient-advocate feedback informed refinements to usability, data interpretation, and longitudinal presentation.
+
+The Streamlit-based implementation provides a lightweight foundation for testing and iteration without requiring complex infrastructure.
+
+VBAI's current value is improved visibility and understanding not a claimed reduction in medical spending or a validated clinical outcome.
+
+Its longer term potential includes supporting clearer conversations about work limitations, caregiving responsibilities, navigation challenges, and changing support needs.
+
+The goal is to move from information to understanding and ultimately to informed action.
+
+Scalability, Reuse & Societal Impact:
+Visible Burden AI is designed as a modular, patient-centered platform that can expand beyond Long COVID to other invisible illnesses, including ME/CFS and Lyme disease.
+
+Its seven dimensional burden framework provides a reusable structure for organizing self reported experiences while supporting future condition specific adaptations.
+
+The Python/Streamlit architecture supports iterative development and deployment. Federal population data can be incorporated through documented integrations while preserving the distinction between individual burden and population context.
+
+Future priorities include accessibility improvements, validation with patients and researchers, stronger longitudinal interpretation, additional federal datasets, and appropriate interoperability pathways.
+
+Further user research will help ensure the platform remains accessible to people experiencing fatigue, cognitive limitations, or sensory sensitivities.
+
+Potential applications include patient self-advocacy, caregiver communication, healthcare discussions, workplace accommodations, and benefits navigation. These uses require further testing and do not represent existing automated clinical or eligibility systems.
+
+VBAI's societal value lies in making overlooked consequences of invisible illness understandable, helping individuals and support systems recognize needs and identify opportunities for meaningful action.
+
+Idea image
+edited on Oct 15, 2026 by Latina Wright-Booker
++1
+17
+VOTES
+Idea Stats
+
+ Total Votes
+17
+ Views
+310
+ Comments
+48
+ Subscribers
+1
+Funnel advancement
+
+Subscribers (1)
+
+Latina Wright-BookerSubscribe
+Public (6)
+Latina Wright-Booker
+﻿
+
+Drag and drop or click button to attach files
+
+Attach files
+
+@ 
+Notify individual users
+Post publicly
+
+Only show comments from moderators
+Sort comments
+
+Oldest first
+
+Uri Kartoun
+1 week ago
+
+
+Latina, four of the seven dimensions in your Burden Portrait line up with burden categories I track across published Lyme and Long COVID studies, and they are measured very unevenly: employment is reported in 6 of 25 simulators, navigation in 2, and caregiving and emotional or social impact in none (chart attached). That is a good argument for a portrait like yours, because the dimensions patients describe most are often the ones published studies rarely measure.
+
+The counts come from my entry’s library, where I sort each study’s results into 16 burden categories. The tags are assigned by an AI model and checked by code, and the 25 papers aren’t a systematic sample, so this describes my library and not all research. I matched each of your dimensions to the closest category, which is approximate. My entry is here if you’d like to look: https://invisibleillness.crowdicity.com/post/896844
+
+I’d also be glad to hear the views of Pranisha, whose ImpactAtlas also organizes burden into dimensions that include caregivers and transportation, and Scott, whose Lani looks at loneliness and emotional strain.
+
+Your point that a medical encounter captures a moment, and your tool helps show what happens between the moments, stayed with me. Best wishes as you test it with patients and advocates.
+
+
+Users tagged:
+
+Avatar for Latina Wright-Booker
+Latina Wright-Booker
+Avatar for Pranisha Karki
+Pranisha Karki
+Avatar for Scott Savitt
+Scott Savitt
+Reply
+1
+
+
+
+Latina Wright-Booker
+1 week ago
+Uri, thank you for taking the time to examine Visible Burden AI and compare our Burden Portrait dimensions with the categories in your research library. I especially appreciate your observation that employment, navigation, caregiving, and emotional/social impacts may not be consistently represented in the studies you've reviewed.
+
+Your findings reinforce an important question behind VBAI: **How do we make visible the everyday consequences of invisible illness that may fall outside a traditional medical encounter?**
+
+Our seven-dimensional Burden Portrait is intended to bring self-reported experiences together rather than examine health symptoms in isolation. The longitudinal view adds another perspective by illustrating how those burdens can change over time, including what happens between appointments.
+
+I also appreciate your transparency about the scope of your 25-paper library and the approximate matching of categories. As we move toward patient and advocate testing, an important next step will be examining whether these dimensions reflect people's lived experiences, what we may be missing, and how the information can be communicated meaningfully without implying clinical validation.
+
+Your work raises an interesting question for all of us: **How might patient-reported experiences and published research complement one another to reveal burdens that neither captures fully on its own?**
+
+Thank you again for the thoughtful engagement and for inviting a broader conversation with Pranisha and Scott. I look forward to learning from the different approaches represented in this cohort.
+
+— Wright-Booker Innovation Lab | Visible Burden AI
+
+Reply
+0
+
+View all replies (9)
+
+Latina Wright-Booker
+1 week ago
+
+At Wright-Booker Innovation Lab, we believe meaningful innovation begins by listening.
+
+Visible Burden AI was developed to explore a question: What happens when the impact of invisible illness extends far beyond symptoms and medical appointments?
+
+Our working prototype brings seven dimensions of self-reported burden into one portrait: health, financial, employment, caregiving, healthcare navigation, time, and emotional/social impact.
+
+As we plan future testing with patients and advocates, we'd welcome your perspective:
+
+What everyday impact of invisible illness do you believe is most frequently overlooked or misunderstood?
+
+Your insights can help inform the questions we explore as VBAI develops.
+
+Innovation with Purpose. Solutions with Impact.
+
+— Wright-Booker Innovation Lab
+
+
+======================================================================
+DBbun Invisible Illness Burden Simulator
+======================================================================
+DBbun Invisible Illness Burden Simulator
+by
+Uri Kartoun
+Uri Kartoun
+|
+2 weeks ago
+|
+in Cost of Illness: TOPx Submission
+Approved
+Solo entry by Uri Kartoun, PhD, founder of DBbun LLC, Cambridge, Massachusetts. DBbun won Phase 1 and is participating in Phase 2.
+
+Proposed solution: the DBbun Invisible Illness Burden Simulator turns a published paper on Lyme disease or Long COVID into a live what-if simulator whose every value is labeled observed, assumed or projected, with federal context beside it. The public demo has 25 finished simulators and 13 cross-pollination analyses, each combining a Lyme disease paper and a Long COVID paper.
+
+Solution Overview (MVP Demonstration):
+User-Facing Application
+
+Live demo, prototype, or working product
+https://dbbun.github.io/dbbun-invisible-illness-burden-simulator/
+
+Access instructions (if needed)
+On the demo's Simulation Library, open simulator 3 (MyLymeData). Read Overview, switch to the Care delivery teams view, then open Explore, change one assumption, and see the Export tab. Press play on its audio overview and open the transcript. Open simulator 2 and read Evidence & Sources for the cost inputs and federal check. To see a cross-pollination analysis, go back to the Simulation Library and, under simulator 3, click "Cross-pollination analysis available: with 13" to open the analysis of simulators 3 and 13.
+
+The public site is read-only; uploading a paper and the API run in the full tool on the author's computer.
+
+Results for the American People
+DBbun lets a patient advocate see which burdens a study's results do not cover, a care team see which assumption it must not treat as patient fact, and a policy analyst tell one study's figure from a population estimate before budgeting.
+
+It turns a published paper into a simulator that labels each value observed, assumed or projected, shows federal context beside it, and lets anyone change an assumption.
+
+I designed it by listening to people. I held eight interviews (six patient advocates, a Long COVID patient, a government deputy director) and posted 17 questions on the LymeX Healthathon forum; 15 received replies. After listening, I added a medical-disbelief category, a claims-undercounting check and an Excel export for budget analysts. For patients who may struggle with screens, pages fit phones and tablets, and every simulator has a spoken overview and transcript.
+
+Across this non-systematically chosen library of 25 simulators, results are tagged to 1.4 of 16 burden categories on average, none to more than 3. Six categories have no tagged result for either condition, among them three that people described to me: care continuity, parent-to-child transmission and long-term opportunity costs.
+
+Thirteen cross-pollination analyses pair a Lyme and a Long COVID paper and ask what one condition could learn from the other. Six Lyme simulators report a diagnostic-delay result and no Long COVID simulator does: could Long COVID's time to diagnosis be measured?
+
+Data, Tech & Evidence Driven Approach
+Four Claude Sonnet calls extract findings with source locators, build an interactive simulator, write named scenarios and forecasts, and generate Python source. Each value is labeled observed, assumed or projected, and ordinary code does the arithmetic.
+
+A local machine-learning text classifier, using term frequency-inverse document frequency (TF-IDF) weighting, decides with no model call whether a document concerns Lyme disease or Long COVID. A retrieval scorer then selects up to ten units from a library of about 1,454, drawn from 30 federal dataset families across 12 agencies. A unit is a processed summary of one federal file, or of one part of a file. Federal data supplies context and checks; the paper supplies the inputs.
+
+Code performs three federal operations: restating dollars with the BLS price index, comparing Lyme case counts with CDC surveillance, and comparing Long COVID prevalence with Household Pulse. Where a cited figure has no year, code declines to compare it rather than guess.
+
+Example: Simulator 2's source reports $2,227 per Lyme episode in 2022 dollars; code restates it as about $2,450 in 2025 dollars, labeled general inflation, not medical-care inflation.
+
+On the five simulators with forecasts, a Monte Carlo simulation of 500 random draws within each assumption's range shades the chart, labeled illustrative, not a confidence interval. Cross-pollination tables are computed in code; the model tags burdens and writes wording, which code checks against fixed lists.
+
+Two guardrails: sex- and gender-specific findings are reported separately, and Long COVID figures sourced from claims or ICD-10 codes are flagged, because such codes capture under half of cases in the population studied by Tian et al. (JAMA Network Open, 2026).
+
+Execution, Efficiency & Delivery
+DBbun works as a public, read-only demonstration at https://dbbun.github.io/dbbun-invisible-illness-burden-simulator/. Anyone can open 25 simulators, change assumptions, read 13 saved cross-pollination analyses, hear spoken overviews, and download bundles. The use is evidence exploration: inspect a study's sources and limits, change an assumption, export the results.
+
+Generating a new simulator from a paper, or up to five related documents, runs in the full tool on my computer, not on the public site. It takes about four to nine minutes and $0.40 to $0.96 in model fees per paper (average $0.69, 25 runs), excluding my review time, hosting and maintenance. A documented API, exercised locally, supports another system submitting papers and retrieving results. There is no public self-service upload yet.
+
+After federal reviewers' feedback, I built a ranked list of federal sources, observed, assumed and projected labels, price-year and payer labels, and forecast bands. Five supporting documents are attached: feedback log, quality assurance, interoperability, policy brief, references.
+
+AI critiques reviewed earlier versions of every simulator and cross-pollination analysis, and a separate AI code review (GPT-5 Codex) found ten issues: nine were fixed with regression tests, one is documented. All 25 simulators were then regenerated under the revised rules. 233 automated tests pass.
+
+Scalability, Reuse & Societal Impact:
+DBbun is infrastructure, not a one-disease tool: its extraction, evidence labels, arithmetic, API and FHIR export are not written for one disease; the curated federal evidence, prompts and burden categories are built for Lyme disease and Long COVID. To test reuse, I ran two collapsed-lung papers through it, changing only a condition label and scope statement. Each produced a labeled simulator, unvalidated. That shows initial reuse; a new condition needs curated evidence. Societal impact is the evidence gap: six of 16 burden categories have no tagged result for either condition, and the 2022 to 2025 National Health Interview Survey adult codebooks I reviewed have no Lyme question. Deployment: the demo is public and read-only; the full tool runs on one computer with a documented API. Next steps: a hosted version with self-service upload, CMS production access for Blue Button, and asking federal surveys to add items on caregiver hours and schooling disrupted. Standards: each model exports as HL7 FHIR R4 Observation resources with provenance to the source paper; all 26 files pass the official HL7 validator with no errors (warnings only; terminology checks off). Blue Button 2.0 was demonstrated against the CMS sandbox with synthetic beneficiaries, and the CMS Interoperability Framework's consent and transparency principles are echoed. The aim: a reusable evidence layer for any condition and its comorbidities, ideally across PubMed.
+
+Filesdbbun supporting
+Videos
+Idea image
+edited on Oct 14, 2026 by Uri Kartoun
++1
+11
+VOTES
+Idea Stats
+
+ Total Votes
+11
+ Views
+514
+ Comments
+46
+ Subscribers
+4
+Funnel advancement
+
+Subscribers (4)
+
+Uri KartounStacey ShapiroMatthew HirschlandHeather ZampinoSubscribe
+Tags
+
+Lyme DiseaseLong COVIDCost of illnesswhat-if simulatorevidence gapscross-pollination analysisFHIRAI/Machine Learningburden categoriescomorbiditiesPubMedevidence-based simulation
+Public (10)
+Uri Kartoun
+﻿
+
+Drag and drop or click button to attach files
+
+Attach files
+
+@ 
+Notify individual users
+Post publicly
+
+Only show comments from moderators
+Sort comments
+
+Oldest first
+
+Matthew Hirschland
+1 week ago
+
+As a data scientist at Google who also happened to have gotten sick with ME/CFS, this kind of tooling really excites me! Making research maximally useful and accessible to the people who need it most makes a difference. I wish I would have had something like this when I first was sick.
+
+Reply
+1
+
+
+
+Uri Kartoun
+1 week ago
+Thank you, Matthew. I’m sorry you went through that, and I’m glad the idea speaks to you. As part of my submission I interviewed eight people (details are in the demo’s FAQ), including patients and patient advocates, some living with ME/CFS. Those conversations inspired me to build this infrastructure, so your comment means a lot. If you have a moment, I’d be glad to hear what would have been most useful to you at the start: a clear summary, the numbers behind a study, or being able to change an assumption and see what happens.
+
+If there’s a paper you wish had been easier to explore, send me the title and I’ll run it through the tool and share the result with you. It would be a prototype, unvalidated, because the tool was built and checked for Lyme disease and Long COVID, but I’d value your reaction.
+
+Users tagged:
+
+Avatar for Matthew Hirschland
+Matthew Hirschland
+Reply
+0
+
+
+
+Monica White
+1 week ago
+
+Wow! This is highly innovative in making publications and the issues addressed or neglected in publications highly accessible.
+
+Users tagged:
+
+Avatar for Uri Kartoun
+Uri Kartoun
+Reply
+1
+
+
+
+Uri Kartoun
+1 week ago
+
+Monica, thank you so much for taking the time to look and for such kind words. Your Healthathon story, “Spark of Lyme: From Womb to Wellness,” came to mind as I wrote this. In my library of 25 published studies, none reports a result on parent-to-child transmission, one of six burden categories with no tagged result at all, which is exactly the kind of neglected issue your story raises. The tags are assigned by an AI model and checked by code, and the 25 papers aren’t a systematic sample, so this describes my library and not all research. Making visible what publications address, and what they leave out, was the goal, so it means a great deal to hear that from you.
+
+Users tagged:
+
+Avatar for Monica White
+Monica White
+Reply
+0
+
+
+
+Jisung Chang
+1 week ago
+(edited)
+
+Uri, impressive work on DBbun — especially building 25 working simulators, 13 cross-pollination analyses, and a well-tested framework that can extend beyond a single condition.
+
+I’m particularly interested in the interoperability side of DBbun. Looking ahead, do you envision the DBbun API being able to accept structured outputs from other AI or public-health systems as inputs to its burden, care-delivery, or cost simulations?
+
+For example, Lyme AI-ert generates geographic risk signals, temporal trends, weekly alerts, and predicted annual Lyme cases. I could see an interesting connection where these upstream signals feed into DBbun to explore downstream burden, care-access, resource-planning, or cost scenarios.
+
+The weekly alert data and predicted annual Lyme cases are already available through interactive maps in my Lyme AI-ert project, so you’re welcome to explore them anytime here:
+https://invisibleillness.crowdicity.com/post/896784
+
+I think connecting early-warning intelligence with downstream burden and planning could be an interesting direction for future collaboration.
+
+Reply
+1
+
+
+
+Uri Kartoun
+1 week ago
+Jisung, thank you for your generous words, and for a very good question. In the tool, the API’s run endpoint already takes named numeric inputs, and each simulator publishes its inputs and ranges, s
+
+======================================================================
+Health Worth
+======================================================================
+Health Worth
+by
+Trisha Rawlings
+Trisha Rawlings
+|
+2 weeks ago
+|
+in Cost of Illness: TOPx Submission
+Approved
+Every day, Americans make healthcare decisions without understanding what those decisions may cost them. A diagnosis can introduce an overwhelming set of questions: What care will I need? What will it cost? What will insurance cover? Can I afford treatment? What happens if I wait?
+
+Health Worth was created to help answer those questions.
+
+Health Worth is a patient-centered healthcare decision intelligence platform that helps individuals understand the potential financial implications of a diagnosis, condition, or medical procedure, including the potential costs associated with delaying care.
+
+Unlike traditional price transparency tools that focus primarily on individual services, Health Worth takes a broader approach by connecting healthcare pricing information, condition-specific care journeys, insurance information, and decision-support intelligence.
+
+The platform enables users to explore potential care pathways, understand estimated costs, compare care settings, and evaluate how different decisions may influence their financial exposure.
+
+Core capabilities include:
+
+Condition-based care journeys: Explore potential services, procedures, and treatment pathways associated with specific diagnoses.
+
+Episode-level cost intelligence: Understand estimated costs across care settings and services rather than relying solely on isolated procedure prices.
+
+Cost-of-delay intelligence: Explore potential financial implications of postponing treatment, with scenario-based estimates rather than predictions of individual outcomes.
+
+Insurance connectivity: Support patient-initiated connections to available payer data, including Medicare, to provide more personalized financial context.
+
+Transparent estimates: Present cost ranges and underlying assumptions to help patients understand uncertainty.
+
+Patient-centered experience: Translate complex healthcare financial information into understandable, actionable insights.
+
+Health Worth integrates publicly available healthcare datasets, commercial pricing information, and patient-authorized insurance data where available.
+
+The platform has progressed beyond conceptual development into a functioning MVP. Its development has been informed by initial research and subsequent usability testing focused on functionality and patient support.
+
+Team and Leadership
+
+Health Worth was founded and developed by a healthcare strategy and digital innovation leader with nearly 20 years of healthcare industry experience, an MPH, MBA, and graduate education in management and leadership, and ongoing doctoral research in public health.
+
+The founder's professional experience spans healthcare technology, digital product strategy, consumer engagement, health information accessibility, payment integrity, and responsible AI implementation.
+
+Our Vision
+
+Healthcare decisions should not require patients to choose between financial uncertainty and their health.
+
+Health Worth aims to make the financial implications of care more visible, understandable, and actionable, empowering Americans to make more informed healthcare decisions.
+
+Solution Overview (MVP Demonstration):
+User-Facing Application
+
+Live demo, prototype, or working product
+Health Worth is a functioning, web-based healthcare decision intelligence platform that enables users to explore condition-specific care journeys, understand estimated healthcare costs, and evaluate the potential financial implications of delaying treatment.
+
+The MVP demonstrates condition exploration, episode-level pricing intelligence, scenario-based cost-of-delay analysis, and patient-initiated insurance connectivity where supported.
+
+The demonstration follows a patient from identifying a condition through exploring potential care pathways, reviewing estimated costs, and understanding how treatment timing and insurance information may affect financial decisions.
+
+Live demo / working product:
+
+https://www.myhealthworth.com
+
+Access instructions (if needed)
+Access Health Worth using a modern desktop or mobile browser at https://www.myhealthworth.com.
+
+Explore the available condition journeys and pricing features. Where supported, users may initiate an insurance connection to access additional personalized information.
+
+The demonstration can be completed without connecting a personal insurance account.
+
+Results for the American People
+Health Worth addresses a fundamental challenge facing Americans: making healthcare decisions without understanding the financial consequences of receiving care or delaying it.
+
+The primary users are patients managing a diagnosis, considering a procedure, or evaluating treatment options. Caregivers and family members can also use the platform to support healthcare decisions.
+
+A patient begins by selecting a condition or procedure, such as knee osteoarthritis or knee replacement. Health Worth presents a potential care journey, estimates treatment costs, and helps the patient explore how different care settings, insurance circumstances, and treatment timelines may affect financial exposure.
+
+Importantly, Health Worth goes beyond medical bills to consider the broader financial implications of care, including lost income, caregiving needs, and potential downstream costs.
+
+The solution was informed by patient-centered research, including qualitative interviews and quantitative surveys. A subsequent usability study evaluated platform functionality and its ability to support patients.
+
+Health Worth helps Americans move from uncertainty toward informed conversations with their healthcare providers and insurers.
+
+Data, Tech & Evidence Driven Approach
+Health Worth combines federal open data, healthcare pricing information, clinical evidence, and modern technology to translate fragmented healthcare information into actionable financial intelligence.
+
+The platform incorporates CMS Medicare payment and claims-related information, hospital price transparency data, commercial healthcare pricing, and federal resources supporting medication, productivity, and healthcare utilization estimates.
+
+Condition-specific care journeys organize relevant services and potential treatment pathways. Episode-level pricing models estimate costs across care settings, while scenario-based calculations illustrate how delaying treatment may influence future healthcare spending and indirect financial burdens.
+
+Patient-initiated insurance connectivity uses standards-based authorization and FHIR-compatible data exchange where supported. The MVP includes Medicare and payer connectivity demonstrated through a sandbox environment using synthetic coverage and claims information.
+
+Health Worth emphasizes transparency. Estimates incorporate ranges, assumptions, data provenance, and methodological limitations rather than presenting modeled outcomes as guaranteed costs.
+
+Development was informed by initial patient research identifying the importance of trustworthy estimates, understandable assumptions, and insurance context. A separate usability study subsequently evaluated the functioning platform.
+
+The result is a working application that transforms complex healthcare datasets into understandable, patient-centered decision support.
+
+Execution, Efficiency & Delivery
+Health Worth demonstrates how existing healthcare data can be transformed into a practical tool that supports more informed decisions without requiring patients to become experts in medical billing or insurance.
+
+The functioning MVP includes condition-specific care journeys, episode-level cost estimates, comparisons across care settings, cost-of-delay scenarios, and patient-initiated insurance connectivity.
+
+Rather than requiring patients to independently research medical prices, treatment pathways, insurance information, and potential financial consequences, Health Worth brings these elements into a unified experience.
+
+The platform was developed through iterative product delivery, progressing from research and concept validation to a functional application and usability evaluation.
+
+Its primary value is improved decision-making: helping patients understand potential financial exposure, recognize important cost drivers, and prepare more informed questions for providers and insurers.
+
+Health Worth also demonstrates a reusable technical approach to organizing fragmented healthcare data into understandable financial insights.
+
+While measurable downstream outcomes require additional validation, the MVP establishes a foundation for evaluating improvements in cost comprehension, decision confidence, and financial preparedness.
+
+Scalability, Reuse & Societal Impact:
+Health Worth was designed as an extensible platform rather than a single-condition cost calculator.
+
+Its modular architecture supports the addition of diagnoses, procedures, care pathways, pricing datasets, and insurance integrations without rebuilding the core experience.
+
+The current platform supports 27 condition journeys spanning cancer, cardiovascular and metabolic disease, neurological and mental health conditions, respiratory illness, musculoskeletal disorders, kidney disease, and infectious disease.
+
+The near-term roadmap targets expansion to 100 supported diagnoses, broader payer connectivity, enhanced geographic pricing intelligence, and additional validation of cost and treatment-delay models. Future development will prioritize clinical and economic evidence review, patient usability, accessibility, privacy, and security.
+
+Health Worth has potential applications across patient advocacy organizations, community health programs, healthcare navigation services, and consumer-facing digital health platforms.
+
+Its broader societal opportunity is to make healthcare financial information more accessible, understandable, and useful, particularly for individuals facing complex or financially consequential healthcare decisions.
+
+By helping people understand both the cost of receiving care and the potential cost of waiting, Health Worth aims to support greater financial preparedness and informed healthcare decisions.
+
+Idea image
++1
+10
+VOTES
+Idea Stats
+
+ Total Votes
+10
+ Views
+280
+ Comments
+10
+ Subscribers
+0
+Funnel advancement
+
+Subscribers (0)
+
+Subscribe
+Tags
+
+Health WorthHealthcare Price Transparencypatient empowermentHealthcare AffordabilityDigital HealthHealth EquityHealthcare Decision SupportCost of CareCost of Delaying CareOpen dataInteroperabilityFHIRPatient-Centered Innovation
+Public (8)
+Trisha Rawlings
+﻿
+
+Drag and drop or click button to attach files
+
+Attach files
+
+@ 
+Notify individual users
+Post publicly
+
+Only show comments from moderators
+Sort comments
+
+Oldest first
+
+Uri Kartoun
+1 week ago
+
+Trisha, your page asks “What happens if I wait?”, and one published answer for Lyme disease is in the claims data: the average direct medical cost per episode was $695 for localized disease, $2,227 across all episodes, and $6,833 for disseminated disease, in 2022 dollars (chart attached). It’s an association, so it doesn’t prove that waiting causes the higher cost, and it counts direct medical costs only, not lost work. But it is the kind of figure that can anchor a cost-of-delay scenario, and it supports your choice to present scenario-based estimates and not predictions for any one person.
+
+The figures come from simulator 2 in my entry (Yu et al., JAMA Netw Open 2026), where each value is labeled as observed, assumed or projected, and dollar amounts can be restated to current prices by code, for example $2,227 in 2022 dollars is about $2,450 in 2025 dollars, labeled as general inflation, not medical-care inflation. My entry is here if you’d like to look: https://invisibleillness.crowdicity.com/post/896844
+
+I’d also be glad to hear Ian’s view, since the Pilot Planner in his Diagnostic Odyssey also lets people change assumptions and see how a plan shifts.
+
+Congratulations on the 27 condition journeys and on putting the assumptions in front of the user.
+
+
+Users tagged:
+
+Avatar for Trisha Rawlings
+Trisha Rawlings
+Avatar for Ian Liu
+Ian Liu
+Reply
+0
+
+
+
+Sulamit Berkovits
+1 week ago
+
+Trisha, I really enjoyed reading about what you've built with Health Worth. What stood out to me most is how you're looking at healthcare costs from the patient's perspective, not just the medical side of things. When someone is dealing with a diagnosis, the financial uncertainty can be just as overwhelming, and I think you've done a great job recognizing that.
+
+I especially like how you've included the potential cost of delaying care, along with things like lost income and family caregiving expenses. Those are real concerns that often get overlooked. And seeing that you've already developed a working platform covering 27 conditions is impressive.
+
+You can tell a lot of thought and effort went into this. I think you're addressing a very real need, and I'm genuinely excited to see where you take it. Wishing you lots of success!
+
+Reply
+0
+
+
+
+Latina Wright-Booker
+1 week ago
+
+I enjoyed learning about HealthWorth's approach to understanding the cost of delayed care. I especially appreciate the inclusion of impacts beyond medical expenses. Which nonmedical costs have been most challenging to represent accurately?
+
+Reply
+0
+
+
+
+Sulamit Berkovits
+1 week ago
+Thank you for raising that question, Latina. Delayed care is a good example of a cost that is easy to miss when burden is counted only in medical expenses. The delay itself creates time, travel, and worry, a
+
+PART II — COMPARISON AND PRACTICAL PATHWAYAI PRIORITIES
+
+Basis: supplied descriptions only, not a live technical audit.
+
+ImpactAtlas: emphasizes a broad multidimensional burden framework, evidence labels, simulations and comprehensive patient reports. Lesson: clearly show the burden categories PathwayAI already records, without competing on unverified feature counts.
+
+Pricing the Invisible: emphasizes policy decisions, model assumptions, sensitivity analysis and source review. Lesson: connect each PathwayAI county brief to a specific planning question, keeping illustrations separate from observed spending.
+
+ImpactFile: emphasizes reusable longitudinal records and purpose-specific packets for leave, disability, appeals and taxes. Lesson: make PathwayAI's patient-reviewed visit-and-burden download tangible; do not portray it as an official application or guarantee of benefits.
+
+Visible Burden AI: emphasizes a seven-dimensional portrait and longitudinal demonstration, with Census context kept separate. Lesson: use simple visuals and dated observations, preserving the distinction between actual records and synthetic demonstrations.
+
+DBbun: emphasizes paper-to-simulator evidence exploration, observed/assumed/projected labels, documented feedback and reproducible methods. Lesson: show traceable sources and concrete tested improvements. Do not equate automated tests with clinical validation.
+
+Health Worth: emphasizes care journeys, financial questions, episode costs and insurance context. Lesson: connect each existing PathwayAI pathway with the practical question a visitor brings, without adding unsupported cost-of-delay predictions.
+
+PATHWAYAI POSITIONING
+PathwayAI connects Lyme prevention, multilingual care preparation, dated household-burden records and source-linked county planning briefs. Patient records remain separate from county evidence. County context, burden tracking and transparency are not exclusive to PathwayAI; the proposed distinction is this focused combination and its practical workflows.
+
+IMMEDIATE IMPROVEMENTS PREPARED
+The homepage review branch adds two clear outputs with downloadable public samples: a fictional patient visit-and-burden PDF and a Dutchess County evidence-and-action PDF. A collapsed Improved through feedback section summarizes saved-record checks, multilingual tester feedback and report readability improvements. Seven-county wording is clarified. These homepage additions are not merged or deployed as of this export.
+
+VALIDATION AND LIMITS
+Focused Streamlit navigation test, desktop/mobile browser checks and both sample-download checks passed. Prior county-report release passed 118 tests and 210 report-combination layout checks. These are technical checks, not evidence of health benefits, savings, county adoption or better benefits outcomes. Individual multilingual workflows require further quality assessment; the main interface remains English.
+
+PRIORITIES BEFORE RESULTS
+Show working outputs clearly; fix blocking problems; document verified feedback. Defer new diseases, insurance integrations, risk scores and major economic models. Any post-deadline updates must be identified as subsequent development, not part of the original submitted MVP. User-reported vote/discussion position does not determine judging rank.

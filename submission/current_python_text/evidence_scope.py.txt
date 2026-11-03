@@ -1,0 +1,28 @@
+"""Source populations and periods; never infer survey response denominators."""
+
+EVIDENCE_SCOPE = [
+    {"Source": "CMS Original Medicare Geographic Variation", "Population / count": "2024: Dutchess 33,439; Orange 38,188 Original Medicare beneficiaries",
+     "Period / scope": "2014–2024 extract; county of beneficiary residence; All Original Medicare age group",
+     "Key limit": "Program payments, not patient bills or Lyme costs. Standardization adjusts geographic payment rates, not health status. Supplied extract and dictionary checked; full CSV not independently re-downloaded. No Blue Button integration."},
+    {"Source": "Hook et al. (2022)", "Population / count": "613 societal-cost participants; 901 in the patient analysis",
+     "Period / scope": "Recruitment 2014–2016; four high-incidence states; costs in 2016 dollars",
+     "Key limit": "Separate analyses and denominators. Study costs are transferred assumptions, not measured county spending or full delayed-diagnosis costs."},
+    {"Source": "Horn et al. (2025) / Biobank", "Population / count": "466 enrolled cases; 253 returned; 55 reported ongoing symptoms",
+     "Period / scope": "Enrollment 2014–2023; median follow-up 89 days",
+     "Key limit": "Early-care cohort and selected returners. Not representative of delayed-diagnosis burden; no economic costs measured."},
+    {"Source": "PathwayAI survey snapshot", "Population / count": "33 respondents reported a diagnosis in the supplied summary",
+     "Period / scope": "October 3, 2026 summary; voluntary participants across locations",
+     "Key limit": "Current export, question-level denominators, missing answers and unique-person checks still need verification. Not county prevalence or an average cost."},
+    {"Source": "NYSDOH county surveillance", "Population / count": "Dutchess 1,060; Orange 964 reported Lyme cases",
+     "Period / scope": "2024 reports; county of residence",
+     "Key limit": "Case counts, not survey sample sizes or exposure locations. Rates and modeled costs have different meanings."},
+    {"Source": "Johnson et al. (2014) / PeerJ e322", "Population / count": "3,090 selected online respondents; 5,357 initial responses",
+     "Period / scope": "2013 survey; persistent symptoms after treatment; uploaded PDF reviewed",
+     "Key limit": "Self-selected, self-reported sample. Work changes inform dated personal records; percentages are not county disability probabilities. Some table and narrative values differ."},
+    {"Source": "Adrion et al. (2015) / PLOS ONE e0116767", "Population / count": "52,795 Lyme cases and 263,975 matched controls",
+     "Period / scope": "Commercially insured ages 0–64; claims 2006–2010; 12-month outcomes; uploaded PDF reviewed",
+     "Key limit": "Allowed medical amounts, separate from patient payments and societal costs. Symptom-related codes do not establish clinical PTLDS or disability. A single price year was not established."},
+    {"Source": "Sanders et al. (2016) / Second Panel", "Population / count": "Methodological recommendations; no patient cohort",
+     "Period / scope": "Impact inventory, perspectives, assumptions and reporting; supplied summary and bibliographic reference",
+     "Key limit": "Guides framework design, not numerical burden inputs. Full article not retrieved; no claim of full Panel compliance or cost-effectiveness analysis."},
+]

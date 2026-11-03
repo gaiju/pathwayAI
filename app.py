@@ -3741,7 +3741,7 @@ def open_sidebar_view():
     st.session_state["public_pathway_intent"] = "browse"
 
 paths = [
-    ("Community Burden & Action", "For community teams: compare Dutchess and Orange County evidence and download a planning brief.", "📊 Community Burden & Action", "county"),
+    ("Community Burden & Action", "For community teams: explore evidence and planning briefs for seven Mid-Hudson counties.", "📊 Community Burden & Action", "county"),
     ("Care & Support", "For patients and caregivers: prepare a visit summary, record costs and daily-life impacts, or find support.", "🧭 Care & Support", "ongoing"),
     ("Tick Prevention", "Create and download a tick-prevention plan for time outdoors.", "🛡️ Learn & Prevent", "outdoors"),
     ("Review & Feedback", "Explore the tools or share suggestions. Use made-up details to test.", "💬 Share Feedback", "feedback"),
@@ -3866,6 +3866,8 @@ if not st.session_state.get("pathway_open", False):
                         explanation, output = landing_details[intent]
                         st.write(explanation)
                         st.markdown("**You’ll get:** " + output)
+    from homepage_outputs import show_homepage_outputs
+    show_homepage_outputs()
     with st.expander("Quick tour and demo"):
         st.write("Choose any section below. Use a made-up example if you want to try the tools.")
         tour_steps = [

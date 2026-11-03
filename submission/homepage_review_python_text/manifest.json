@@ -1,0 +1,486 @@
+{
+  "source_commit": "62dec87d65ae9ad5ccf2557d835f70488906374a",
+  "status": "Review branch, not deployed",
+  "files": [
+    {
+      "source": "ai_service_status.py",
+      "text_file": "ai_service_status.py.txt",
+      "bytes": 1381,
+      "sha256": "a2977659453396c8d7067a41f7cf0c653473110decf06f5f00bfb7c91034d3ef"
+    },
+    {
+      "source": "app.py",
+      "text_file": "app.py.txt",
+      "bytes": 2483597,
+      "sha256": "d4ccd9c66353fa4426ce388bcaf27e06343c12c9ad89bffec2b6d550d6ba0b32"
+    },
+    {
+      "source": "benefits_preparation.py",
+      "text_file": "benefits_preparation.py.txt",
+      "bytes": 8184,
+      "sha256": "99f268db89dc2c65874a6a176c32ab1dc9e03d6aa6cf8e3c0147be084ad146f7"
+    },
+    {
+      "source": "burden_demo.py",
+      "text_file": "burden_demo.py.txt",
+      "bytes": 7884,
+      "sha256": "47381e2aa03b5334ee8d1b478ec3aabe69fc5d4267f2fd0b09a347c2cb36a073"
+    },
+    {
+      "source": "burden_framework.py",
+      "text_file": "burden_framework.py.txt",
+      "bytes": 16736,
+      "sha256": "e7c99f029b0a6b5d8ee2eb8d0370e438fb643c7b947bbfd1ea817f35b2f860e4"
+    },
+    {
+      "source": "burden_journey.py",
+      "text_file": "burden_journey.py.txt",
+      "bytes": 9790,
+      "sha256": "7096ad1b0709fecc39174684e550f3d99e9da4f8465a12cfc8887a9594a3a28a"
+    },
+    {
+      "source": "care_access.py",
+      "text_file": "care_access.py.txt",
+      "bytes": 13023,
+      "sha256": "a481032569104ba7830771891bdfb4e531e43e0e2718df37102c69bdc8faf7aa"
+    },
+    {
+      "source": "caregiver_record.py",
+      "text_file": "caregiver_record.py.txt",
+      "bytes": 2595,
+      "sha256": "c515242fd0474c73d49b6bc43c1c1bc48f770e9fb5281c5ad487d8b36c05e5ee"
+    },
+    {
+      "source": "community_action.py",
+      "text_file": "community_action.py.txt",
+      "bytes": 12256,
+      "sha256": "356adae04d5d16ff8aa6263a45358e5e6bdeffcbec8ba1a406c4c8cc165a1fc9"
+    },
+    {
+      "source": "community_action_summary.py",
+      "text_file": "community_action_summary.py.txt",
+      "bytes": 10218,
+      "sha256": "219d525a6f0f4c76362d3ab4ad96b568b45414ab9c810eb89b20fab30ba47ed1"
+    },
+    {
+      "source": "community_pathway.py",
+      "text_file": "community_pathway.py.txt",
+      "bytes": 2919,
+      "sha256": "2665ebc79b9e302e7494c9b696883d044b24d9a475a026a4203626030128f540"
+    },
+    {
+      "source": "community_runtime.py",
+      "text_file": "community_runtime.py.txt",
+      "bytes": 1226,
+      "sha256": "a9c3a8a537f4b1162bb50d6b84fda6f452fb9a78edb4b2af0c795a48f16f080b"
+    },
+    {
+      "source": "county_brief_pdf.py",
+      "text_file": "county_brief_pdf.py.txt",
+      "bytes": 14189,
+      "sha256": "25c0ad1106142fc3e78e04a3c8bccc1531999dff2dd2ad127531f265deb6df2c"
+    },
+    {
+      "source": "county_burden_report.py",
+      "text_file": "county_burden_report.py.txt",
+      "bytes": 22249,
+      "sha256": "6853566d65d0b41b00954242cbbb18619f9fec48fad8f280d73de6c6d6b6e0d7"
+    },
+    {
+      "source": "county_comparison_chart.py",
+      "text_file": "county_comparison_chart.py.txt",
+      "bytes": 1182,
+      "sha256": "2dbd0e785b606323f5c80bd51f82d316b9128569daf07cc8d60c425d1a1a97ed"
+    },
+    {
+      "source": "county_cost_scenario.py",
+      "text_file": "county_cost_scenario.py.txt",
+      "bytes": 20241,
+      "sha256": "318c88134ce4d08136df685a6e1076653dbec03a9452e4585e220edd5bf38843"
+    },
+    {
+      "source": "county_explanation.py",
+      "text_file": "county_explanation.py.txt",
+      "bytes": 3812,
+      "sha256": "48c70f9384f8b310800b309c96c666a36b964fdf3da09d86a0fd32a493256307"
+    },
+    {
+      "source": "county_geography.py",
+      "text_file": "county_geography.py.txt",
+      "bytes": 2361,
+      "sha256": "869dffbe425e09844ea52e213ff9660e468e8143f4a904150b8a6ec6ce99c2d6"
+    },
+    {
+      "source": "county_maps.py",
+      "text_file": "county_maps.py.txt",
+      "bytes": 6739,
+      "sha256": "43ac70d8d16de60d269e7912293c30f3a324c85513a7b8f1fb52f471f9c71fe2"
+    },
+    {
+      "source": "county_plan.py",
+      "text_file": "county_plan.py.txt",
+      "bytes": 6471,
+      "sha256": "7e4255280614709c01d3c29b8da6b2872a508c70ac20c98eb486feab0305a3bb"
+    },
+    {
+      "source": "county_planning_indicators.py",
+      "text_file": "county_planning_indicators.py.txt",
+      "bytes": 11492,
+      "sha256": "602bc2abe10e9280e36dfeca5b93f1c3c57393ed3cee955af4ce4d501ecb9a88"
+    },
+    {
+      "source": "county_trends.py",
+      "text_file": "county_trends.py.txt",
+      "bytes": 3102,
+      "sha256": "a0d384e25da3f70c832e2b78f336e7e5b533ff1c72e9d565a26e028abf6a6ebe"
+    },
+    {
+      "source": "daily_observations.py",
+      "text_file": "daily_observations.py.txt",
+      "bytes": 10151,
+      "sha256": "fdb9395a22dd9e7cb15fe27cdeba9cc447e045cf3726d904f3fbc107fe5b29b8"
+    },
+    {
+      "source": "evidence_rag.py",
+      "text_file": "evidence_rag.py.txt",
+      "bytes": 12518,
+      "sha256": "044b3720679cdb2da9a3a09d8785d5ba6c08f0ed2d902c1d07b8c0c6a28f9c09"
+    },
+    {
+      "source": "evidence_scope.py",
+      "text_file": "evidence_scope.py.txt",
+      "bytes": 3380,
+      "sha256": "69d9dad1cb232d234ff0056f87a503dc3021211dadfbef926df722568d3fb526"
+    },
+    {
+      "source": "homepage_outputs.py",
+      "text_file": "homepage_outputs.py.txt",
+      "bytes": 2870,
+      "sha256": "28d3c115a0c6dc78dfd083ba411e66b754bed0474a95ad094702c530055079d6"
+    },
+    {
+      "source": "inflation_context.py",
+      "text_file": "inflation_context.py.txt",
+      "bytes": 5618,
+      "sha256": "85e2555abf855041f41c63d1fe623eea7b1b7f2d69c09b15401dcfb170b2d9aa"
+    },
+    {
+      "source": "language_organizer.py",
+      "text_file": "language_organizer.py.txt",
+      "bytes": 15535,
+      "sha256": "93f0d77fb18cf12c402cac58334e2790cf44344ff6f709d1eed90701c2cfaada"
+    },
+    {
+      "source": "lyme_testing.py",
+      "text_file": "lyme_testing.py.txt",
+      "bytes": 8408,
+      "sha256": "4a663a64b9ea9dcb81f7a40ddc2f279bc64884e3556b4bdbce65ffc755d67dc6"
+    },
+    {
+      "source": "medicare_county_context.py",
+      "text_file": "medicare_county_context.py.txt",
+      "bytes": 5873,
+      "sha256": "7c3a3551bf0eed822f209d8bb4c63be87ad53df9843faee93d9f9a345c088ae1"
+    },
+    {
+      "source": "mid_hudson_counties.py",
+      "text_file": "mid_hudson_counties.py.txt",
+      "bytes": 1947,
+      "sha256": "96b50d234a1b8ed1bdf704999a6a8011dc089e062b0edf69cdfe551da54dcd15"
+    },
+    {
+      "source": "outdoor_plan.py",
+      "text_file": "outdoor_plan.py.txt",
+      "bytes": 3548,
+      "sha256": "73511a6215155a32128e7ca763acd6bb1d8f4c5dff9d57003e992c3995b06ef3"
+    },
+    {
+      "source": "pdf_report.py",
+      "text_file": "pdf_report.py.txt",
+      "bytes": 2950,
+      "sha256": "5b8f7e892f83f46e00337c2448150e44e4a2037ef216412d7de097ed7a077a66"
+    },
+    {
+      "source": "personal_cost_visual.py",
+      "text_file": "personal_cost_visual.py.txt",
+      "bytes": 2632,
+      "sha256": "b2670f9d8d98b586ebe25ae175cff7130adffa6f532728236a7416449608bb4c"
+    },
+    {
+      "source": "report_download.py",
+      "text_file": "report_download.py.txt",
+      "bytes": 4643,
+      "sha256": "853846013de54862f146d44913e3fce91a1c7f26ba3a08df9799756d1ccc6fe8"
+    },
+    {
+      "source": "share_pathway.py",
+      "text_file": "share_pathway.py.txt",
+      "bytes": 1677,
+      "sha256": "d5ccf45168c4477c0920f9a53a756b1cb773a70035343ba3d95631d3325977df"
+    },
+    {
+      "source": "state_badge.py",
+      "text_file": "state_badge.py.txt",
+      "bytes": 1860,
+      "sha256": "28b5c5a40580f30b4e6931456032a25f6e310f675ad261712b9e7a5b289fe01f"
+    },
+    {
+      "source": "story_prefill.py",
+      "text_file": "story_prefill.py.txt",
+      "bytes": 7722,
+      "sha256": "75e0b8624e4ee22f0d46a4c7c01c3f7e4621a5465f5bd375fdcb42853136a0ba"
+    },
+    {
+      "source": "submission/PathwayAI_Current_app.py",
+      "text_file": "submission/PathwayAI_Current_app.py.txt",
+      "bytes": 2477477,
+      "sha256": "58410d0dcf34ea91712ec2a2702c7a08f4313682335eb7c5133bab813d9b31f2"
+    },
+    {
+      "source": "support_summary.py",
+      "text_file": "support_summary.py.txt",
+      "bytes": 6675,
+      "sha256": "374d756a09ad28180e35d92235d33d37d2c27a44a800da11077fc0bb06e96d68"
+    },
+    {
+      "source": "tests/test_ai_service_status.py",
+      "text_file": "tests/test_ai_service_status.py.txt",
+      "bytes": 1545,
+      "sha256": "0284472d765b0d11ae1d8f6aee895a6dd23f4ea01e3499786a37eaea32b5f56f"
+    },
+    {
+      "source": "tests/test_banner_assets.py",
+      "text_file": "tests/test_banner_assets.py.txt",
+      "bytes": 907,
+      "sha256": "0eb156da11c5274abb05bc2eec6dd4b8966ed4852780fc21a9be4159fd99d48e"
+    },
+    {
+      "source": "tests/test_benefits_preparation.py",
+      "text_file": "tests/test_benefits_preparation.py.txt",
+      "bytes": 3797,
+      "sha256": "d23c5181798802095a25bb5b491dc3b4fd1a2d58c8a399be74a618f70864e969"
+    },
+    {
+      "source": "tests/test_burden_demo.py",
+      "text_file": "tests/test_burden_demo.py.txt",
+      "bytes": 1988,
+      "sha256": "7b9c8f06fdd2b49f31ab96cfe2cfdd08a90726ffdfa31f5160e4748349870de5"
+    },
+    {
+      "source": "tests/test_burden_framework.py",
+      "text_file": "tests/test_burden_framework.py.txt",
+      "bytes": 2888,
+      "sha256": "9106fcbfe2ddc402814f975125f3b6617e531d58e69140ea591109d7fdecad4d"
+    },
+    {
+      "source": "tests/test_care_access.py",
+      "text_file": "tests/test_care_access.py.txt",
+      "bytes": 5504,
+      "sha256": "ea60fc844cd4ca3fbd27f59c15bad8f9a8a1b6bd98a6c33225373befd00310b4"
+    },
+    {
+      "source": "tests/test_caregiver_record.py",
+      "text_file": "tests/test_caregiver_record.py.txt",
+      "bytes": 3061,
+      "sha256": "83cae3cd560b8a1f59bcb257339649f5812e3dcb15a23d137521827d1e4cc206"
+    },
+    {
+      "source": "tests/test_community_action.py",
+      "text_file": "tests/test_community_action.py.txt",
+      "bytes": 3066,
+      "sha256": "412fa59dc428649a125612faab12d1cdf537da58cba5532b6e0ccb9627e022d0"
+    },
+    {
+      "source": "tests/test_community_action_summary.py",
+      "text_file": "tests/test_community_action_summary.py.txt",
+      "bytes": 4714,
+      "sha256": "23c655d961e8ae893ef48f5d68180ba9b1ede76dc3587e93dc1815642109f4f8"
+    },
+    {
+      "source": "tests/test_community_runtime.py",
+      "text_file": "tests/test_community_runtime.py.txt",
+      "bytes": 2318,
+      "sha256": "f188f8d6cce5462405d055a8c86446f5ef73429a0bd7f6b3f7bc270c6ae18690"
+    },
+    {
+      "source": "tests/test_county_burden_report.py",
+      "text_file": "tests/test_county_burden_report.py.txt",
+      "bytes": 2388,
+      "sha256": "56cfe47d28637bf2237a21e859b0079b13efb10c94efafca0bec6a576bc21045"
+    },
+    {
+      "source": "tests/test_county_cost_scenario.py",
+      "text_file": "tests/test_county_cost_scenario.py.txt",
+      "bytes": 3691,
+      "sha256": "8f81601046eb830694a97ccaf1af4c23869a27cd190b2a5c7f47525d18751faa"
+    },
+    {
+      "source": "tests/test_county_explanation.py",
+      "text_file": "tests/test_county_explanation.py.txt",
+      "bytes": 1986,
+      "sha256": "75d98dc0132b1fc33962e3d8873504a7240291a2aaaa020304f49febe9c728a7"
+    },
+    {
+      "source": "tests/test_county_geography.py",
+      "text_file": "tests/test_county_geography.py.txt",
+      "bytes": 2848,
+      "sha256": "1ca20835fcd0753fff2c2f20329b994ecb037b3b4066cb7dd8e23ae280271be0"
+    },
+    {
+      "source": "tests/test_county_maps.py",
+      "text_file": "tests/test_county_maps.py.txt",
+      "bytes": 1618,
+      "sha256": "3309fce26a56f310f3df98c238300e73ac200076c50057b48fc47432387a4cd2"
+    },
+    {
+      "source": "tests/test_county_planning_indicators.py",
+      "text_file": "tests/test_county_planning_indicators.py.txt",
+      "bytes": 3161,
+      "sha256": "621e2851eaed2de763225a058c428b19e1847b930f73929fb95b16bad908fca3"
+    },
+    {
+      "source": "tests/test_county_trends.py",
+      "text_file": "tests/test_county_trends.py.txt",
+      "bytes": 897,
+      "sha256": "3592e132c5b39de87205e5a87bddd1e2cd26016ae2332b109356f1c8dcd934fb"
+    },
+    {
+      "source": "tests/test_daily_observations.py",
+      "text_file": "tests/test_daily_observations.py.txt",
+      "bytes": 4533,
+      "sha256": "c00a5101fd673030f924a91a5ae4ee458461061086d50e64341a99f79bb501ba"
+    },
+    {
+      "source": "tests/test_evidence_rag.py",
+      "text_file": "tests/test_evidence_rag.py.txt",
+      "bytes": 5089,
+      "sha256": "06c94666cd69da1248359f037044c6d7bc80188a3a10d261987dc1c751af0e05"
+    },
+    {
+      "source": "tests/test_homepage_outputs.py",
+      "text_file": "tests/test_homepage_outputs.py.txt",
+      "bytes": 1149,
+      "sha256": "b7badf8054af96b3dffeb4c721d74c7dbf0a57b5922618c113cd07fda62b148e"
+    },
+    {
+      "source": "tests/test_inflation_context.py",
+      "text_file": "tests/test_inflation_context.py.txt",
+      "bytes": 1911,
+      "sha256": "b6503f6b553abbb5e95e6644e98f9f0ef1b71576a00789345752f6141065ee64"
+    },
+    {
+      "source": "tests/test_language_organizer.py",
+      "text_file": "tests/test_language_organizer.py.txt",
+      "bytes": 7697,
+      "sha256": "266b8d4c948dbb598ca778e532432d2a6e08f6f41a80e7eb90367963e51866d8"
+    },
+    {
+      "source": "tests/test_local_planning_notes.py",
+      "text_file": "tests/test_local_planning_notes.py.txt",
+      "bytes": 1440,
+      "sha256": "b0b14d318e7defea50e6eaa64a53f76901c009730fc13ba77c433f91896a4471"
+    },
+    {
+      "source": "tests/test_medicare_county_context.py",
+      "text_file": "tests/test_medicare_county_context.py.txt",
+      "bytes": 2479,
+      "sha256": "8ce6d7ba4bc1b9e41fb662cb2bf55a4d410d0b3c871508f40e1e56b1e9f83a42"
+    },
+    {
+      "source": "tests/test_mid_hudson_expansion.py",
+      "text_file": "tests/test_mid_hudson_expansion.py.txt",
+      "bytes": 3632,
+      "sha256": "095825da89f1b0c5585f50ab1ac8c2ae01b85dc81facf737a9610c3d7986ecb7"
+    },
+    {
+      "source": "tests/test_navigation.py",
+      "text_file": "tests/test_navigation.py.txt",
+      "bytes": 6284,
+      "sha256": "4e42e316f1687abe107f3fb2f5f16a4f7b02fd7e17ad2131b6348a14321950b9"
+    },
+    {
+      "source": "tests/test_pdf_feedback.py",
+      "text_file": "tests/test_pdf_feedback.py.txt",
+      "bytes": 3023,
+      "sha256": "369d7e17ff94b8ead38051ada0895ea06f699aaabb064a47e3b0f851618eda31"
+    },
+    {
+      "source": "tests/test_personal_cost_visual.py",
+      "text_file": "tests/test_personal_cost_visual.py.txt",
+      "bytes": 787,
+      "sha256": "b8adc9d26249bae58c27c9353d81c5c0ff258d4f44271a7438f346d09087ca79"
+    },
+    {
+      "source": "tests/test_professional_review_tools.py",
+      "text_file": "tests/test_professional_review_tools.py.txt",
+      "bytes": 2769,
+      "sha256": "59fb71183e74a52d59613e6c2b1504572c2a0c166904e02ec69abbed78e5995e"
+    },
+    {
+      "source": "tests/test_published_research_context.py",
+      "text_file": "tests/test_published_research_context.py.txt",
+      "bytes": 921,
+      "sha256": "a8c84a3cb9b8355988998a55412d0c5b7e82176095f4c5188bee24f15f45316c"
+    },
+    {
+      "source": "tests/test_reading_modes.py",
+      "text_file": "tests/test_reading_modes.py.txt",
+      "bytes": 2748,
+      "sha256": "2768370435591fcb76eac39aea133b11cf0e1dbdd5a0644229d4a5896e5c28e8"
+    },
+    {
+      "source": "tests/test_report_download.py",
+      "text_file": "tests/test_report_download.py.txt",
+      "bytes": 1476,
+      "sha256": "e06b2a4bbebe77f684119be7cbe3229a5fb7fa410a3af2df490adc7c01abafd2"
+    },
+    {
+      "source": "tests/test_repository_layout.py",
+      "text_file": "tests/test_repository_layout.py.txt",
+      "bytes": 475,
+      "sha256": "816febf4a8bb093008cdcb8c89f91592da076d5d7aa3361ea8c172d0e250746f"
+    },
+    {
+      "source": "tests/test_story_guidance.py",
+      "text_file": "tests/test_story_guidance.py.txt",
+      "bytes": 2995,
+      "sha256": "086e1863f5d2a1196701417e78ce7939d43c6f71c221a0c71cd4774273e168bf"
+    },
+    {
+      "source": "tests/test_story_prefill.py",
+      "text_file": "tests/test_story_prefill.py.txt",
+      "bytes": 3918,
+      "sha256": "cb087c70601807e5f9762f0564124bcad99fc828b11a81305f018d439704ab93"
+    },
+    {
+      "source": "tests/test_support_summary.py",
+      "text_file": "tests/test_support_summary.py.txt",
+      "bytes": 3712,
+      "sha256": "529dd887e2ebd130a5dfb8f52b861f1ec866fd8f49be3220c0bb5770cc6d6fe2"
+    },
+    {
+      "source": "tests/test_zip_county_connection.py",
+      "text_file": "tests/test_zip_county_connection.py.txt",
+      "bytes": 2043,
+      "sha256": "5a72564baeb202fab73caa97ec95a8888d1ceabffb3637695b07b066192e723d"
+    },
+    {
+      "source": "tick_encounter.py",
+      "text_file": "tick_encounter.py.txt",
+      "bytes": 1776,
+      "sha256": "a0c61ca1bf84a2960c2f424c0969d8c33ec1f1708784321e49895fffd74d8c1d"
+    },
+    {
+      "source": "visit_summary.py",
+      "text_file": "visit_summary.py.txt",
+      "bytes": 6217,
+      "sha256": "6acfd55d5c871e5e8d011bf6c203d305b8c67217acef97d0cd4f1d0eee0637fc"
+    },
+    {
+      "source": "zip_county_connection.py",
+      "text_file": "zip_county_connection.py.txt",
+      "bytes": 1218,
+      "sha256": "14759a35f8b327e204d60252f41c1e78194c15d85b4ff5577de9ac3c22daf0e5"
+    }
+  ]
+}

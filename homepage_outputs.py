@@ -22,16 +22,16 @@ def sample_county_pdf():
 
 def show_homepage_outputs():
     import streamlit as st
-    st.subheader('See what you can take away')
+    st.subheader('See how PathwayAI can help')
     family,community=st.columns(2)
     with family:
-        st.markdown('**For patients and caregivers**')
-        st.write('A visit-and-burden summary to review, correct and bring to care or support conversations.')
+        st.markdown('**Prepare for care and benefits conversations**')
+        st.write('Organize your story, costs and daily-life impacts for appointments and support discussions—including preparation for a disability application, if relevant.')
         st.download_button('View sample patient summary (PDF)',sample_patient_pdf(),file_name='PathwayAI_Fictional_Patient_Summary.pdf',mime='application/pdf',key='home_sample_patient')
-        st.caption('Fictional example · no form or personal information needed.')
+        st.caption('Fictional example · no form or personal information needed. Your personal record supplements medical and other required documentation; each program determines eligibility and documentation requirements.')
     with community:
-        st.markdown('**For community teams**')
-        st.write('A county evidence-and-action brief with local indicators, a planning question and linked references.')
+        st.markdown('**Prepare for a community planning meeting**')
+        st.write('Bring local Lyme data, healthcare-access context and a source-linked planning question to a team meeting or support discussion.')
         st.download_button('View sample county brief (PDF)',sample_county_pdf(),file_name='PathwayAI_Dutchess_Sample_County_Brief.pdf',mime='application/pdf',key='home_sample_county')
         st.caption('Dutchess County example · study-based costs, not measured local spending.')
     with st.expander('Improved through feedback'):

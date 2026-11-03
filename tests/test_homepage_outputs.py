@@ -7,7 +7,7 @@ class HomepageOutputsTests(unittest.TestCase):
     def test_public_samples_and_navigation(self):
         app=AppTest.from_file(str(Path(__file__).resolve().parents[1]/'app.py'),default_timeout=60).run()
         self.assertFalse(list(app.exception))
-        self.assertTrue(any(x.value=='See what you can take away' for x in app.subheader))
+        self.assertTrue(any(x.value=='See how PathwayAI can help' for x in app.subheader))
         labels=[x.label for x in app.get('download_button')]
         self.assertIn('View sample patient summary (PDF)',labels)
         self.assertIn('View sample county brief (PDF)',labels)

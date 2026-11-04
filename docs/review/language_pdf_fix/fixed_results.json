@@ -1,0 +1,218 @@
+[
+  {
+    "language": "Arabic",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "XQCNVB+PathwayLatin",
+        "embedded_bytes": 21176,
+        "standard_unused_resource": false
+      },
+      {
+        "name": "SWQSRT+PathwayArabic",
+        "embedded_bytes": 13932,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Haitian_Creole",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 35544,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Spanish",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 35628,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Tagalog",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 35512,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Vietnamese",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 37252,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Hindi",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "XQCNVB+PathwayLatin",
+        "embedded_bytes": 21144,
+        "standard_unused_resource": false
+      },
+      {
+        "name": "PWYLUF+PathwayIndic",
+        "embedded_bytes": 9156,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Korean",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "XQCNVB+PathwayLatin",
+        "embedded_bytes": 21164,
+        "standard_unused_resource": false
+      },
+      {
+        "name": "XIKEOR+PathwayKorean",
+        "embedded_bytes": 644780,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Portuguese",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 35760,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "English",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 35512,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Chinese",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "XQCNVB+PathwayLatin",
+        "embedded_bytes": 21204,
+        "standard_unused_resource": false
+      },
+      {
+        "name": "YWJQPR+PathwayChinese",
+        "embedded_bytes": 479064,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "Russian",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 37776,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  },
+  {
+    "language": "French",
+    "pages": 1,
+    "fonts": [
+      {
+        "name": "Helvetica",
+        "embedded_bytes": 0,
+        "standard_unused_resource": true
+      },
+      {
+        "name": "AAAAAA+DejaVuSans",
+        "embedded_bytes": 35696,
+        "standard_unused_resource": false
+      }
+    ],
+    "script_fonts_embedded": true,
+    "within_bounds": true
+  }
+]

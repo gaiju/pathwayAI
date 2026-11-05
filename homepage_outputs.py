@@ -13,8 +13,17 @@ def sample_patient_pdf():
     return report_pdf(text,footer_label='PathwayAI | Fictional sample — not a real patient record')
 
 
-@lru_cache(maxsize=1)
 def sample_county_pdf():
+    # Refresh helper imports and key the public sample by report version, so a
+    # warm Streamlit process cannot keep serving the previous report layout.
+    from community_runtime import ensure_current_community_modules
+    ensure_current_community_modules()
+    from county_burden_report import REPORT_VERSION
+    return _sample_county_pdf(REPORT_VERSION)
+
+
+@lru_cache(maxsize=2)
+def _sample_county_pdf(report_version):
     from county_burden_report import build_report
     from county_brief_pdf import county_brief_pdf
     return county_brief_pdf(build_report('Dutchess','Getting to care',False))

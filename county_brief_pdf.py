@@ -126,7 +126,7 @@ def county_brief_pdf(r):
     flow.append(Paragraph('<link href="'+review_url+'" color="#17648a"><u>Email feedback: pathwayai.feedback@gmail.com</u></link>',small))
     flow.append(PageBreak())
     add('Local planning & research context',title)
-    add('What This Means for Local Planning',heading)
+    add('What this means for local planning',heading)
     for index,note in enumerate(r['local_planning_notes'],1):
         label='A local action to review' if index==3 else note['title']
         flow.append(Paragraph('<b>'+escape(str(index)+'. '+label)+'</b>',body))
@@ -146,13 +146,15 @@ def county_brief_pdf(r):
     add('What published research adds',heading)
     add('External study populations provide context, not county patient findings.',small)
     for study in r['published_research_context']:
-        flow.append(Paragraph(escape(study['study'])+' '+citation(study['url']),heading))
+        flow.append(Paragraph('<b>'+escape(study['study'])+'</b> '+citation(study['url']),small))
         add(study['sample']+' · '+study['period'],small)
-        add(study['contribution'])
+        add(study['contribution'],small)
         add('Population and limits: '+study['limit'],small)
-    add('How to use this evidence',heading)
-    add('Use these studies to discuss spending, work disruption and daily-life impacts with local residents. Hook remains the sole study-cost basis for the county illustration. Study estimates are not added together or applied as local disability rates.',small)
-    add('County-specific patient findings would require a defined local collection and review process. References and detailed methods follow on page 4.',small)
+    add('What we still need to know',heading)
+    for gap in r['evidence_gaps']:
+        add('• '+gap,small)
+    add('Missing information is not zero; gaps do not establish an absence of need or services.',small)
+    add('Hook is the sole cost basis. Do not add study estimates or infer local disability rates. Local patient findings require a defined collection and review process.',small)
     flow.append(PageBreak())
     add('References & methods',title)
     add('Original study basis',heading)

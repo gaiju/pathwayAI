@@ -12,7 +12,7 @@ from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.11'
+REPORT_VERSION='1.12'
 
 
 def build_report(county, priority, restate=False, audience='Public health departments'):
@@ -94,7 +94,31 @@ def build_report(county, priority, restate=False, audience='Public health depart
                              'restated_total_usd':float(Decimal(total)*Decimal(meta['factor'])) if total is not None else None}
     from community_pathway import local_planning_notes
     result['local_planning_notes'] = local_planning_notes(result)
+    result['evidence_gaps'] = evidence_gaps(result)
     return result
+
+
+def evidence_gaps(report):
+    """State limits of this brief, without inferring why a source lacks data."""
+    gaps = [
+        'County-specific unmet care, household spending and caregiving needs have not been established in this brief.',
+        'Long-term Lyme-attributable disability and costs beyond the study follow-up are not estimated.',
+        'Current service eligibility, interpreter access and appointment capacity need local verification.',
+    ]
+    context = report['additional_public_context']
+    missing = []
+    if report['reported_cases'] is None:
+        missing.append('2024 reported case count')
+    if report['reported_rate_per_100000'] is None:
+        missing.append('2024 reported rate')
+    if context['language_context']['value'] is None:
+        missing.append('language spoken at home')
+    if any(row['Reported cases per 100,000'] is None for row in context['rate_trend'][:2]):
+        missing.append('earlier rate-trend points')
+    missing.extend(row['measure'] for row in context['socioeconomic_context'] if row['value'] is None)
+    if missing:
+        gaps.append('Not available in the verified records used here: '+', '.join(missing)+'.')
+    return gaps
 
 
 def _value(value):
@@ -154,7 +178,7 @@ def report_text(report):
     lines += ['', '3. RESIDENT PRIORITIES TO DISCUSS',
               'Confirm priorities with residents and caregivers before choosing a response.',
               r['local_patient_reports_status'],
-              '', 'What we still need to understand']+['- '+x for x in r['evidence_gaps']]
+              '', 'What we still need to know']+['- '+x for x in r['evidence_gaps']]
     lines += ['', '4. FROM LYME DISEASE BURDEN TO COMMUNITY ACTION',
               'Suggested actions for local review, not clinical advice or adopted programs.']
     for area in r['community_action_areas']:
@@ -229,7 +253,7 @@ def show_county_report(audience='Public health departments'):
         st.caption('Also included: county comparisons, HRSA indicators, language context and suggested community actions.')
         st.caption('Public-data report; proposed actions require local review. Personal entries are kept separate.')
     with st.container(border=True):
-        st.markdown('### What This Means for Local Planning')
+        st.markdown('### What this means for local planning')
         for index,note in enumerate(report['local_planning_notes'],1):
             label='A local action to review' if index==3 else note['title']
             st.markdown('**'+str(index)+'. '+label+'**')
@@ -238,6 +262,11 @@ def show_county_report(audience='Public health departments'):
                 st.markdown('['+note['period']+']('+note['source_url']+')')
             else:
                 st.caption(note['period'])
+    with st.container(border=True):
+        st.markdown('### What we still need to know')
+        for gap in report['evidence_gaps']:
+            st.write('• '+gap)
+        st.caption('Missing information is not zero. These gaps describe this brief, not an absence of need or services.')
     if report.get('county_plan_context'):
         with st.expander('How this connects with the Dutchess health plan'):
             context=report['county_plan_context']

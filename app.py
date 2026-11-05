@@ -79,7 +79,7 @@ if "Tiếng Việt / Vietnamese" not in _language_organizer.LANGUAGES:
     import pdf_report as _language_pdf_report
     _reload_language_module(_language_pdf_report)
 import pdf_report as _pdf_report_current
-if getattr(_pdf_report_current, "PDF_FONT_REVISION", 0) < 2:
+if getattr(_pdf_report_current, "PDF_FONT_REVISION", 0) < 3:
     from importlib import reload as _reload_pdf_font
     _reload_pdf_font(_pdf_report_current)
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode

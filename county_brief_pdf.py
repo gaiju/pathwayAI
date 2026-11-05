@@ -17,6 +17,7 @@ def county_brief_pdf(r):
     reference = ParagraphStyle('CountyReference', parent=small, fontSize=7.5, leading=10, spaceAfter=5)
     heading = ParagraphStyle('CountyHeading', parent=body, fontSize=11, leading=14, spaceBefore=9, spaceAfter=6, keepWithNext=True)
     title = ParagraphStyle('CountyTitle', parent=body, fontSize=19, leading=24, spaceAfter=7)
+    compact_title = ParagraphStyle('CountyCompactTitle', parent=title, fontSize=16, leading=20)
     amount = ParagraphStyle('CountyAmount', parent=body, fontSize=23, leading=28, spaceAfter=4)
     flow=[]
     def paragraph(text, style=body): return Paragraph(escape(str(text)), style)
@@ -45,8 +46,15 @@ def county_brief_pdf(r):
         return '<link href="'+target+'" color="#17648a">['+str(source_numbers[url])+']</link>'
     cost_refs=[source_numbers[r['sources'][0]['url']], source_numbers[next(x['url'] for x in r['sources'] if 'Societal study mean' == x['purpose'])]]
     if r['inflation']: cost_refs.append(source_numbers[r['inflation']['source_url']])
-    add('PathwayAI | '+r['county']+' County', heading)
-    add('Lyme Disease Burden & Community Action', title)
+    from county_report_context import county_location_map
+    location=county_location_map(r['county'])
+    if location is not None:
+        header=Table([[[paragraph('PathwayAI | '+r['county']+' County',heading), paragraph('Lyme Disease Burden & Community Action',compact_title)],location]],colWidths=[403,108],hAlign='LEFT')
+        header.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),0)]))
+        flow.append(header)
+    else:
+        add('PathwayAI | '+r['county']+' County', heading)
+        add('Lyme Disease Burden & Community Action', title)
     add('Prepared '+r['prepared_date']+' · Public-data planning brief · Version '+r['report_version'], small)
     add('For local planning discussions · Proposed actions for review',small)
     table([['Reported cases · 2024','County rate per 100,000 · 2024','State rate per 100,000 · 2024'],
@@ -119,6 +127,14 @@ def county_brief_pdf(r):
             text+=' '+citation(note['source_url'])
         flow.append(Paragraph(text,body))
     add('Planning questions for local review; population indicators do not establish Lyme-specific need or available services.',small)
+    if r.get('county_plan_context'):
+        plan_context=r['county_plan_context']
+        add(plan_context['title'],heading)
+        flow.append(Paragraph('Local priorities and existing pathways '+citation(plan_context['source_url']),small))
+        for finding in plan_context['findings']:
+            add('• '+finding['text']+' (pp. '+finding['printed_pages']+')',small)
+        add(plan_context['question']+' '+plan_context['limits'],small)
+        add('Selected CHIP priorities concern nutrition security, chronic-disease prevention and substance-misuse/overdose prevention; these are not an adopted Lyme program.',small)
     add('What published research adds',heading)
     add('External study populations provide context, not county patient findings.',small)
     for study in r['published_research_context']:
@@ -154,6 +170,7 @@ def county_brief_pdf(r):
     add('Verification and interpretation',heading)
     add('Existing source snapshots; newer official releases have not been verified for this brief. Official rates are reproduced; exact rate-denominator vintage is not independently verified. Pre-2022 rates are excluded because surveillance definitions changed.',reference)
     add(('Census language context is an existing QuickFacts snapshot, not a fresh pull or a measure of English proficiency. ' if context['language_context']['value'] is not None else 'County language context has not been verified and remains unavailable. ')+'HRSA field years are not substituted with newer Census periods. Initiative links require current local verification; no listing does not mean no services exist.',reference)
+    add('Location map uses the app’s bundled county boundaries for orientation only; underlying boundary vintage is not independently verified. It is not an official county map or a disease-risk map.',reference)
     add(r['privacy'],reference)
     add(r['scope']+' No county or organizational endorsement is implied.',reference)
     out=BytesIO()

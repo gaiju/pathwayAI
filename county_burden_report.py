@@ -12,7 +12,7 @@ from inflation_context import inflation_metadata
 from county_planning_indicators import planning_indicators, planning_context_text, show_planning_indicators
 
 BASE=Path(__file__).resolve().parent
-REPORT_VERSION='1.9'
+REPORT_VERSION='1.10'
 
 
 def build_report(county, priority, restate=False, audience='Public health departments'):
@@ -73,6 +73,12 @@ def build_report(county, priority, restate=False, audience='Public health depart
         'inflation':None,
     }
     result['additional_public_context'] = planning_indicators(county)
+    from county_report_context import plan_context, map_metadata
+    result['county_plan_context'] = plan_context(county)
+    result['location_map'] = map_metadata(county)
+    result['sources'].append({'purpose':'County location graphic: bundled boundaries','period':result['location_map']['source_period'],'url':result['location_map']['source_url'],'status':'Geographic orientation only; no disease-risk shading.'})
+    if result['county_plan_context']:
+        result['sources'].append({'purpose':'Dutchess Community Health Improvement Plan','period':'2025–2030; printed pp. 5–11','url':result['county_plan_context']['source_url'],'status':'Checked against user-uploaded 16-page plan; county-specific findings only.'})
     for source in result['sources']:
         if source['url'] == HRSA_URL:
             source['purpose'] = 'Healthcare resources, insurance and poverty context'
@@ -141,6 +147,10 @@ def report_text(report):
     lines += ['', 'WHAT THIS MEANS FOR LOCAL PLANNING']
     for note in r['local_planning_notes']:
         lines += [note['title']+': '+note['text'],note['period']] + ([note['source_url']] if note['source_url'] else [])
+    if r.get('county_plan_context'):
+        context=r['county_plan_context']
+        lines += ['', context['title']]+[x['text']+' (printed pp. '+x['printed_pages']+')' for x in context['findings']]
+        lines += [context['question'],context['limits'],context['source_url']]
     lines += ['', '3. RESIDENT PRIORITIES TO DISCUSS',
               'Confirm priorities with residents and caregivers before choosing a response.',
               r['local_patient_reports_status'],
@@ -228,6 +238,15 @@ def show_county_report(audience='Public health departments'):
                 st.markdown('['+note['period']+']('+note['source_url']+')')
             else:
                 st.caption(note['period'])
+    if report.get('county_plan_context'):
+        with st.expander('How this connects with the Dutchess health plan'):
+            context=report['county_plan_context']
+            for finding in context['findings']:
+                st.write(finding['text'])
+                st.caption('Plan printed pages '+finding['printed_pages'])
+            st.write(context['question'])
+            st.caption(context['limits'])
+            st.link_button('Read the county plan',context['source_url'])
     with st.expander('What published research adds'):
         st.caption('External study populations, not county patient findings. Study costs are not added together; survey findings are not applied to county case counts.')
         for study in report['published_research_context']:

@@ -8,7 +8,7 @@ from threading import RLock
 _LOCK = RLock()
 _BASE = Path(__file__).resolve().parent
 # Dependencies first: later modules import functions/constants from earlier ones.
-_MODULES = ('mid_hudson_counties', 'community_action_summary',
+_MODULES = ('mid_hudson_counties', 'county_report_context', 'community_action_summary',
             'county_planning_indicators', 'county_burden_report', 'county_brief_pdf')
 _MARKER = '_PATHWAYAI_COMMUNITY_SOURCE_SHA256'
 

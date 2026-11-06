@@ -57,7 +57,11 @@ from medicare_county_context import show_medicare_county_context
 from county_plan import show_county_plan_context, show_combined_planning_evidence, combined_planning_rows, PLAN_CONTEXT
 from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
-from ai_service_status import classify_api_error, BILLING_URL, LIMITS_URL
+import ai_service_status as _ai_service_status
+if not hasattr(_ai_service_status, "log_transport_error"):
+    from importlib import reload as _reload_ai_status
+    _reload_ai_status(_ai_service_status)
+from ai_service_status import classify_api_error, log_transport_error, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
 # Streamlit can rerun this script while an older imported module stays cached.
 # Refresh only when required exports are missing; real import failures still surface.
@@ -1646,6 +1650,9 @@ def _limited_ai_urlopen(request, timeout=60):
         st.session_state["pathwayai_service_notice"] = notice
         show_ai_service_notice()
         raise AIRateLimitError(notice["message"]) from None
+    except (urllib.error.URLError, TimeoutError, OSError) as error:
+        log_transport_error(error)
+        raise
     st.session_state.pop("pathwayai_service_notice", None)
     return response
 

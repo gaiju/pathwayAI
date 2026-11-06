@@ -34,3 +34,5 @@ Seven focused tests pass. Integration tests mock the network; no billable OpenAI
 ## After approval to deploy
 
 Open the live owner's Streamlit logs and trigger the failing workflow once using fictional notes. Find the newest `PathwayAI AI failure` line and use its status/code to investigate the configured API account/model. Failed requests count toward the existing app limits; do not repeatedly retry. This change does not fix or identify the current live failure until it is deployed and that failure occurs again. It does not change third-party or platform logging policies.
+
+Final validation: **126 regression tests passed in 145.951 seconds**, including the seven focused diagnostic tests. `git diff --check` passed. Existing Streamlit deprecation warnings remain unrelated to this change. GitHub GraphQL returned Forbidden when creating a PR; the branch is pushed for review at https://github.com/gaiju/pathwayAI/compare/main...fix/safe-ai-diagnostics. No live API call, merge or deployment was performed.

@@ -86,7 +86,11 @@ import pdf_report as _pdf_report_current
 if getattr(_pdf_report_current, "PDF_FONT_REVISION", 0) < 4:
     from importlib import reload as _reload_pdf_font
     _reload_pdf_font(_pdf_report_current)
-from language_preferences import show_language_choice, save_language_choice
+import language_preferences as _story_language_preferences
+if getattr(_story_language_preferences, "LANGUAGE_ENTRY_REVISION", 0) < 3:
+    from importlib import reload as _reload_story_language_preferences
+    _reload_story_language_preferences(_story_language_preferences)
+from language_preferences import show_language_choice, save_language_choice, show_story_language_help
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
 
 PAGE_NOTES = []
@@ -2913,6 +2917,7 @@ def show_visit_organizer():
         reporter_role = show_reporter()
         language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, index=LANGUAGES.index(st.session_state.get("saved_notes_language", "English")), key="notes_language", on_change=save_language_choice, args=(st.session_state, "notes_language"), help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
         st.session_state["saved_notes_language"] = language
+        show_story_language_help(language)
         if language in AIDS:
             st.write(AIDS[language][0])
         if simple_reading_view():
@@ -3780,10 +3785,6 @@ def show_reading_choice():
              help="Quick and easy shows brief descriptions. More detail explains each route and its outputs, and opens supporting sections. Switch any time; your entries stay the same.")
 
 
-show_language_choice(
-    start_story=(lambda: select_public_pathway("🧭 Care & Support", "story"))
-    if not st.session_state.get("pathway_open", False) else None)
-
 # Reuse the existing organizer directly for visitors choosing a story language.
 # No new form, AI call, clinical advice or separate storage is introduced.
 if view == "🧭 Care & Support" and st.session_state.get("public_pathway_intent") == "story":
@@ -3812,6 +3813,10 @@ if not st.session_state.get("pathway_open", False):
             with st.container(key="landing_photo"):
                 st.image(str(BASE_DIR / "assets" / "homepage_forest.png"),
                          caption=None, use_container_width=True)
+    with st.container(border=True):
+        st.markdown("### Prefer to write in another language?")
+        st.write("Write your story in the language you’re comfortable with. Optional AI helps prepare an English summary alongside your original notes.")
+        show_language_choice(start_story=lambda: select_public_pathway("🧭 Care & Support", "story"))
 if st.session_state.get("pathway_open", False):
     show_reading_choice()
 

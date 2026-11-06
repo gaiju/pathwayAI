@@ -1,0 +1,1 @@
+PASS desktop/mobile contextual homepage section, Japanese direct entry, no duplicate language selector or horizontal overflow; no API calls

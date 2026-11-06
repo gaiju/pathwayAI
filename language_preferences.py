@@ -1,6 +1,8 @@
 """One session language preference shared by entry and visit-note widgets."""
 from language_organizer import LANGUAGES
 
+LANGUAGE_ENTRY_REVISION = 3
+
 
 def save_language_choice(state, widget):
     language = state.get(widget, 'English')
@@ -27,9 +29,14 @@ def show_language_choice(start_story=None):
                  on_change=save_language_choice,
                  args=(st.session_state, 'preferred_language_widget'))
     selected = st.session_state['preferred_language_widget']
-    if selected == '日本語 / Japanese':
-        st.info('この設定は、体験や症状を記録するための言語を選ぶものです。アプリ全体の表示言語は変わりません。メニューや他のページは主に英語です。日本語で入力できます。同意して翻訳ボタンを押すと、元の文章と英語の要約をダウンロードできます。')
-    st.caption('Choose the language you’ll use to write your story. Optional AI can help prepare an English summary alongside your original notes. The app’s menus and other pages remain mainly in English. Changing this setting does not translate or delete your notes.')
+    show_story_language_help(selected)
     if start_story is not None:
         label = '日本語で記録を始める →' if selected == '日本語 / Japanese' else 'Start writing your story →'
         st.button(label, key='start_story_language', on_click=start_story)
+
+
+def show_story_language_help(selected):
+    import streamlit as st
+    if selected == '日本語 / Japanese':
+        st.info('この設定は、体験や症状を記録するための言語を選ぶものです。アプリ全体の表示言語は変わりません。メニューや他のページは主に英語です。日本語で入力できます。同意して翻訳ボタンを押すと、元の文章と英語の要約をダウンロードできます。')
+    st.caption('Choose the language you’ll use to write your story. Optional AI can help prepare an English summary alongside your original notes. The app’s menus and other pages remain mainly in English. Changing this setting does not translate or delete your notes.')

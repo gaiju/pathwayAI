@@ -49,7 +49,7 @@ class EarlyLanguageTests(unittest.TestCase):
             self.assertEqual(at.text_area(key='quick_story_value').value, STORY)
             self.assertEqual(at.selectbox(key='notes_language').value, JP)
             self.assertTrue(any(d.key == 'bilingual_download' for d in at.get('download_button')))
-            at.selectbox(key='preferred_language_widget').set_value('Русский / Russian').run()
+            at.selectbox(key='notes_language').set_value('Русский / Russian').run()
             self.assertEqual(at.selectbox(key='notes_language').value, 'Русский / Russian')
             self.assertEqual(at.text_area(key='quick_story_value').value, STORY)
             self.assertFalse(any(d.key == 'bilingual_download' for d in at.get('download_button')))

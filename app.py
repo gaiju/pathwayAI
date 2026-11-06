@@ -3780,7 +3780,20 @@ def show_reading_choice():
              help="Quick and easy shows brief descriptions. More detail explains each route and its outputs, and opens supporting sections. Switch any time; your entries stay the same.")
 
 
-show_language_choice()
+show_language_choice(
+    start_story=(lambda: select_public_pathway("🧭 Care & Support", "story"))
+    if not st.session_state.get("pathway_open", False) else None)
+
+# Reuse the existing organizer directly for visitors choosing a story language.
+# No new form, AI call, clinical advice or separate storage is introduced.
+if view == "🧭 Care & Support" and st.session_state.get("public_pathway_intent") == "story":
+    st.header("日本語で記録 / Write your story" if st.session_state.get("saved_notes_language") == "日本語 / Japanese" else "Write your story")
+    show_visit_organizer()
+    st.button("ケア・支援の情報へ / Continue to Care & Support →", key="story_to_care",
+              on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
+    st.button("戻る / Back to choices", key="story_to_choices", on_click=return_to_path_choices)
+    render_page_notes()
+    st.stop()
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):

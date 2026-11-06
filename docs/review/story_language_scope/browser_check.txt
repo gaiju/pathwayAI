@@ -1,0 +1,1 @@
+PASS desktop/mobile Japanese scope note and direct story entry; no API calls

@@ -4,7 +4,7 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 from functools import lru_cache
 
-PDF_FONT_REVISION = 3
+PDF_FONT_REVISION = 4
 
 
 @lru_cache(maxsize=1)
@@ -32,10 +32,10 @@ def _markup(line):
     return ''.join(chunks) or '&#160;'
 
 
-def report_pdf(text, *, state_code=None, footer_label='PathwayAI | Reviewed personal record / educational material', link_urls=False):
+def report_pdf(text, *, state_code=None, footer_label='PathwayAI | Reviewed personal record / educational material', link_urls=False, source_language=None):
     from multilingual_pdf import needs_multiscript_pdf, multiscript_pdf
     if needs_multiscript_pdf(text):
-        return multiscript_pdf(text, state_code=state_code, footer_label=footer_label, link_urls=link_urls)
+        return multiscript_pdf(text, state_code=state_code, footer_label=footer_label, link_urls=link_urls, source_language=source_language)
     from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
     from reportlab.lib.styles import ParagraphStyle
     from reportlab.lib import colors

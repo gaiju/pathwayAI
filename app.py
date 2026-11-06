@@ -1,6 +1,6 @@
 # Refresh older imported report helpers before using new PDF controls.
 import report_download as _personal_pdf_download
-if getattr(_personal_pdf_download, "PERSONAL_PDF_LAYOUT_REVISION", 0) < 1:
+if getattr(_personal_pdf_download, "PERSONAL_PDF_LAYOUT_REVISION", 0) < 2:
     from importlib import reload as _reload_personal_pdf
     import sys as _personal_pdf_sys
     _reload_personal_pdf(_personal_pdf_download)
@@ -77,15 +77,16 @@ from care_access import show_billing_help, show_care_access, show_timely_care, s
 from outdoor_plan import outdoor_plan_text, CDC_BOT
 from visit_summary import show_visit_summary
 import language_organizer as _language_organizer
-if "Tiếng Việt / Vietnamese" not in _language_organizer.LANGUAGES:
+if "日本語 / Japanese" not in _language_organizer.LANGUAGES:
     from importlib import reload as _reload_language_module
     _reload_language_module(_language_organizer)
     import pdf_report as _language_pdf_report
     _reload_language_module(_language_pdf_report)
 import pdf_report as _pdf_report_current
-if getattr(_pdf_report_current, "PDF_FONT_REVISION", 0) < 2:
+if getattr(_pdf_report_current, "PDF_FONT_REVISION", 0) < 4:
     from importlib import reload as _reload_pdf_font
     _reload_pdf_font(_pdf_report_current)
+from language_preferences import show_language_choice, save_language_choice
 from language_organizer import LANGUAGES, AIDS, show_bilingual_organizer, translate_notes, chinese_notes_in_english_mode
 
 PAGE_NOTES = []
@@ -2910,7 +2911,7 @@ def show_visit_organizer():
     fields = st.expander("Review or edit your saved visit note", expanded=not simple_reading_view() or needs_language_fix) if reuse_note else st.container()
     with fields:
         reporter_role = show_reporter()
-        language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, index=LANGUAGES.index(st.session_state.get("saved_notes_language", "English")), key="notes_language", help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
+        language = st.selectbox("Write in your preferred language / 语言 / Idioma", LANGUAGES, index=LANGUAGES.index(st.session_state.get("saved_notes_language", "English")), key="notes_language", on_change=save_language_choice, args=(st.session_state, "notes_language"), help="Choose your main writing language. You can keep English place names, medicine names and medical words in notes written in another language.")
         st.session_state["saved_notes_language"] = language
         if language in AIDS:
             st.write(AIDS[language][0])
@@ -3778,6 +3779,8 @@ def show_reading_choice():
              format_func=lambda value: "Quick and easy" if value == "Short and simple" else value,
              help="Quick and easy shows brief descriptions. More detail explains each route and its outputs, and opens supporting sections. Switch any time; your entries stay the same.")
 
+
+show_language_choice()
 
 if not st.session_state.get("pathway_open", False):
     with st.container(key="landing_intro"):

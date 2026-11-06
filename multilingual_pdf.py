@@ -10,6 +10,7 @@ from urllib.parse import urlsplit, unquote
 
 FONT_DIR = Path(__file__).resolve().parent / 'fonts'
 FONTS = {
+    'PathwayJapanese': 'NotoSansCJKJP-Regular.otf',
     'PathwayLatin': 'DejaVuSans.ttf',
     'PathwayArabic': 'NotoSansArabic-Regular.ttf',
     'PathwayIndic': 'NotoSansDevanagari-Regular.ttf',
@@ -24,20 +25,20 @@ def needs_multiscript_pdf(text):
                for c in text)
 
 
-def font_for(char):
+def font_for(char, *, japanese=False):
     n=ord(char)
     if 0x0600<=n<=0x08ff: return 'PathwayArabic'
     if 0x0900<=n<=0x097f: return 'PathwayIndic'
     if 0x1100<=n<=0x11ff or 0x3130<=n<=0x318f or 0xac00<=n<=0xd7af: return 'PathwayKorean'
-    if 0x2e80<=n<=0xffef: return 'PathwayChinese'
+    if 0x2e80<=n<=0xffef: return 'PathwayJapanese' if japanese else 'PathwayChinese'
     return 'PathwayLatin'
 
 
-def line_html(line):
+def line_html(line, *, japanese=False):
     # Group runs, not individual characters: shaping must see connected letters.
     runs=[];family=None;value=''
     for char in line:
-        selected=font_for(char)
+        selected=font_for(char, japanese=japanese)
         # Keep whitespace/numbers/punctuation with adjacent script when possible.
         if (char.isspace() or unicodedata.category(char)[0] in 'NP') and family:
             selected=family
@@ -70,7 +71,7 @@ def bundled_resource_fetcher(url):
     raise ValueError('PDF resource is not a bundled font or generated badge')
 
 
-def multiscript_pdf(text, *, state_code=None, footer_label='', link_urls=False):
+def multiscript_pdf(text, *, state_code=None, footer_label='', link_urls=False, source_language=None):
     from weasyprint import HTML, CSS
     from weasyprint.text.fonts import FontConfiguration
     declarations='\n'.join('@font-face{font-family:'+family+';src:url("'+(FONT_DIR/name).as_uri()+'");}' for family,name in FONTS.items())
@@ -85,9 +86,10 @@ def multiscript_pdf(text, *, state_code=None, footer_label='', link_urls=False):
     a {color:#17648a;} .footer {string-set:footer content();height:0;overflow:hidden;}
     img.badge {display:block;max-width:160pt;max-height:80pt;margin-bottom:10pt;}
     '''
+    japanese = source_language == '日本語 / Japanese' or any('\u3040' <= c <= '\u30ff' for c in text)
     paragraphs=['<div class="footer">'+escape(footer_label)+'</div>']
     for index,line in enumerate(text.splitlines()):
-        markup=line_html(line)
+        markup=line_html(line, japanese=japanese)
         if link_urls and line.startswith('https://') and not any(c.isspace() for c in line):
             markup='<a href="'+escape(line,quote=True)+'">'+markup+'</a>'
         paragraphs.append('<p class="'+('title' if index==0 else 'line')+'" dir="'+paragraph_direction(line)+'">'+markup+'</p>')

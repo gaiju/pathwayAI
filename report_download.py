@@ -1,5 +1,5 @@
 """Consistent branding for reports and shareable QR images; CSV data passes through unchanged."""
-PERSONAL_PDF_LAYOUT_REVISION = 1
+PERSONAL_PDF_LAYOUT_REVISION = 2
 TAGLINE = "PathwayAI: Making the Hidden Patient Journey Visible—and Actionable"
 
 
@@ -39,7 +39,13 @@ def branded_download_button(label, data, *args, **kwargs):
         if compact:
             text = compact_personal_text(text)
         from pdf_report import report_pdf
-        data = report_pdf(text, state_code=state_code) if state_code else report_pdf(text)
+        language = st.session_state.get("saved_notes_language", "English")
+        if str(name).startswith("PathwayAI_Original_Notes"):
+            text = "Writing language: " + language + "\n\n" + text
+        options = {"state_code": state_code} if state_code else {}
+        if language == "日本語 / Japanese":
+            options["source_language"] = language
+        data = report_pdf(text, **options)
         from pathlib import Path
         kwargs["file_name"] = str(Path(name).with_suffix(".pdf")) if name else "PathwayAI_Report.pdf"
         kwargs["mime"] = "application/pdf"

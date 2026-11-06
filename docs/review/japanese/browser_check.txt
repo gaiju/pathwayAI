@@ -1,0 +1,1 @@
+PASS desktop/mobile early Japanese selector, care navigation, original-note PDF download and text extraction; no API request sent

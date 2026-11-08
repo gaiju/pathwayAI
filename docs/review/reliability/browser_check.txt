@@ -1,0 +1,1 @@
+PASS desktop/mobile homepage and prevention navigation, compressed photo dimensions and alt text, one photo element, no UI exceptions or horizontal overflow; no AI requests

@@ -1,23 +1,24 @@
-import ast
 import base64
-from pathlib import Path
+from io import BytesIO
 import unittest
+from PIL import Image
+from visual_assets import PHOTO_FILES, photo_data_uri
 
 
 class BannerTests(unittest.TestCase):
-    def test_all_banners_are_valid_embedded_jpeg_data(self):
-        tree = ast.parse(Path("app.py").read_text())
-        assignment = next(node for node in tree.body if isinstance(node, ast.Assign)
-                          and any(getattr(target, "id", "") == "PATHWAY_PHOTOS116"
-                                  for target in node.targets))
-        photos = ast.literal_eval(assignment.value)
-        self.assertEqual(set(photos), {"lake", "forest", "tick_leaf", "river"})
-        for name, encoded in photos.items():
+    def test_all_banners_are_valid_local_jpegs_with_working_display_data(self):
+        self.assertEqual(set(PHOTO_FILES), {'lake','forest','tick_leaf','river'})
+        for name,path in PHOTO_FILES.items():
             with self.subTest(banner=name):
-                data = base64.b64decode(encoded, validate=True)
-                self.assertTrue(data.startswith(b"\xff\xd8"))
-                self.assertTrue(data.endswith(b"\xff\xd9"))
+                data=path.read_bytes()
+                self.assertTrue(data.startswith(b'\xff\xd8'))
+                self.assertTrue(data.endswith(b'\xff\xd9'))
+                with Image.open(BytesIO(data)) as image:
+                    self.assertEqual(image.format,'JPEG')
+                    self.assertGreater(image.width/image.height,3.5)
+                    image.verify()
+                self.assertEqual(base64.b64decode(photo_data_uri(name).split(',',1)[1],validate=True),data)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

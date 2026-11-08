@@ -58,10 +58,10 @@ from county_plan import show_county_plan_context, show_combined_planning_evidenc
 from county_trends import show_county_rate_trend
 from county_maps import show_lyme_rate_map
 import ai_service_status as _ai_service_status
-if not hasattr(_ai_service_status, "log_transport_error"):
+if getattr(_ai_service_status, "AI_DIAGNOSTICS_REVISION", 0) < 2:
     from importlib import reload as _reload_ai_status
     _reload_ai_status(_ai_service_status)
-from ai_service_status import classify_api_error, log_transport_error, BILLING_URL, LIMITS_URL
+from ai_service_status import classify_api_error, log_transport_error, safe_ai_failure_message, BILLING_URL, LIMITS_URL
 from community_action import show_community_action_pathway
 # Streamlit can rerun this script while an older imported module stays cached.
 # Refresh only when required exports are missing; real import failures still surface.
@@ -1461,7 +1461,7 @@ def show_section_hero(kind, title, subtitle):
     }
     bg, fg, icons, strap = palettes[kind]
     html = f"""<div style='background:{bg};border:1px solid {fg}22;border-radius:18px;padding:22px 24px;margin:4px 0 18px 0;'>
-    <div style='font-size:29px;letter-spacing:6px;float:right;opacity:.88'>{icons}</div>
+    <div aria-hidden='true' style='font-size:29px;letter-spacing:6px;float:right;opacity:.88'>{icons}</div>
     <div style='font-size:24px;font-weight:750;color:{fg};overflow-wrap:break-word'>{title}</div>
     <div style='font-size:16px;margin-top:6px;color:#263238;max-width:100%'>{subtitle}</div>
     <div style='font-size:12px;margin-top:13px;color:{fg};font-weight:650;letter-spacing:.25px'>{strap}</div>
@@ -1583,9 +1583,18 @@ PATIENT_VOICE_STORAGE_ENABLED = _secret("PATHWAYAI_PATIENT_VOICE_STORAGE_ENABLED
 
 AI_WINDOW_SECONDS = 30 * 60
 AI_WINDOW_MAX_REQUESTS = 3
+AI_SERVER_WINDOW_SECONDS = 60 * 60
+AI_SERVER_MAX_REQUESTS = positive_config_integer("PATHWAYAI_AI_SERVER_MAX_REQUESTS", 60)
 
 class AIRateLimitError(RuntimeError):
     pass
+
+
+def _safe_ai_failure_message(error):
+    # Internal limit notices are fixed strings, never provider response bodies.
+    if isinstance(error, AIRateLimitError):
+        return str(error)
+    return safe_ai_failure_message(error)
 
 def show_ai_service_notice():
     notice = st.session_state.get("pathwayai_service_notice")
@@ -1618,11 +1627,17 @@ def _ai_quota(db_path, bucket, consume=False, now=None):
         db.execute("CREATE TABLE IF NOT EXISTS ai_requests (bucket TEXT, requested REAL)")
         db.execute("CREATE INDEX IF NOT EXISTS ai_bucket_time ON ai_requests(bucket, requested)")
         db.execute("BEGIN IMMEDIATE")
-        db.execute("DELETE FROM ai_requests WHERE requested <= ?", (now - AI_WINDOW_SECONDS,))
-        count, oldest = db.execute("SELECT COUNT(*), MIN(requested) FROM ai_requests WHERE bucket=?", (bucket,)).fetchone()
+        db.execute("DELETE FROM ai_requests WHERE requested <= ?", (now - max(AI_WINDOW_SECONDS, AI_SERVER_WINDOW_SECONDS),))
+        count, oldest = db.execute("SELECT COUNT(*), MIN(requested) FROM ai_requests WHERE bucket=? AND requested > ?", (bucket, now - AI_WINDOW_SECONDS)).fetchone()
         if count >= AI_WINDOW_MAX_REQUESTS:
             wait_minutes = max(1, math.ceil((oldest + AI_WINDOW_SECONDS - now) / 60))
             return False, f"You’ve reached the AI request limit (3 requests in 30 minutes). Please try again in about {wait_minutes} minute(s). Other PathwayAI features remain available."
+        server_count, server_oldest = db.execute(
+            "SELECT COUNT(*), MIN(requested) FROM ai_requests WHERE requested > ?",
+            (now - AI_SERVER_WINDOW_SECONDS,)).fetchone()
+        if server_count >= AI_SERVER_MAX_REQUESTS:
+            wait_minutes = max(1, math.ceil((server_oldest + AI_SERVER_WINDOW_SECONDS - now) / 60))
+            return False, f"AI help is temporarily busy. Please try again in about {wait_minutes} minute(s). Other app features remain available."
         if consume:
             db.execute("INSERT INTO ai_requests VALUES (?, ?)", (bucket, now))
         return True, ""
@@ -2541,8 +2556,8 @@ def show_combined_tick_lyme_context(state_code=None, destination_geo=None):
             page_note("County Lyme values are unavailable in this view. Use the linked CDC surveillance source. Missing values are not zero cases.")
 
         page_note("Human Lyme surveillance is reported by county of residence, not necessarily county of exposure. Surveillance can undercount disease and reporting practices vary. Tick status and human case counts are separate surveillance measures; neither is an individual infection probability.")
-    except Exception as e:
-        st.warning(f"The combined surveillance map could not load: {e}")
+    except Exception:
+        st.warning("The combined surveillance map could not load. Other app features remain available.")
 
 def destination_label(zip_code):
     """Resolve ZIP to a patient-friendly destination label when possible."""
@@ -2836,17 +2851,11 @@ Do not convert a symptom duration into workdays. Only return days_missed if the 
                 return None, {"state":"validation_error", "message":"Model output failed field validation; using backup extraction. Please confirm all fields."}
             return parsed, {"state":"connected", "message":f"LLM connected ({model})."}
         return None, {"state":"parse_error", "message":"The model responded, but the structured result was not a JSON object."}
-    except urllib.error.HTTPError as e:
-        try:
-            body = json.loads(e.read().decode("utf-8"))
-            msg = body.get("error", {}).get("message", "")
-        except Exception:
-            msg = ""
-        safe = (msg or f"HTTP {e.code}").replace(api_key, "[redacted]")[:500]
-        return None, {"state":"api_error", "message":f"API HTTP {e.code}: {safe}"}
-    except Exception as e:
-        safe = str(e).replace(api_key, "[redacted]")[:500]
-        return None, {"state":"error", "message":safe or "Unknown API connection error."}
+    except urllib.error.HTTPError as error:
+        notice = classify_api_error(error)
+        return None, {"state":"api_error", "message":notice["message"]}
+    except Exception as error:
+        return None, {"state":"error", "message":_safe_ai_failure_message(error)}
 
 def merge_llm_into_quick(rule_quick, llm):
     """Map LLM facts into the existing MVP record while preserving null = not reported."""
@@ -2969,7 +2978,7 @@ def show_visit_organizer():
             st.write("If you choose external AI, your submitted notes are sent to OpenAI to help organize them. AI may miss or change important details. Review and correct the summary before sharing. You can make a basic English visit note without external AI.")
         page_note("Leave AI off to organize your story with local rules. If you turn AI on, your submitted story may be sent to the configured AI service. Do not include identifiers. Raw stories are not saved to Community Voice.")
         if use_story_ai:
-            page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
+            page_note(f"Pilot safeguard: up to {AI_WINDOW_MAX_REQUESTS} AI requests per connection in 30 minutes and {MAX_AI_CALLS_PER_SESSION} per session. A shared service limit also applies. Hosted restarts can reset the connection counter, so this is not a billing guarantee.")
         organize_story = st.button("✨ Organize My Story", type="primary", use_container_width=True, disabled=not bool(quick_story.strip()))
 
         STORY_SAMPLE = 'I found a tick after walking in Maryland in June. I have had a rash and felt tired for two weeks. I had a Lyme test last week and would like help preparing for a visit.'
@@ -3509,9 +3518,8 @@ and an important limitation. Clearly separate evidence from interpretation."""
             "citations":citations,
             "note":"Live public-web research. Human approval is required before changing PathwayAI assumptions or outputs.",
         }
-    except Exception as e:
-        safe = str(e).replace(api_key, "[redacted]")[:500]
-        return {"tool":"live evidence research", "status":"error", "items":[], "note":safe}
+    except Exception as error:
+        return {"tool":"live evidence research", "status":"error", "items":[], "note":_safe_ai_failure_message(error)}
 
 
 AGENT_TOOL_MAP = {
@@ -3548,9 +3556,8 @@ def _openai_text_request(system_text, user_text, timeout=60):
                     if part.get("type") == "output_text":
                         out += part.get("text", "")
         return out.strip(), None
-    except Exception as e:
-        safe = str(e).replace(api_key, "[redacted]")[:500]
-        return None, safe
+    except Exception as error:
+        return None, _safe_ai_failure_message(error)
 
 
 def run_strategy_agent(question):

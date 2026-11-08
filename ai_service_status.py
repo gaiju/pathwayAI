@@ -3,6 +3,9 @@ import json
 import logging
 from urllib.error import URLError
 
+AI_DIAGNOSTICS_REVISION = 2
+AI_UNAVAILABLE_MESSAGE = "AI help isn’t available right now. Other app features remain available."
+
 BILLING_URL = "https://platform.openai.com/settings/organization/billing/overview"
 # Log only fixed categories and allowlisted provider codes. Never log exception
 # strings, URLs, headers, request/response bodies, prompts or account identifiers.
@@ -17,7 +20,16 @@ _SAFE_CODES = frozenset({
 
 
 def log_transport_error(error):
-    category = "timeout" if isinstance(error, TimeoutError) else "connection_error" if isinstance(error, URLError) else "transport_error"
+    if isinstance(error, TimeoutError):
+        category = "timeout"
+    elif isinstance(error, URLError):
+        category = "connection_error"
+    elif isinstance(error, ValueError):
+        category = "invalid_response"
+    elif isinstance(error, OSError):
+        category = "transport_error"
+    else:
+        category = "unexpected_error"
     _LOGGER.warning("PathwayAI AI failure: http_status=none error_code=%s", category)
 
 
@@ -54,3 +66,9 @@ def classify_api_error(error):
         "kind": "unavailable",
         "message": "The AI service is temporarily unavailable. Other app features remain available.",
     }
+
+
+def safe_ai_failure_message(error):
+    """Return a fixed public message and log only a fixed failure category."""
+    log_transport_error(error)
+    return AI_UNAVAILABLE_MESSAGE

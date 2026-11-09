@@ -129,7 +129,16 @@ def show_community_action_summary(on_patient_select=None):
         st.write('Explore county evidence, choose a support priority, and download a planning brief.')
         from community_pathway import show_pathway
         show_pathway(on_patient_select=on_patient_select)
-        st.markdown('### Sample Orange County brief')
+        st.markdown('### County briefs · all seven pilot counties')
+        st.write('View an Orange County sample—or create a report for any of our seven pilot counties: Dutchess, Orange, Putnam, Rockland, Sullivan, Ulster and Westchester.')
+        import inspect
+        if 'default' in inspect.signature(st.tabs).parameters:
+            st.button('Create a report for any of the seven counties', key='community_all_counties',
+                      on_click=st.session_state.update,
+                      args=({'community_tab_destination': 'Plan community support'},), use_container_width=True)
+        else:
+            st.write('Open Plan community support below, choose your county and priority, then download the PDF.')
+        st.markdown('#### Sample Orange County brief')
         st.caption('Public-data planning example · Getting to care · Study-based costs are illustrations, not measured local spending or an adopted county program.')
         from county_burden_report import build_report, report_text
         from county_brief_pdf import county_brief_pdf

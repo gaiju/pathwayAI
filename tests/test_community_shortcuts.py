@@ -11,6 +11,12 @@ class CommunityShortcutTests(unittest.TestCase):
         self.assertTrue(any("Orange" in item.value for item in at.text))
         sample = next(d for d in at.get("download_button") if d.label == "Download sample Orange County brief (PDF)")
         self.assertIn(".pdf", sample.proto.url)
+        from mid_hudson_counties import COUNTIES
+        self.assertEqual(set(at.selectbox(key="county_report_county").options), set(COUNTIES))
+        if any(b.key == "community_all_counties" for b in at.button):
+            at.button(key="community_all_counties").click().run()
+            self.assertEqual(at.session_state["community_tab_destination"], "Plan community support")
+            self.assertFalse(list(at.exception))
         if any(b.key == "community_step_0" for b in at.button):
             for index, expected_tab in enumerate((1, 2, 2, 3)):
                 at.button(key="community_step_" + str(index)).click().run()

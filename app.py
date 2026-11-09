@@ -759,8 +759,12 @@ def policy89():
     st.markdown("**Start here:** Understand the national picture, compare counties, and download a sourced county burden and action report.")
     st.button("Looking for personal help? Go to Care & Support →", key="community_cost_record", on_click=select_public_pathway, args=("🧭 Care & Support", "ongoing"))
     from community_action_summary import show_community_action_summary
-    community_audience = show_community_action_summary()
-    national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"])
+    community_audience = show_community_action_summary(on_patient_select=select_public_pathway)
+    import inspect
+    tab_options = {}
+    if "default" in inspect.signature(st.tabs).parameters:
+        tab_options["default"] = st.session_state.get("community_tab_destination", "U.S. burden")
+    national_tab, overview_tab, planning_tab, evidence_tab = st.tabs(["U.S. burden", "County comparison", "Plan community support", "Evidence & methods"], **tab_options)
     with national_tab:
         show_us_burden(simple=simple_reading_view())
     with overview_tab:

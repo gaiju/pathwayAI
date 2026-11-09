@@ -1,16 +1,38 @@
 """Public-only pathway display and descriptive, source-linked planning prompts."""
-from html import escape
 
 PATIENT_STEPS = ('Prevent', 'Prepare for care', 'Record burden', 'Find support')
 COMMUNITY_STEPS = ('Compare county evidence', 'Choose a support priority', 'Download a brief', 'Review locally')
 
 
-def show_pathway():
+def show_pathway(on_patient_select=None):
+    import inspect
     import streamlit as st
     st.markdown('**Two connected pathways**')
-    for title, steps in [('For patients and caregivers', PATIENT_STEPS), ('For community teams', COMMUNITY_STEPS)]:
-        items=''.join('<span style="border:1px solid currentColor;border-radius:6px;padding:6px 10px;">'+str(i)+'. '+escape(step)+'</span>' for i,step in enumerate(steps,1))
-        st.markdown('<div style="margin:8px 0 12px;"><strong>'+title+'</strong><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:7px;">'+items+'</div></div>',unsafe_allow_html=True)
+    st.markdown('**For patients and caregivers**')
+    destinations = [('🛡️ Learn & Prevent', 'outdoors')] + [('🧭 Care & Support', 'ongoing')] * 3
+    for index, (col, label, destination) in enumerate(zip(st.columns(4), PATIENT_STEPS, destinations)):
+        if on_patient_select is not None:
+            col.button(str(index + 1) + '. ' + label, key='community_patient_' + str(index),
+                       on_click=on_patient_select, args=destination, use_container_width=True)
+        else:
+            col.write(str(index + 1) + '. ' + label)
+    st.caption('Prepare for care, Record burden and Find support open Care & Support, where these tools are available.')
+    st.markdown('**For community teams**')
+    targets = ('County comparison', 'Plan community support', 'Plan community support', 'Evidence & methods')
+    for index, (col, label, target) in enumerate(zip(st.columns(4), COMMUNITY_STEPS, targets)):
+        if 'default' in inspect.signature(st.tabs).parameters:
+            col.button(str(index + 1) + '. ' + label, key='community_step_' + str(index),
+                       on_click=st.session_state.update,
+                       args=({'community_tab_destination': target, 'community_review_open': index == 3},),
+                       use_container_width=True)
+        else:
+            col.write(str(index + 1) + '. ' + label + ' — open ' + target + ' below.')
+    with st.expander('Local review checklist', expanded=st.session_state.get('community_review_open', False)):
+        st.markdown('- Check source dates, county coverage and missing data.\n'
+                    '- Keep study-based cost illustrations separate from measured local spending.\n'
+                    '- Verify services, eligibility, interpreter access and appointment availability.\n'
+                    '- Review priorities with residents and caregivers.\n'
+                    '- Agree on staffing, funding, responsibilities and follow-up before proposing a service.')
     st.caption('Personal records remain separate from county evidence. Community planning uses public data and clearly labeled research illustrations.')
 
 

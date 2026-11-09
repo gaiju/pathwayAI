@@ -122,13 +122,23 @@ def healthcare_context(county, asset_path=None):
     return result
 
 
-def show_community_action_summary():
+def show_community_action_summary(on_patient_select=None):
     import streamlit as st
     with st.container(key='community_action_summary'):
         st.subheader('From Lyme Disease Burden to Community Action')
         st.write('Explore county evidence, choose a support priority, and download a planning brief.')
         from community_pathway import show_pathway
-        show_pathway()
+        show_pathway(on_patient_select=on_patient_select)
+        st.markdown('### Sample Orange County brief')
+        st.caption('Public-data planning example · Getting to care · Study-based costs are illustrations, not measured local spending or an adopted county program.')
+        from county_burden_report import build_report, report_text
+        from county_brief_pdf import county_brief_pdf
+        sample = build_report('Orange', 'Getting to care')
+        with st.expander('Read sample Orange County brief'):
+            st.text(report_text(sample))
+        st.download_button('Download sample Orange County brief (PDF)', county_brief_pdf(sample),
+                           file_name='PathwayAI_Orange_County_Sample_Brief.pdf', mime='application/pdf',
+                           key='community_sample_brief')
         show_public_health_review_invitation()
         st.caption(AI_ROLE)
         st.markdown('**Four support areas to consider**')
